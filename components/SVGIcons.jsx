@@ -28,8 +28,8 @@ export const ProfilePicPlaceholder = () => {
           y2="32"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F1F1F5" />
-          <stop offset="1" stop-color="#E4ECF7" />
+          <stop stopColor="#F1F1F5" />
+          <stop offset="1" stopColor="#E4ECF7" />
         </linearGradient>
       </defs>
     </SvgIcon>
@@ -47,8 +47,8 @@ export const LeftArrow = () => {
       }}
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M22.5 12C22.5 11.5858 22.1642 11.25 21.75 11.25H4.06066L8.78033 6.53033C9.07322 6.23744 9.07322 5.76256 8.78033 5.46967C8.48744 5.17678 8.01256 5.17678 7.71967 5.46967L1.71967 11.4697C1.42678 11.7626 1.42678 12.2374 1.71967 12.5303L7.71967 18.5303C8.01256 18.8232 8.48744 18.8232 8.78033 18.5303C9.07322 18.2374 9.07322 17.7626 8.78033 17.4697L4.06066 12.75H21.75C22.1642 12.75 22.5 12.4142 22.5 12Z"
         fill="white"
       />

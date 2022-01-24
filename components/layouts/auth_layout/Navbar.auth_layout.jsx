@@ -1,6 +1,5 @@
 import React from 'react'
 import tw from 'twin.macro'
-import { Button } from '@mui/material'
 
 import { ProfilePicPlaceholder } from '../../SVGIcons'
 import Link from 'next/link'
