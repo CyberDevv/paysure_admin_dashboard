@@ -2,8 +2,12 @@ import React from 'react'
 import tw from 'twin.macro'
 import { Button } from '@mui/material'
 
-export const AuthButton = ({ label }) => {
-  return <MUIButton fullWidth>{label}</MUIButton>
+export const AuthButton = ({ label, onClick }) => {
+  return (
+    <MUIButton fullWidth onClick={onClick}>
+      {label}
+    </MUIButton>
+  )
 }
 
 // Tailwind styles
