@@ -15,12 +15,8 @@ const LoginDashboard = () => {
           placeholder="staff@example.com"
         />
 
-        <LabelInput
-          label="Password"
-          type="password"
-          placeholder="password"
-        />
-        
+        <LabelInput label="Password" type="password" placeholder="password" />
+
         <div>
           <AuthButton label="Login to dashboard" />
         </div>
