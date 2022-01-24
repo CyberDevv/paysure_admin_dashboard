@@ -12,13 +12,13 @@ const LoginDashboard = () => {
         <LabelInput
           label="LoginId"
           type="text"
-          placeholder="staff@paysure.com"
+          placeholder="staff@example.com"
         />
 
         <LabelInput
           label="Password"
           type="password"
-          placeholder="staff@paysure.com"
+          placeholder="password"
         />
         
         <div>
