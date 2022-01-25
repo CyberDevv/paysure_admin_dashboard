@@ -30,6 +30,6 @@ const index_main_layout = ({ children, title }) => {
 // Tailwind Styles
 const Wrapper = tw.div`flex`
 const Section = tw.section`w-full px-4  lg:(ml-[245px] px-10)`
-const Main = tw.main``
+const Main = tw.main`pt-2 lg:(pt-6)`
 
 export default index_main_layout
