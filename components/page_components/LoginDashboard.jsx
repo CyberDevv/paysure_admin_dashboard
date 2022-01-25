@@ -7,7 +7,7 @@ import Layout from '../layouts/auth_layout/index.auth_layout'
 
 const LoginDashboard = () => {
   return (
-    <Layout title="Login to your dashboard">
+    <Layout title="Login to your dashboard" login>
       <Form>
         <LabelInput
           label="LoginId"
@@ -15,12 +15,8 @@ const LoginDashboard = () => {
           placeholder="staff@example.com"
         />
 
-        <LabelInput
-          label="Password"
-          type="password"
-          placeholder="password"
-        />
-        
+        <LabelInput label="Password" type="password" placeholder="password" />
+
         <div>
           <AuthButton label="Login to dashboard" />
         </div>

@@ -4,18 +4,32 @@ import tw from 'twin.macro'
 import { ProfilePicPlaceholder } from '../../SVGIcons'
 import Link from 'next/link'
 
-const Navbar_auth_layout = () => {
+const Navbar_auth_layout = ({ login }) => {
   return (
     <Nav>
       {/* logo */}
-      <img src="./svg/Paysure__.svg" alt="Paysure" />
+      <Link href="/">
+        <a>
+          <img src="./svg/Paysure__.svg" alt="Paysure" />
+        </a>
+      </Link>
 
       <Div>
         <ProfilePicPlaceholder />
 
-        <Link href="/login">
-          <a>Login</a>
-        </Link>
+        {/* login */}
+        {!login && (
+          <Link href="/login">
+            <a>Login</a>
+          </Link>
+        )}
+
+        {/* singup */}
+        {login && (
+          <Link href="/signup">
+            <a>Signup</a>
+          </Link>
+        )}
       </Div>
     </Nav>
   )

@@ -3,10 +3,10 @@ import tw from 'twin.macro'
 
 import NavBar from './Navbar.auth_layout'
 
-const Auth_Layout_index = ({ children, title, icon, onClick }) => {
+const Auth_Layout_index = ({ children, title, icon, onClick, login }) => {
   return (
     <MainWrapper>
-      <NavBar />
+      <NavBar login={login} />
       <Main>
         <Wrapper>
           <Header>
