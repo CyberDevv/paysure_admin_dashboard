@@ -402,8 +402,8 @@ export const CircledUser = () => {
           y2="32"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#F1F1F5" />
-          <stop offset="1" stop-color="#E4ECF7" />
+          <stop stopColor="#F1F1F5" />
+          <stop offset="1" stopColor="#E4ECF7" />
         </linearGradient>
       </defs>
     </SvgIcon>
