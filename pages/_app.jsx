@@ -1,6 +1,8 @@
 import GlobalStyles from '../styles/GlobalStyles'
 import { createTheme, ThemeProvider } from '@mui/material'
 
+import '../styles/GlobalStyles.css'
+
 const theme = createTheme({
   breakpoints: {
     values: {

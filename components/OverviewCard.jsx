@@ -13,8 +13,8 @@ const OverviewCardSection = ({ title, data }) => {
         css={[tw`overflow-x-scroll lg:(overflow-x-hidden)`]}
       >
         <Div>
-          {data.map(({ amount, label }) => {
-            return <OverViewCard amount={amount} label={label} />
+          {data.map(({ amount, label }, index) => {
+            return <OverViewCard key={index} amount={amount} label={label} />
           })}
         </Div>
       </div>

@@ -1,0 +1,22 @@
+* {
+  font-family: 'SF Pro Text Regular';
+}
+
+.font-bold {
+  font-family: 'SF Pro Text Bold';
+}
+
+/* Fonts */
+@font-face {
+  font-family: 'SF Pro Text Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/fonts/FontsFree-Net-SFProText-Regular-1.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro Text Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../public/fonts/FontsFree-Net-SFProText-Bold-1.ttf');
+}

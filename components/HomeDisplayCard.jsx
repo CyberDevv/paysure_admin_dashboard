@@ -27,7 +27,7 @@ const HomeDisplayCard = () => {
               </AvatarWrapper>
 
               <div>
-                <H1>{amount}</H1>
+                <H1 className="font-bold">{amount}</H1>
                 <P>{title}</P>
               </div>
             </Wrapper>
@@ -77,7 +77,7 @@ const temporalData = [
 const MainWrapper = tw.div`grid grid-cols-4 gap-2.5 mt-10 min-w-[720px] rounded-lg overflow-hidden lg:(gap-5)`
 const Wrapper = tw.div`bg-blue-light min-w-[165px] p-4 lg:(w-[265px] p-5)`
 const AvatarWrapper = tw.div`flex justify-end`
-const H1 = tw.h1`text-3xl lg:text-[40px] font-bold`
+const H1 = tw.h1`text-3xl lg:text-[40px]`
 const P = tw.p`text-sm text-paysure-50 mt-1 mb-2 lg:(text-base mb-3)`
 
 export default HomeDisplayCard

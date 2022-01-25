@@ -7,7 +7,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 const HomeDashboard = () => {
   return (
     <Layout title="Home">
-      <Ttile>
+      <Ttile className="font-bold">
         Welcome to Paysure
         <TitleSpan>
           Manage all transactions and data on the Paysure service
@@ -63,7 +63,7 @@ const agencyOveriewData2 = [
   },
 ]
 
-const Ttile = tw.h1`text-gray-dark font-bold tracking-[-0.05em] text-2xl lg:(text-[32px])`
+const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
 
 export default HomeDashboard
