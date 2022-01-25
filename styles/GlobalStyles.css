@@ -1,9 +1,10 @@
 * {
-  font-family: 'SF Pro Text Regular';
+  font-family: 'SF Pro Text Regular', sans-serif;
 }
 
 .font-bold {
-  font-family: 'SF Pro Text Bold';
+  font-family: 'SF Pro Text Bold', sans-serif;
+  font-weight: 700;
 }
 
 /* Fonts */
