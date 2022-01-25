@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 const HomeDisplayCard = () => {
   return (
-    <div className="scrollHidden" css={[tw`overflow-x-scroll`]}>
+    <div className="scrollHidden" css={[tw`overflow-x-scroll lg:(overflow-x-hidden)`]}>
       <MainWrapper>
         {temporalData.map(({ amount, title }, index) => {
           return (

@@ -21,6 +21,8 @@ module.exports = {
         paysure: {
           50: '#425D8A',
         },
+        border: '#E4ECF7',
+        dark: '#101225',
       },
     },
   },
