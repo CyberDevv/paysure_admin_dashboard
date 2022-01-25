@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const OverviewCard = () => {
-  return <div>Overview Card</div>;
-};
+  return <div>Overview Card</div>
+}
 
-export default OverviewCard;
+export default OverviewCard
