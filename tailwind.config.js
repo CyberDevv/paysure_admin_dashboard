@@ -9,8 +9,8 @@ module.exports = {
         },
         gray: {
           light: '#FAFAFA',
-          700: "#4A5568",
-        }
+          700: '#4A5568',
+        },
       },
     },
   },
