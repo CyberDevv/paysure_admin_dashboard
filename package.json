@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
+    "babel-plugin-inline-react-svg": "^2.0.1",
     "tailwindcss": "^2.2.19",
     "twin.macro": "^2.8.1"
   }

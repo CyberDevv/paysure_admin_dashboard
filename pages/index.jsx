@@ -1,12 +1,21 @@
 // imports
 import React from 'react'
-import tw from 'twin.macro'
+import Head from 'next/head'
+
+import { HomeDashboard } from '../components'
 
 // Page init
-const IndexPage = () => <P>Paysure Admin Dashboard</P>
+const IndexPage = () => {
+  return (
+    <>
+      <Head>
+        <title>Home | paysure</title>
+      </Head>
 
-// Tailwind Styles
-const P = tw.div`text-2xl`
+      <HomeDashboard />
+    </>
+  )
+}
 
 // Page export
 export default IndexPage

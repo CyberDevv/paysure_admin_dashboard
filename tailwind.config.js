@@ -7,6 +7,10 @@ module.exports = {
           dark: '#6500E0',
           light: '#6E00F5',
         },
+        gray: {
+          light: '#FAFAFA',
+          700: "#4A5568",
+        }
       },
     },
   },
