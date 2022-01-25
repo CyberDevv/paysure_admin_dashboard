@@ -19,8 +19,8 @@ module.exports = {
           light: '#F3F7FC',
         },
         paysure: {
-          50: '#425D8A'
-        }
+          50: '#425D8A',
+        },
       },
     },
   },
