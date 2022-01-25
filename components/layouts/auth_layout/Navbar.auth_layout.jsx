@@ -1,8 +1,9 @@
 import React from 'react'
 import tw from 'twin.macro'
+import Link from 'next/link'
+import Image from 'next/image'
 
 import { ProfilePicPlaceholder } from '../../SVGIcons'
-import Link from 'next/link'
 
 const Navbar_auth_layout = ({ login }) => {
   return (
@@ -10,7 +11,12 @@ const Navbar_auth_layout = ({ login }) => {
       {/* logo */}
       <Link href="/">
         <a>
-          <img src="./svg/Paysure__.svg" alt="Paysure" />
+          <Image
+            src="/images/Paysure__.png"
+            alt="paysure"
+            width="92px"
+            height="24px"
+          />
         </a>
       </Link>
 
