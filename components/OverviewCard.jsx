@@ -25,6 +25,6 @@ const OverviewCardSection = ({ title, data }) => {
 // Tailwind Styles
 const Wrapper = tw.div`mt-10`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
-const Div = tw.div`grid grid-cols-4 gap-2.5 mt-5 min-w-[720px] rounded-lg overflow-hidden lg:(gap-5)`
+const Div = tw.div`grid grid-cols-4 gap-2.5 mt-5 min-w-[900px] rounded-lg overflow-hidden lg:(gap-5)`
 
 export default OverviewCardSection

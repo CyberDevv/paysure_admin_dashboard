@@ -44,7 +44,7 @@ const HomeDisplayCard = ({ data = [], hasIcon }) => {
 }
 
 // Tailwind style
-const MainWrapper = tw.div`grid grid-cols-4 gap-2.5 mt-10 min-w-[720px] overflow-hidden lg:(gap-5)`
+const MainWrapper = tw.div`grid grid-cols-4 gap-2.5 mt-10 min-w-[900px] overflow-hidden lg:(gap-5)`
 const Wrapper = tw.div`bg-blue-light min-w-[165px] border border-border rounded-lg lg:(min-w-[265px])`
 const AvatarWrapper = tw.div`flex justify-end`
 const H1 = tw.h1`text-3xl lg:text-[40px] text-[#191716]`
