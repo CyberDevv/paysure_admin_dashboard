@@ -1,9 +1,9 @@
-import Link from 'next/link'
 import React from 'react'
 import tw from 'twin.macro'
+import Link from 'next/link'
 
-import { DataGridView, HomeDisplayCard, OverviewCardSection } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const HomeDashboard = () => {
   return (
@@ -15,23 +15,52 @@ const HomeDashboard = () => {
         </TitleSpan>
       </Ttile>
 
-      <HomeDisplayCard />
+      <HomeDisplayCard data={temporalData} hasIcon />
 
       <OverviewCardSection title="Agency Overview" data={agencyOveriewData} />
 
       <OverviewCardSection title="User Overview" data={agencyOveriewData2} />
 
-      <div css={[tw`mt-10`]}>
-        <div css= {[tw`flex items-center justify-between`]}>
-          <Title>Recent transactions</Title>
-
-          <Link href= "/"><a css= {[tw`text-paysure-100 hover:underline cursor-pointer`]}>View all</a></Link>
-        </div>
-        <DataGridView />
-      </div>
+      <DataGridViewTemp title= "Recent Transactions" />
     </Layout>
   )
 }
+
+// FIXME: Temp data (should be replaced with real data)
+const temporalData = [
+  {
+    amount: '240',
+    title: 'Total Providers',
+  },
+  {
+    amount: '120',
+    title: 'Total Services',
+  },
+  {
+    amount: '30',
+    title: 'Total Super Agent',
+  },
+  {
+    amount: '72',
+    title: 'Total Agents',
+  },
+  {
+    amount: '534',
+    title: 'Total Users',
+  },
+  {
+    amount: '10',
+    title: 'Total Organizations',
+  },
+  {
+    amount: '10',
+    title: 'Total Admins',
+  },
+  {
+    amount: '32429',
+    title: 'Total Paysure Users',
+  },
+]
 
 // FIXME: Temp data (should be replaced with real data)
 const agencyOveriewData = [
@@ -75,6 +104,5 @@ const agencyOveriewData2 = [
 
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
-const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
 
 export default HomeDashboard
