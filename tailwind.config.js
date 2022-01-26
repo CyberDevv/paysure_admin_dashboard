@@ -19,9 +19,12 @@ module.exports = {
           light: '#F3F7FC',
         },
         paysure: {
+          10: '#F1E5FF',
           50: '#425D8A',
+          100: '#6500E0',
         },
         border: '#E4ECF7',
+        border2: '#EBF2FA',
         dark: '#101225',
       },
     },

@@ -1,7 +1,8 @@
+import Link from 'next/link'
 import React from 'react'
 import tw from 'twin.macro'
 
-import { HomeDisplayCard, OverviewCardSection } from '..'
+import { DataGridView, HomeDisplayCard, OverviewCardSection } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 
 const HomeDashboard = () => {
@@ -19,6 +20,15 @@ const HomeDashboard = () => {
       <OverviewCardSection title="Agency Overview" data={agencyOveriewData} />
 
       <OverviewCardSection title="User Overview" data={agencyOveriewData2} />
+
+      <div css={[tw`mt-10`]}>
+        <div css= {[tw`flex items-center justify-between`]}>
+          <Title>Recent transactions</Title>
+
+          <Link href= "/"><a css= {[tw`text-paysure-100 hover:underline cursor-pointer`]}>View all</a></Link>
+        </div>
+        <DataGridView />
+      </div>
     </Layout>
   )
 }
@@ -65,5 +75,6 @@ const agencyOveriewData2 = [
 
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
+const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
 
 export default HomeDashboard

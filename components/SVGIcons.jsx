@@ -409,3 +409,119 @@ export const CircledUser = () => {
     </SvgIcon>
   )
 }
+
+export const Search = () => {
+  return (
+    <SvgIcon
+      viewBox="0 0 16 16"
+      sx={{
+        width: '16px',
+        height: '16px',
+        fill: 'none',
+      }}
+    >
+      <path
+        d="M7.66668 14C11.1645 14 14 11.1645 14 7.66671C14 4.1689 11.1645 1.33337 7.66668 1.33337C4.16887 1.33337 1.33334 4.1689 1.33334 7.66671C1.33334 11.1645 4.16887 14 7.66668 14Z"
+        stroke="#292D32"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M14.6667 14.6667L13.3333 13.3334"
+        stroke="#292D32"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </SvgIcon>
+  )
+}
+
+export const Calendar = () => {
+  return (
+    <SvgIcon
+      viewBox="0 0 16 16"
+      sx={{
+        width: '16px',
+        height: '16px',
+        fill: 'none',
+      }}
+    >
+      <path
+        d="M5.33333 1.33337V3.33337"
+        stroke="#292D32"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.6667 1.33337V3.33337"
+        stroke="#292D32"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2.33334 6.05994H13.6667"
+        stroke="#292D32"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M2 8.67338V5.66671C2 3.66671 3 2.33337 5.33333 2.33337H10.6667C13 2.33337 14 3.66671 14 5.66671V11.3334C14 13.3334 13 14.6667 10.6667 14.6667H5.33333C3 14.6667 2 13.3334 2 11.3334"
+        stroke="#292D32"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.4631 9.13338H10.4691"
+        stroke="#292D32"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10.4631 11.1334H10.4691"
+        stroke="#292D32"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.99698 9.13338H8.00297"
+        stroke="#292D32"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M7.99698 11.1334H8.00297"
+        stroke="#292D32"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.52955 9.13338H5.53553"
+        stroke="#292D32"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M5.52955 11.1334H5.53553"
+        stroke="#292D32"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </SvgIcon>
+  )
+}
