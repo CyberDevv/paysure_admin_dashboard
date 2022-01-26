@@ -1,34 +1,27 @@
-import tw from 'twin.macro'
 import React from 'react'
+import tw from 'twin.macro'
 import { Button } from '@mui/material'
 
-import { Add } from '../SVGIcons'
-import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { Add } from './SVGIcons'
+import { DataGridViewTemp, HomeDisplayCard } from '.'
 
-const OrganizationsDashboard = () => {
+const AgentsSubDashboard = () => {
   return (
-    <Layout title="Organizations">
-      <div>
-        <div css={[tw`flex justify-between items-center`]}>
-          <Ttile className="font-bold">Organizations</Ttile>
-          <MUIButton startIcon={<Add />}>Add Organization</MUIButton>
-        </div>
-        <TitleSpan>Manage all organizations available on Paysure</TitleSpan>
+    <>
+      <div css={[tw`flex justify-between items-center`]}>
+        <Ttile className="font-bold">Agents</Ttile>
+        <MUIButton startIcon={<Add />}>Add agents</MUIButton>
       </div>
-
       <HomeDisplayCard data={temporalData} />
-
       <DataGridViewTemp
-        title="Organizations"
+        title="Agents list"
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
       />
-    </Layout>
+    </>
   )
 }
-
 // FIXME: Temp data (should be replaced with real data)
 const dropdownData = [
   {
@@ -44,13 +37,12 @@ const dropdownData = [
     label: 'Admin',
   },
 ]
-
 // FIXME: Temp data (should be replaced with real data)
 const rows = [
   {
     id: 1,
     col1: 1,
-    col2: 'Apple',
+    col2: 'ETRANSACT',
     col3: 'POS',
     col4: 1,
     col5: 4243,
@@ -63,7 +55,7 @@ const rows = [
   {
     id: 2,
     col1: 2,
-    col2: 'Master Card',
+    col2: 'KUDA',
     col3: 'POS',
     col4: 1,
     col5: 4243,
@@ -113,7 +105,6 @@ const rows = [
     col10: '',
   },
 ]
-
 // FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
@@ -125,21 +116,21 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Name of Organisation',
+    headerName: 'Agent Name',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Services',
+    headerName: 'Parent',
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Services',
+    headerName: 'Terminals',
     minWidth: 103,
     flex: 1,
     headerClassName: 'grid-header',
@@ -153,21 +144,21 @@ const columns = [
   },
   {
     field: 'col6',
-    headerName: 'Wallet Balance',
+    headerName: 'Transactions{N}',
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col7',
-    headerName: 'Transactions{N}',
+    headerName: 'Wallet Balance',
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col8',
-    headerName: 'Charges',
+    headerName: 'Current Plan',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
@@ -189,38 +180,43 @@ const columns = [
   },
   {
     field: 'col10',
-    headerName: 'Action.',
+    headerName: 'Status',
+    minWidth: 100,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'col11',
+    headerName: 'Actions',
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
   },
 ]
-
 // FIXME: Temp data (should be replaced with real data)
 const temporalData = [
   {
-    amount: '194',
-    title: 'Organizations',
-  },
-  {
-    amount: '143843938',
+    amount: '32213',
     title: 'Total Transactions',
   },
   {
-    amount: '109313',
-    title: 'Completed Transactions',
+    amount: '1324',
+    title: 'Total Agents',
   },
   {
-    amount: '132',
-    title: 'Pending Transactions',
+    amount: '10',
+    title: 'Total Active Agents',
+  },
+  {
+    amount: '3',
+    title: 'Total Inactive Agents',
   },
 ]
 
+// Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
-const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
-const Span = tw.span`text-[13px] text-[#10101266]`
 
-export default OrganizationsDashboard
+export default AgentsSubDashboard
