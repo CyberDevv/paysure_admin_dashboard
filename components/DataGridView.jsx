@@ -79,49 +79,57 @@ const columns = [
   {
     field: 'col1',
     headerName: 'S/N',
-    width: 71,
+    minWidth: 71,
+    flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col2',
     headerName: 'Initiator',
-    width: 227,
+    minWidth: 227,
+    flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
     headerName: 'Type',
-    width: 140,
+    minWidth: 140,
+    flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Amount',
-    width: 126,
+    minWidth: 126,
+    flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
     headerName: 'Charge',
-    width: 101,
+    minWidth: 101,
+    flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col6',
     headerName: 'Transaction Ref.',
-    width: 139,
+    minWidth: 139,
+    flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col7',
     headerName: 'Payment Method.',
-    width: 144,
+    minWidth: 144,
+    flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col8',
     headerName: 'Status.',
-    width: 101,
+    minWidth: 101,
+    flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
     renderCell: params => {
@@ -135,13 +143,15 @@ const columns = [
   {
     field: 'col9',
     headerName: 'Notification Time.',
-    width: 185,
+    minWidth: 185,
+    flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col10',
     headerName: 'Action.',
-    width: 79,
+    minWidth: 100,
+    flex: 1,
     headerClassName: 'grid-header',
   },
 ]
@@ -332,7 +342,7 @@ const DataGridView = () => {
 
       {/* Grid/ */}
       <div style={{ display: 'flex', height: '420px' }}>
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1, width: '100%' }}>
           <DataGrid
             rows={rows}
             columns={columns}
