@@ -48,6 +48,6 @@ const MainWrapper = tw.div`grid grid-cols-4 gap-2.5 mt-10 min-w-[900px] overflow
 const Wrapper = tw.div`bg-blue-light min-w-[165px] border border-border rounded-lg lg:(min-w-[265px])`
 const AvatarWrapper = tw.div`flex justify-end`
 const H1 = tw.h1`text-3xl lg:text-[40px] text-[#191716]`
-const P = tw.p`text-sm text-paysure-50 mt-1 mb-2 lg:(text-base mb-3)`
+const P = tw.p`text-sm text-paysure-50 mt-1 mb-2 whitespace-nowrap lg:(text-base mb-3)`
 
 export default HomeDisplayCard

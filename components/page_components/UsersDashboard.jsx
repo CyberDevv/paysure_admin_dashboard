@@ -1,17 +1,12 @@
 import tw from 'twin.macro'
 import React, { useState } from 'react'
-// import { Button } from '@mui/material'
-
-import { Add } from '../SVGIcons'
-import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
-
+import DateAdapter from '@mui/lab/AdapterMoment'
 import { DateRangePicker, LocalizationProvider } from '@mui/lab'
 import { Box, Button, InputAdornment, TextField } from '@mui/material'
 
-import { Calendar } from '../SVGIcons'
-// import Layout from '../layouts/main_layout/index.main_layout'
-// import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { Add, Calendar } from '../SVGIcons'
+import { DataGridViewTemp, HomeDisplayCard } from '..'
+import Layout from '../layouts/main_layout/index.main_layout'
 
 const UserssDashboard = () => {
   // UseState hook
@@ -221,49 +216,49 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Name of Organisation',
+    headerName: 'Name',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Services',
+    headerName: 'Wallet Balance',
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Services',
+    headerName: 'Email',
     minWidth: 103,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
-    headerName: 'No. of Transactions',
+    headerName: 'Phone Number',
     minWidth: 176,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col6',
-    headerName: 'Wallet Balance',
+    headerName: '2786111763',
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col7',
-    headerName: 'Transactions{N}',
+    headerName: 'Status',
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col8',
-    headerName: 'Charges',
+    headerName: 'Last Transaction',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
@@ -307,28 +302,8 @@ const temporalData = [
     title: 'Total Pending Transactions',
   },
   {
-    amount: '13',
+    amount: '124',
     title: 'Total Failed Tranasctions',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: 93032434,
-    label: 'All Transaction',
-  },
-  {
-    amount: 289383,
-    label: 'Data',
-  },
-  {
-    amount: 70000,
-    label: 'Transfer',
-  },
-  {
-    amount: 700000,
-    label: 'Transfer',
   },
 ]
 
@@ -337,5 +312,6 @@ const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 track
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
+const Span = tw.span`text-[13px] text-[#10101266]`
 
 export default UserssDashboard
