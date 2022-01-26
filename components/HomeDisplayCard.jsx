@@ -11,7 +11,10 @@ const HomeDisplayCard = ({ data = [], hasIcon }) => {
       <MainWrapper>
         {data.map(({ amount, title }, index) => {
           return (
-            <Wrapper key={index} css={[!hasIcon ? tw`px-4 py-6 lg:(px-8)` : tw`p-4 lg:(p-5)`]}>
+            <Wrapper
+              key={index}
+              css={[!hasIcon ? tw`px-4 py-6 lg:(px-8)` : tw`p-4 lg:(p-5)`]}
+            >
               {hasIcon && (
                 <AvatarWrapper>
                   <Avatar

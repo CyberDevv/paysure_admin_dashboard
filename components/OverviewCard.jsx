@@ -6,7 +6,7 @@ import { OverViewCard } from '.'
 const OverviewCardSection = ({ title, data }) => {
   return (
     <Wrapper>
-      <Title className='font-500'>{title}</Title>
+      <Title className="font-500">{title}</Title>
 
       <div
         className="scrollHidden"
