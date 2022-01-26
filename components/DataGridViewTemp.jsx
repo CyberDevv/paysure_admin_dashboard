@@ -4,7 +4,13 @@ import Link from 'next/link'
 
 import { DataGridView } from '.'
 
-const DataGridViewTemp = ({ title }) => {
+const DataGridViewTemp = ({
+  title,
+  rows,
+  columns,
+  children,
+  dropdownData = [],
+}) => {
   return (
     <div css={[tw`mt-10`]}>
       <div css={[tw`flex items-center justify-between`]}>
@@ -16,7 +22,12 @@ const DataGridViewTemp = ({ title }) => {
           </a>
         </Link>
       </div>
-      <DataGridView />
+      <DataGridView
+        rows={rows}
+        columns={columns}
+        children={children}
+        dropdownData={dropdownData}
+      />
     </div>
   )
 }
