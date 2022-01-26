@@ -23,7 +23,7 @@ import {
 const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
   // NavBar styles
   const Nav = styled.nav`
-    ${tw`w-[245px] min-w-[245px] h-screen bg-gray-light pl-8 py-7 fixed z-20 transition-transform transform lg:(transform-none)`}
+    ${tw`w-[245px] min-w-[245px] h-screen bg-gray-light pl-8 py-7 fixed overflow-y-scroll z-20 transition-transform transform lg:(transform-none)`}
     ${isSideBarOpen ? tw`translate-x-0` : tw` -translate-x-full`}
   `
 
@@ -83,7 +83,7 @@ const NavItem = ({ label, icon, link }) => {
 }
 
 // Tailwind Styles￼
-const Ul = tw.ul`mt-14 space-y-6`
+const Ul = tw.ul`mt-8 space-y-4 lg:(mt-14 space-y-6)`
 const Span = tw.span`text-[13px] text-gray-700 ml-4`
 const MUIButton = tw(Button)`normal-case justify-start`
 
