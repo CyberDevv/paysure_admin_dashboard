@@ -1,17 +1,15 @@
 import tw from 'twin.macro'
-import React, { useState } from 'react'
-import DateAdapter from '@mui/lab/AdapterMoment'
-import { DateRangePicker, LocalizationProvider } from '@mui/lab'
-import { Box, Button, InputAdornment, TextField } from '@mui/material'
+import React from 'react'
 
-import { Calendar } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import {
+  DataGridViewTemp,
+  DatRangePickerAndOthers,
+  HomeDisplayCard,
+  OverviewCardSection,
+} from '..'
 
 const HomeDashboard = () => {
-  // UseState hook
-  const [value, setValue] = useState([null, null])
-
   return (
     <Layout title="Home">
       <Ttile className="font-bold">
@@ -33,93 +31,7 @@ const HomeDashboard = () => {
         columns={columns}
         dropdownData={dropdownData}
       >
-        <div css={[tw`flex items-center justify-between w-full`]}>
-          {/* Date picker */}
-          <div
-            css={[
-              tw`w-[300px] border border-[#EBF2FA] hover:(border-[#c6c7c9]) lg:min-w-[289px] px-4 py-1.5 rounded`,
-            ]}
-          >
-            <LocalizationProvider dateAdapter={DateAdapter}>
-              <DateRangePicker
-                startText=""
-                inputFormat="DD MMMM"
-                endText=""
-                value={value}
-                onChange={newValue => {
-                  setValue(newValue)
-                }}
-                renderInput={(startProps, endProps) => (
-                  <>
-                    <TextField
-                      {...startProps}
-                      variant="standard"
-                      sx={{
-                        '& .MuiInput-root': {
-                          fontSize: '13px',
-                        },
-                        '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ':
-                          {
-                            content: 'none',
-                          },
-                        '& .css-1480iag-MuiInputBase-root-MuiInput-root:after':
-                          {
-                            conntent: 'none',
-                            border: 'none',
-                          },
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Span>From:</Span>
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Calendar />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <Box sx={{ mx: '8px', color: '#979797' }}> | </Box>
-                    <TextField
-                      variant="standard"
-                      sx={{
-                        '& .MuiInput-root': {
-                          fontSize: '13px',
-                        },
-                        '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ':
-                          {
-                            content: 'none',
-                          },
-                        '& .css-1480iag-MuiInputBase-root-MuiInput-root:after':
-                          {
-                            conntent: 'none',
-                            border: 'none',
-                          },
-                      }}
-                      {...endProps}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Span>To:</Span>
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Calendar />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </>
-                )}
-              />
-            </LocalizationProvider>
-          </div>
-
-          <MUIButton>Export data</MUIButton>
-        </div>
+        <DatRangePickerAndOthers />
       </DataGridViewTemp>
     </Layout>
   )
@@ -366,9 +278,5 @@ const agencyOveriewData2 = [
 
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
-const MUIButton = tw(
-  Button,
-)`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em] hover:()`
-const Span = tw.span`text-[13px] text-[#10101266]`
 
 export default HomeDashboard

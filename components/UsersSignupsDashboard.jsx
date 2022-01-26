@@ -1,22 +1,14 @@
 import React from 'react'
 import tw from 'twin.macro'
-import { Button } from '@mui/material'
 
-import { Add } from '../SVGIcons'
-import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, DatRangePickerAndOthers } from '..'
+import { DataGridViewTemp, HomeDisplayCard, DatRangePickerAndOthers } from '.'
 
-const UserssDashboard = () => {
+const SuperAgentSignupsDashboard = () => {
   return (
-    <Layout title="Users">
-      <div css={[tw`flex justify-between items-center`]}>
-        <Ttile className="font-bold">Users</Ttile>
-
-        <MUIButton startIcon={<Add />}>Add User</MUIButton>
-      </div>
+    <>
+      <Ttile className="font-bold">Users</Ttile>
 
       <HomeDisplayCard data={temporalData} />
-
       <DataGridViewTemp
         title="Users list"
         rows={rows}
@@ -25,10 +17,9 @@ const UserssDashboard = () => {
       >
         <DatRangePickerAndOthers />
       </DataGridViewTemp>
-    </Layout>
+    </>
   )
 }
-
 // FIXME: Temp data (should be replaced with real data)
 const dropdownData = [
   {
@@ -44,7 +35,6 @@ const dropdownData = [
     label: 'Admin',
   },
 ]
-
 // FIXME: Temp data (should be replaced with real data)
 const rows = [
   {
@@ -113,7 +103,6 @@ const rows = [
     col10: '',
   },
 ]
-
 // FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
@@ -125,60 +114,45 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Name',
+    headerName: 'Full Name',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Wallet Balance',
+    headerName: 'Email',
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Email',
+    headerName: '(219) 555-0114',
     minWidth: 103,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
-    headerName: 'Phone Number',
+    headerName: 'BVN',
     minWidth: 176,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col6',
-    headerName: '2786111763',
+    headerName: 'Business Name',
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col7',
-    headerName: 'Status',
+    headerName: 'Business Address',
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Last Transaction',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
@@ -189,36 +163,40 @@ const columns = [
   },
   {
     field: 'col10',
-    headerName: 'Action.',
+    headerName: 'Status',
+    minWidth: 100,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'col11',
+    headerName: 'Actions',
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
   },
 ]
-
 // FIXME: Temp data (should be replaced with real data)
 const temporalData = [
   {
-    amount: '2312',
-    title: 'Total',
+    amount: '32213',
+    title: 'New',
   },
   {
-    amount: '11434',
-    title: 'Total Transactions',
+    amount: '1324',
+    title: 'Approved',
   },
   {
-    amount: '114',
-    title: 'Total Pending Transactions',
+    amount: '10',
+    title: 'Rejected',
   },
   {
-    amount: '124',
-    title: 'Total Failed Tranasctions',
+    amount: '3',
+    title: 'Pending',
   },
 ]
 
+// Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
-const MUIButton = tw(
-  Button,
-)`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 
-export default UserssDashboard
+export default SuperAgentSignupsDashboard
