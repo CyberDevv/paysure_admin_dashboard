@@ -2,7 +2,7 @@ import React from 'react'
 import tw from 'twin.macro'
 import Image from 'next/image'
 
-import { SettingsOUtline, CircledUser } from '../../SVGIcons'
+import { SettingsOUtline, CircledUser, MenuHamburger } from '../../SVGIcons'
 
 const NavBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen, title }) => {
   // functions
@@ -28,7 +28,7 @@ const NavBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen, title }) => {
           <SettingsOUtline />
           <CircledUser />
           <button onClick={handleSideBarToggle} css={[tw`lg:hidden`]}>
-            menu
+            <MenuHamburger />
           </button>
         </AuthWrapper>
       </InnerWrapper>
