@@ -22,10 +22,14 @@ const HomeDashboard = () => {
       <OverviewCardSection title="User Overview" data={agencyOveriewData2} />
 
       <div css={[tw`mt-10`]}>
-        <div css= {[tw`flex items-center justify-between`]}>
+        <div css={[tw`flex items-center justify-between`]}>
           <Title>Recent transactions</Title>
 
-          <Link href= "/"><a css= {[tw`text-paysure-100 hover:underline cursor-pointer`]}>View all</a></Link>
+          <Link href="/">
+            <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
+              View all
+            </a>
+          </Link>
         </div>
         <DataGridView />
       </div>
