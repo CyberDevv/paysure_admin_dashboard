@@ -22,6 +22,7 @@ module.exports = {
           10: '#F1E5FF',
           50: '#425D8A',
           100: '#6500E0',
+          'text-100': '#191716',
         },
         border: '#E4ECF7',
         border2: '#EBF2FA',

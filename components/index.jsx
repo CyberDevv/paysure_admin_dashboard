@@ -21,3 +21,4 @@ export { default as TerminalsDashboard } from './page_components/TerminalsDashbo
 export { default as SettlementsDashboard } from './page_components/SettlementsDashboard'
 export { default as TransactionsDashboard } from './page_components/TransactionsDashboard'
 export { default as OrganizationsDashboard } from './page_components/OrganizationsDashboard'
+export { default as Roles_and_PermissionsDashboard } from './page_components/Roles_and_PermissionsDashboard'
