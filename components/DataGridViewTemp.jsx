@@ -16,11 +16,13 @@ const DataGridViewTemp = ({
       <div css={[tw`flex items-center justify-between`]}>
         <Title className="font-500">{title}</Title>
 
-        {title && <Link href="/">
-          <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
-            View all
-          </a>
-        </Link>}
+        {title && (
+          <Link href="/">
+            <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
+              View all
+            </a>
+          </Link>
+        )}
       </div>
       <DataGridView
         rows={rows}
