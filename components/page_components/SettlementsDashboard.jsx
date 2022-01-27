@@ -6,7 +6,7 @@ import { Add } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const TransacitonsDashboard = () => {
+const SettlementsDashboard = () => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
 
@@ -15,9 +15,9 @@ const TransacitonsDashboard = () => {
     setSelectedDrop(event.target.value)
   }
   return (
-    <Layout title="Transactions">
+    <Layout title="Settlements">
       <div>
-        <Ttile className="font-bold">Transactions</Ttile>
+        <Ttile className="font-bold">Settlements</Ttile>
       </div>
 
       <HomeDisplayCard data={temporalData} />
@@ -28,7 +28,7 @@ const TransacitonsDashboard = () => {
       />
 
       <DataGridViewTemp
-        title="Transaction Records"
+        title="Settlement Records"
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
@@ -212,49 +212,49 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Mark Pan',
+    headerName: 'Amount',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Terminal ID',
+    headerName: 'Type',
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Merchant Name',
+    headerName: 'Identifier',
     minWidth: 103,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
-    headerName: 'Amount',
+    headerName: 'Initiator',
     minWidth: 176,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col6',
-    headerName: 'Charge',
+    headerName: 'Percentage',
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col7',
-    headerName: 'Transaction Ref.',
+    headerName: 'Status',
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col8',
-    headerName: 'RRR',
+    headerName: 'Date',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
@@ -269,44 +269,6 @@ const columns = [
   },
   {
     field: 'col9',
-    headerName: 'Type',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-
-  {
-    field: 'col10',
-    headerName: 'Identifier',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col11',
-    headerName: 'Percentage',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-
-  {
-    field: 'col12',
-    headerName: 'Status',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-
-  {
-    field: 'col13',
-    headerName: 'Date',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col14',
     headerName: 'Actions',
     minWidth: 100,
     flex: 1,
@@ -334,7 +296,7 @@ const agencyOveriewData = [
 const temporalData = [
   {
     amount: '147878787',
-    title: 'Total Transactions',
+    title: 'Total Settlements',
   },
   {
     amount: '24',
@@ -360,4 +322,4 @@ const MUIButton2 = tw(
   Button,
 )`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
 
-export default TransacitonsDashboard
+export default SettlementsDashboard
