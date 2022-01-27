@@ -452,7 +452,7 @@ export const Calendar = () => {
         d="M5.33333 1.33337V3.33337"
         stroke="#292D32"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -460,7 +460,7 @@ export const Calendar = () => {
         d="M10.6667 1.33337V3.33337"
         stroke="#292D32"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -468,7 +468,7 @@ export const Calendar = () => {
         d="M2.33334 6.05994H13.6667"
         stroke="#292D32"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -476,7 +476,7 @@ export const Calendar = () => {
         d="M2 8.67338V5.66671C2 3.66671 3 2.33337 5.33333 2.33337H10.6667C13 2.33337 14 3.66671 14 5.66671V11.3334C14 13.3334 13 14.6667 10.6667 14.6667H5.33333C3 14.6667 2 13.3334 2 11.3334"
         stroke="#292D32"
         strokeWidth="1.5"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -541,19 +541,19 @@ export const MenuHamburger = () => {
           d="m368 154.667969h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"
           fill="#000000"
           data-original="#000000"
-          class=""
+          className=""
         ></path>
         <path
           d="m368 32h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"
           fill="#000000"
           data-original="#000000"
-          class=""
+          className=""
         ></path>
         <path
           d="m368 277.332031h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"
           fill="#000000"
           data-original="#000000"
-          class=""
+          className=""
         ></path>
       </g>
     </SvgIcon>
