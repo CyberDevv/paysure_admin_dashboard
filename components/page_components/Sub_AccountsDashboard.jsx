@@ -2,10 +2,11 @@ import tw from 'twin.macro'
 import React, { useState } from 'react'
 import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
+import { Add } from '../SVGIcons'
+import { DataGridViewTemp } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const TransacitonsDashboard = () => {
+const Sub_AccountsDashboard = () => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
 
@@ -14,20 +15,27 @@ const TransacitonsDashboard = () => {
     setSelectedDrop(event.target.value)
   }
   return (
-    <Layout title="Transactions">
-      <div>
-        <Ttile className="font-bold">Transactions</Ttile>
+    <Layout title="Sub Admins">
+      <div css={[tw`flex justify-between items-center`]}>
+        <Ttile className="font-bold">Sub-admins</Ttile>
+        <MUIButton startIcon={<Add />}>Add sub-admins</MUIButton>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      {/* Overview */}
+      <OverviewWrapper>
+        <OverviewTitle className="font-500">Overview</OverviewTitle>
 
-      <OverviewCardSection
-        title="Settlement Overview"
-        data={agencyOveriewData}
-      />
+        <div css={[tw`grid grid-cols-2 gap-8 lg:(flex justify-between) `]}>
+          {temporalData.map(({ amount, category }, index) => (
+            <div key={index}>
+              <OverviewAmount className="font-500">{amount}</OverviewAmount>
+              <OverviewCategory>{category}</OverviewCategory>
+            </div>
+          ))}
+        </div>
+      </OverviewWrapper>
 
       <DataGridViewTemp
-        title="Transaction Records"
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
@@ -139,12 +147,8 @@ const rows = [
     col2: 'Apple',
     col3: 'POS',
     col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
+    col5: 'Dec 30, 2018 05:12',
+    col6: '',
   },
   {
     id: 2,
@@ -152,12 +156,8 @@ const rows = [
     col2: 'Master Card',
     col3: 'POS',
     col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
+    col5: 'Dec 30, 2018 05:12',
+    col6: '',
   },
   {
     id: 3,
@@ -211,101 +211,34 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Mark Pan',
+    headerName: 'Name',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Terminal ID',
+    headerName: 'Roles',
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Merchant Name',
+    headerName: 'Email',
     minWidth: 103,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
-    headerName: 'Amount',
-    minWidth: 176,
+    headerName: 'Date Joined',
+    minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col6',
-    headerName: 'Charge',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Transaction Ref.',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'RRR',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
-  },
-  {
-    field: 'col9',
-    headerName: 'Type',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-
-  {
-    field: 'col10',
-    headerName: 'Identifier',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col11',
-    headerName: 'Percentage',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-
-  {
-    field: 'col12',
-    headerName: 'Status',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-
-  {
-    field: 'col13',
-    headerName: 'Date',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col14',
     headerName: 'Actions',
     minWidth: 100,
     flex: 1,
@@ -314,38 +247,22 @@ const columns = [
 ]
 
 // FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: 55102430,
-    label: 'Paysure Settlement',
-  },
-  {
-    amount: 1350,
-    label: 'Super Agent Settlement',
-  },
-  {
-    amount: 10,
-    label: 'Agent Settlement',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const temporalData = [
   {
-    amount: '147878787',
-    title: 'Total Transactions',
+    amount: 15,
+    category: 'Sub-admins',
   },
   {
-    amount: '24',
-    title: 'Total Successful Settlements',
+    amount: 4,
+    category: 'Adminstrators',
   },
   {
-    amount: '3',
-    title: 'Total Failed Transactions',
+    amount: 3,
+    category: 'Account Admins',
   },
   {
-    amount: '3',
-    title: 'Total Pending',
+    amount: 3,
+    category: 'Account Users',
   },
 ]
 
@@ -358,5 +275,9 @@ const Span = tw.span`text-[13px] text-[#10101266]`
 const MUIButton2 = tw(
   Button,
 )`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
+const OverviewWrapper = tw.div`border border-border rounded-[20px] p-6 mt-[27px] space-y-4 lg:(p-8 mt-[37px] space-y-8)`
+const OverviewTitle = tw.h4`text-light-dark`
+const OverviewAmount = tw.h5`text-[28px] lg:(text-[32px])`
+const OverviewCategory = tw.p`text-[#8F99A3] text-sm`
 
-export default TransacitonsDashboard
+export default Sub_AccountsDashboard

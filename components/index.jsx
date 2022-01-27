@@ -20,5 +20,6 @@ export { default as ProvidersDashboard } from './page_components/ProvidersDashbo
 export { default as TerminalsDashboard } from './page_components/TerminalsDashboard'
 export { default as SettlementsDashboard } from './page_components/SettlementsDashboard'
 export { default as TransactionsDashboard } from './page_components/TransactionsDashboard'
+export { default as Sub_AccountsDashboard } from './page_components/Sub_AccountsDashboard'
 export { default as OrganizationsDashboard } from './page_components/OrganizationsDashboard'
 export { default as Roles_and_PermissionsDashboard } from './page_components/Roles_and_PermissionsDashboard'
