@@ -2,30 +2,27 @@ import tw from 'twin.macro'
 import React from 'react'
 import { Button } from '@mui/material'
 
-import { Add } from '../SVGIcons'
-import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { Add } from './SVGIcons'
+import Layout from './layouts/main_layout/index.main_layout'
+import { DataGridViewTemp, HomeDisplayCard } from '.'
 
-const OrganizationsDashboard = () => {
+const PermissionsSettings = () => {
   return (
-    <Layout title="Organizations">
+    <>
       <div css={[tw`flex justify-between items-center w-full`]}>
         <div>
-          <Ttile className="font-bold">Organizations</Ttile>
-          <TitleSpan>Manage all organizations available on Paysure</TitleSpan>
+          <Ttile className="font-500">Permissions</Ttile>
+          <TitleSpan>Create a settlement band</TitleSpan>
         </div>
-        <MUIButton startIcon={<Add />}>Add Organization</MUIButton>
+        <MUIButton startIcon={<Add />}>Add Permissions</MUIButton>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
-
       <DataGridViewTemp
-        title="Organizations"
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
       />
-    </Layout>
+    </>
   )
 }
 
@@ -125,70 +122,20 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Name of Organisation',
+    headerName: 'Role',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Services',
+    headerName: 'Permissions',
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Services',
-    minWidth: 103,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Transactions{N}',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
     headerName: 'Action.',
     minWidth: 100,
     flex: 1,
@@ -196,31 +143,11 @@ const columns = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '194',
-    title: 'Organizations',
-  },
-  {
-    amount: '143843938',
-    title: 'Total Transactions',
-  },
-  {
-    amount: '109313',
-    title: 'Completed Transactions',
-  },
-  {
-    amount: '132',
-    title: 'Pending Transactions',
-  },
-]
-
-const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
+const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[20px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 const Span = tw.span`text-[13px] text-[#10101266]`
 
-export default OrganizationsDashboard
+export default PermissionsSettings
