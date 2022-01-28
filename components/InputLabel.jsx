@@ -1,12 +1,12 @@
 import React from 'react'
 import tw from 'twin.macro'
 
-const InputLabel = ({ label, type, placeholder }) => {
+const InputLabel = ({ label, type, placeholder, value, onChange }) => {
   return (
     <div>
       <Label>
         {label}
-        <Input type={type} placeholder={placeholder} />
+        <Input type={type} placeholder={placeholder} value={value} onChange={onChange} />
       </Label>
     </div>
   )
