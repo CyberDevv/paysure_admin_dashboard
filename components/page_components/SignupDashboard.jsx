@@ -1,14 +1,18 @@
 import React from 'react'
+import axios from 'axios'
 import tw from 'twin.macro'
 
 import LabelInput from '../InputLabel'
+import { LeftArrow } from '../SVGIcons'
 import { AuthButton } from '../MUIComponents'
 import Layout from '../layouts/auth_layout/index.auth_layout'
-import { LeftArrow } from '../SVGIcons'
 
 const Signupashboard = () => {
   // useState hook
   const [emailEntered, setEmailEntered] = React.useState(false)
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const [confirmpassword, setConfirmPassword] = React.useState('')
 
   // Functions
   const handleContinue = () => {
@@ -17,6 +21,17 @@ const Signupashboard = () => {
 
   const handleBack = () => {
     setEmailEntered(false)
+  }
+
+  const handleSignup = async () => {
+    try {
+      await axios.post('/api/auth/signup', {
+        email,
+        password,
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -28,6 +43,8 @@ const Signupashboard = () => {
               label="Enter your email"
               type="email"
               placeholder="staff@example.com"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
 
             <div>
@@ -47,16 +64,20 @@ const Signupashboard = () => {
               label="Create password"
               type="password"
               placeholder="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
 
             <LabelInput
               label="Confirm password"
               type="password"
               placeholder="confirm password"
+              value={confirmpassword}
+              onChange={e => setConfirmPassword(e.target.value)}
             />
 
             <div>
-              <AuthButton label="Confirm password" />
+              <AuthButton label="Confirm password" onClick={handleSignup} />
             </div>
           </Form>
         </Layout>
