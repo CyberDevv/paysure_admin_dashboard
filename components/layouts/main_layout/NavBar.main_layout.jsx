@@ -32,10 +32,14 @@ const NavBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen, title }) => {
         <AuthWrapper>
           <Link href="/settings">
             <a>
-              <SettingsOUtline />
+              <I>
+                <SettingsOUtline />
+              </I>
             </a>
           </Link>
-          <CircledUser />
+          <I>
+            <CircledUser />
+          </I>
           <button onClick={handleSideBarToggle} css={[tw`lg:hidden`]}>
             <MenuHamburger />
           </button>
@@ -53,6 +57,7 @@ const InnerWrapper = tw.div`flex items-center justify-between w-full`
 const ImageWrapper = tw.div`lg:hidden`
 const Title = tw.h5`text-sm hidden lg:block`
 const Title2 = tw.h5`text-sm lg:hidden mt-2`
-const AuthWrapper = tw.div`flex items-center space-x-4`
+const AuthWrapper = tw.div`flex items-center space-x-4 text-paysure-text-100`
+const I = tw.i`hover:text-paysure-100`
 
 export default NavBar_main_layout
