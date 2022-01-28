@@ -1,7 +1,7 @@
 import React from 'react'
 import tw from 'twin.macro'
+import Link from 'next/link'
 import Image from 'next/image'
-import { Link } from '@mui/material'
 
 import { SettingsOUtline, CircledUser, MenuHamburger } from '../../SVGIcons'
 
