@@ -205,6 +205,7 @@ const temporalData = [
   {
     amount: '240',
     title: 'Total Providers',
+    link: '/providers'
   },
   {
     amount: '120',
@@ -213,22 +214,27 @@ const temporalData = [
   {
     amount: '30',
     title: 'Total Super Agent',
+    link: '/agents'
   },
   {
     amount: '72',
     title: 'Total Agents',
+    link: '/agents_list'
   },
   {
     amount: '534',
     title: 'Total Users',
+    link: '/users'
   },
   {
     amount: '10',
     title: 'Total Organizations',
+    link: '/organizations'
   },
   {
     amount: '10',
     title: 'Total Admins',
+    link: '/sub_accounts'
   },
   {
     amount: '32429',

@@ -1,5 +1,6 @@
 import React from 'react'
 import tw from 'twin.macro'
+import Link from 'next/link'
 import { Avatar } from '@mui/material'
 
 const HomeDisplayCard = ({ data = [], hasIcon }) => {
@@ -9,32 +10,59 @@ const HomeDisplayCard = ({ data = [], hasIcon }) => {
       css={[tw`overflow-x-scroll lg:(overflow-x-hidden)`]}
     >
       <MainWrapper>
-        {data.map(({ amount, title }, index) => {
+        {data.map(({ amount, title, link }, index) => {
+          // children component
+          const Children = () => {
+            return (
+              <>
+                {hasIcon && (
+                  <AvatarWrapper>
+                    <Avatar
+                      sx={{
+                        height: {
+                          xs: '30px',
+                          sm: '40px',
+                          lg: '50px',
+                        },
+                        width: {
+                          xs: '30px',
+                          sm: '40px',
+                          lg: '50px',
+                        },
+                      }}
+                    />
+                  </AvatarWrapper>
+                )}
+
+                <div css={[!hasIcon && tw`space-y-3`]}>
+                  <H1 className="font-bold">{amount}</H1>
+                  <P>{title}</P>
+                </div>
+              </>
+            )
+          }
+
           return (
-            <Wrapper key={index} css={[!hasIcon ? tw`px-4 py-6 lg:(px-8)` : tw`p-4 lg:(p-5)`]}>
-              {hasIcon && (
-                <AvatarWrapper>
-                  <Avatar
-                    sx={{
-                      height: {
-                        xs: '30px',
-                        sm: '40px',
-                        lg: '50px',
-                      },
-                      width: {
-                        xs: '30px',
-                        sm: '40px',
-                        lg: '50px',
-                      },
-                    }}
-                  />
-                </AvatarWrapper>
+            <Wrapper
+              key={index}
+              css={[
+                !hasIcon ? tw`px-4 py-6 lg:(px-8)` : tw`p-4 lg:(p-5)`,
+                link && tw`hover:(border-gray-300 bg-blue-50)`,
+              ]}
+            >
+              {link && (
+                <Link href={link}>
+                  <a>
+                    <Children />
+                  </a>
+                </Link>
               )}
 
-              <div css={[!hasIcon && tw`space-y-3`]}>
-                <H1 className="font-bold">{amount}</H1>
-                <P>{title}</P>
-              </div>
+              {!link && (
+                <>
+                  <Children />
+                </>
+              )}
             </Wrapper>
           )
         })}
@@ -45,7 +73,7 @@ const HomeDisplayCard = ({ data = [], hasIcon }) => {
 
 // Tailwind style
 const MainWrapper = tw.div`grid grid-cols-4 gap-2.5 mt-10 min-w-[900px] overflow-hidden lg:(gap-5)`
-const Wrapper = tw.div`bg-blue-light min-w-[165px] border border-border rounded-lg lg:(min-w-[265px])`
+const Wrapper = tw.div`bg-blue-light min-w-[165px] border border-border rounded-lg transition-colors lg:(min-w-[265px])`
 const AvatarWrapper = tw.div`flex justify-end`
 const H1 = tw.h1`text-3xl lg:text-[40px] text-[#191716]`
 const P = tw.p`text-sm text-paysure-50 mt-1 mb-2 whitespace-nowrap lg:(text-base mb-3)`
