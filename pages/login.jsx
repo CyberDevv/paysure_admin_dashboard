@@ -7,7 +7,7 @@ const login = () => {
   return (
     <>
       <Head>
-        <title>Login | paysure</title>
+        <title>Login | Paysure</title>
       </Head>
 
       <LoginDashboard />
