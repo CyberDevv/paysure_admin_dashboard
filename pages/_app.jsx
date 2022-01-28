@@ -1,5 +1,7 @@
-import GlobalStyles from '../styles/GlobalStyles'
+import NextNProgress from 'nextjs-progressbar'
 import { createTheme, ThemeProvider } from '@mui/material'
+
+import GlobalStyles from '../styles/GlobalStyles'
 
 import '../styles/GlobalStyles.css'
 
@@ -19,6 +21,7 @@ const theme = createTheme({
 const App = ({ Component, pageProps }) => (
   <>
     <ThemeProvider theme={theme}>
+      <NextNProgress height={5} color="#6500E0" />
       <GlobalStyles />
       <Component {...pageProps} />
     </ThemeProvider>
