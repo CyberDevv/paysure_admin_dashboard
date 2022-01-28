@@ -1,6 +1,7 @@
 import React from 'react'
 import tw from 'twin.macro'
 import Image from 'next/image'
+import { Link } from '@mui/material'
 
 import { SettingsOUtline, CircledUser, MenuHamburger } from '../../SVGIcons'
 
@@ -14,18 +15,26 @@ const NavBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen, title }) => {
     <Nav>
       <InnerWrapper>
         <ImageWrapper>
-          <Image
-            src="/images/logo_purple.png"
-            alt="paysure"
-            width="92px"
-            height="24px"
-          />
+          <Link href="/">
+            <a>
+              <Image
+                src="/images/logo_purple.png"
+                alt="paysure"
+                width="92px"
+                height="24px"
+              />
+            </a>
+          </Link>
         </ImageWrapper>
 
         <Title>{title}</Title>
 
         <AuthWrapper>
-          <SettingsOUtline />
+          <Link href="/settings">
+            <a>
+              <SettingsOUtline />
+            </a>
+          </Link>
           <CircledUser />
           <button onClick={handleSideBarToggle} css={[tw`lg:hidden`]}>
             <MenuHamburger />

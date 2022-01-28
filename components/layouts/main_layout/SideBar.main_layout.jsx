@@ -30,12 +30,16 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
   return (
     <>
       <Nav>
-        <Image
-          src="/images/logo_purple.png"
-          alt="paysure"
-          width="92px"
-          height="24px"
-        />
+        <Link href="/">
+          <a>
+            <Image
+              src="/images/logo_purple.png"
+              alt="paysure"
+              width="92px"
+              height="24px"
+            />
+          </a>
+        </Link>
 
         <Ul>
           <NavItem label="Home" icon={<Categories />} link="/" />
