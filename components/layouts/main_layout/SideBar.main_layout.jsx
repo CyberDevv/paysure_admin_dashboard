@@ -3,6 +3,7 @@ import tw from 'twin.macro'
 import Link from 'next/link'
 import Image from 'next/image'
 import styled from '@emotion/styled'
+import { useRouter } from 'next/router'
 import { Backdrop, Button } from '@mui/material'
 
 import {
@@ -21,11 +22,36 @@ import {
 } from '../../SVGIcons'
 
 const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
+  const { asPath } = useRouter()
+
   // NavBar styles
   const Nav = styled.nav`
     ${tw`w-[245px] min-w-[245px] h-full bg-gray-light pl-8 py-7 fixed overflow-y-scroll z-20 transition-transform transform lg:(transform-none)`}
     ${isSideBarOpen ? tw`translate-x-0` : tw` -translate-x-full`}
   `
+
+  // NavItem Component
+  const NavItem = ({ label, icon, link }) => {
+    return (
+      <li>
+        <Link href={`/${link || label.toLowerCase()}`}>
+          <a>
+            <MUIButton
+              fullWidth
+              startIcon={icon}
+              css={[
+                asPath === (link || `/${label.toLowerCase()}`)
+                  ? tw`text-paysure-100`
+                  : tw`text-gray-700 hover:text-gray-dark`,
+              ]}
+            >
+              <Span>{label}</Span>
+            </MUIButton>
+          </a>
+        </Link>
+      </li>
+    )
+  }
 
   return (
     <>
@@ -76,23 +102,9 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
   )
 }
 
-const NavItem = ({ label, icon, link }) => {
-  return (
-    <li>
-      <Link href={`/${link || label.toLowerCase()}`}>
-        <a>
-          <MUIButton fullWidth startIcon={icon}>
-            <Span>{label}</Span>
-          </MUIButton>
-        </a>
-      </Link>
-    </li>
-  )
-}
-
 // Tailwind Styles￼
 const Ul = tw.ul`mt-8 space-y-4 lg:(mt-14 space-y-6)`
-const Span = tw.span`text-[13px] text-gray-700 ml-4`
-const MUIButton = tw(Button)`normal-case justify-start`
+const Span = tw.span`text-[13px] ml-4`
+const MUIButton = tw(Button)`normal-case justify-start `
 
 export default SideBar_main_layout
