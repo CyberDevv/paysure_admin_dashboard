@@ -7,7 +7,7 @@ const SignUp = () => {
   return (
     <>
       <Head>
-        <title>Signup | paysure</title>
+        <title>Signup | Paysure</title>
       </Head>
 
       <SignupDashboard />
