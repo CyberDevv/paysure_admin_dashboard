@@ -8,19 +8,24 @@ const index_modal_layout = ({
   title,
   buttonLabel,
   state,
+  setState,
   children,
-  onClose,
 }) => {
+  // function
+  const handleClose = () => {
+    setState(false)
+  }
+
   return (
     <Dialog
-      onClose={onClose}
+      onClose={handleClose}
       open={state}
       sx={{ '& .MuiDialog-paper': { borderRadius: '20px' } }}
     >
       <InnerDialog>
         <DialogTitle className="font-500">
           {title}
-          <IconWrapper onClick={onClose}>
+          <IconWrapper onClick={handleClose}>
             <Close />
           </IconWrapper>
         </DialogTitle>
@@ -28,7 +33,7 @@ const index_modal_layout = ({
         <Divider sx={{ marginTop: '20px', borderColor: '#E4ECF7' }} />
 
         <Form>
-          {children}
+          <div css={[tw`space-y-4`]}>{children}</div>
 
           <Divider
             sx={{
@@ -49,8 +54,6 @@ const index_modal_layout = ({
 const InnerDialog = tw.div`py-5 overflow-hidden w-[400px]`
 const DialogTitle = tw.h5`px-8 text-base text-paysure-text-100 text-center`
 const Form = tw.form`px-8 py-4`
-const Label = tw.label`text-[13px] text-[#454D54]`
-const Input = tw.input`text-[13px] border border-[#E3E5E8] text-[#454D54] p-3.5 rounded w-full mt-2 focus:(outline-none ring-1 ring-border)`
 const ModalButton = tw(
   Button,
 )`normal-case bg-paysure-100 text-white w-full py-5 rounded-xl text-sm hover:(bg-paysure-100 shadow-xl)`

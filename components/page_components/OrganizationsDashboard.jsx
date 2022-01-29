@@ -3,10 +3,21 @@ import React from 'react'
 import { Button } from '@mui/material'
 
 import { Add } from '../SVGIcons'
+import { DataGridViewTemp, HomeDisplayCard } from '..'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 
 const OrganizationsDashboard = () => {
+  // useState hook
+  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
+  const [name, setName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [phone, setPhone] = React.useState('')
+  const [address, setAddress] = React.useState('')
+  const [logoURL, setLogoURL] = React.useState('')
+  const [abbreviation, setAbbreviation] = React.useState('')
+
   return (
     <Layout title="Organizations">
       <div css={[tw`flex justify-between items-center w-full`]}>
@@ -14,7 +25,64 @@ const OrganizationsDashboard = () => {
           <Ttile className="font-bold">Organizations</Ttile>
           <TitleSpan>Manage all organizations available on Paysure</TitleSpan>
         </div>
-        <MUIButton startIcon={<Add />}>Add Organization</MUIButton>
+
+        <MUIButton
+          onClick={() => setIsAddmodalOpened(true)}
+          startIcon={<Add />}
+        >
+          Add Organization
+        </MUIButton>
+
+        {/* Add organization modal */}
+        <Modal
+          setState={setIsAddmodalOpened}
+          title="Add new Organization"
+          state={isaddModalOpened}
+          buttonLabel="Next"
+        >
+          <Label
+            label="Name"
+            type="text"
+            placeholder="John Smith"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          <Label
+            label="Abbreviation"
+            type="text"
+            placeholder="Abbreviation"
+            value={abbreviation}
+            onChange={e => setAbbreviation(e.target.value)}
+          />
+          <Label
+            label="Email"
+            type="email"
+            placeholder="yourname@example.com"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <Label
+            label="Phone"
+            type="tel"
+            placeholder="08012345678"
+            value={phone}
+            onChange={e => setPhone(e.target.value)}
+          />
+          <Label
+            label="Address"
+            type="text"
+            placeholder="Address"
+            value={address}
+            onChange={e => setAddress(e.target.value)}
+          />
+          <Label
+            label="Logo URL"
+            type="text"
+            placeholder="https://"
+            value={logoURL}
+            onChange={e => setLogoURL(e.target.value)}
+          />
+        </Modal>
       </div>
 
       <HomeDisplayCard data={temporalData} />
@@ -221,6 +289,5 @@ const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 track
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
-const Span = tw.span`text-[13px] text-[#10101266]`
 
 export default OrganizationsDashboard

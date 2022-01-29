@@ -2,20 +2,16 @@ import tw from 'twin.macro'
 import React from 'react'
 import { Button, Dialog, Divider } from '@mui/material'
 
-import { Add, Close } from '../SVGIcons'
+import { Add } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const ProvidersDashboard = () => {
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [providerName, setProviderName] = React.useState('')
-
-  // functions
-  const handleClose = () => {
-    setIsAddmodalOpened(false)
-  }
 
   return (
     <Layout title="Providers">
@@ -36,18 +32,16 @@ const ProvidersDashboard = () => {
         <Modal
           title="Add new Provider"
           state={isaddModalOpened}
-          onClose={handleClose}
+          setState={setIsAddmodalOpened}
           buttonLabel="Next"
         >
-          <Label>
-            Name of Provider
-            <Input
-              type="text"
-              placeholder="Provider"
-              value={providerName}
-              onChange={e => setProviderName(e.target.value)}
-            />
-          </Label>
+          <Label
+            label="Name of Provider"
+            type="text"
+            placeholder="Provider"
+            value={providerName}
+            onChange={e => setProviderName(e.target.value)}
+          />
         </Modal>
       </div>
 
@@ -280,16 +274,5 @@ const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 track
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
-const Span = tw.span`text-[13px] text-[#10101266]`
-
-const InnerDialog = tw.div`py-5 overflow-hidden w-[400px]`
-const DialogTitle = tw.h5`px-8 text-base text-paysure-text-100 text-center`
-const Form = tw.form`px-8 py-4`
-const Label = tw.label`text-[13px] text-[#454D54]`
-const Input = tw.input`text-[13px] border border-[#E3E5E8] text-[#454D54] p-3.5 rounded w-full mt-2 focus:(outline-none ring-1 ring-border)`
-const ModalButton = tw(
-  Button,
-)`normal-case bg-paysure-100 text-white w-full py-5 rounded-xl text-sm hover:(bg-paysure-100 shadow-xl)`
-const IconWrapper = tw.i`absolute right-5 top-3.5 text-[#425D8A] hover:(text-red-700) transition-colors cursor-pointer stroke-current`
 
 export default ProvidersDashboard
