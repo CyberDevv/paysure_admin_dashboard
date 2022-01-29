@@ -15,7 +15,7 @@ function a11yProps(index) {
 export default function AgentDashboard() {
   const [tabValue, setTabValue] = useState(0)
 
-  const handleChange = (newValue) => {
+  const handleChange = newValue => {
     setTabValue(newValue)
   }
 
@@ -39,7 +39,7 @@ export default function AgentDashboard() {
               },
               '& .MuiTab-root': {
                 minWidth: 'unset',
-                paddingY: '0'
+                paddingY: '0',
               },
               '& .css-1aquho2-MuiTabs-indicator ': {
                 backgroundColor: '#6500E0',
