@@ -71,6 +71,7 @@ const UserssDashboard = () => {
               onChange={e => setPhone(e.target.value)}
             />
             <Label
+              value={DOB}
               label="Date of Birth"
               type="date"
               value={address}
@@ -106,6 +107,8 @@ const UserssDashboard = () => {
       <HomeDisplayCard data={temporalData} />
 
       <DataGridViewTemp
+        link="/users/users_list"
+        limited={true}
         title="Users list"
         rows={rows}
         columns={columns}
@@ -289,6 +292,7 @@ const temporalData = [
   {
     amount: '2312',
     title: 'Total',
+    link: '/users/users_list',
   },
   {
     amount: '11434',
