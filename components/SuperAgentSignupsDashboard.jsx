@@ -9,7 +9,10 @@ const SuperAgentSignupsDashboard = () => {
       <Ttile className="font-bold">Super Agents</Ttile>
 
       <HomeDisplayCard data={temporalData} />
+
       <DataGridViewTemp
+        limited={true}
+        link="/agents/super_agents_list"
         title="Super Agents list"
         rows={rows}
         columns={columns}

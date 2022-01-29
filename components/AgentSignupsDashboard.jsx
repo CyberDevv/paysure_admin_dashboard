@@ -10,6 +10,8 @@ const SuperAgentSignupsDashboard = () => {
 
       <HomeDisplayCard data={temporalData} />
       <DataGridViewTemp
+        limited={true}
+        link="/agents/agents_list"
         title="Agents list"
         rows={rows}
         columns={columns}
