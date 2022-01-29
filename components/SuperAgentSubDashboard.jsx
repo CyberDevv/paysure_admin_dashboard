@@ -107,8 +107,12 @@ const SuperAgentsSubDashboard = () => {
           />
         </Modal>
       </div>
+
       <HomeDisplayCard data={temporalData} />
+
       <DataGridViewTemp
+        limited={true}
+        link="/agents/super_agents_list"
         title="Super Agents list"
         rows={rows}
         columns={columns}
@@ -294,6 +298,7 @@ const temporalData = [
   {
     amount: '124',
     title: 'Total Super Agents',
+    link: '/agents/super_agents_list'
   },
   {
     amount: '10',

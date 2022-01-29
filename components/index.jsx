@@ -30,4 +30,5 @@ export { default as Sub_AccountsDashboard } from './page_components/Sub_Accounts
 export { default as ProvidersListDashboard } from './page_components/ProvidersListDashboard'
 export { default as OrganizationsDashboard } from './page_components/OrganizationsDashboard'
 export { default as OrganizatonListDashboard } from './page_components/OrganizatonListDashboard'
+export { default as Super_Agents_ListDashboard } from './page_components/Super_Agents_ListDashboard'
 export { default as Roles_and_PermissionsDashboard } from './page_components/Roles_and_PermissionsDashboard'

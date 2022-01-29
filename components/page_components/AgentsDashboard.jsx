@@ -15,7 +15,7 @@ function a11yProps(index) {
 export default function AgentDashboard() {
   const [tabValue, setTabValue] = useState(0)
 
-  const handleChange = (newValue) => {
+  const handleChange = (event, newValue) => {
     setTabValue(newValue)
   }
 
