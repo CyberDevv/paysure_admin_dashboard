@@ -28,6 +28,7 @@ export { default as SettlementsDashboard } from './page_components/SettlementsDa
 export { default as TransactionsDashboard } from './page_components/TransactionsDashboard'
 export { default as Sub_AccountsDashboard } from './page_components/Sub_AccountsDashboard'
 export { default as ProvidersListDashboard } from './page_components/ProvidersListDashboard'
+export { default as TerminalsListDashboard } from './page_components/TerminalsListDashboard'
 export { default as OrganizationsDashboard } from './page_components/OrganizationsDashboard'
 export { default as OrganizatonListDashboard } from './page_components/OrganizatonListDashboard'
 export { default as Super_Agents_ListDashboard } from './page_components/Super_Agents_ListDashboard'

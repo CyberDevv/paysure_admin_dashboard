@@ -94,6 +94,8 @@ const OrganizationsDashboard = () => {
       <HomeDisplayCard data={temporalData} />
 
       <DataGridViewTemp
+        limited={true}
+        link="/terminals/terminals_list"
         title="Terminals"
         rows={rows}
         columns={columns}
@@ -324,6 +326,7 @@ const temporalData = [
   {
     amount: '14',
     title: 'Total Terminals',
+    link: '/terminals/terminals_list',
   },
   {
     amount: '24',
@@ -336,7 +339,6 @@ const temporalData = [
 ]
 
 const menuItems = ['All', 'Active', 'Inactive']
-
 
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
