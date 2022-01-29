@@ -214,4 +214,4 @@ const columns = [
   },
 ]
 
-export default TransactionsListDashboard;
+export default TransactionsListDashboard
