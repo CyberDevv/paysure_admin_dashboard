@@ -191,4 +191,4 @@ const columns = [
   },
 ]
 
-export default TerminalsListDashboard;
+export default TerminalsListDashboard
