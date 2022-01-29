@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 import NavBar from './NavBar.main_layout'
 import SideBar from './SideBar.main_layout'
 
-const index_main_layout = ({ children, title }) => {
+const index_main_layout = ({ children, title, goBack }) => {
   // usestate hook
   const [isSideBarOpen, setIsSideBarOpen] = React.useState(false)
 
@@ -17,9 +17,9 @@ const index_main_layout = ({ children, title }) => {
 
       <Section>
         <NavBar
-          isSideBarOpen={isSideBarOpen}
           setIsSideBarOpen={setIsSideBarOpen}
           title={title}
+          goBack={goBack}
         />
         <Main>{children}</Main>
       </Section>

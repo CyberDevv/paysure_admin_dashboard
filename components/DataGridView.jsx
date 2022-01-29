@@ -5,7 +5,13 @@ import { Box, Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
 import { Search } from './SVGIcons'
 
-const DataGridView = ({ rows, columns, children, dropdownData = [] }) => {
+const DataGridView = ({
+  rows,
+  columns,
+  children,
+  dropdownData = [],
+  limited,
+}) => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
 
@@ -93,11 +99,12 @@ const DataGridView = ({ rows, columns, children, dropdownData = [] }) => {
       </FuncWrappper>
 
       {/* Grid/ */}
-      <div style={{ display: 'flex', height: '420px' }}>
+      <div style={{ display: 'flex' }}>
         <div style={{ flexGrow: 1, width: '100%' }}>
           <DataGrid
-            rows={rows}
+            rows={limited ? rows.slice(0, 5) : rows}
             columns={columns}
+            autoHeight={true}
             disableColumnMenu
             hideFooter={true}
             rowHeight={70}

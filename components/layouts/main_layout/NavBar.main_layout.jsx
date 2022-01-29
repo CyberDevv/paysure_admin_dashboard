@@ -2,10 +2,11 @@ import React from 'react'
 import tw from 'twin.macro'
 import Link from 'next/link'
 import Image from 'next/image'
+import Router from 'next/router'
 
 import { SettingsOUtline, CircledUser, MenuHamburger } from '../../SVGIcons'
 
-const NavBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen, title }) => {
+const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
   // functions
   const handleSideBarToggle = () => {
     setIsSideBarOpen(true)
@@ -27,7 +28,9 @@ const NavBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen, title }) => {
           </Link>
         </ImageWrapper>
 
-        <Title>{title}</Title>
+        {title && <Title>{title}</Title>}
+
+        {goBack && <Button1 onClick={() => Router.back()}>Back</Button1>}
 
         <AuthWrapper>
           <Link href="/settings">
@@ -46,7 +49,8 @@ const NavBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen, title }) => {
         </AuthWrapper>
       </InnerWrapper>
 
-      <Title2>{title}</Title2>
+      {title && <Title2>{title}</Title2>}
+      {goBack && <Button2 onClick={() => Router.back()}>Back</Button2>}
     </Nav>
   )
 }
@@ -59,5 +63,8 @@ const Title = tw.h5`text-sm hidden lg:block`
 const Title2 = tw.h5`text-sm lg:hidden mt-2`
 const AuthWrapper = tw.div`flex items-center space-x-4 text-paysure-text-100`
 const I = tw.i`hover:text-paysure-100`
+const Button = tw.button`normal-case text-paysure-text-100 text-sm hover:(underline)`
+const Button1 = tw(Button)`hidden lg:block`
+const Button2 = tw(Button)`lg:hidden mt-2`
 
 export default NavBar_main_layout

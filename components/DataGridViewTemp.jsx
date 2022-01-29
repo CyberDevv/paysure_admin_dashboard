@@ -9,30 +9,35 @@ const DataGridViewTemp = ({
   rows,
   columns,
   children,
+  link,
+  limited,
   dropdownData = [],
 }) => {
   return (
-    <div css={[tw`mt-10`]}>
+    <div css={[limited && tw`mt-10`]}>
       <div css={[tw`flex items-center justify-between`]}>
         <Title className="font-500">{title}</Title>
 
-        {title && <Link href="/">
-          <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
-            View all
-          </a>
-        </Link>}
+        {link && (
+          <Link href={link}>
+            <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
+              View all
+            </a>
+          </Link>
+        )}
       </div>
       <DataGridView
         rows={rows}
         columns={columns}
         children={children}
         dropdownData={dropdownData}
+        limited= {limited}
       />
     </div>
   )
 }
 
 // Tailwind Styles
-const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
+const Title = tw.h3`tracking-[-0.02em] text-gray-dark lg:(text-[20px])`
 
 export default DataGridViewTemp
