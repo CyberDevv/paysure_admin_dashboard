@@ -4,11 +4,22 @@ import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
 import { Add } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const OrganizationsDashboard = () => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
+  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
+  const [name, setName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [phone, setPhone] = React.useState('')
+  const [address, setAddress] = React.useState('')
+  const [logoURL, setLogoURL] = React.useState('')
+  const [plan, setPlan] = React.useState('')
+  const [settlementPlan, setSettlementPlan] = React.useState('')
+  const [abbreviation, setAbbreviation] = React.useState('')
 
   // functions
   const handleDropdownSelected = event => {
@@ -19,7 +30,64 @@ const OrganizationsDashboard = () => {
       <div>
         <div css={[tw`flex justify-between items-center`]}>
           <Ttile className="font-bold">Terminals</Ttile>
-          <MUIButton startIcon={<Add />}>Add Terminal</MUIButton>
+
+          <MUIButton
+            onClick={() => setIsAddmodalOpened(true)}
+            startIcon={<Add />}
+          >
+            Add Terminal
+          </MUIButton>
+
+          {/* Add organization modal */}
+          <Modal
+            setState={setIsAddmodalOpened}
+            title="Add Terminal"
+            state={isaddModalOpened}
+            buttonLabel="Create terminal"
+          >
+            <Label
+              label="Terminal ID"
+              type="text"
+              placeholder="Terminal ID"
+              value={name}
+              onChange={e => setName(e.target.value)}
+            />
+            <Label
+              label="Serial No."
+              type="text"
+              placeholder="Serial No."
+              value={abbreviation}
+              onChange={e => setAbbreviation(e.target.value)}
+            />
+            <Label
+              label="Transaction Limit"
+              type="text"
+              placeholder="Transaction Limit"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+            <Label
+              combo={true}
+              menuItems={menuItems}
+              label="Bank"
+              value={plan}
+              setState={setPlan}
+            />
+            <Label
+              combo={true}
+              menuItems={menuItems}
+              label="Terminal Type"
+              value={settlementPlan}
+              setState={setSettlementPlan}
+            />
+            <Label
+              label="Nibbs Rate"
+              type="text"
+              placeholder="Nibbs Rate"
+              value={logoURL}
+              onChange={e => setLogoURL(e.target.value)}
+            />
+          </Modal>
         </div>
       </div>
 
@@ -266,6 +334,9 @@ const temporalData = [
     title: 'Total Inactive Terminals',
   },
 ]
+
+const menuItems = ['All', 'Active', 'Inactive']
+
 
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
