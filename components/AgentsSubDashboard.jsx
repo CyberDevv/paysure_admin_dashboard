@@ -4,13 +4,108 @@ import { Button } from '@mui/material'
 
 import { Add } from './SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
+import Modal from './layouts/modal_ayout/index.modal_layout'
+import Label from './layouts/modal_ayout/LabelInput.main_layout'
 
 const AgentsSubDashboard = () => {
+  // useState hook
+  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
+  const [firstName, setFirstName] = React.useState('')
+  const [LastName, setLastName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [phone, setPhone] = React.useState('')
+  const [BVN, setBVN] = React.useState('')
+  const [plan, setPlan] = React.useState('')
+  const [bussinessAddress, setBussinessAddress] = React.useState('')
+  const [bussinessName, setBussinessName] = React.useState('')
+  const [settlementPlan, setSettlementPlan] = React.useState('')
   return (
     <>
       <div css={[tw`flex justify-between items-center`]}>
         <Ttile className="font-bold">Agents</Ttile>
-        <MUIButton startIcon={<Add />}>Add agents</MUIButton>
+
+        <MUIButton
+          onClick={() => setIsAddmodalOpened(true)}
+          startIcon={<Add />}
+        >
+          Add agents
+        </MUIButton>
+
+        {/* Add Users modal */}
+        <Modal
+          setState={setIsAddmodalOpened}
+          title="Add Agent"
+          state={isaddModalOpened}
+          buttonLabel="Next"
+        >
+          <FlexBox>
+            <Label
+              label="First Name"
+              type="text"
+              placeholder="John"
+              value={firstName}
+              setState={setFirstName}
+            />
+            <Label
+              label="Last Name"
+              type="text"
+              placeholder="Smith"
+              value={LastName}
+              setState={setLastName}
+            />
+          </FlexBox>
+          <Label
+            label="Email"
+            type="email"
+            placeholder="yourname@example.com"
+            value={email}
+            setState={setEmail}
+          />
+          <FlexBox>
+            <Label
+              label="Phone Number"
+              type="tel"
+              placeholder="08012345678"
+              value={phone}
+              setState={setPhone}
+            />
+            <Label
+              value={BVN}
+              label="BVN"
+              type="text"
+              placeholder="12345678911"
+              setState={setBVN}
+            />
+          </FlexBox>
+          <Label
+            label="Business Name"
+            type="text"
+            placeholder="Business Name"
+            value={bussinessName}
+            setState={setBussinessName}
+          />
+          <Label
+            label="Business Address"
+            type="text"
+            placeholder="Business Address"
+            value={bussinessAddress}
+            setState={setBussinessAddress}
+          />
+          <Label
+            combo={true}
+            menuItems={menuItems}
+            label="Plan Type"
+            value={plan}
+            setState={setPlan}
+          />
+          <Label
+            combo={true}
+            menuItems={menuItems}
+            label="Settlement Type"
+            value={settlementPlan}
+            setState={setSettlementPlan}
+          />
+        </Modal>
       </div>
       <HomeDisplayCard data={temporalData} />
       <DataGridViewTemp
@@ -213,10 +308,13 @@ const temporalData = [
   },
 ]
 
+const menuItems = ['All', 'Active', 'Inactive']
+
 // Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
+const FlexBox = tw.div`flex items-center justify-between space-x-4`
 
 export default AgentsSubDashboard
