@@ -3,9 +3,17 @@ import tw from 'twin.macro'
 import { Avatar, AvatarGroup, Button, Checkbox } from '@mui/material'
 
 import { AddSquare, UnChecked, Checked } from '../SVGIcons'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 
 const Roles_and_PermissionsDashboard = () => {
+  // useState hook
+  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
+  const [title, setTitle] = React.useState('')
+  const [upperLimit, setUpperLimit] = React.useState('')
+  const [description, setDescription] = React.useState('')
+
   return (
     <Layout title="Roles & Permissions">
       <Ttile className="font-bold">Roles & Permissions</Ttile>
@@ -40,10 +48,47 @@ const Roles_and_PermissionsDashboard = () => {
             </Card>
           )
         })}
-        <MUIButton variant="outlined">
+        <MUIButton variant="outlined" onClick={() => setIsAddmodalOpened(true)}>
           <AddSquare /> Add new role
         </MUIButton>
       </Grid>
+
+      {/* Add terminal modal */}
+      <Modal
+        title="Add new Role"
+        state={isaddModalOpened}
+        setState={setIsAddmodalOpened}
+        buttonLabel="Add role"
+      >
+        <FlexBox>
+          <Label
+            label="Title"
+            type="text"
+            placeholder="Account Admin"
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+          />
+          <Label
+            label="Upper Limit"
+            type="text"
+            placeholder="AAD"
+            value={upperLimit}
+            onChange={e => setUpperLimit(e.target.value)}
+          />
+        </FlexBox>
+
+        <div>
+          <CusLabel>
+            Description
+            <TextArea
+              cols="30"
+              rows="5"
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+            />
+          </CusLabel>
+        </div>
+      </Modal>
 
       {/* Settings */}
       <PermSettins>
@@ -165,5 +210,8 @@ const TBodyInherit = tw(TBody)`justify-self-start`
 const THeaderInherit = tw(THeader)`text-[#A6B7D4] justify-self-start`
 const Table = tw.div`grid grid-cols-4 gap-[20px] text-base lg:(gap-[30px])`
 const TableBody = tw.div`mt-4 space-y-3 lg:(mt-8 space-y-6)`
+const FlexBox = tw.div`flex items-center justify-between space-x-4`
+const CusLabel = tw.label`text-[13px] text-[#454D54]`
+const TextArea = tw.textarea`text-[13px] border border-[#E3E5E8] text-[#454D54] p-2.5 rounded w-full mt-1.5 focus:(outline-none ring-1 ring-border)`
 
 export default Roles_and_PermissionsDashboard
