@@ -39,7 +39,7 @@ export default function AgentDashboard() {
               },
               '& .MuiTab-root': {
                 minWidth: 'unset',
-                paddingY: '0'
+                paddingY: '0',
               },
               '& .css-1aquho2-MuiTabs-indicator ': {
                 backgroundColor: '#6500E0',

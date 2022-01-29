@@ -298,7 +298,7 @@ const temporalData = [
   {
     amount: '124',
     title: 'Total Super Agents',
-    link: '/agents/super_agents_list'
+    link: '/agents/super_agents_list',
   },
   {
     amount: '10',
