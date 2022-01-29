@@ -4,15 +4,103 @@ import { Button } from '@mui/material'
 
 import { Add } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, DatRangePickerAndOthers } from '..'
 
 const UserssDashboard = () => {
+  // useState hook
+  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
+  const [firstName, setFirstName] = React.useState('')
+  const [LastName, setLastName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [phone, setPhone] = React.useState('')
+  const [address, setAddress] = React.useState('')
+  const [DOB, setDOB] = React.useState('')
+  const [state, setState] = React.useState('')
+  const [city, setCity] = React.useState('')
+
   return (
     <Layout title="Users">
       <div css={[tw`flex justify-between items-center`]}>
         <Ttile className="font-bold">Users</Ttile>
 
-        <MUIButton startIcon={<Add />}>Add User</MUIButton>
+        <MUIButton
+          onClick={() => setIsAddmodalOpened(true)}
+          startIcon={<Add />}
+        >
+          Add Users
+        </MUIButton>
+
+        {/* Add Users modal */}
+        <Modal
+          setState={setIsAddmodalOpened}
+          title="Add new User"
+          state={isaddModalOpened}
+          buttonLabel="Next"
+        >
+          <FlexBox>
+            <Label
+              label="First Name"
+              type="text"
+              placeholder="John"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+            />
+            <Label
+              label="Last Name"
+              type="text"
+              placeholder="Smith"
+              value={LastName}
+              onChange={e => setLastName(e.target.value)}
+            />
+          </FlexBox>
+          <Label
+            label="Email"
+            type="email"
+            placeholder="yourname@example.com"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <FlexBox>
+            <Label
+              label="Phone Number"
+              type="tel"
+              placeholder="08012345678"
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
+            />
+            <Label
+              label="Date of Birth"
+              type="date"
+              value={address}
+              onChange={e => setDOB(e.target.value)}
+            />
+          </FlexBox>
+          <Label
+            label="Address"
+            type="text"
+            placeholder="Address"
+            value={address}
+            onChange={e => setAddress(e.target.value)}
+          />
+          <FlexBox>
+            <Label
+              label="State"
+              type="text"
+              placeholder="State"
+              value={state}
+              onChange={e => setState(e.target.value)}
+            />
+            <Label
+              label="City"
+              type="text"
+              placeholder="City"
+              value={city}
+              onChange={e => setCity(e.target.value)}
+            />
+          </FlexBox>
+        </Modal>
       </div>
 
       <HomeDisplayCard data={temporalData} />
@@ -220,5 +308,6 @@ const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
+const FlexBox = tw.div`flex items-center justify-between space-x-4`
 
 export default UserssDashboard
