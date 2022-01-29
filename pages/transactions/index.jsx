@@ -2,7 +2,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import { TransactionsDashboard } from '../components'
+import { TransactionsDashboard } from '../../components'
 
 // Page init
 const Transactions = () => {
