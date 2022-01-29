@@ -28,6 +28,8 @@ const SettlementsDashboard = () => {
       />
 
       <DataGridViewTemp
+        limited={true}
+        link="/settlements/settlements_list"
         title="Settlement Records"
         rows={rows}
         columns={columns}
@@ -297,6 +299,7 @@ const temporalData = [
   {
     amount: '147878787',
     title: 'Total Settlements',
+    link: '/settlements/settlements_list'
   },
   {
     amount: '24',

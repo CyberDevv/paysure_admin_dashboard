@@ -2,7 +2,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import { SettlementsDashboard } from '../components'
+import { SettlementsDashboard } from '../../components'
 
 // Page init
 const Settlements = () => {
