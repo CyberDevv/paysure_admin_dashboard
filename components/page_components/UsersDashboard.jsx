@@ -35,7 +35,7 @@ const UserssDashboard = () => {
         {/* Add Users modal */}
         <Modal
           setState={setIsAddmodalOpened}
-          title="Add new User"
+          title="Add New User"
           state={isaddModalOpened}
           buttonLabel="Next"
         >
@@ -74,7 +74,6 @@ const UserssDashboard = () => {
               value={DOB}
               label="Date of Birth"
               type="date"
-              value={address}
               onChange={e => setDOB(e.target.value)}
             />
           </FlexBox>

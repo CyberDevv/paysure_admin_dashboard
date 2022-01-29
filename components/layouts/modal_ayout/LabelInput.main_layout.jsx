@@ -1,24 +1,59 @@
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React from 'react'
 import tw from 'twin.macro'
 
 const LabelInput_main_layout = ({
   label,
   placeholder,
-  onChange,
   value,
   type,
+  combo,
+  menuItems,
+  setState,
 }) => {
+  const handleChange = event => {
+    setState(event.target.value)
+  }
+
   return (
     <div>
-      <Label>
-        {label}
-        <Input
-          type={type}
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-        />
-      </Label>
+      {!combo && (
+        <Label>
+          {label}
+          <Input
+            type={type}
+            placeholder={placeholder}
+            value={value}
+            onChange={handleChange}
+          />
+        </Label>
+      )}
+
+      {combo && (
+        <Label>
+          {label}
+          <FormControl fullWidth>
+            <Select
+              value={value}
+              onChange={handleChange}
+              sx={{
+                '&  .MuiOutlinedInput-input': {
+                  padding: '10px',
+                  fontSize: '13px',
+                  color: '#454D54',
+                },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#E3E5E8',
+                },
+              }}
+            >
+              {menuItems.map((item, index) => (
+                <MenuItem value={index}>{item}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Label>
+      )}
     </div>
   )
 }
