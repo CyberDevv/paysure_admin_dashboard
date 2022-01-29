@@ -31,7 +31,7 @@ const DataGridViewTemp = ({
         columns={columns}
         children={children}
         dropdownData={dropdownData}
-        limited= {limited}
+        limited={limited}
       />
     </div>
   )
