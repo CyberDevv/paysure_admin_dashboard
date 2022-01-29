@@ -617,3 +617,37 @@ export const PermissionsSettings = () => {
     </SvgIcon>
   )
 }
+
+export const Close = () => {
+  return (
+    <SvgIcon
+      viewBox="0 0 32 32"
+      sx={{
+        width: '32px',
+        height: '32px',
+      }}
+    >
+      <path
+        d="M12.2266 19.7732L19.7732 12.2266"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      <path
+        d="M19.7732 19.7732L12.2266 12.2266"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+      <path
+        d="M11.9998 29.3337H19.9998C26.6665 29.3337 29.3332 26.667 29.3332 20.0003V12.0003C29.3332 5.33366 26.6665 2.66699 19.9998 2.66699H11.9998C5.33317 2.66699 2.6665 5.33366 2.6665 12.0003V20.0003C2.6665 26.667 5.33317 29.3337 11.9998 29.3337Z"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </SvgIcon>
+  )
+}
