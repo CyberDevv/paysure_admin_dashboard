@@ -88,6 +88,8 @@ const OrganizationsDashboard = () => {
       <HomeDisplayCard data={temporalData} />
 
       <DataGridViewTemp
+        limited={true}
+        link="/organizations/organizations_list"
         title="Organizations"
         rows={rows}
         columns={columns}
@@ -269,6 +271,7 @@ const temporalData = [
   {
     amount: '194',
     title: 'Organizations',
+    link: '/organizations/organizations_list',
   },
   {
     amount: '143843938',

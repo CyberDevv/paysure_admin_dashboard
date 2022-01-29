@@ -27,4 +27,5 @@ export { default as TransactionsDashboard } from './page_components/Transactions
 export { default as Sub_AccountsDashboard } from './page_components/Sub_AccountsDashboard'
 export { default as ProvidersListDashboard } from './page_components/ProvidersListDashboard'
 export { default as OrganizationsDashboard } from './page_components/OrganizationsDashboard'
+export { default as OrganizatonListDashboard } from './page_components/OrganizatonListDashboard'
 export { default as Roles_and_PermissionsDashboard } from './page_components/Roles_and_PermissionsDashboard'
