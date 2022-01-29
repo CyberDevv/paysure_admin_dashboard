@@ -299,7 +299,7 @@ const temporalData = [
   {
     amount: '147878787',
     title: 'Total Settlements',
-    link: '/settlements/settlements_list'
+    link: '/settlements/settlements_list',
   },
   {
     amount: '24',
