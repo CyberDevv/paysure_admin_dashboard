@@ -23,6 +23,7 @@ export { default as SettingsDashboard } from './page_components/SettingsDashboar
 export { default as SuperAgentSignupsDashboard } from './SuperAgentSignupsDashboard'
 export { default as ProvidersDashboard } from './page_components/ProvidersDashboard'
 export { default as TerminalsDashboard } from './page_components/TerminalsDashboard'
+export { default as AgentsListDashboard } from './page_components/AgentsListDashboard'
 export { default as SettlementsDashboard } from './page_components/SettlementsDashboard'
 export { default as TransactionsDashboard } from './page_components/TransactionsDashboard'
 export { default as Sub_AccountsDashboard } from './page_components/Sub_AccountsDashboard'

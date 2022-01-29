@@ -2,7 +2,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import { AgentsDashboard } from '../components'
+import { AgentsDashboard } from '../../components'
 
 // Page init
 const Agents = () => {
