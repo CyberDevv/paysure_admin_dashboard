@@ -337,7 +337,6 @@ const temporalData = [
 
 const menuItems = ['All', 'Active', 'Inactive']
 
-
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
 const MUIButton = tw(
