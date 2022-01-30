@@ -107,7 +107,7 @@ const UserssDashboard = () => {
 
       <DataGridViewTemp
         link="/users/users_list"
-        limited={true}
+        limited
         title="Users list"
         rows={rows}
         columns={columns}

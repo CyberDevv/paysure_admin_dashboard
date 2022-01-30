@@ -5,7 +5,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 
 const SettlementsListDashboard = () => {
   return (
-    <Layout goBack={true}>
+    <Layout goBack>
       <DataGridViewTemp
         title="Settlements"
         rows={rows}
@@ -176,4 +176,4 @@ const columns = [
   },
 ]
 
-export default SettlementsListDashboard;
+export default SettlementsListDashboard

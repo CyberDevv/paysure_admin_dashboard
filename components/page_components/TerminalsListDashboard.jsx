@@ -5,7 +5,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 
 const TerminalsListDashboard = () => {
   return (
-    <Layout goBack={true}>
+    <Layout goBack>
       <DataGridViewTemp
         title="Terminals"
         rows={rows}
@@ -191,4 +191,4 @@ const columns = [
   },
 ]
 
-export default TerminalsListDashboard;
+export default TerminalsListDashboard

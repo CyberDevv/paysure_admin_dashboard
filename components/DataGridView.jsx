@@ -104,9 +104,9 @@ const DataGridView = ({
           <DataGrid
             rows={limited ? rows.slice(0, 5) : rows}
             columns={columns}
-            autoHeight={true}
+            autoHeight
             disableColumnMenu
-            hideFooter={true}
+            hideFooter
             rowHeight={70}
             sx={{
               border: 'none',

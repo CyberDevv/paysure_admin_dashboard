@@ -27,7 +27,7 @@ const TransacitonsDashboard = () => {
       />
 
       <DataGridViewTemp
-        limited={true}
+        limited
         link="/transactions/transactions_list"
         title="Transaction Records"
         rows={rows}

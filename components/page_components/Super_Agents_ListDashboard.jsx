@@ -5,7 +5,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 
 const Super_Agents_ListDashboard = () => {
   return (
-    <Layout goBack={true}>
+    <Layout goBack>
       <DataGridViewTemp
         title="Super Agents"
         rows={rows}
