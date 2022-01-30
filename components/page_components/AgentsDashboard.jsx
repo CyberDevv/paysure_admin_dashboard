@@ -15,9 +15,9 @@ function a11yProps(index) {
 export default function AgentDashboard() {
   const [tabValue, setTabValue] = useState(0)
 
-  const handleChange = (event, newValue) => {
+  const handleChange = React.useCallback((event, newValue) => {
     setTabValue(newValue)
-  }
+  })
 
   return (
     <Layout title="Agents">
@@ -39,7 +39,7 @@ export default function AgentDashboard() {
               },
               '& .MuiTab-root': {
                 minWidth: 'unset',
-                paddingY: '0'
+                paddingY: '0',
               },
               '& .css-1aquho2-MuiTabs-indicator ': {
                 backgroundColor: '#6500E0',

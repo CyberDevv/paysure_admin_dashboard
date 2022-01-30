@@ -14,6 +14,15 @@ const Roles_and_PermissionsDashboard = () => {
   const [upperLimit, setUpperLimit] = React.useState('')
   const [description, setDescription] = React.useState('')
 
+  // functions
+  const handSetIsAddmodalOpened = React.useCallback(() =>
+    setIsAddmodalOpened(true),
+  )
+
+  const handleSetDescription = React.useCallback(() => {
+    setDescription(e.target.value)
+  })
+
   return (
     <Layout title="Roles & Permissions">
       <Ttile className="font-bold">Roles & Permissions</Ttile>
@@ -48,7 +57,7 @@ const Roles_and_PermissionsDashboard = () => {
             </Card>
           )
         })}
-        <MUIButton variant="outlined" onClick={() => setIsAddmodalOpened(true)}>
+        <MUIButton variant="outlined" onClick={handSetIsAddmodalOpened}>
           <AddSquare /> Add new role
         </MUIButton>
       </Grid>
@@ -66,14 +75,14 @@ const Roles_and_PermissionsDashboard = () => {
             type="text"
             placeholder="Account Admin"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            setState={setTitle}
           />
           <Label
             label="Upper Limit"
             type="text"
             placeholder="AAD"
             value={upperLimit}
-            onChange={e => setUpperLimit(e.target.value)}
+            setState={setUpperLimit}
           />
         </FlexBox>
 
@@ -84,7 +93,7 @@ const Roles_and_PermissionsDashboard = () => {
               cols="30"
               rows="5"
               value={description}
-              onChange={e => setDescription(e.target.value)}
+              onChange={handleSetDescription}
             />
           </CusLabel>
         </div>

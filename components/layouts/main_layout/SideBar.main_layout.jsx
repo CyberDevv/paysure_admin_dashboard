@@ -53,6 +53,11 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
     )
   }
 
+  // fuctions
+  const handleBackdropClose = React.useCallback(() => {
+    setIsSideBarOpen(!isSideBarOpen)
+  })
+
   return (
     <>
       <Nav>
@@ -95,7 +100,7 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
       {/* Backdrop */}
       <Backdrop
         open={isSideBarOpen}
-        onClick={() => setIsSideBarOpen(!isSideBarOpen)}
+        onClick={handleBackdropClose}
         sx={{ zIndex: '10' }}
       />
     </>

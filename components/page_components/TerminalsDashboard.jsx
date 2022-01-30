@@ -14,27 +14,27 @@ const OrganizationsDashboard = () => {
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
-  const [phone, setPhone] = React.useState('')
-  const [address, setAddress] = React.useState('')
   const [logoURL, setLogoURL] = React.useState('')
   const [plan, setPlan] = React.useState('')
   const [settlementPlan, setSettlementPlan] = React.useState('')
   const [abbreviation, setAbbreviation] = React.useState('')
 
   // functions
-  const handleDropdownSelected = event => {
+  const handleDropdownSelected = React.useCallback(event => {
     setSelectedDrop(event.target.value)
-  }
+  })
+
+  const handSetIsAddmodalOpened = React.useCallback(() =>
+    setIsAddmodalOpened(true),
+  )
+
   return (
     <Layout title="Terminals">
       <div>
         <div css={[tw`flex justify-between items-center`]}>
           <Ttile className="font-bold">Terminals</Ttile>
 
-          <MUIButton
-            onClick={() => setIsAddmodalOpened(true)}
-            startIcon={<Add />}
-          >
+          <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
             Add Terminal
           </MUIButton>
 
@@ -50,21 +50,21 @@ const OrganizationsDashboard = () => {
               type="text"
               placeholder="Terminal ID"
               value={name}
-              onChange={e => setName(e.target.value)}
+              setState={setName}
             />
             <Label
               label="Serial No."
               type="text"
               placeholder="Serial No."
               value={abbreviation}
-              onChange={e => setAbbreviation(e.target.value)}
+              setState={setAbbreviation}
             />
             <Label
               label="Transaction Limit"
               type="text"
               placeholder="Transaction Limit"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              setState={setEmail}
             />
             <Label
               combo
@@ -85,7 +85,7 @@ const OrganizationsDashboard = () => {
               type="text"
               placeholder="Nibbs Rate"
               value={logoURL}
-              onChange={e => setLogoURL(e.target.value)}
+              setState={setLogoURL}
             />
           </Modal>
         </div>

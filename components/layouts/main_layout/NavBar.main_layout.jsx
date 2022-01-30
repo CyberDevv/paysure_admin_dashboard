@@ -8,9 +8,13 @@ import { SettingsOUtline, CircledUser, MenuHamburger } from '../../SVGIcons'
 
 const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
   // functions
-  const handleSideBarToggle = () => {
+  const handleSideBarToggle = React.useCallback(() => {
     setIsSideBarOpen(true)
-  }
+  })
+
+  const handleGoBack = React.useCallback(() => { 
+    Router.back()
+  })
 
   return (
     <Nav>
@@ -30,7 +34,7 @@ const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
 
         {title && <Title>{title}</Title>}
 
-        {goBack && <Button1 onClick={() => Router.back()}>Back</Button1>}
+        {goBack && <Button1 onClick={handleGoBack}>Back</Button1>}
 
         <AuthWrapper>
           <Link href="/settings">
@@ -50,7 +54,7 @@ const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
       </InnerWrapper>
 
       {title && <Title2>{title}</Title2>}
-      {goBack && <Button2 onClick={() => Router.back()}>Back</Button2>}
+      {goBack && <Button2 onClick={handleGoBack}>Back</Button2>}
     </Nav>
   )
 }

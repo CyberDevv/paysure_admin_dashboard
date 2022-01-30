@@ -16,9 +16,9 @@ const DataGridView = ({
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
 
   // functions
-  const handleDropdownSelected = event => {
+  const handleDropdownSelected = React.useCallback(event => {
     setSelectedDrop(event.target.value)
-  }
+  })
 
   return (
     <Wrapper>

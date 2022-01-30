@@ -20,15 +20,17 @@ const UserssDashboard = () => {
   const [state, setState] = React.useState('')
   const [city, setCity] = React.useState('')
 
+  // functions
+  const handSetIsAddmodalOpened = React.useCallback(() =>
+    setIsAddmodalOpened(true),
+  )
+
   return (
     <Layout title="Users">
       <div css={[tw`flex justify-between items-center`]}>
         <Ttile className="font-bold">Users</Ttile>
 
-        <MUIButton
-          onClick={() => setIsAddmodalOpened(true)}
-          startIcon={<Add />}
-        >
+        <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
           Add Users
         </MUIButton>
 
@@ -45,14 +47,14 @@ const UserssDashboard = () => {
               type="text"
               placeholder="John"
               value={firstName}
-              onChange={e => setFirstName(e.target.value)}
+              setState={setFirstName}
             />
             <Label
               label="Last Name"
               type="text"
               placeholder="Smith"
               value={LastName}
-              onChange={e => setLastName(e.target.value)}
+              setState={setLastName}
             />
           </FlexBox>
           <Label
@@ -60,7 +62,7 @@ const UserssDashboard = () => {
             type="email"
             placeholder="yourname@example.com"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            setState={setEmail}
           />
           <FlexBox>
             <Label
@@ -68,13 +70,13 @@ const UserssDashboard = () => {
               type="tel"
               placeholder="08012345678"
               value={phone}
-              onChange={e => setPhone(e.target.value)}
+              setState={setPhone}
             />
             <Label
               value={DOB}
               label="Date of Birth"
               type="date"
-              onChange={e => setDOB(e.target.value)}
+              setState={setDOB}
             />
           </FlexBox>
           <Label
@@ -82,7 +84,7 @@ const UserssDashboard = () => {
             type="text"
             placeholder="Address"
             value={address}
-            onChange={e => setAddress(e.target.value)}
+            setState={setAddress}
           />
           <FlexBox>
             <Label
@@ -90,14 +92,14 @@ const UserssDashboard = () => {
               type="text"
               placeholder="State"
               value={state}
-              onChange={e => setState(e.target.value)}
+              setState={setState}
             />
             <Label
               label="City"
               type="text"
               placeholder="City"
               value={city}
-              onChange={e => setCity(e.target.value)}
+              setState={setCity}
             />
           </FlexBox>
         </Modal>

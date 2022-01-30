@@ -12,7 +12,7 @@ const LoginDashboard = () => {
   const [password, setPassword] = React.useState('')
 
   // Functions
-  const handleLogin = async () => {
+  const handleLogin = React.useCallback(async () => {
     try {
       await axios.post('/api/auth/login', {
         email,
@@ -21,7 +21,15 @@ const LoginDashboard = () => {
     } catch (error) {
       console.log(error)
     }
-  }
+  })
+
+  const handleSetPassword = React.useCallback(e => {
+    setPassword(e.target.value)
+  })
+
+  const handleSetEmail = React.useCallback(e => {
+    setEmail(e.target.value)
+  })
 
   return (
     <Layout title="Login to your dashboard" login>
@@ -31,7 +39,7 @@ const LoginDashboard = () => {
           type="text"
           placeholder="staff@example.com"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={handleSetEmail}
         />
 
         <LabelInput
@@ -39,7 +47,7 @@ const LoginDashboard = () => {
           type="password"
           placeholder="password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={handleSetPassword}
         />
 
         <div>

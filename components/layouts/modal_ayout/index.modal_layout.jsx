@@ -12,9 +12,9 @@ const index_modal_layout = ({
   children,
 }) => {
   // function
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setState(false)
-  }
+  })
 
   return (
     <Dialog

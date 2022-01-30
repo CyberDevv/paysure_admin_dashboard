@@ -13,15 +13,16 @@ const SettingsDashboard = () => {
   // UseState Hooks
   const [activeTab, setActiveTab] = useState('Bands')
 
+  // Functions
+  const handleSetActiveTab = React.useCallback(tab => {
+    setActiveTab(label)
+  })
+
   // NavItem component
   const NavItem = ({ label, icon }) => {
     return (
       <li>
-        <MUIButton
-          fullWidth
-          startIcon={icon}
-          onClick={() => setActiveTab(label)}
-        >
+        <MUIButton fullWidth startIcon={icon} onClick={handleSetActiveTab}>
           <Span>{label}</Span>
         </MUIButton>
       </li>

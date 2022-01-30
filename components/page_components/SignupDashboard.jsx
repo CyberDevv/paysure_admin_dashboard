@@ -15,15 +15,15 @@ const Signupashboard = () => {
   const [confirmpassword, setConfirmPassword] = React.useState('')
 
   // Functions
-  const handleContinue = () => {
+  const handleContinue = React.useCallback(() => {
     setEmailEntered(true)
-  }
+  })
 
-  const handleBack = () => {
+  const handleBack = React.useCallback(() => {
     setEmailEntered(false)
-  }
+  })
 
-  const handleSignup = async () => {
+  const handleSignup = React.useCallback(async () => {
     try {
       await axios.post('/api/auth/signup', {
         email,
@@ -32,7 +32,19 @@ const Signupashboard = () => {
     } catch (error) {
       console.log(error)
     }
-  }
+  })
+
+  const handleSetPassword = React.useCallback(e => {
+    setPassword(e.target.value)
+  })
+
+  const handleSetConfirmPassword = React.useCallback(e => {
+    setConfirmPassword(e.target.value)
+  })
+
+  const handleSetEmail = React.useCallback(e => {
+    setEmail(e.target.value)
+  })
 
   return (
     <>
@@ -44,7 +56,7 @@ const Signupashboard = () => {
               type="email"
               placeholder="staff@example.com"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={handleSetEmail}
             />
 
             <div>
@@ -65,7 +77,7 @@ const Signupashboard = () => {
               type="password"
               placeholder="password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={handleSetPassword}
             />
 
             <LabelInput
@@ -73,7 +85,7 @@ const Signupashboard = () => {
               type="password"
               placeholder="confirm password"
               value={confirmpassword}
-              onChange={e => setConfirmPassword(e.target.value)}
+              onChange={handleSetConfirmPassword}
             />
 
             <div>

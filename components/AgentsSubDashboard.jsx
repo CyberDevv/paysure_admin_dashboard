@@ -19,15 +19,18 @@ const AgentsSubDashboard = () => {
   const [bussinessAddress, setBussinessAddress] = React.useState('')
   const [bussinessName, setBussinessName] = React.useState('')
   const [settlementPlan, setSettlementPlan] = React.useState('')
+
+  // functions
+  const handSetIsAddmodalOpened = React.useCallback(() =>
+    setIsAddmodalOpened(true),
+  )
+
   return (
     <>
       <div css={[tw`flex justify-between items-center`]}>
         <Ttile className="font-bold">Agents</Ttile>
 
-        <MUIButton
-          onClick={() => setIsAddmodalOpened(true)}
-          startIcon={<Add />}
-        >
+        <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
           Add agents
         </MUIButton>
 

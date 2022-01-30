@@ -18,6 +18,11 @@ const OrganizationsDashboard = () => {
   const [logoURL, setLogoURL] = React.useState('')
   const [abbreviation, setAbbreviation] = React.useState('')
 
+  // functions
+  const handSetIsAddmodalOpened = React.useCallback(e =>
+    setIsAddmodalOpened(true),
+  )
+
   return (
     <Layout title="Organizations">
       <div css={[tw`flex justify-between items-center w-full`]}>
@@ -26,10 +31,7 @@ const OrganizationsDashboard = () => {
           <TitleSpan>Manage all organizations available on Paysure</TitleSpan>
         </div>
 
-        <MUIButton
-          onClick={() => setIsAddmodalOpened(true)}
-          startIcon={<Add />}
-        >
+        <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
           Add Organization
         </MUIButton>
 
@@ -45,42 +47,42 @@ const OrganizationsDashboard = () => {
             type="text"
             placeholder="John Smith"
             value={name}
-            onChange={e => setName(e.target.value)}
+            setState={setName}
           />
           <Label
             label="Abbreviation"
             type="text"
             placeholder="Abbreviation"
             value={abbreviation}
-            onChange={e => setAbbreviation(e.target.value)}
+            setState={setAbbreviation}
           />
           <Label
             label="Email"
             type="email"
             placeholder="yourname@example.com"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            setState={setEmail}
           />
           <Label
             label="Phone"
             type="tel"
             placeholder="08012345678"
             value={phone}
-            onChange={e => setPhone(e.target.value)}
+            setState={setPhone}
           />
           <Label
             label="Address"
             type="text"
             placeholder="Address"
             value={address}
-            onChange={e => setAddress(e.target.value)}
+            setState={setAddress}
           />
           <Label
             label="Logo URL"
             type="text"
             placeholder="https://"
             value={logoURL}
-            onChange={e => setLogoURL(e.target.value)}
+            setState={setLogoURL}
           />
         </Modal>
       </div>

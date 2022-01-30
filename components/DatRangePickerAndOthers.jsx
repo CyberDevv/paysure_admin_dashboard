@@ -9,6 +9,75 @@ import { Calendar } from './SVGIcons'
 const DatRangePickerAndOthers = () => {
   // UseState hook
   const [value, setValue] = useState([null, null])
+
+  // components
+  const handleRenderInput = React.useCallback((startProps, endProps) => (
+    <>
+      <TextField
+        {...startProps}
+        variant="standard"
+        sx={{
+          '& .MuiInput-root': {
+            fontSize: '13px',
+          },
+          '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ': {
+            content: 'none',
+          },
+          '& .css-1480iag-MuiInputBase-root-MuiInput-root:after': {
+            conntent: 'none',
+            border: 'none',
+          },
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Span>From:</Span>
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <Calendar />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <Box sx={{ mx: '8px', color: '#979797' }}> | </Box>
+      <TextField
+        variant="standard"
+        sx={{
+          '& .MuiInput-root': {
+            fontSize: '13px',
+          },
+          '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ': {
+            content: 'none',
+          },
+          '& .css-1480iag-MuiInputBase-root-MuiInput-root:after': {
+            conntent: 'none',
+            border: 'none',
+          },
+        }}
+        {...endProps}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Span>To:</Span>
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <Calendar />
+            </InputAdornment>
+          ),
+        }}
+      />
+    </>
+  ))
+
+  // functions
+  const handleSetValue = React.useCallback(newValue => {
+    setValue(newValue)
+  })
+
   return (
     <div css={[tw`flex items-center justify-between w-full`]}>
       {/* Date picker */}
@@ -23,70 +92,8 @@ const DatRangePickerAndOthers = () => {
             inputFormat="DD MMMM"
             endText=""
             value={value}
-            onChange={newValue => {
-              setValue(newValue)
-            }}
-            renderInput={(startProps, endProps) => (
-              <>
-                <TextField
-                  {...startProps}
-                  variant="standard"
-                  sx={{
-                    '& .MuiInput-root': {
-                      fontSize: '13px',
-                    },
-                    '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ': {
-                      content: 'none',
-                    },
-                    '& .css-1480iag-MuiInputBase-root-MuiInput-root:after': {
-                      conntent: 'none',
-                      border: 'none',
-                    },
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Span>From:</Span>
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Calendar />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Box sx={{ mx: '8px', color: '#979797' }}> | </Box>
-                <TextField
-                  variant="standard"
-                  sx={{
-                    '& .MuiInput-root': {
-                      fontSize: '13px',
-                    },
-                    '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ': {
-                      content: 'none',
-                    },
-                    '& .css-1480iag-MuiInputBase-root-MuiInput-root:after': {
-                      conntent: 'none',
-                      border: 'none',
-                    },
-                  }}
-                  {...endProps}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Span>To:</Span>
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Calendar />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </>
-            )}
+            onChange={handleSetValue}
+            renderInput={handleRenderInput}
           />
         </LocalizationProvider>
       </div>

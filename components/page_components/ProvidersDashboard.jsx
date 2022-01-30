@@ -13,6 +13,15 @@ const ProvidersDashboard = () => {
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [providerName, setProviderName] = React.useState('')
 
+  // functions
+  const handleSetProviderName = React.useCallback(e => {
+    setProviderName(e.target.value)
+  })
+
+  const handSetIsAddmodalOpened = React.useCallback(() =>
+    setIsAddmodalOpened(true),
+  )
+
   return (
     <Layout title="Providers">
       <div css={[tw`flex justify-between items-center`]}>
@@ -21,10 +30,7 @@ const ProvidersDashboard = () => {
           <TitleSpan>Manage all providers available on Paysure</TitleSpan>
         </Ttile>
 
-        <MUIButton
-          onClick={() => setIsAddmodalOpened(true)}
-          startIcon={<Add />}
-        >
+        <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
           Add Terminal
         </MUIButton>
 
@@ -40,7 +46,7 @@ const ProvidersDashboard = () => {
             type="text"
             placeholder="Provider"
             value={providerName}
-            onChange={e => setProviderName(e.target.value)}
+            onChange={handleSetProviderName}
           />
         </Modal>
       </div>
