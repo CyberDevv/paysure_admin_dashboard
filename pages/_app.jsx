@@ -19,13 +19,11 @@ const theme = createTheme({
 })
 
 const App = ({ Component, pageProps }) => (
-  <>
-    <ThemeProvider theme={theme}>
-      <NextNProgress height={5} color="#6500E0" />
-      <GlobalStyles />
-      <Component {...pageProps} />
-    </ThemeProvider>
-  </>
+  <ThemeProvider theme={theme}>
+    <NextNProgress height={5} color="#6500E0" />
+    <GlobalStyles />
+    <Component {...pageProps} />
+  </ThemeProvider>
 )
 
 export default App

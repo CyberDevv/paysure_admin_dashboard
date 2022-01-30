@@ -58,11 +58,7 @@ const HomeDisplayCard = ({ data = [], hasIcon }) => {
                 </Link>
               )}
 
-              {!link && (
-                <>
-                  <Children />
-                </>
-              )}
+              {!link && <Children />}
             </Wrapper>
           )
         })}
