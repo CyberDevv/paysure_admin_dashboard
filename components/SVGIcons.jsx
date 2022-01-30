@@ -447,19 +447,19 @@ export const MenuHamburger = () => {
           fill="#000000"
           data-original="#000000"
           className=""
-        ></path>
+        />
         <path
           d="m368 32h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"
           fill="#000000"
           data-original="#000000"
           className=""
-        ></path>
+        />
         <path
           d="m368 277.332031h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"
           fill="#000000"
           data-original="#000000"
           className=""
-        ></path>
+        />
       </g>
     </SvgIcon>
   )
