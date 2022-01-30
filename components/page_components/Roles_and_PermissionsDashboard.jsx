@@ -19,7 +19,7 @@ const Roles_and_PermissionsDashboard = () => {
     setIsAddmodalOpened(true),
   )
 
-  const handleSetDescription = React.useCallback((e) => {
+  const handleSetDescription = React.useCallback(e => {
     setDescription(e.target.value)
   })
 
