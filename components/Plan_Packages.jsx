@@ -10,7 +10,7 @@ const Plan_Packages = () => {
     <>
       <div css={[tw`flex justify-between items-center w-full`]}>
         <div>
-          <Ttile className='font-500'>Plan Packages</Ttile>
+          <Ttile className="font-500">Plan Packages</Ttile>
           <TitleSpan>Create and manage plan packages</TitleSpan>
         </div>
         <MUIButton startIcon={<Add />}>Add Packages</MUIButton>
