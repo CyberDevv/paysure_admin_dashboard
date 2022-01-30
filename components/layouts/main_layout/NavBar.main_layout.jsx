@@ -12,7 +12,7 @@ const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
     setIsSideBarOpen(true)
   })
 
-  const handleGoBack = React.useCallback(() => { 
+  const handleGoBack = React.useCallback(() => {
     Router.back()
   })
 

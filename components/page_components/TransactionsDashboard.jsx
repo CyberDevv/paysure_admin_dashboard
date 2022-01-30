@@ -13,7 +13,7 @@ const TransacitonsDashboard = () => {
   const handleDropdownSelected = React.useCallback(event => {
     setSelectedDrop(event.target.value)
   })
-  
+
   return (
     <Layout title="Transactions">
       <div>
