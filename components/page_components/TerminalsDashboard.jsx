@@ -6,7 +6,7 @@ import { Add } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { DataGridViewTemp, HomeDisplayCard } from '..'
 
 const OrganizationsDashboard = () => {
   // UseState hook
@@ -341,7 +341,6 @@ const temporalData = [
 const menuItems = ['All', 'Active', 'Inactive']
 
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
-const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`

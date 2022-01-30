@@ -1,7 +1,7 @@
 import tw from 'twin.macro'
 import React, { useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-import { Box, Button, InputAdornment, MenuItem, TextField } from '@mui/material'
+import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
 import { Search } from './SVGIcons'
 

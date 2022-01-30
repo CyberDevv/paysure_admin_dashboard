@@ -1,9 +1,7 @@
-import tw from 'twin.macro'
-import React, { useState } from 'react'
-import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
+import React from 'react'
 
 import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { DataGridViewTemp } from '..'
 
 const UsersListDashboard = () => {
   return (
@@ -184,15 +182,5 @@ const columns = [
     headerClassName: 'grid-header',
   },
 ]
-
-// Tailwind Styles
-const Ttile = tw.h1`text-gray-dark tracking-[-0.02em] lg:(text-[20px])`
-const MUIButton = tw(
-  Button,
-)`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
-const Span = tw.span`text-[13px] text-[#10101266]`
-const MUIButton2 = tw(
-  Button,
-)`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
 
 export default UsersListDashboard

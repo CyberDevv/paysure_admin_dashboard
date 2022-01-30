@@ -2,7 +2,6 @@ import tw from 'twin.macro'
 import React, { useState } from 'react'
 import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
-import { Add } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
@@ -317,10 +316,6 @@ const temporalData = [
 ]
 
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
-const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
-const MUIButton = tw(
-  Button,
-)`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 const Span = tw.span`text-[13px] text-[#10101266]`
 const MUIButton2 = tw(
   Button,

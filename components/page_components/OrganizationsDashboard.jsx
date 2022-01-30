@@ -19,7 +19,7 @@ const OrganizationsDashboard = () => {
   const [abbreviation, setAbbreviation] = React.useState('')
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(e =>
+  const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
 
