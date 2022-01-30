@@ -3,8 +3,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 
 import { Add } from './SVGIcons'
-import Layout from './layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard } from '.'
+import { DataGridViewTemp } from '.'
 
 const PermissionsSettings = () => {
   return (
