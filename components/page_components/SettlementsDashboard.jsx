@@ -14,7 +14,7 @@ const SettlementsDashboard = () => {
   const handleDropdownSelected = React.useCallback(event => {
     setSelectedDrop(event.target.value)
   })
-  
+
   return (
     <Layout title="Settlements">
       <div>
