@@ -50,7 +50,7 @@ const ProvidersDashboard = () => {
       <OverviewCardSection title="Metrics" data={agencyOveriewData} />
 
       <DataGridViewTemp
-        limited={true}
+        limited
         link="/providers/providers_list"
         title="Providers"
         rows={rows}

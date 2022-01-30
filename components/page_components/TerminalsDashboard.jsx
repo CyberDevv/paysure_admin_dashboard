@@ -67,14 +67,14 @@ const OrganizationsDashboard = () => {
               onChange={e => setEmail(e.target.value)}
             />
             <Label
-              combo={true}
+              combo
               menuItems={menuItems}
               label="Bank"
               value={plan}
               setState={setPlan}
             />
             <Label
-              combo={true}
+              combo
               menuItems={menuItems}
               label="Terminal Type"
               value={settlementPlan}
@@ -94,7 +94,7 @@ const OrganizationsDashboard = () => {
       <HomeDisplayCard data={temporalData} />
 
       <DataGridViewTemp
-        limited={true}
+        limited
         link="/terminals/terminals_list"
         title="Terminals"
         rows={rows}

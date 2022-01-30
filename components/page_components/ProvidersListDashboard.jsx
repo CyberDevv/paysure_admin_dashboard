@@ -7,7 +7,7 @@ import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const ProvidersListDashboard = () => {
   return (
-    <Layout goBack={true}>
+    <Layout goBack>
       <DataGridViewTemp
         title="Providers"
         rows={rows}

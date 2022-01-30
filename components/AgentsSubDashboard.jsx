@@ -92,14 +92,14 @@ const AgentsSubDashboard = () => {
             setState={setBussinessAddress}
           />
           <Label
-            combo={true}
+            combo
             menuItems={menuItems}
             label="Plan Type"
             value={plan}
             setState={setPlan}
           />
           <Label
-            combo={true}
+            combo
             menuItems={menuItems}
             label="Settlement Type"
             value={settlementPlan}
@@ -111,7 +111,7 @@ const AgentsSubDashboard = () => {
       <HomeDisplayCard data={temporalData} />
 
       <DataGridViewTemp
-        limited={true}
+        limited
         link="/agents/agents_list"
         title="Agents list"
         rows={rows}

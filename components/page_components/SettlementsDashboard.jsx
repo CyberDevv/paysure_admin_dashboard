@@ -28,7 +28,7 @@ const SettlementsDashboard = () => {
       />
 
       <DataGridViewTemp
-        limited={true}
+        limited
         link="/settlements/settlements_list"
         title="Settlement Records"
         rows={rows}
