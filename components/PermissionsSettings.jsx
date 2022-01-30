@@ -147,6 +147,5 @@ const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 track
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
-const Span = tw.span`text-[13px] text-[#10101266]`
 
 export default PermissionsSettings
