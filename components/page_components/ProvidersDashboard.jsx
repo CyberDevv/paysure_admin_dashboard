@@ -14,10 +14,6 @@ const ProvidersDashboard = () => {
   const [providerName, setProviderName] = React.useState('')
 
   // functions
-  const handleSetProviderName = React.useCallback(e => {
-    setProviderName(e.target.value)
-  })
-
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
@@ -46,7 +42,7 @@ const ProvidersDashboard = () => {
             type="text"
             placeholder="Provider"
             value={providerName}
-            onChange={handleSetProviderName}
+            setState={setProviderName}
           />
         </Modal>
       </div>

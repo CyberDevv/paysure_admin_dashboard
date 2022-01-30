@@ -1,5 +1,7 @@
 import tw from 'twin.macro'
 import React, { useState } from 'react'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
 import { Add } from '../SVGIcons'
@@ -9,17 +11,68 @@ import Layout from '../layouts/main_layout/index.main_layout'
 const Sub_AccountsDashboard = () => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
+  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
+  const [providerName, setProviderName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [phone, setPhone] = React.useState('')
+  const [role, setRole] = React.useState('')
 
   // functions
   const handleDropdownSelected = React.useCallback(event => {
     setSelectedDrop(event.target.value)
   })
 
+  const handSetIsAddmodalOpened = React.useCallback(() =>
+    setIsAddmodalOpened(true),
+  )
+
   return (
     <Layout title="Sub Admins">
       <div css={[tw`flex justify-between items-center`]}>
         <Ttile className="font-bold">Sub-admins</Ttile>
-        <MUIButton startIcon={<Add />}>Add sub-admins</MUIButton>
+
+        <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
+          Add sub-admin
+        </MUIButton>
+
+        {/* Add sub-admin modal */}
+        <Modal
+          title="Add admin user"
+          state={isaddModalOpened}
+          setState={setIsAddmodalOpened}
+          buttonLabel="Next"
+        >
+          <Label
+            label="Name of Provider"
+            type="text"
+            placeholder="Provider"
+            value={providerName}
+            setState={setProviderName}
+          />
+
+          <Label
+            label="Email"
+            type="email"
+            placeholder="yourname@example.com"
+            value={email}
+            setState={setEmail}
+          />
+
+          <Label
+            label="Phone"
+            type="text"
+            placeholder="08012345678"
+            value={phone}
+            setState={setPhone}
+          />
+          <Label
+            combo
+            menuItems={menuItems}
+            label="Role"
+            value={role}
+            setState={setRole}
+          />
+        </Modal>
       </div>
 
       {/* Overview */}
@@ -267,6 +320,9 @@ const temporalData = [
   },
 ]
 
+const menuItems = ['All', 'Active', 'Inactive']
+
+// Tailwind css
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const MUIButton = tw(
   Button,
