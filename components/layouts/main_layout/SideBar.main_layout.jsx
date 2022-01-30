@@ -97,7 +97,7 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
         open={isSideBarOpen}
         onClick={() => setIsSideBarOpen(!isSideBarOpen)}
         sx={{ zIndex: '10' }}
-       />
+      />
     </>
   )
 }
