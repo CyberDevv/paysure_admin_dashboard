@@ -14,7 +14,7 @@ const Sub_AccountsDashboard = () => {
   const handleDropdownSelected = React.useCallback(event => {
     setSelectedDrop(event.target.value)
   })
-  
+
   return (
     <Layout title="Sub Admins">
       <div css={[tw`flex justify-between items-center`]}>
