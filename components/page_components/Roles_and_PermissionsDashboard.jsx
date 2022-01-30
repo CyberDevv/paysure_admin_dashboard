@@ -29,9 +29,9 @@ const Roles_and_PermissionsDashboard = () => {
 
       {/* Cards  */}
       <Grid>
-        {tempData.map(({ role, upperLimit, accounts }) => {
+        {tempData.map(({ role, upperLimit, accounts }, index) => {
           return (
-            <Card>
+            <Card key={index}>
               <OverviewTitle className="font-500">
                 {`${role} (${upperLimit.toUpperCase()})`}
               </OverviewTitle>
@@ -40,8 +40,9 @@ const Roles_and_PermissionsDashboard = () => {
                 <P>{accounts.length} Accounts</P>
 
                 <AvatarGroup sx={{ flexDirection: 'row', marginTop: '8px' }}>
-                  {accounts.map(url => (
+                  {accounts.map((url, index) => (
                     <Avatar
+                      key={index}
                       variant="rounded"
                       alt="Remy Sharp"
                       src={url}

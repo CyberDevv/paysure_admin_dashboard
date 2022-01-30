@@ -1,9 +1,9 @@
+import React from 'react'
 import NextNProgress from 'nextjs-progressbar'
 import { createTheme, ThemeProvider } from '@mui/material'
 
-import GlobalStyles from '../styles/GlobalStyles'
-
 import '../styles/GlobalStyles.css'
+import GlobalStyles from '../styles/GlobalStyles'
 
 const theme = createTheme({
   breakpoints: {

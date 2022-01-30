@@ -49,7 +49,9 @@ const LabelInput_main_layout = ({
               }}
             >
               {menuItems.map((item, index) => (
-                <MenuItem value={index}>{item}</MenuItem>
+                <MenuItem key={index} value={index}>
+                  {item}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

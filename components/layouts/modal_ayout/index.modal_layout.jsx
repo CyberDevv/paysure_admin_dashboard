@@ -4,7 +4,7 @@ import { Button, Dialog, Divider } from '@mui/material'
 
 import { Close } from '../../SVGIcons'
 
-const index_modal_layout = ({
+const Index_modal_layout = ({
   title,
   buttonLabel,
   state,
@@ -59,4 +59,4 @@ const ModalButton = tw(
 )`normal-case bg-paysure-100 text-white w-full py-5 rounded-xl text-sm hover:(bg-paysure-100 shadow-xl)`
 const IconWrapper = tw.button`absolute right-5 top-3.5 text-[#425D8A] hover:(text-red-700) transition-colors cursor-pointer stroke-current`
 
-export default index_modal_layout
+export default Index_modal_layout
