@@ -176,4 +176,4 @@ const columns = [
   },
 ]
 
-export default SettlementsListDashboard;
+export default SettlementsListDashboard
