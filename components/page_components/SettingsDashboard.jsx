@@ -22,7 +22,9 @@ const SettingsDashboard = () => {
   const NavItem = ({ label, icon }) => {
     return (
       <li>
-        <MUIButton fullWidth startIcon={icon} onClick={() => handleSetActiveTab(label)}>
+        <MUIButton sx={[
+          activeTab === label ? tw`text-paysure-100` : tw`text-gray-700`,
+        ]} fullWidth startIcon={icon} onClick={() => handleSetActiveTab(label)}>
           <Span>{label}</Span>
         </MUIButton>
       </li>
@@ -61,6 +63,6 @@ const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const SectionsWrapper = tw.div`flex`
 const MUIButton = tw(Button)`normal-case justify-start`
 const Nav = tw.ul`mt-7 lg:mt-14 space-y-6`
-const Span = tw.span`text-base text-gray-700 ml-4 whitespace-nowrap`
+const Span = tw.span`text-base ml-4 whitespace-nowrap`
 
 export default SettingsDashboard
