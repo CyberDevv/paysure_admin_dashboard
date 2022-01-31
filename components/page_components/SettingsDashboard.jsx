@@ -14,7 +14,7 @@ const SettingsDashboard = () => {
   const [activeTab, setActiveTab] = useState('Bands')
 
   // Functions
-  const handleSetActiveTab = React.useCallback((label) => {
+  const handleSetActiveTab = React.useCallback(label => {
     setActiveTab(label)
   })
 
@@ -22,9 +22,12 @@ const SettingsDashboard = () => {
   const NavItem = ({ label, icon }) => {
     return (
       <li>
-        <MUIButton sx={[
-          activeTab === label ? tw`text-paysure-100` : tw`text-gray-700`,
-        ]} fullWidth startIcon={icon} onClick={() => handleSetActiveTab(label)}>
+        <MUIButton
+          sx={[activeTab === label ? tw`text-paysure-100` : tw`text-gray-700`]}
+          fullWidth
+          startIcon={icon}
+          onClick={() => handleSetActiveTab(label)}
+        >
           <Span>{label}</Span>
         </MUIButton>
       </li>
