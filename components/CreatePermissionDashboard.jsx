@@ -26,10 +26,10 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
         <div css={[tw`flex justify-between items-center w-full space-x-4`]}>
           <CheckboxWrapper>
             <Checkbox color="error" />
-          
+
             <P>Allow all permissions</P>
           </CheckboxWrapper>
-          
+
           {/* Save button */}
           <MUIButton>Save</MUIButton>
         </div>
