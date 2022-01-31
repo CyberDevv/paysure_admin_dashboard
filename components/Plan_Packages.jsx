@@ -4,16 +4,102 @@ import { Button } from '@mui/material'
 
 import { Add } from './SVGIcons'
 import { DataGridViewTemp } from '.'
+import Modal from './layouts/modal_ayout/index.modal_layout'
+import Label from './layouts/modal_ayout/LabelInput.main_layout'
 
 const Plan_Packages = () => {
+  // useState hook
+  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
+  const [title, setTitle] = React.useState('')
+  const [charge, setChargeType] = React.useState('')
+  const [paysureRate, setPaysureRate] = React.useState('')
+  const [agentRate, setAgentRate] = React.useState('')
+  const [address, setAddress] = React.useState('')
+  const [nibbs, setNibbs] = React.useState('')
+  const [chargeRate, setChargeRate] = React.useState('')
+  const [superAgentRate, setSuperAgentRate] = React.useState('')
+
+  // functions
+  const handSetIsAddmodalOpened = React.useCallback(() =>
+    setIsAddmodalOpened(true),
+  )
+
   return (
     <>
       <div css={[tw`flex justify-between items-center w-full`]}>
         <div>
-          <Ttile className='font-500'>Plan Packages</Ttile>
+          <Ttile className="font-500">Plan Packages</Ttile>
           <TitleSpan>Create and manage plan packages</TitleSpan>
         </div>
-        <MUIButton startIcon={<Add />}>Add Packages</MUIButton>
+
+        <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
+          Add Packages
+        </MUIButton>
+
+        {/* Add Packages modal */}
+        <Modal
+          setState={setIsAddmodalOpened}
+          title="Add New Plan"
+          state={isaddModalOpened}
+          buttonLabel="Save"
+        >
+          <Label
+            label="Title"
+            type="text"
+            placeholder="Percentage Plan 1"
+            value={title}
+            setState={setTitle}
+          />
+          <Label
+            combo
+            menuItems={menuItems}
+            label="Charge Type"
+            value={charge}
+            setState={setChargeType}
+          />
+          <Label
+            label="Paysure Rate"
+            type="text"
+            placeholder="50"
+            value={paysureRate}
+            setState={setPaysureRate}
+          />
+          <Label
+            label="Agent Rate"
+            type="text"
+            placeholder="0"
+            value={agentRate}
+            setState={setAgentRate}
+          />
+          <Label
+            value={nibbs}
+            label="Nibbs (%)"
+            type="text"
+            placeholder="0"
+            setState={setNibbs}
+          />
+          <Label
+            label="Address"
+            type="text"
+            placeholder="Address"
+            value={address}
+            setState={setAddress}
+          />
+          <Label
+            label="Charge Rate (%)"
+            type="text"
+            placeholder="0"
+            value={chargeRate}
+            setState={setChargeRate}
+          />
+          <Label
+            label="Super Agent Rate (%)"
+            type="text"
+            placeholder="0"
+            value={superAgentRate}
+            setState={setSuperAgentRate}
+          />
+        </Modal>
       </div>
 
       <DataGridViewTemp
@@ -163,10 +249,13 @@ const columns = [
   },
 ]
 
+const menuItems = ['All', 'Active', 'Inactive']
+
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[20px])`
 const TitleSpan = tw.span`block text-light-dark text-sm font-normal mt-1.5 tracking-normal lg:(mt-3 text-base)`
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
+const FlexBox = tw.div`flex items-center justify-between space-x-4`
 
 export default Plan_Packages

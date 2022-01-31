@@ -33,7 +33,13 @@ const Index_modal_layout = ({
         <Divider sx={{ marginTop: '20px', borderColor: '#E4ECF7' }} />
 
         <Form>
-          <div css={[tw`space-y-4`]}>{children}</div>
+          <div
+            css={[
+              tw`space-y-4  overflow-y-scroll max-h-[600px] scrollbar-track-color[#12a116]`,
+            ]}
+          >
+            {children}
+          </div>
 
           <Divider
             sx={{
