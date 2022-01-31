@@ -4,7 +4,7 @@ import { PermissionsSettingsDashboard, CreatePermissionDashboard } from '.'
 
 const PermissionsSettings = () => {
   // useState hooks
-  const [showAddPanel, setShowAddPanel] = React.useState(true)
+  const [showAddPanel, setShowAddPanel] = React.useState(false)
 
   return (
     <>

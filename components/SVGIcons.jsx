@@ -635,3 +635,30 @@ export const Close = () => {
     </SvgIcon>
   )
 }
+
+export const AddSVG = () => {
+  return (
+    <SvgIcon
+      viewBox="0 0 20 20"
+      sx={{
+        width: '20px',
+        height: '20px',
+      }}
+    >
+      <path
+        d="M5 10H15"
+        stroke="#6500E0"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10 15V5"
+        stroke="#6500E0"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </SvgIcon>
+  )
+}
