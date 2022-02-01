@@ -26,6 +26,7 @@ const HomeDashboard = () => {
       <OverviewCardSection title="User Overview" data={agencyOveriewData2} />
 
       <DataGridViewTemp
+        limited
         title="Recent Transactions"
         rows={rows}
         columns={columns}
