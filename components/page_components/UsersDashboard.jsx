@@ -7,6 +7,8 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, DatRangePickerAndOthers } from '..'
+import Link from 'next/link'
+import Router from 'next/router'
 
 const UserssDashboard = () => {
   // useState hook
@@ -24,6 +26,10 @@ const UserssDashboard = () => {
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
+
+  const handleRowClick = React.useCallback(GridColumns => {
+    Router.push(`/users/${GridColumns.id}`)
+  })
 
   return (
     <Layout title="Users">
@@ -114,6 +120,7 @@ const UserssDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        onRowClick={handleRowClick}
       >
         <DatRangePickerAndOthers />
       </DataGridViewTemp>

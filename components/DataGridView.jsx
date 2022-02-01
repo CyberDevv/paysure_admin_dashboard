@@ -11,6 +11,7 @@ const DataGridView = ({
   children,
   dropdownData = [],
   limited,
+  onRowClick,
 }) => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
@@ -107,6 +108,8 @@ const DataGridView = ({
             autoHeight
             disableColumnMenu
             hideFooter
+            onRowClick={onRowClick}
+            tw="cursor-pointer"
             rowHeight={70}
             sx={{
               border: 'none',
