@@ -1,7 +1,21 @@
-import React from 'react';
+// imports
+import React from 'react'
+import Head from 'next/head'
 
-const transaction_list = () => {
-  return <div>YOie</div>;
-};
+import { TransactionListDashboard } from '../../../components'
 
-export default transaction_list;
+// Page init
+const TransactionList = () => {
+  return (
+    <>
+      <Head>
+        <title>Transaction List | Paysure</title>
+      </Head>
+
+      <TransactionListDashboard />
+    </>
+  )
+}
+
+// Page export
+export default TransactionList

@@ -35,6 +35,7 @@ export { default as Sub_AccountsDashboard } from './page_components/Sub_Accounts
 export { default as ProvidersListDashboard } from './page_components/ProvidersListDashboard'
 export { default as TerminalsListDashboard } from './page_components/TerminalsListDashboard'
 export { default as OrganizationsDashboard } from './page_components/OrganizationsDashboard'
+export { default as TransactionListDashboard } from './page_components/TransactionListDashboard'
 export { default as OrganizatonListDashboard } from './page_components/OrganizatonListDashboard'
 export { default as SettlementsListDashboard } from './page_components/SettlementsListDashboard'
 export { default as TransactionsListDashboard } from './page_components/TransactionsListDashboard'
