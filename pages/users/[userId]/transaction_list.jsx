@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const transaction_list = () => {
-  return <div>YOie</div>;
-};
+  return <div>YOie</div>
+}
 
-export default transaction_list;
+export default transaction_list
