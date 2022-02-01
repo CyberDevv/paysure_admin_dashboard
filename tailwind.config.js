@@ -23,6 +23,12 @@ module.exports = {
           50: '#425D8A',
           100: '#6500E0',
           'text-100': '#191716',
+          success: {
+            100: '#136F63',
+          },
+          danger: {
+            100: '#ED6A5A',
+          },
         },
         border: '#E4ECF7',
         border2: '#EBF2FA',

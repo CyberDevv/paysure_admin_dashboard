@@ -1,5 +1,6 @@
 import React from 'react'
 import tw from 'twin.macro'
+import Proptypes from 'prop-types'
 
 const OverviewCardTemp = ({ amount, label }) => {
   return (
@@ -8,6 +9,12 @@ const OverviewCardTemp = ({ amount, label }) => {
       <P>{label}</P>
     </Wrapper>
   )
+}
+
+// proptypes
+OverviewCardTemp.prototype = {
+  amount: Proptypes.number.isRequired,
+  label: Proptypes.string.isRequired,
 }
 
 // Tailwind Styles

@@ -1,12 +1,22 @@
 import React from 'react'
 import tw from 'twin.macro'
+import PropTypes from 'prop-types'
+import { Button } from '@mui/material'
 
 import { OverViewCard } from '.'
 
-const OverviewCardSection = ({ title, data }) => {
+const OverviewCardSection = ({ title, data, btnLabel }) => {
   return (
     <Wrapper>
-      <Title className='font-500'>{title}</Title>
+      <div tw="flex items-center justify-between">
+        <Title className="font-500">{title}</Title>
+
+        {btnLabel && (
+          <Button tw="normal-case text-paysure-100 text-base tracking-[-0.02em]">
+            {btnLabel}
+          </Button>
+        )}
+      </div>
 
       <div
         className="scrollHidden"
@@ -20,6 +30,12 @@ const OverviewCardSection = ({ title, data }) => {
       </div>
     </Wrapper>
   )
+}
+
+OverviewCardSection.prototype = {
+  tilte: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
+  btnLabel: PropTypes.string,
 }
 
 // Tailwind Styles
