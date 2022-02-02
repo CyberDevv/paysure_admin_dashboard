@@ -2,7 +2,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import { Roles_and_PermissionsDashboard } from '../components'
+import { Roles_and_PermissionsDashboard } from '../../components'
 
 // Page init
 const Roles_and_Permissions = () => {

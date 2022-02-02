@@ -6,6 +6,7 @@ import { AddSquare, UnChecked, Checked } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import Link from 'next/link'
 
 const Roles_and_PermissionsDashboard = () => {
   // useState hook
@@ -19,7 +20,7 @@ const Roles_and_PermissionsDashboard = () => {
     setIsAddmodalOpened(true),
   )
 
-  const handleSetDescription = React.useCallback((e) => {
+  const handleSetDescription = React.useCallback(e => {
     setDescription(e.target.value)
   })
 
@@ -31,31 +32,37 @@ const Roles_and_PermissionsDashboard = () => {
       <Grid>
         {tempData.map(({ role, upperLimit, accounts }, index) => {
           return (
-            <Card key={index}>
-              <OverviewTitle className="font-500">
-                {`${role} (${upperLimit.toUpperCase()})`}
-              </OverviewTitle>
+            <Link href={`/roles_and_permissions/${role.toLocaleLowerCase()}`}>
+              <a>
+                <Card role="button" key={index}>
+                  <OverviewTitle className="font-500">
+                    {`${role} (${upperLimit.toUpperCase()})`}
+                  </OverviewTitle>
 
-              <Div>
-                <P>{accounts.length} Accounts</P>
+                  <Div>
+                    <P>{accounts.length} Accounts</P>
 
-                <AvatarGroup sx={{ flexDirection: 'row', marginTop: '8px' }}>
-                  {accounts.map((url, index) => (
-                    <Avatar
-                      key={index}
-                      variant="rounded"
-                      alt="Remy Sharp"
-                      src={url}
-                      sx={{
-                        width: { xs: '18px', lg: '24px' },
-                        height: { xs: '18px', lg: '24px' },
-                        borderRadius: '5px',
-                      }}
-                    />
-                  ))}
-                </AvatarGroup>
-              </Div>
-            </Card>
+                    <AvatarGroup
+                      sx={{ flexDirection: 'row', marginTop: '8px' }}
+                    >
+                      {accounts.map((url, index) => (
+                        <Avatar
+                          key={index}
+                          variant="rounded"
+                          alt="Remy Sharp"
+                          src={url}
+                          sx={{
+                            width: { xs: '18px', lg: '24px' },
+                            height: { xs: '18px', lg: '24px' },
+                            borderRadius: '5px',
+                          }}
+                        />
+                      ))}
+                    </AvatarGroup>
+                  </Div>
+                </Card>
+              </a>
+            </Link>
           )
         })}
         <MUIButton variant="outlined" onClick={handSetIsAddmodalOpened}>
@@ -206,7 +213,7 @@ const tempData = [
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 const OverviewTitle = tw.h4`text-xl lg:text-2xl text-paysure-text-100 tracking-[-0.025em]`
 const Div = tw.div`mt-5`
-const Card = tw.div`rounded-[20px] p-5 border border-border lg:(min-w-[285px])`
+const Card = tw.div`rounded-[20px] p-5 border border-border transition-colors duration-[250ms] hover:(border-[#1976d2] bg-[rgba(25, 118, 210, 0.04)]) lg:(min-w-[285px])`
 const P = tw.p`text-sm text-paysure-50 lg:(text-base)`
 const MUIButton = tw(
   Button,
