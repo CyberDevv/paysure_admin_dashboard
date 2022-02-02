@@ -10,6 +10,7 @@ const Index_modal_layout = ({
   state,
   setState,
   children,
+  alternate,
 }) => {
   // function
   const handleClose = React.useCallback(() => {
@@ -23,7 +24,7 @@ const Index_modal_layout = ({
       sx={{ '& .MuiDialog-paper': { borderRadius: '20px' } }}
     >
       <InnerDialog>
-        <DialogTitle className="font-500">
+        <DialogTitle css={!alternate && tw`text-center`} className="font-500">
           {title}
           <IconWrapper onClick={handleClose}>
             <Close />
@@ -58,7 +59,7 @@ const Index_modal_layout = ({
 
 // Tailwind styles
 const InnerDialog = tw.div`py-5 overflow-hidden w-[400px]`
-const DialogTitle = tw.h5`px-8 text-base text-paysure-text-100 text-center`
+const DialogTitle = tw.h5`px-8 text-base text-paysure-text-100`
 const Form = tw.form`px-8 py-4`
 const ModalButton = tw(
   Button,

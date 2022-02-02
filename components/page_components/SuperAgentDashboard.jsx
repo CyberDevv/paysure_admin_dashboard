@@ -1,12 +1,35 @@
 import React from 'react'
 import tw from 'twin.macro'
-import { Button } from '@mui/material'
+import { Button, Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { UserProfileSVG } from '../SVGIcons'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
+import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
+import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection, SendEmail } from '..'
 
 const SuperAgentDashboard = () => {
+  // useState hook
+  const [isSuspendAccoutModalOpened, setIsSuspendAccountModalOpened] =
+    React.useState(false)
+  const [isSendEmailModalOpend, SetIsSendEmailModalOpend] =
+    React.useState(false)
+  const [note, setNote] = React.useState('')
+  const [reason, setReason] = React.useState('')
+
+  // functions
+  const handSetIsSuspendModalOpened = React.useCallback(() =>
+    setIsSuspendAccountModalOpened(true),
+  )
+
+  const handSetIsSendEmailModalOpened = React.useCallback(() =>
+    SetIsSendEmailModalOpend(true),
+  )
+
+  const handleSetNote = React.useCallback(e => {
+    setNote(e.target.value)
+  })
+
   return (
     <Layout goBack>
       <Header>
@@ -24,15 +47,78 @@ const SuperAgentDashboard = () => {
 
         {/* Action Buttons */}
         <ButtonWrapper>
-          <MUIButton>Send Email</MUIButton>
+          <MUIButton onClick={handSetIsSendEmailModalOpened}>
+            Send Email
+          </MUIButton>
           <MUIButton>Send SMS</MUIButton>
           <MUIButton tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)">
             Call
           </MUIButton>
-          <MUIButton tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)">
+          <MUIButton
+            onClick={handSetIsSuspendModalOpened}
+            tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
+          >
             Suspend Account
           </MUIButton>
         </ButtonWrapper>
+
+        {/* Send Email modal */}
+        <SendEmail
+          state={isSendEmailModalOpend}
+          setState={SetIsSendEmailModalOpend}
+        />
+
+        {/* Suspend account modal */}
+        <Modal
+          title="Reasons for Suspension"
+          state={isSuspendAccoutModalOpened}
+          setState={setIsSuspendAccountModalOpened}
+          buttonLabel="Confirm"
+        >
+          <div>
+            <CusLabel>
+              Note
+              <TextArea
+                cols="30"
+                rows="6"
+                value={note}
+                onChange={handleSetNote}
+              />
+            </CusLabel>
+          </div>
+
+          <ModalLabel
+            combo
+            menuItems={menuItems}
+            label="Reason of Suspension"
+            value={reason}
+            setState={setReason}
+          />
+
+          {/* Quick Reasons */}
+          <div>
+            <CusLabel>Quick Reasons</CusLabel>
+
+            <FormGroup>
+              <FormControlLabel
+                control={<Checkbox size="small" />}
+                label={
+                  <CheckLabel>KYC document does not match entries</CheckLabel>
+                }
+              />
+
+              <FormControlLabel
+                control={<Checkbox size="small" />}
+                label={<CheckLabel>Your ID is not clear</CheckLabel>}
+              />
+
+              <FormControlLabel
+                control={<Checkbox size="small" />}
+                label={<CheckLabel>Utility bill is not recent</CheckLabel>}
+              />
+            </FormGroup>
+          </div>
+        </Modal>
       </Header>
 
       {/* Wallet balance */}
@@ -622,6 +708,8 @@ const temporalData = [
   },
 ]
 
+const menuItems = ['All', 'Active', 'Inactive']
+
 // Tailwind styles
 const Header = tw.div`flex flex-col space-y-4 lg:(flex-row items-center justify-between space-y-0)`
 const AvatarWrapper = tw.div`flex items-center space-x-3 lg:space-x-6`
@@ -642,4 +730,8 @@ const WalletWrapper = tw.div`mt-10 py-5 px-4 space-y-2 rounded-xl lg:(py-10 px-8
 const P = tw.p`leading-[19px] text-sm lg:text-base`
 const Amount = tw.h4`text-4xl lg:text-[40px] leading-[48px] tracking-[-0.05em]`
 UserGrid
+const CusLabel = tw.label`text-[13px] text-[#454D54]`
+const TextArea = tw.textarea`text-[13px] border border-[#E3E5E8] text-[#454D54] p-2.5 rounded w-full mt-1.5 focus:(outline-none ring-1 ring-border)`
+const CheckLabel = tw.p`text-[13px] leading-[16px]`
+
 export default SuperAgentDashboard
