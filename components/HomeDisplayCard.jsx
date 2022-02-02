@@ -5,13 +5,13 @@ import { Avatar } from '@mui/material'
 
 const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
   return (
-    <div tw= "mt-10">
+    <div tw="mt-10">
       {title && <Title className="font-500">{title}</Title>}
       <div
         className="scrollHidden"
         css={[tw`overflow-x-scroll lg:(overflow-x-hidden)`]}
       >
-        <MainWrapper tw= "mt-5">
+        <MainWrapper tw="mt-5">
           {data.map(({ amount, title, link }, index) => {
             // children component
             const Children = () => {

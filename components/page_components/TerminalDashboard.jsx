@@ -3,7 +3,7 @@ import tw from 'twin.macro'
 import { Button, Chip } from '@mui/material'
 
 import { UserProfileSVG } from '../SVGIcons'
-import { DataGridViewTemp, HomeDisplayCard, } from '..'
+import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 
 const TerminalDashboard = () => {
