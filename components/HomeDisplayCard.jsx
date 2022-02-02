@@ -11,7 +11,7 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
         className="scrollHidden"
         css={[tw`overflow-x-scroll lg:(overflow-x-hidden)`]}
       >
-        <MainWrapper css={title ? tw`mt-5` : tw`mt-10`}>
+        <MainWrapper tw= "mt-5">
           {data.map(({ amount, title, link }, index) => {
             // children component
             const Children = () => {

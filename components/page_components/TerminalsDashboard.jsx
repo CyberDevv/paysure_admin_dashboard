@@ -1,14 +1,15 @@
 import tw from 'twin.macro'
+import Router from 'next/router'
 import React, { useState } from 'react'
 import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
 import { Add } from '../SVGIcons'
+import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard } from '..'
 
-const OrganizationsDashboard = () => {
+const TerminalsDashboard = () => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -27,6 +28,10 @@ const OrganizationsDashboard = () => {
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
+
+  const handleRowClick = React.useCallback(GridColumns => {
+    Router.push(`/terminals/${GridColumns.id}`)
+  })
 
   return (
     <Layout title="Terminals">
@@ -94,6 +99,7 @@ const OrganizationsDashboard = () => {
       <HomeDisplayCard data={temporalData} />
 
       <DataGridViewTemp
+        onRowClick={handleRowClick}
         limited
         link="/terminals/terminals_list"
         title="Terminals"
@@ -349,4 +355,4 @@ const MUIButton2 = tw(
   Button,
 )`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
 
-export default OrganizationsDashboard
+export default TerminalsDashboard

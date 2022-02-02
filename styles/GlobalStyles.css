@@ -24,6 +24,10 @@
   background-size: cover;
 }
 
+.css-6od3lo-MuiChip-label {
+  padding: 0;
+}
+
 /* Fonts */
 @font-face {
   font-family: 'SF Pro Text Regular';
