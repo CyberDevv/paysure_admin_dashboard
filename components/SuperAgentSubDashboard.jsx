@@ -1,5 +1,6 @@
 import React from 'react'
 import tw from 'twin.macro'
+import Router from 'next/router'
 import { Button } from '@mui/material'
 
 import { Add } from './SVGIcons'
@@ -25,6 +26,10 @@ const SuperAgentsSubDashboard = () => {
     setIsAddmodalOpened(true),
   )
 
+  const handleRowClick = React.useCallback(GridColumns => {
+    Router.push(`/agents/super_agent/${GridColumns.id}`)
+  })
+  
   return (
     <>
       <div css={[tw`flex justify-between items-center`]}>
@@ -119,6 +124,7 @@ const SuperAgentsSubDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        onRowClick={handleRowClick}
       />
     </>
   )
