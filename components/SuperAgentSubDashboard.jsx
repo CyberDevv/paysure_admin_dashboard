@@ -29,7 +29,7 @@ const SuperAgentsSubDashboard = () => {
   const handleRowClick = React.useCallback(GridColumns => {
     Router.push(`/agents/super_agent/${GridColumns.id}`)
   })
-  
+
   return (
     <>
       <div css={[tw`flex justify-between items-center`]}>
