@@ -2,7 +2,7 @@ import tw from 'twin.macro'
 import React from 'react'
 import { Button, Dialog, Divider } from '@mui/material'
 
-import { Close } from '../../SVGIcons'
+import { Close } from '../SVGIcons'
 
 const Index_modal_layout = ({
   title,
@@ -20,6 +20,9 @@ const Index_modal_layout = ({
     <Dialog
       onClose={handleClose}
       open={state}
+      tw=""
+      maxWidth="md"
+      fullWidth
       sx={{ '& .MuiDialog-paper': { borderRadius: '20px' } }}
     >
       <InnerDialog>
@@ -35,21 +38,11 @@ const Index_modal_layout = ({
         <Form>
           <div
             css={[
-              tw`space-y-4  overflow-y-scroll max-h-[600px] scrollbar-track-color[#12a116]`,
+              tw`space-y-4 overflow-y-scroll max-h-[600px] scrollbar-track-color[#12a116]`,
             ]}
           >
             {children}
           </div>
-
-          <Divider
-            sx={{
-              borderColor: '#E4ECF7',
-              marginTop: '40px',
-              marginBottom: '24px',
-            }}
-          />
-
-          <ModalButton className="font-500">{buttonLabel}</ModalButton>
         </Form>
       </InnerDialog>
     </Dialog>
@@ -57,8 +50,8 @@ const Index_modal_layout = ({
 }
 
 // Tailwind styles
-const InnerDialog = tw.div`py-5 overflow-hidden w-[400px]`
-const DialogTitle = tw.h5`px-8 text-base text-paysure-text-100 text-center`
+const InnerDialog = tw.div`py-5 overflow-hidden w-full`
+const DialogTitle = tw.h5`px-8 text-base text-paysure-text-100`
 const Form = tw.form`px-8 py-4`
 const ModalButton = tw(
   Button,

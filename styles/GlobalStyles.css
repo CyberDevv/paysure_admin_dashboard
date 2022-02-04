@@ -28,6 +28,34 @@
   padding: 0;
 }
 
+/* Editor */
+.ql-editor {
+  padding: 24px !important;
+  font-size: 16px;
+}
+
+.ql-container {
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-color: #ebf2fa !important;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.ql-container:hover {
+  border-color: #c6c7c9 !important;
+}
+
+.ql-toolbar {
+  border: transparent !important;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
 /* Fonts */
 @font-face {
   font-family: 'SF Pro Text Regular';
