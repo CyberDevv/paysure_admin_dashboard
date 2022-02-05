@@ -743,7 +743,7 @@ export const DeleteSVG = () => {
       sx={{
         width: '16px',
         height: '16px',
-        fill: 'none'
+        fill: 'none',
       }}
     >
       <path
@@ -804,6 +804,3 @@ export const ImageSVG = () => {
     </SvgIcon>
   )
 }
-
-
-
