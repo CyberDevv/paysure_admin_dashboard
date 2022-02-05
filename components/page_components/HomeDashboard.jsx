@@ -205,41 +205,41 @@ const columns = [
 const temporalData = [
   {
     amount: '240',
-    title: 'Total Providers',
+    title: 'Total Number of Providers',
     link: '/providers',
   },
   {
     amount: '120',
-    title: 'Total Services',
+    title: 'Total Services Provided',
   },
   {
     amount: '30',
-    title: 'Total Super Agent',
+    title: 'Total Number of Super Agent',
     link: '/agents',
   },
   {
     amount: '72',
-    title: 'Total Agents',
+    title: 'Total Number of Agents',
     link: '/agents_list',
   },
   {
     amount: '534',
-    title: 'Total Users',
+    title: 'Total Number of Users',
     link: '/users',
   },
   {
     amount: '10',
-    title: 'Total Organizations',
+    title: 'Total Number of Organizations',
     link: '/organizations',
   },
   {
     amount: '10',
-    title: 'Total Admins',
+    title: 'Total Number of Admins',
     link: '/sub_accounts',
   },
   {
     amount: '32429',
-    title: 'Total Paysure Users',
+    title: 'Total Number of Paysure Users',
   },
 ]
 
@@ -247,19 +247,19 @@ const temporalData = [
 const agencyOveriewData = [
   {
     amount: 55102430,
-    label: 'Total Transaction',
+    label: 'Total Transactions',
   },
   {
     amount: 1350,
-    label: 'Completed Transaction',
+    label: 'Completed Transactions',
   },
   {
     amount: 10,
-    label: 'Total Failed',
+    label: 'Total Failed Transactions',
   },
   {
     amount: 20,
-    label: 'Total Failed',
+    label: 'Total Pending Transactions',
   },
 ]
 
