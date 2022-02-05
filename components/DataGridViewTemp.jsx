@@ -12,7 +12,6 @@ const DataGridViewTemp = ({
   link,
   limited,
   dropdownData = [],
-  onRowClick,
 }) => {
   return (
     <div css={[limited && tw`mt-10`]}>
@@ -32,7 +31,6 @@ const DataGridViewTemp = ({
         columns={columns}
         dropdownData={dropdownData}
         limited={limited}
-        onRowClick={onRowClick}
       >
         {children}
       </DataGridView>

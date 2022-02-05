@@ -26,10 +26,6 @@ const SuperAgentsSubDashboard = () => {
     setIsAddmodalOpened(true),
   )
 
-  const handleRowClick = React.useCallback(GridColumns => {
-    Router.push(`/agents/super_agent/${GridColumns.id}`)
-  })
-  
   return (
     <>
       <div css={[tw`flex justify-between items-center`]}>
@@ -124,7 +120,6 @@ const SuperAgentsSubDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-        onRowClick={handleRowClick}
       />
     </>
   )

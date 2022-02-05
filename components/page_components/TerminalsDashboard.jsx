@@ -29,10 +29,6 @@ const TerminalsDashboard = () => {
     setIsAddmodalOpened(true),
   )
 
-  const handleRowClick = React.useCallback(GridColumns => {
-    Router.push(`/terminals/${GridColumns.id}`)
-  })
-
   return (
     <Layout title="Terminals">
       <div>
@@ -99,7 +95,6 @@ const TerminalsDashboard = () => {
       <HomeDisplayCard data={temporalData} />
 
       <DataGridViewTemp
-        onRowClick={handleRowClick}
         limited
         link="/terminals/terminals_list"
         title="Terminals"

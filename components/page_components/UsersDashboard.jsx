@@ -27,10 +27,6 @@ const UserssDashboard = () => {
     setIsAddmodalOpened(true),
   )
 
-  const handleRowClick = React.useCallback(GridColumns => {
-    Router.push(`/users/${GridColumns.id}`)
-  })
-
   return (
     <Layout title="Users">
       <div css={[tw`flex justify-between items-center`]}>
@@ -120,7 +116,6 @@ const UserssDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-        onRowClick={handleRowClick}
       >
         <DatRangePickerAndOthers />
       </DataGridViewTemp>

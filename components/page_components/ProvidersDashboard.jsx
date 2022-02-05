@@ -1,8 +1,9 @@
 import tw from 'twin.macro'
 import React from 'react'
+import Router from 'next/router'
 import { Button } from '@mui/material'
 
-import { Add } from '../SVGIcons'
+import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
@@ -27,10 +28,10 @@ const ProvidersDashboard = () => {
         </Ttile>
 
         <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
-          Add Terminal
+          Add Provider
         </MUIButton>
 
-        {/* Add terminal modal */}
+        {/* Add Provider modal */}
         <Modal
           title="Add new Provider"
           state={isaddModalOpened}
@@ -206,13 +207,6 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
@@ -226,7 +220,57 @@ const columns = [
     headerName: 'Action',
     minWidth: 100,
     flex: 1,
+    sortable: false,
     headerClassName: 'grid-header',
+
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <ViewActionSVG />
+          </button>
+        </div>
+      )
+    },
+
+    // renderCell: params => {
+    //   return (
+    //     <Button>
+    //       <viewActionSVG />
+    //       {params.row.col10}
+    //     </Button>
+    //   )
+    // },
+
+    // renderCell: params => {
+    //   return (
+    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+    //       {params.row.col8}
+    //     </span>
+    //   )
+    // },
   },
 ]
 
