@@ -18,10 +18,7 @@ const OverviewCardSection = ({ title, data, btnLabel }) => {
         )}
       </div>
 
-      <div
-        className="scrollHidden"
-        css={[tw`overflow-x-scroll lg:(overflow-x-hidden)`]}
-      >
+      <div>
         <Div>
           {data.map(({ amount, label }, index) => {
             return <OverViewCard key={index} amount={amount} label={label} />
@@ -41,6 +38,6 @@ OverviewCardSection.prototype = {
 // Tailwind Styles
 const Wrapper = tw.div`mt-10`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
-const Div = tw.div`grid grid-cols-4 gap-2.5 mt-5 min-w-[900px] rounded-lg overflow-hidden lg:(gap-5)`
+const Div = tw.div`grid grid-cols-2 gap-3 mt-5 rounded-lg lg:(gap-5 grid-cols-4)`
 
 export default OverviewCardSection

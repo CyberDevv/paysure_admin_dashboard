@@ -5,13 +5,10 @@ import { Avatar } from '@mui/material'
 
 const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
   return (
-    <div tw= "mt-10">
+    <div tw="mt-10">
       {title && <Title className="font-500">{title}</Title>}
-      <div
-        className="scrollHidden"
-        css={[tw`overflow-x-scroll lg:(overflow-x-hidden)`]}
-      >
-        <MainWrapper tw= "mt-5">
+      <div>
+        <MainWrapper tw="mt-5">
           {data.map(({ amount, title, link }, index) => {
             // children component
             const Children = () => {
@@ -71,7 +68,7 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
 }
 
 // Tailwind style
-const MainWrapper = tw.div`grid grid-cols-4 gap-2.5 min-w-[900px] overflow-hidden lg:(gap-5)`
+const MainWrapper = tw.div`grid grid-cols-2 lg:grid-cols-4 gap-3 lg:(gap-5)`
 const Wrapper = tw.div`bg-blue-light min-w-[165px] border border-border rounded-lg transition-colors lg:(min-w-[265px])`
 const AvatarWrapper = tw.div`flex justify-end`
 const H1 = tw.h1`text-3xl lg:text-[40px] text-[#191716]`
