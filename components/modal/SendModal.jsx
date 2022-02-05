@@ -5,15 +5,15 @@ import { InputAdornment, TextField } from '@mui/material'
 
 import { TaggedTextfield } from '..'
 import TextEditor from '../TextEditor'
-import Modal from '../modal/ModalLayout'
+import Modal from './ModalLayout'
 
-const SendEmal = ({ state, setState }) => {
+const SendModal = ({ state, setState, title }) => {
   const [message, setMessage] = React.useState('')
-  const [selectedItem, setSelectedItem] = React.useState(['kdkkdkd'])
+  const [selectedItem, setSelectedItem] = React.useState([])
 
   return (
     <Modal
-      title="Send Email"
+      title={title}
       state={state}
       setState={setState}
       buttonLabel="Confirm"
@@ -64,4 +64,4 @@ const SendEmal = ({ state, setState }) => {
 // Tailwind Styles
 const Span = tw.span`text-[13px] text-[#10101266]`
 
-export default SendEmal
+export default SendModal

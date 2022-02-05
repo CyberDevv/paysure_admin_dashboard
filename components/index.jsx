@@ -1,5 +1,5 @@
 export { default as TabPanel } from './TabPanel'
-export { default as SendEmail } from './modal/SendEmal'
+export { default as SendModal } from './modal/SendModal'
 export { default as DataGridView } from './DataGridView'
 export { default as BandsSettings } from './BandsSettings'
 export { default as OverViewCard } from './OverviewCardTemp'

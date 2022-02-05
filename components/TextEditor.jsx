@@ -1,64 +1,16 @@
-// /*
-//  * Custom toolbar component including the custom heart button and dropdowns
-//  */
-
-// // Add sizes to whitelist and register them
-// // Quill.apply
-
-// // const Size = Quill.('formats/size')
-// // Size.whitelist = ['extra-small', 'small', 'medium', 'large']
-// // Quill.register(Size, true)
-
-// // // Add fonts to whitelist and register them
-// // const Font = Quill.import('formats/font')
-// // Font.whitelist = [
-// //   'arial',
-// //   'comic-sans',
-// //   'courier-new',
-// //   'georgia',
-// //   'helvetica',
-// //   'lucida',
-// // ]
-// // Quill.register(Font, true)
-
-// // const modules = {
-// //   toolbar: [
-// //     {
-// //       container: '#toolbar',
-// //       // handlers: {
-// //       //   insertHeart: insertHeart,
-// //       // },
-// //     }[{ header: [1, 2, 3, 4, 5, 6, false] }],
-// //     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-// //     [
-// //       { list: 'ordered' },
-// //       { list: 'bullet' },
-// //       { indent: '-1' },
-// //       { indent: '+1' },
-// //     ],
-// //     ['link', 'image'],
-// //     ['clean'],
-// //   ],
-// // }
-
 import tw from 'twin.macro'
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { Button } from '@mui/material'
 import 'react-quill/dist/quill.snow.css'
 
+import { ImageSVG } from './SVGIcons'
+
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
-const Quill = dynamic(
-  () => import('react-quill').then(module => module.Quill),
-  { ssr: false },
-)
 
 const modules = {
   toolbar: {
     container: '#toolbar',
-    // handlers: {
-    //   insertHeart: insertHeart,
-    // },
   },
 }
 
@@ -90,15 +42,23 @@ const TextEditor = () => {
         modules={modules}
         formats={formats}
         placeholder="Write your message here..."
-        // theme=''
+        theme="snow"
       />
 
       <FlexPannel>
         {/* CustomToolbar */}
         <Toolbar id="toolbar">
+          <button className="ql-bold" />
+          <button className="ql-underline" />
+          <button className="ql-italic" />
+          <button class="ql-align" value=""></button>
+          <button class="ql-align" value="justify"></button>
+          <button class="ql-align" value="right"></button>
+          <button class="ql-image" />
+
           <select className="ql-font">
             <option value="arial" selected>
-              Arial
+              Default Font
             </option>
             <option value="comic-sans">Comic Sans</option>
             <option value="courier-new">Courier New</option>
@@ -106,6 +66,7 @@ const TextEditor = () => {
             <option value="helvetica">Helvetica</option>
             <option value="lucida">Lucida</option>
           </select>
+
           <select className="ql-size">
             <option value="extra-small">Size 1</option>
             <option value="small">Size 2</option>
@@ -114,10 +75,6 @@ const TextEditor = () => {
             </option>
             <option value="large">Size 4</option>
           </select>
-          <select className="ql-align" />
-          <select className="ql-color" />
-          <select className="ql-background" />
-          <button className="ql-clean" />
         </Toolbar>
 
         <MUIButton>Send</MUIButton>
@@ -128,9 +85,9 @@ const TextEditor = () => {
 
 // Tailwind styles
 const FlexPannel = tw.div`mt-5 space-y-2 lg:(flex items-center space-y-0 space-x-4)`
-const Toolbar = tw.div`bg-blue-light`
+const Toolbar = tw.div`bg-blue-light w-full py-4 flex  justify-between`
 const MUIButton = tw(
   Button,
-)`text-white bg-paysure-100 text-sm py-2.5 normal-case px-11 lg:(py-4)`
+)`text-white bg-paysure-100 text-sm py-2.5 normal-case px-11 lg:(py-4) hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 
 export default TextEditor

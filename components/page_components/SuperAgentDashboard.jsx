@@ -6,7 +6,12 @@ import { UserProfileSVG } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection, SendEmail } from '..'
+import {
+  DataGridViewTemp,
+  HomeDisplayCard,
+  OverviewCardSection,
+  SendModal,
+} from '..'
 
 const SuperAgentDashboard = () => {
   // useState hook
@@ -14,6 +19,7 @@ const SuperAgentDashboard = () => {
     React.useState(false)
   const [isSendEmailModalOpend, SetIsSendEmailModalOpend] =
     React.useState(false)
+  const [isSendSMSModalOpend, SetIsSendSMSModalOpend] = React.useState(false)
   const [note, setNote] = React.useState('')
   const [reason, setReason] = React.useState('')
 
@@ -24,6 +30,10 @@ const SuperAgentDashboard = () => {
 
   const handSetIsSendEmailModalOpened = React.useCallback(() =>
     SetIsSendEmailModalOpend(true),
+  )
+
+  const handSetIsSendSMSModalOpened = React.useCallback(() =>
+    SetIsSendSMSModalOpend(true),
   )
 
   const handleSetNote = React.useCallback(e => {
@@ -50,7 +60,7 @@ const SuperAgentDashboard = () => {
           <MUIButton onClick={handSetIsSendEmailModalOpened}>
             Send Email
           </MUIButton>
-          <MUIButton>Send SMS</MUIButton>
+          <MUIButton onClick={handSetIsSendSMSModalOpened}>Send SMS</MUIButton>
           <MUIButton tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)">
             Call
           </MUIButton>
@@ -63,9 +73,17 @@ const SuperAgentDashboard = () => {
         </ButtonWrapper>
 
         {/* Send Email modal */}
-        <SendEmail
+        <SendModal
+          title="Send Email"
           state={isSendEmailModalOpend}
           setState={SetIsSendEmailModalOpend}
+        />
+
+        {/* Send SMS modal */}
+        <SendModal
+          title="Send SMS"
+          state={isSendSMSModalOpend}
+          setState={SetIsSendSMSModalOpend}
         />
 
         {/* Suspend account modal */}
