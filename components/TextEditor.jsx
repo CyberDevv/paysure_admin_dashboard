@@ -1,10 +1,10 @@
 import tw from 'twin.macro'
 import React from 'react'
 import dynamic from 'next/dynamic'
-import { Button } from '@mui/material'
 import 'react-quill/dist/quill.snow.css'
+import { Button } from '@mui/material'
 
-import { ImageSVG } from './SVGIcons'
+import { ImageSVG, ClearSVG } from './SVGIcons'
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
@@ -33,6 +33,11 @@ const formats = [
 
 const TextEditor = () => {
   const [message, setMessage] = React.useState('')
+  const [wow, setwow] = React.useState('')
+
+  const handleChange = event => {
+    setwow(event.target.value)
+  }
 
   return (
     <div>
@@ -51,30 +56,25 @@ const TextEditor = () => {
           <button className="ql-bold" />
           <button className="ql-underline" />
           <button className="ql-italic" />
-          <button class="ql-align" value=""></button>
-          <button class="ql-align" value="justify"></button>
-          <button class="ql-align" value="right"></button>
+          <button class="ql-align" value="" />
+          <button class="ql-align" value="justify" />
+          <button class="ql-align" value="right" />
           <button class="ql-image" />
+          <select class="ql-font"></select>
+          <select class="ql-size"></select>
+          <button class="ql-clean">
+            <ClearSVG />
+          </button>
 
-          <select className="ql-font">
-            <option value="arial" selected>
-              Default Font
-            </option>
-            <option value="comic-sans">Comic Sans</option>
-            <option value="courier-new">Courier New</option>
-            <option value="georgia">Georgia</option>
-            <option value="helvetica">Helvetica</option>
-            <option value="lucida">Lucida</option>
-          </select>
-
-          <select className="ql-size">
-            <option value="extra-small">Size 1</option>
-            <option value="small">Size 2</option>
-            <option value="medium" selected>
-              Size 3
-            </option>
-            <option value="large">Size 4</option>
-          </select>
+          {/* <div className="select">
+            <select className="ql-size">
+              <option value="extra-small">Size 1</option>
+              <option value="small">Size 2</option>
+          <option value="medium">Size 3</option>
+              <option value="large">Size 4</option>
+              <option value="extra-large">Size 4</option>
+            </select>
+          </div> */}
         </Toolbar>
 
         <MUIButton>Send</MUIButton>

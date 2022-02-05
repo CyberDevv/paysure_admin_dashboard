@@ -1,5 +1,5 @@
 * {
-  font-family: 'SF Pro Text Regular', sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
 }
 
 .font-500 {
@@ -76,4 +76,13 @@
   font-style: normal;
   font-weight: normal;
   src: url('../public/fonts/FontsFree-Net-SFProText-Bold-1.ttf');
+}
+
+.ql-snow .ql-picker-options {
+  position: fixed !important;
+  min-width: auto !important;
+}
+
+.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+  top: auto !important;
 }
