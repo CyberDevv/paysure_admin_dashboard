@@ -28,8 +28,6 @@ const TextEditor = () => {
   const clean = React.useRef(null)
 
   React.useEffect(() => {
-
-    
     clean.current = ReactDOMServer.renderToString(<ClearSVG />)
   }, [clean])
 
