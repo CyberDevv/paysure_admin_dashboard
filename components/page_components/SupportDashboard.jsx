@@ -175,8 +175,8 @@ const supportList = [
 
 // Tailwind Styles
 const MainWraper = tw.div`flex min-h-[calc(100vh - 100px )] space-x-4 lg:min-h-[calc(100vh - 136px )]`
-const SupportList = tw.div`w-full lg:(min-w-[400px] w-[400px] overflow-y-scroll max-h-[calc(100vh - 136px )])`
-const ChatWrapper = tw.div`hidden relative lg:(block w-full border-l border-border max-h-[calc(100vh - 136px )] overflow-y-scroll)`
+const SupportList = tw.div`w-full lg:(min-w-[400px] w-[400px] overflow-y-auto max-h-[calc(100vh - 136px )])`
+const ChatWrapper = tw.div`hidden relative lg:(block w-full border-l border-border max-h-[calc(100vh - 136px )] overflow-y-auto)`
 const HeaderText = tw.h1`text-2xl lg:text-[32px] mb-5`
 const Span = tw.span`text-[13px] text-[#10101266]`
 const List = tw.div`mt-6`

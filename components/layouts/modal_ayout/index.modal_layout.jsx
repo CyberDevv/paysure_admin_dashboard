@@ -35,7 +35,7 @@ const Index_modal_layout = ({
         <Form>
           <div
             css={[
-              tw`space-y-4  overflow-y-scroll max-h-[600px] scrollbar-track-color[#12a116]`,
+              tw`space-y-4 overflow-y-auto max-h-[60vh] scrollbar-track-color[#12a116]`,
             ]}
           >
             {children}

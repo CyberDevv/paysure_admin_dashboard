@@ -26,7 +26,7 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
 
   // NavBar styles
   const Nav = styled.nav`
-    ${tw`w-[245px] min-w-[245px] h-full bg-gray-light pl-8 py-7 fixed overflow-y-scroll z-20 transition-transform transform lg:(transform-none)`}
+    ${tw`w-[245px] min-w-[245px] h-full bg-gray-light pl-8 py-7 fixed overflow-y-auto z-20 transition-transform transform lg:(transform-none)`}
     ${isSideBarOpen ? tw`translate-x-0` : tw` -translate-x-full`}
   `
 

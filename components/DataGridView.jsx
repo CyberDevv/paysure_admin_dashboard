@@ -107,7 +107,7 @@ const DataGridView = ({
             autoHeight
             disableColumnMenu
             hideFooter
-            tw="cursor-pointer"
+            disableSelectionOnClick
             rowHeight={70}
             sx={{
               border: 'none',
@@ -124,7 +124,10 @@ const DataGridView = ({
               },
               '& .MuiDataGrid-cell': {
                 paddingX: '20px',
-                // marginY: '58px',
+
+                '&:focus': {
+                  outline: 'none',
+                },
               },
             }}
           />
