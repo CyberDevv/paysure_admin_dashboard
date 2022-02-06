@@ -100,11 +100,13 @@ const TaggedTextfield = ({ ...props }) => {
                   padding: 0,
                   width: '100%',
                   fontSize: '13px',
+                  position: 'relative',
                   minWidth: '256px',
                   '& .MuiOutlinedInput-root': {
                     '& fieldset': {
                       borderColor: '#EBF2FA',
                       borderRadius: '8px',
+                      // position: 'relative',
                     },
                     '&:hover fieldset': {
                       borderColor: '#c6c7c9',
@@ -116,17 +118,19 @@ const TaggedTextfield = ({ ...props }) => {
                     <InputAdornment position="start">
                       <Span tw="mr-1">Send to:</Span>
 
-                      {selectedItem.map(item => (
-                        <Chip
-                          key={item}
-                          tabIndex={-1}
-                          label={item}
-                          className={classes.chip}
-                          deleteIcon={<DeleteSVG />}
-                          onDelete={handleDelete(item)}
-                          tw="p-1 rounded bg-paysure-10 space-x-1 text-paysure-text-100"
-                        />
-                      ))}
+                      <div tw="overflow-x-auto sm:max-w-xs" className="scrollHidden">
+                        {selectedItem.map(item => (
+                          <Chip
+                            key={item}
+                            tabIndex={-1}
+                            label={item}
+                            className={classes.chip}
+                            // deleteIcon={<DeleteSVG />}
+                            onDelete={handleDelete(item)}
+                            tw="p-1 rounded bg-paysure-10 space-x-1 text-paysure-text-100"
+                          />
+                        ))}
+                      </div>
                     </InputAdornment>
                   ),
                   onBlur,

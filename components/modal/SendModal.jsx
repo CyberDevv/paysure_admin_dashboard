@@ -3,9 +3,9 @@ import tw from 'twin.macro'
 import 'react-quill/dist/quill.snow.css'
 import { InputAdornment, TextField } from '@mui/material'
 
+import Modal from './ModalLayout'
 import { TaggedTextfield } from '..'
 import TextEditor from '../TextEditor'
-import Modal from './ModalLayout'
 
 const SendModal = ({ state, setState, title }) => {
   const [message, setMessage] = React.useState('')
@@ -30,7 +30,6 @@ const SendModal = ({ state, setState, title }) => {
 
       {/* Subject */}
       <TextField
-        // size="small"
         sx={{
           width: '100%',
           fontSize: '13px',

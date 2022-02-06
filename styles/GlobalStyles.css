@@ -28,6 +28,10 @@
   padding: 0;
 }
 
+.scrollHidden::-webkit-scrollbar {
+  display: none;
+}
+
 /* Editor */
 .ql-editor {
   padding: 24px !important;

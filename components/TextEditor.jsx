@@ -1,8 +1,9 @@
 import tw from 'twin.macro'
 import React from 'react'
 import dynamic from 'next/dynamic'
-import 'react-quill/dist/quill.snow.css'
 import { Button } from '@mui/material'
+import 'react-quill/dist/quill.snow.css'
+import ReactDOMServer from 'react-dom/server'
 
 import { ImageSVG, ClearSVG } from './SVGIcons'
 
@@ -14,23 +15,6 @@ const modules = {
   },
 }
 
-const formats = [
-  'header',
-  'font',
-  'size',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-  'color',
-]
-
 const TextEditor = () => {
   const [message, setMessage] = React.useState('')
   const [wow, setwow] = React.useState('')
@@ -39,13 +23,22 @@ const TextEditor = () => {
     setwow(event.target.value)
   }
 
+  React.useRef()
+
+  const clean = React.useRef(null)
+
+  React.useEffect(() => {
+
+    
+    clean.current = ReactDOMServer.renderToString(<ClearSVG />)
+  }, [clean])
+
   return (
     <div>
       <ReactQuill
         value={message}
         onChange={value => setMessage(value)}
         modules={modules}
-        formats={formats}
         placeholder="Write your message here..."
         theme="snow"
       />
@@ -62,8 +55,9 @@ const TextEditor = () => {
           <button class="ql-image" />
           <select class="ql-font"></select>
           <select class="ql-size"></select>
-          <button class="ql-clean">
-            <ClearSVG />
+          <button class="ql-clean" ref={clean}>
+            {/* <ClearSVG /> */}
+            {/* {ReactDOMServer.(<ClearSVG />)} */}
           </button>
 
           {/* <div className="select">
