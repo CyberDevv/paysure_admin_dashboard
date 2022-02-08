@@ -8,10 +8,13 @@ const DataGridViewTemp = ({
   title,
   rows,
   columns,
-  children,
   link,
   limited,
-  dropdownData = [],
+  dropdownData,
+  hasSearch,
+  hasFilter,
+  hasSort,
+  hasExportBtn,
 }) => {
   return (
     <div css={[limited && tw`mt-10`]}>
@@ -31,9 +34,11 @@ const DataGridViewTemp = ({
         columns={columns}
         dropdownData={dropdownData}
         limited={limited}
-      >
-        {children}
-      </DataGridView>
+        hasSearch={hasSearch}
+        hasFilter={hasFilter}
+        hasSort={hasSort}
+        hasExportBtn={hasExportBtn}
+      />
     </div>
   )
 }

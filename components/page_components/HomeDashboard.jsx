@@ -31,9 +31,11 @@ const HomeDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-      >
-        <DatRangePickerAndOthers />
-      </DataGridViewTemp>
+        hasSearch
+        hasFilter
+        hasSort
+        hasExportBtn
+      />
     </Layout>
   )
 }

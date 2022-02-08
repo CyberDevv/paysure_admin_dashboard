@@ -1,104 +1,46 @@
 import tw from 'twin.macro'
-import React, { useState } from 'react'
+import React from 'react'
+import { Button } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
-import { Search } from './SVGIcons'
+import { FilterBox, SearchBar, DatRangePickerAndOthers } from '.'
 
 const DataGridView = ({
   rows,
   columns,
-  children,
-  dropdownData = [],
+  dropdownData,
   limited,
+  hasSearch,
+  hasFilter,
+  hasSort,
+  hasExportBtn,
 }) => {
-  // UseState hook
-  const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
-
-  // functions
-  const handleDropdownSelected = React.useCallback(event => {
-    setSelectedDrop(event.target.value)
-  })
-
   return (
     <Wrapper>
       {/* Functionalitiies */}
       <FuncWrappper>
-        <div css={[tw`flex items-center space-x-2.5`]}>
+        <div
+          css={[
+            tw`space-y-2.5 sm:(flex items-center flex-row space-x-2.5  space-y-0)`,
+          ]}
+        >
           {/* Search */}
-          <TextField
-            id="outlined-start-adornment"
-            size="small"
-            sx={{
-              fontSize: '13px',
-              minWidth: '256px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#EBF2FA',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#c6c7c9',
-                },
-              },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Span>Search</Span>
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button sx={{ minWidth: 0 }}>
-                    <Search />
-                  </Button>
-                </InputAdornment>
-              ),
-            }}
-          />
+          {hasSearch && <SearchBar />}
 
-          {/* Checkbox */}
-          <TextField
-            select
-            value={selectedDrop}
-            onChange={handleDropdownSelected}
-            size="small"
-            sx={{
-              fontSize: '13px',
-              minWidth: '157px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#EBF2FA',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#c6c7c9',
-                },
-              },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Span>Showing:</Span>
-                </InputAdornment>
-              ),
-            }}
-          >
-            {dropdownData.map(option => (
-              <MenuItem
-                sx={{ fontSize: '13px' }}
-                key={option.value}
-                value={option.value}
-              >
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          {/* Filter */}
+          {hasFilter && <FilterBox dropdownData={dropdownData} />}
         </div>
 
-        {children}
+        <div css={[tw`flex items-center justify-between w-full space-x-2.5`]}>
+          {/* Date range picker */}
+          {hasSort && <DatRangePickerAndOthers />}
+
+          {/* Export btn */}
+          {hasExportBtn && <MUIButton>Export data</MUIButton>}
+        </div>
       </FuncWrappper>
 
-      {/* Grid/ */}
+      {/* DataGrid/ */}
       <div style={{ display: 'flex' }}>
         <div style={{ flexGrow: 1, width: '100%' }}>
           <DataGrid
@@ -140,6 +82,8 @@ const DataGridView = ({
 // Tailwind styles
 const Wrapper = tw.div`my-4 space-y-6`
 const FuncWrappper = tw.div`space-y-2.5 lg:(flex items-center justify-between space-x-2.5 space-y-0)`
-const Span = tw.span`text-[13px] text-[#10101266]`
+const MUIButton = tw(
+  Button,
+)`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
 
 export default DataGridView

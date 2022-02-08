@@ -1,10 +1,10 @@
 import tw from 'twin.macro'
 import React, { useState } from 'react'
 import DateAdapter from '@mui/lab/AdapterMoment'
+import { Box, InputAdornment, TextField } from '@mui/material'
 import { DateRangePicker, LocalizationProvider } from '@mui/lab'
-import { Box, Button, InputAdornment, TextField } from '@mui/material'
 
-import { Calendar } from './SVGIcons'
+import { Calendar } from '../SVGIcons'
 
 const DatRangePickerAndOthers = () => {
   // UseState hook
@@ -79,34 +79,26 @@ const DatRangePickerAndOthers = () => {
   })
 
   return (
-    <div css={[tw`flex items-center justify-between w-full`]}>
-      {/* Date picker */}
-      <div
-        css={[
-          tw`w-[300px] border border-[#EBF2FA] hover:(border-[#c6c7c9]) lg:min-w-[289px] px-4 py-1.5 rounded`,
-        ]}
-      >
-        <LocalizationProvider dateAdapter={DateAdapter}>
-          <DateRangePicker
-            startText=""
-            inputFormat="DD MMMM"
-            endText=""
-            value={value}
-            onChange={handleSetValue}
-            renderInput={handleRenderInput}
-          />
-        </LocalizationProvider>
-      </div>
-
-      <MUIButton>Export data</MUIButton>
+    <div
+      css={[
+        tw`w-[300px] border border-[#EBF2FA] hover:(border-[#c6c7c9]) lg:min-w-[289px] px-4 py-1.5 rounded`,
+      ]}
+    >
+      <LocalizationProvider dateAdapter={DateAdapter}>
+        <DateRangePicker
+          startText=""
+          inputFormat="DD MMMM"
+          endText=""
+          value={value}
+          onChange={handleSetValue}
+          renderInput={handleRenderInput}
+        />
+      </LocalizationProvider>
     </div>
   )
 }
 
 // Tailwind Styles
-const MUIButton = tw(
-  Button,
-)`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
 const Span = tw.span`text-[13px] text-[#10101266]`
 
 export default DatRangePickerAndOthers
