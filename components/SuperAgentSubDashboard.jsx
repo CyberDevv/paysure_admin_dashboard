@@ -316,7 +316,7 @@ const temporalData = [
 const menuItems = ['All', 'Active', 'Inactive']
 
 // Tailwind Styles
-const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
+const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`
 const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
