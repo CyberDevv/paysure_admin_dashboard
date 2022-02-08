@@ -199,6 +199,6 @@ const temporalData = [
 ]
 
 // Tailwind Styles
-const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
+const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`
 
 export default SuperAgentSignupsDashboard
