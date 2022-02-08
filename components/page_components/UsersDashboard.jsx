@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import tw from 'twin.macro'
 import { Button } from '@mui/material'
@@ -14,10 +15,10 @@ const UserssDashboard = () => {
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
-  const [LastName, setLastName] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [phone, setPhone] = React.useState('')
-  const [address, setAddress] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
+  const [emailAddress, setEmailAdress] = React.useState('')
+  const [phonePri, setPhonePri] = React.useState('')
+  const [address1, setAddress1] = React.useState('')
   const [DOB, setDOB] = React.useState('')
   const [state, setState] = React.useState('')
   const [city, setCity] = React.useState('')
@@ -26,6 +27,19 @@ const UserssDashboard = () => {
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
+
+  const handleSaveUser = React.useCallback(() => {
+    const res = axios.post('/api/users/add_user', {
+      firstName,
+      lastName,
+      emailAddress,
+      phonePri,
+      address1,
+      DOB,
+      state,
+      city, 
+    })
+  })
 
   return (
     <Layout title="Users">
@@ -42,6 +56,7 @@ const UserssDashboard = () => {
           title="Add New User"
           state={isaddModalOpened}
           buttonLabel="Next"
+          onClick={handleSaveUser}
         >
           <FlexBox>
             <Label
@@ -55,24 +70,24 @@ const UserssDashboard = () => {
               label="Last Name"
               type="text"
               placeholder="Smith"
-              value={LastName}
+              value={lastName}
               setState={setLastName}
             />
           </FlexBox>
           <Label
             label="Email"
-            type="email"
+            type="emailAddress"
             placeholder="yourname@example.com"
-            value={email}
-            setState={setEmail}
+            value={emailAddress}
+            setState={setEmailAdress}
           />
           <FlexBox>
             <Label
               label="Phone Number"
               type="tel"
               placeholder="08012345678"
-              value={phone}
-              setState={setPhone}
+              value={phonePri}
+              setState={setPhonePri}
             />
             <Label
               value={DOB}
@@ -85,8 +100,8 @@ const UserssDashboard = () => {
             label="Address"
             type="text"
             placeholder="Address"
-            value={address}
-            setState={setAddress}
+            value={address1}
+            setState={setAddress1}
           />
           <FlexBox>
             <Label

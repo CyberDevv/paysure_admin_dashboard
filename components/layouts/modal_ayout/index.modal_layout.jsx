@@ -10,6 +10,7 @@ const Index_modal_layout = ({
   state,
   setState,
   children,
+  onClick,
 }) => {
   // function
   const handleClose = React.useCallback(() => {
@@ -49,7 +50,9 @@ const Index_modal_layout = ({
             }}
           />
 
-          <ModalButton className="font-500">{buttonLabel}</ModalButton>
+          <ModalButton onClick={onClick} className="font-500">
+            {buttonLabel}
+          </ModalButton>
         </Form>
       </InnerDialog>
     </Dialog>
