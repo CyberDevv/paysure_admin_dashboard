@@ -60,7 +60,7 @@ const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
 }
 
 // Tailwind styles
-const Nav = tw.nav`py-3 w-full lg:(py-7)`
+const Nav = tw.nav`py-3 sm:py-6 md:py-7 w-full`
 const InnerWrapper = tw.div`flex items-center justify-between w-full`
 const ImageWrapper = tw.div`lg:hidden`
 const Title = tw.h5`text-sm hidden lg:block`

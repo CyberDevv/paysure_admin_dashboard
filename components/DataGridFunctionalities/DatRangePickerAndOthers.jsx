@@ -81,7 +81,7 @@ const DatRangePickerAndOthers = () => {
   return (
     <div
       css={[
-        tw`w-[300px] border border-[#EBF2FA] hover:(border-[#c6c7c9]) lg:min-w-[289px] px-4 py-1.5 rounded`,
+        tw`w-[300px] border border-[#EBF2FA] hover:(border-[#c6c7c9]) lg:min-w-[289px] px-4 py-1.5 rounded sm:w-2/3`,
       ]}
     >
       <LocalizationProvider dateAdapter={DateAdapter}>

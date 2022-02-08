@@ -110,7 +110,7 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
 }
 
 // Tailwind Styles￼
-const Ul = tw.ul`mt-8 space-y-4 lg:(mt-14 space-y-6)`
+const Ul = tw.ul`mt-6 space-y-4 lg:(mt-8) xl:(mt-14 space-y-6)`
 const Span = tw.span`text-[13px] ml-4`
 const MUIButton = tw(Button)`normal-case justify-start `
 

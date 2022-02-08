@@ -21,7 +21,7 @@ const DataGridView = ({
       <FuncWrappper>
         <div
           css={[
-            tw`space-y-2.5 sm:(flex items-center flex-row space-x-2.5  space-y-0)`,
+            tw`space-y-2.5 sm:(flex items-center flex-row space-x-2.5 space-y-0)`,
           ]}
         >
           {/* Search */}
@@ -81,7 +81,7 @@ const DataGridView = ({
 
 // Tailwind styles
 const Wrapper = tw.div`my-4 space-y-6`
-const FuncWrappper = tw.div`space-y-2.5 lg:(flex items-center justify-between space-x-2.5 space-y-0)`
+const FuncWrappper = tw.div`space-y-2.5 xl:(flex items-center justify-between space-x-2.5 space-y-0)`
 const MUIButton = tw(
   Button,
 )`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`

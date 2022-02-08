@@ -18,8 +18,8 @@ OverviewCardTemp.prototype = {
 }
 
 // Tailwind Styles
-const Wrapper = tw.div`border border-border rounded-lg p-4 min-w-[130px] lg:(py-6 px-8 min-w-[265px])`
-const H1 = tw.h1`text-dark text-xl lg:(text-[32px])`
+const Wrapper = tw.div`border border-border rounded-lg p-4 min-w-[130px] lg:(py-6 px-8 min-w-[235px])`
+const H1 = tw.h1`text-dark text-xl sm:text-2xl lg:text-[28px] xl:(text-[32px])`
 const P = tw.p`text-paysure-50 text-sm mt-1.5 lg:(text-base mt-3)`
 
 export default OverviewCardTemp

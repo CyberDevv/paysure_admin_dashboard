@@ -38,6 +38,6 @@ OverviewCardSection.prototype = {
 // Tailwind Styles
 const Wrapper = tw.div`mt-10`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
-const Div = tw.div`grid grid-cols-2 gap-3 mt-3 rounded-lg lg:(gap-5 grid-cols-4 mt-5)`
+const Div = tw.div`grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3 rounded-lg xl:(gap-5 grid-cols-4 mt-5)`
 
 export default OverviewCardSection
