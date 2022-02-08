@@ -474,6 +474,10 @@ export const Add = () => {
         width: '18px',
         height: '18px',
         fill: 'none',
+        display: {
+          xs: 'none',
+          sm: 'inline',
+        },
       }}
     >
       <path

@@ -71,8 +71,10 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
 const MainWrapper = tw.div`grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 xl:(gap-5)`
 const Wrapper = tw.div`bg-blue-light min-w-[130px] border border-border rounded-lg transition-colors lg:(min-w-[235px])`
 const AvatarWrapper = tw.div`flex justify-end`
-const H1 = tw.h1`text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] text-[#191716]`
+const H1 = tw.h1`text-2xl sm:text-3xl lg:text-3xl xl:text-[33px] text-[#191716]`
 const P = tw.p`text-sm text-paysure-50 mt-1 mb-2 lg:(text-base mb-3)`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
 
 export default HomeDisplayCard
+
+// FIXME: Make the 320 screen of orgaizaitons text fit into the card
