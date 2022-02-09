@@ -210,8 +210,8 @@ const tempData = [
 ]
 
 // Tailwind Styles
-const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
-const OverviewTitle = tw.h4`text-xl lg:text-2xl text-paysure-text-100 tracking-[-0.025em]`
+const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`
+const OverviewTitle = tw.h4`text-lg sm:text-xl lg:text-2xl text-paysure-text-100 tracking-[-0.025em]`
 const Div = tw.div`mt-5`
 const Card = tw.div`rounded-[20px] p-5 border border-border transition-colors duration-[250ms] hover:(border-[#1976d2] bg-[rgba(25, 118, 210, 0.04)]) lg:(min-w-[285px])`
 const P = tw.p`text-sm text-paysure-50 lg:(text-base)`
