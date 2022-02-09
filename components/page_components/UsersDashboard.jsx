@@ -37,7 +37,7 @@ const UserssDashboard = () => {
       address1,
       DOB,
       state,
-      city, 
+      city,
     })
   })
 
