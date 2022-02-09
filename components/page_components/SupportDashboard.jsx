@@ -60,12 +60,12 @@ const SupportDashboard = () => {
               <ListItem
                 role="button"
                 alignItems="flex-start"
-                sx={tw`space-x-3 hover:bg-border2 transition-colors`}
+                sx={tw`md:space-x-3 hover:bg-border2 transition-colors`}
                 key={index}
               >
                 <ListItemAvatar>
                   <Avatar
-                    sx={tw`h-[50px] w-[50px]`}
+                    sx={tw` md:h-[50px] md:w-[50px]`}
                     alt="Remy Sharp"
                     src="/static/images/avatar/1.jpg"
                   />
@@ -175,8 +175,8 @@ const supportList = [
 
 // Tailwind Styles
 const MainWraper = tw.div`flex min-h-[calc(100vh - 100px )] space-x-4 lg:min-h-[calc(100vh - 136px )]`
-const SupportList = tw.div`w-full lg:(min-w-[400px] w-[400px] overflow-y-auto max-h-[calc(100vh - 136px )])`
-const ChatWrapper = tw.div`hidden relative lg:(block w-full border-l border-border max-h-[calc(100vh - 136px )] overflow-y-auto)`
+const SupportList = tw.div`w-full xl:(min-w-[400px] w-[400px] overflow-y-auto max-h-[calc(100vh - 136px )])`
+const ChatWrapper = tw.div`hidden relative xl:(block w-full border-l border-border max-h-[calc(100vh - 136px )] overflow-y-auto)`
 const HeaderText = tw.h1`text-2xl lg:text-[32px] mb-5`
 const Span = tw.span`text-[13px] text-[#10101266]`
 const List = tw.div`mt-6`
