@@ -49,13 +49,13 @@ const TextEditor = () => {
           <button className="ql-bold" />
           <button className="ql-underline" />
           <button className="ql-italic" />
-          <button class="ql-align" value="" />
-          <button class="ql-align" value="justify" />
-          <button class="ql-align" value="right" />
-          <button class="ql-image" />
-          <select class="ql-font"></select>
-          <select class="ql-size"></select>
-          <button class="ql-clean" ref={clean}>
+          <button className="ql-align" value="" />
+          <button className="ql-align" value="justify" />
+          <button className="ql-align" value="right" />
+          <button className="ql-image" />
+          <select className="ql-font"></select>
+          <select className="ql-size"></select>
+          <button className="ql-clean" ref={clean}>
             {/* <ClearSVG /> */}
             {/* {ReactDOMServer.(<ClearSVG />)} */}
           </button>
