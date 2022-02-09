@@ -70,7 +70,7 @@ const Roles_and_PermissionsDashboard = () => {
         </MUIButton>
       </Grid>
 
-      {/* Add terminal modal */}
+      {/* Add role modal */}
       <Modal
         title="Add new Role"
         state={isaddModalOpened}
@@ -213,12 +213,12 @@ const tempData = [
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`
 const OverviewTitle = tw.h4`text-lg sm:text-xl lg:text-2xl text-paysure-text-100 tracking-[-0.025em]`
 const Div = tw.div`mt-5`
-const Card = tw.div`rounded-[20px] p-5 border border-border transition-colors duration-[250ms] hover:(border-[#1976d2] bg-[rgba(25, 118, 210, 0.04)]) lg:(min-w-[285px])`
+const Card = tw.div`rounded-[20px] p-5 border border-border transition-colors duration-[250ms] hover:(border-[#1976d2] bg-[rgba(25, 118, 210, 0.04)]) lg:(min-w-[230px])`
 const P = tw.p`text-sm text-paysure-50 lg:(text-base)`
 const MUIButton = tw(
   Button,
-)`flex items-center justify-center flex-col normal-case text-dark text-base border border-border rounded-[20px] lg:w-[170px]`
-const Grid = tw.div`grid grid-cols-2 gap-[20px] mt-6 lg:(gap-[30px] grid-template-columns[auto auto auto auto] mt-12)`
+)`flex items-center p-5 justify-center flex-col normal-case text-dark text-base border border-border rounded-[20px] lg:w-[170px]`
+const Grid = tw.div`grid grid-cols-2 gap-[20px] mt-6 lg:(gap-6 grid-cols-3 mt-8) xl:(grid-template-columns[auto auto auto auto] mt-12 gap-[30px])`
 const PermSettins = tw.div`mt-6 text-lg lg:(mt-10 text-xl)`
 const SettinsGrid = tw.div`min-w-[720px]`
 const THeader = tw.p`flex items-center justify-center`
