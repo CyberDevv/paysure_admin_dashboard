@@ -15,9 +15,10 @@ const DataGridViewTemp = ({
   hasFilter,
   hasSort,
   hasExportBtn,
+  hasMT
 }) => {
   return (
-    <div css={[limited && tw`mt-10`]}>
+    <div css={[(limited || hasMT) && tw`mt-10`]}>
       <div css={[tw`flex items-center justify-between`]}>
         <Title className="font-500">{title}</Title>
 

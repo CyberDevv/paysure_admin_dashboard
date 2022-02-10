@@ -1,7 +1,9 @@
+import Router from 'next/router'
 import React from 'react'
 import tw from 'twin.macro'
 
 import { DataGridViewTemp, HomeDisplayCard, DatRangePickerAndOthers } from '.'
+import { Print, ViewActionSVG } from './SVGIcons'
 
 const SuperAgentSignupsDashboard = () => {
   return (
@@ -17,6 +19,11 @@ const SuperAgentSignupsDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        hasSearch
+        hasFilter                                                                                                                 
+        hasSort
+        hasExportBtn
+        // TODO: has another filtering button
       >
         <DatRangePickerAndOthers />
       </DataGridViewTemp>
@@ -177,6 +184,37 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/signups/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleView}>
+            <ViewActionSVG />
+          </button>
+
+          <button onClick={handleEdit}>
+            <Print />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 // FIXME: Temp data (should be replaced with real data)

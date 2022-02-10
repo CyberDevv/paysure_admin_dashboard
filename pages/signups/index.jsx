@@ -2,7 +2,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import { SignupsDashboard } from '../components'
+import { SignupsDashboard } from '../../components'
 
 // Page init
 const Signups = () => {

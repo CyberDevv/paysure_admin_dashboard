@@ -50,6 +50,7 @@ export { default as OrganizatonListDashboard } from './page_components/Organizat
 export { default as SettlementsListDashboard } from './page_components/SettlementsListDashboard'
 export { default as TransactionsListDashboard } from './page_components/TransactionsListDashboard'
 export { default as Super_Agents_ListDashboard } from './page_components/Super_Agents_ListDashboard'
+export { default as SuperAgentDocViewDashboard } from './page_components/SuperAgentDocViewDashboard'
 export { default as SinglarSuperAgentDashboard } from './page_components/SinglarSuperAgentDashboard'
 export { default as DatRangePickerAndOthers } from './DataGridFunctionalities/DatRangePickerAndOthers'
 export { default as AgentTransactionListDashboard } from './page_components/AgentTransactionListDashboard'
