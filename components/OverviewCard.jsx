@@ -1,20 +1,22 @@
 import React from 'react'
 import tw from 'twin.macro'
+import Link from 'next/link'
 import PropTypes from 'prop-types'
-import { Button } from '@mui/material'
 
 import { OverViewCard } from '.'
 
-const OverviewCardSection = ({ title, data, btnLabel }) => {
+const OverviewCardSection = ({ title, data, btnLabel, link }) => {
   return (
     <Wrapper>
       <div tw="flex items-center justify-between">
         <Title className="font-500">{title}</Title>
 
-        {btnLabel && (
-          <Button tw="normal-case text-paysure-100 text-base tracking-[-0.02em]">
-            {btnLabel}
-          </Button>
+        {link && (
+          <Link href={link}>
+            <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
+              {btnLabel}
+            </a>
+          </Link>
         )}
       </div>
 

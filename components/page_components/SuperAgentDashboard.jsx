@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from '@mui/material'
 
-import { EllipsisSVG, UserProfileSVG } from '../SVGIcons'
+import { EditActionSVG, EllipsisSVG, UserProfileSVG, UserWithNegative, Wallet } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
@@ -211,6 +211,7 @@ const SuperAgentDashboard = () => {
       {/* Transactions */}
       <OverviewCardSection
         btnLabel="See all activities"
+        link="/agents/super_agent/1/transaction_list"
         title="Transactions"
         data={agencyOveriewData}
       />
@@ -283,31 +284,37 @@ const SuperAgentDashboard = () => {
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        link="/users/1/transaction_list"
+        link="/agents/super_agent/1/agentList"
         title={`${userDetails.name} Agent Lists`}
         rows={rows}
         columns={Agentscolumns}
         dropdownData={dropdownData}
+        hasFilter
+        hasSort
       />
 
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        link="/users/1/transaction_list"
+        link="/agents/super_agent/1/terminalList"
         title="Terminals Lists"
         rows={rows}
         columns={Terminalcolumns}
         dropdownData={dropdownData}
+        hasFilter
+        hasSort
       />
 
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        link="/users/1/transaction_list"
+        link="/agents/super_agent/1/settlementList"
         title="Settlements"
         rows={rows}
         columns={Settlementcolumns}
         dropdownData={dropdownData}
+        hasFilter
+        hasSort
       />
     </Layout>
   )
@@ -521,6 +528,41 @@ const Agentscolumns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <UserWithNegative />
+          </button>
+
+          <button onClick={handleView}>
+            <Wallet />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 
@@ -610,6 +652,41 @@ const Terminalcolumns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <UserWithNegative />
+          </button>
+
+          <button onClick={handleView}>
+            <Wallet />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 
@@ -684,6 +761,41 @@ const Settlementcolumns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <UserWithNegative />
+          </button>
+
+          <button onClick={handleView}>
+            <Wallet />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 

@@ -8,6 +8,7 @@ import {
   HomeDisplayCard,
   OverviewCardSection,
 } from '..'
+import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 
 const HomeDashboard = () => {
   return (
@@ -26,6 +27,7 @@ const HomeDashboard = () => {
       <OverviewCardSection title="User Overview" data={agencyOveriewData2} />
 
       <DataGridViewTemp
+        link="/transactions/transactions_list"
         limited
         title="Recent Transactions"
         rows={rows}
@@ -199,7 +201,40 @@ const columns = [
     headerName: 'Action',
     minWidth: 100,
     flex: 1,
+    sortable: false,
     headerClassName: 'grid-header',
+
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <ViewActionSVG />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 

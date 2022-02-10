@@ -1,10 +1,11 @@
 import React from 'react'
 import tw from 'twin.macro'
+import Router from 'next/router'
 import { Button } from '@mui/material'
 
-import { Add } from './SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
+import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
 
 const AgentsSubDashboard = () => {
@@ -120,6 +121,10 @@ const AgentsSubDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        hasSearch
+        hasFilter
+        hasExportBtn
+        // TODO: This has an additional sorting option
       />
     </>
   )
@@ -293,6 +298,37 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <ViewActionSVG />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 // FIXME: Temp data (should be replaced with real data)

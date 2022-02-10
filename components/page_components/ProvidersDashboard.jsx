@@ -59,6 +59,8 @@ const ProvidersDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        hasSearch
+        hasFilter
       />
     </Layout>
   )
@@ -254,23 +256,6 @@ const columns = [
         </div>
       )
     },
-
-    // renderCell: params => {
-    //   return (
-    //     <Button>
-    //       <viewActionSVG />
-    //       {params.row.col10}
-    //     </Button>
-    //   )
-    // },
-
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
 ]
 

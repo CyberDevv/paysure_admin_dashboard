@@ -1,15 +1,14 @@
 import axios from 'axios'
 import React from 'react'
 import tw from 'twin.macro'
+import Router from 'next/router'
 import { Button } from '@mui/material'
 
-import { Add } from '../SVGIcons'
+import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
+import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, DatRangePickerAndOthers } from '..'
-import Link from 'next/link'
-import Router from 'next/router'
 
 const UserssDashboard = () => {
   // useState hook
@@ -131,9 +130,11 @@ const UserssDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-      >
-        <DatRangePickerAndOthers />
-      </DataGridViewTemp>
+        hasSearch
+        hasExportBtn
+        hasFilter
+        hasSort
+      />
     </Layout>
   )
 }
@@ -302,6 +303,37 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/users/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <ViewActionSVG />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 
