@@ -3,7 +3,7 @@ import Router from 'next/router'
 import React, { useState } from 'react'
 import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
-import { Add } from '../SVGIcons'
+import { Add, EditActionSVG, UserWithNegative, Wallet } from '../SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
@@ -101,48 +101,11 @@ const TerminalsDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-      >
-        <div css={[tw`flex items-center justify-between w-full`]}>
-          {/* Checkbox */}
-          <TextField
-            select
-            value={selectedDrop}
-            onChange={handleDropdownSelected}
-            size="small"
-            sx={{
-              fontSize: '13px',
-              minWidth: '157px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#EBF2FA',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#c6c7c9',
-                },
-              },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Span>Filter by:</Span>
-                </InputAdornment>
-              ),
-            }}
-          >
-            {dropdownData.map(option => (
-              <MenuItem
-                sx={{ fontSize: '13px' }}
-                key={option.value}
-                value={option.value}
-              >
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <MUIButton2>Export data</MUIButton2>
-        </div>
-      </DataGridViewTemp>
+        hasFilter
+        hasSearch
+        hasExportBtn
+        // TODO: has additional filter
+      />
     </Layout>
   )
 }
@@ -319,6 +282,41 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/terminals/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <UserWithNegative />
+          </button>
+
+          <button onClick={handleView}>
+            <Wallet />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 

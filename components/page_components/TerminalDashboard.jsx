@@ -2,7 +2,7 @@ import React from 'react'
 import tw from 'twin.macro'
 import { Button, Chip } from '@mui/material'
 
-import { UserProfileSVG } from '../SVGIcons'
+import { EditActionSVG, UserProfileSVG, UserWithNegative, Wallet } from '../SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard, } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 
@@ -92,6 +92,10 @@ const TerminalDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        hasFilter
+        hasSort
+        hasExportBtn
+        // TODO: has additional filter
       />
     </Layout>
   )
@@ -273,6 +277,41 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/terminals/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <UserWithNegative />
+          </button>
+
+          <button onClick={handleView}>
+            <Wallet />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 
