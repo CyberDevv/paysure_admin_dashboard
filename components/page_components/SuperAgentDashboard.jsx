@@ -10,7 +10,13 @@ import {
   MenuItem,
 } from '@mui/material'
 
-import { EditActionSVG, EllipsisSVG, UserProfileSVG, UserWithNegative, Wallet } from '../SVGIcons'
+import {
+  EditActionSVG,
+  EllipsisSVG,
+  UserProfileSVG,
+  UserWithNegative,
+  Wallet,
+} from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
