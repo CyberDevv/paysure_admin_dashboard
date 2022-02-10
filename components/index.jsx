@@ -38,6 +38,7 @@ export { default as SuperAgentDashboard } from './page_components/SuperAgentDash
 export { default as SettlementsDashboard } from './page_components/SettlementsDashboard'
 export { default as PermissionsSettingsDashboard } from './PermissionsSettingsDashboard'
 export { default as TerminalListDashboard } from './page_components/TerminalListDashboard'
+export { default as NewUsersSignupsDashboard } from './page_components/UsersSignupsDashboard'
 export { default as TransactionsDashboard } from './page_components/TransactionsDashboard'
 export { default as AdminstratorDashboard } from './page_components/AdminstratorDashboard'
 export { default as Sub_AccountsDashboard } from './page_components/Sub_AccountsDashboard'
