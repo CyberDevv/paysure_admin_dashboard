@@ -2,7 +2,7 @@ import React from 'react'
 import tw from 'twin.macro'
 import { Button, Checkbox, FormControlLabel, FormGroup } from '@mui/material'
 
-import {UserProfileSVG} from '../SVGIcons'
+import { UserProfileSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
