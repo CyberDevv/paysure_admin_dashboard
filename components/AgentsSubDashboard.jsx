@@ -6,7 +6,13 @@ import { Button } from '@mui/material'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
-import { Add, EditActionSVG, UserWithPositive, ViewActionSVG, Wallet } from './SVGIcons'
+import {
+  Add,
+  EditActionSVG,
+  UserWithPositive,
+  ViewActionSVG,
+  Wallet,
+} from './SVGIcons'
 
 const AgentsSubDashboard = () => {
   // useState hook
