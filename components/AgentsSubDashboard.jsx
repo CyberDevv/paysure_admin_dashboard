@@ -5,8 +5,8 @@ import { Button } from '@mui/material'
 
 import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
-import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
+import { Add, EditActionSVG, UserWithPositive, ViewActionSVG, Wallet } from './SVGIcons'
 
 const AgentsSubDashboard = () => {
   // useState hook
@@ -314,7 +314,7 @@ const columns = [
             c => (thisRow[c.field] = params.getValue(params.id, c.field)),
           )
 
-        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+        Router.push(`/agents/agent/${thisRow.col1}`)
       }
 
       return (
@@ -322,6 +322,10 @@ const columns = [
           <button onClick={handleEdit}>
             <EditActionSVG />
           </button>
+
+          {/* <button onClick={handleView}>
+            <UserWithPositive />
+          </button> */}
 
           <button onClick={handleView}>
             <ViewActionSVG />

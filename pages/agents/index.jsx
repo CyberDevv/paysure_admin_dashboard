@@ -2,7 +2,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import { AgentsDashboard } from '../../components'
+import { SinglarSuperAgentDashboard } from '../../components'
 
 // Page init
 const Agents = () => {
@@ -12,7 +12,7 @@ const Agents = () => {
         <title>Agents | Paysure</title>
       </Head>
 
-      <AgentsDashboard />
+      <SinglarSuperAgentDashboard />
     </>
   )
 }
