@@ -15,7 +15,7 @@ const DataGridViewTemp = ({
   hasFilter,
   hasSort,
   hasExportBtn,
-  hasMT
+  hasMT,
 }) => {
   return (
     <div css={[(limited || hasMT) && tw`mt-10`]}>
