@@ -1,8 +1,16 @@
 import React from 'react'
 import tw from 'twin.macro'
-import { Button, Checkbox, FormControlLabel, FormGroup } from '@mui/material'
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  Menu,
+  MenuItem,
+} from '@mui/material'
 
-import {UserProfileSVG} from '../SVGIcons'
+import { UserProfileSVG, EllipsisSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
@@ -13,8 +21,18 @@ const UsersSignupsDashboard = () => {
     React.useState(false)
   const [note, setNote] = React.useState('')
   const [reason, setReason] = React.useState('')
+  const [anchorEl, setAnchorEl] = React.useState(null)
 
   // functions
+  const open = Boolean(anchorEl)
+
+  const handleBtnMenuShown = event => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
   const handSetIsSuspendModalOpened = React.useCallback(() =>
     setIsSuspendAccountModalOpened(true),
   )
@@ -26,17 +44,49 @@ const UsersSignupsDashboard = () => {
   return (
     <Layout goBack>
       <Header>
-        {/* Avatar */}
-        <AvatarWrapper>
-          <Avatar>
-            <UserProfileSVG />
-          </Avatar>
+        <div tw="flex justify-between items-center w-full xl:w-[inherit]">
+          {/* Avatar */}
+          <AvatarWrapper>
+            <Avatar>
+              <UserProfileSVG />
+            </Avatar>
 
-          <AvatarDetails>
-            <UserName className="font-bold">{userDetails.name}</UserName>
-            <LastSeen>User</LastSeen>
-          </AvatarDetails>
-        </AvatarWrapper>
+            <AvatarDetails>
+              <UserName className="font-bold">{userDetails.name}</UserName>
+              <LastSeen>User</LastSeen>
+            </AvatarDetails>
+          </AvatarWrapper>
+
+          {/* buttons  */}
+          <div>
+            <IconButton
+              id="basic-button"
+              aria-controls={open ? 'Btnmenu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleBtnMenuShown}
+              tw="md:hidden lg:block xl:hidden"
+            >
+              <EllipsisSVG />
+            </IconButton>
+
+            <Menu
+              id="Btnmenu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={handleClose}>
+                <button onClick={handSetIsSuspendModalOpened}>
+                  Suspend Account
+                </button>
+              </MenuItem>
+            </Menu>
+          </div>
+        </div>
 
         {/* Action Buttons */}
         <ButtonWrapper>
@@ -191,7 +241,7 @@ const Avatar = tw.div``
 const AvatarDetails = tw.div`space-y-1 lg:space-y-2.5`
 const UserName = tw.h4`text-xl lg:(text-2xl) tracking-[-0.05em] text-paysure-text-100 leading-7`
 const LastSeen = tw.p`text-xs lg:(text-sm) text-[#A6B7D4] tracking-[-0.05em]`
-const ButtonWrapper = tw.div`flex items-center space-x-3 lg:(space-x-2.5)`
+const ButtonWrapper = tw.div`hidden md:flex items-center space-x-3 lg:(space-x-2.5 hidden) xl:flex`
 const MUIButton = tw(
   Button,
 )`normal-case text-white bg-paysure-100 px-3 py-[13px] rounded-lg hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`

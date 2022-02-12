@@ -24,9 +24,7 @@ const SuperAgentSignupsDashboard = () => {
         hasSort
         hasExportBtn
         // TODO: has another filtering button
-      >
-        <DatRangePickerAndOthers />
-      </DataGridViewTemp>
+      />
     </>
   )
 }

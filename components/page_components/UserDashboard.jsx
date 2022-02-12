@@ -1,11 +1,5 @@
 import React from 'react'
 import tw from 'twin.macro'
-// import { Button } from '@mui/material'
-
-// import { DataGridViewTemp, OverviewCardSection } from '..'
-// import { UserProfileSVG } from '../SVGIcons'
-// import Layout from '../layouts/main_layout/index.main_layout'
-
 import {
   Button,
   Checkbox,
@@ -16,22 +10,11 @@ import {
   MenuItem,
 } from '@mui/material'
 
-import {
-  EditActionSVG,
-  EllipsisSVG,
-  UserProfileSVG,
-  UserWithNegative,
-  Wallet,
-} from '../SVGIcons'
+import { EllipsisSVG, UserProfileSVG } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
-import {
-  DataGridViewTemp,
-  HomeDisplayCard,
-  OverviewCardSection,
-  SendModal,
-} from '..'
+import { DataGridViewTemp, OverviewCardSection, SendModal } from '..'
 
 const UserDashboard = () => {
   // useState hook
@@ -517,8 +500,10 @@ const MUIButton = tw(
   Button,
 )`normal-case text-white bg-paysure-100 px-3 py-[13px] rounded-lg hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
-const UserInfoWrapper = tw.div`border-border mt-5 p-6 border rounded-lg w-full lg:(w-1/2 mt-10)`
-const UserGrid = tw.div`mt-5 space-y-4 lg:(mt-10 space-y-6)`
+const UserInfoWrapper = tw.div`border-border mt-10 p-6 border rounded-lg`
+// const UserInfoWrapper = tw.div`border-border mt-5 p-6 border rounded-lg w-full lg:(w-1/2 mt-10)`
+const UserGrid = tw.div`grid mt-5 gap-4 lg:(grid-cols-2 mt-10 gap-8)`
+// const UserGrid = tw.div`mt-5 space-y-4 lg:(mt-10 space-y-6)`
 const Label = tw.label`text-light-dark flex items-center tracking-[-0.02em]`
 const LabelAns = tw.p`ml-2.5 text-paysure-text-100`
 const WalletWrapper = tw.div`mt-10 p-4 space-y-1 rounded-xl lg:(py-10 px-8 space-y-4 rounded-[28px])`
