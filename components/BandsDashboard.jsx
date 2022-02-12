@@ -3,7 +3,7 @@ import React from 'react'
 import { Button } from '@mui/material'
 import { PropTypes } from 'prop-types'
 
-import { Add } from './SVGIcons'
+import { Add, DeleteDataGridRecord, EditActionSVG } from './SVGIcons'
 import { DataGridViewTemp } from '.'
 
 const BandsDashboard = ({ setShowAddBand }) => {
@@ -111,10 +111,7 @@ const rows = [
     col4: 5000,
     col5: 39.9,
     col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
+    col7: '',
   },
 ]
 
@@ -168,6 +165,37 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleView}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleEdit}>
+            <DeleteDataGridRecord />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 

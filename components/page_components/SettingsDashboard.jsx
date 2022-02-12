@@ -10,9 +10,9 @@ import {
 import { BandsSettings, PermissionsSettings, Plan_PackagesSettings } from '..'
 
 const actions = [
-  { icon: <CategoriesSettingsSVG />, name: 'Bands' },
-  { icon: <PermissionsSettingsSVG />, name: 'Permissions' },
   { icon: <CategoriesSettingsSVG />, name: 'Plan Packages' },
+  { icon: <PermissionsSettingsSVG />, name: 'Permissions' },
+  { icon: <CategoriesSettingsSVG />, name: 'Bands' },
 ]
 
 const SettingsDashboard = () => {
@@ -42,7 +42,7 @@ const SettingsDashboard = () => {
 
   return (
     <>
-      <Layout title="Settins">
+      <Layout title="Settings">
         <SectionsWrapper>
           {/* Section1 */}
           <div css={[tw`mt-8 hidden xl:block`]}>

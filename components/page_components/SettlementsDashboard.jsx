@@ -4,6 +4,7 @@ import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
 
 const SettlementsDashboard = () => {
   // UseState hook
@@ -34,86 +35,11 @@ const SettlementsDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-      >
-        <div css={[tw`flex items-center justify-between w-full`]}>
-          {/* Checkbox */}
-          <TextField
-            select
-            value={selectedDrop}
-            onChange={handleDropdownSelected}
-            size="small"
-            sx={{
-              fontSize: '13px',
-              minWidth: '157px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#EBF2FA',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#c6c7c9',
-                },
-              },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Span>Type:</Span>
-                </InputAdornment>
-              ),
-            }}
-          >
-            {dropdownData.map(option => (
-              <MenuItem
-                sx={{ fontSize: '13px' }}
-                key={option.value}
-                value={option.value}
-              >
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <TextField
-            select
-            value={selectedDrop}
-            onChange={handleDropdownSelected}
-            size="small"
-            sx={{
-              fontSize: '13px',
-              minWidth: '157px',
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: '#EBF2FA',
-                },
-                '&:hover fieldset': {
-                  borderColor: '#c6c7c9',
-                },
-              },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Span>Status:</Span>
-                </InputAdornment>
-              ),
-            }}
-          >
-            {dropdownData.map(option => (
-              <MenuItem
-                sx={{ fontSize: '13px' }}
-                key={option.value}
-                value={option.value}
-              >
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          {/* TODO: Add a date range picker */}
-
-          <MUIButton2>Export data</MUIButton2>
-        </div>
-      </DataGridViewTemp>
+        hasSearch
+        hasSort
+        hasFilter
+        hasExportBtn
+      />
     </Layout>
   )
 }
@@ -275,6 +201,41 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleView}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleEdit}>
+            <UserWithPositive />
+          </button>
+
+          <button onClick={handleEdit}>
+            <Wallet />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 

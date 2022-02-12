@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@mui/material'
 
-import { Add } from './SVGIcons'
+import { Add, DeleteDataGridRecord, EditActionSVG } from './SVGIcons'
 import { DataGridViewTemp } from '.'
 
 const PermissionsSettingsDashboard = ({ setShowAddPanel }) => {
@@ -147,6 +147,38 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleView}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleEdit}>
+            <DeleteDataGridRecord />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 
