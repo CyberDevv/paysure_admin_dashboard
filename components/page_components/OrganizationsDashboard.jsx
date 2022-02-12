@@ -7,6 +7,7 @@ import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import Router from 'next/router'
 
 const OrganizationsDashboard = () => {
   // useState hook
@@ -283,7 +284,7 @@ const columns = [
             c => (thisRow[c.field] = params.getValue(params.id, c.field)),
           )
 
-        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+        Router.push(`/organizations/${thisRow.col1}`)
       }
 
       return (
