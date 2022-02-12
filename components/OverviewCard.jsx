@@ -23,7 +23,14 @@ const OverviewCardSection = ({ title, data, btnLabel, link, onClick }) => {
       <div>
         <Div>
           {data.map(({ amount, label }, index) => {
-            return <OverViewCard key={index} amount={amount} label={label} onClick= {onClick} />
+            return (
+              <OverViewCard
+                key={index}
+                amount={amount}
+                label={label}
+                onClick={onClick}
+              />
+            )
           })}
         </Div>
       </div>
