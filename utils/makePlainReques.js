@@ -7,7 +7,7 @@ export async function makePlainRequest(data, url, method) {
       const toBeProcessedData = {
         key: process.env.KEY,
         iv: process.env.IV,
-        data
+        data,
       }
 
       // request header
