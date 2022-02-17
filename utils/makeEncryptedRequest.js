@@ -33,12 +33,15 @@ export async function makeEncryptedRequest(data, url, method) {
         REQ_HEADER,
       )
 
-      return response2.data
+      return {
+        status: response2.status,
+        data: response2.data,
+      }
     }
   } catch (error) {
     return {
       status: error.response.status,
-      errorDesc: error.response.data.errorDesc,
+      data: error.response.data.errorDesc,
     }
   }
 }
