@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import tw from 'twin.macro'
 import Router from 'next/router'
+import { setCookie } from 'nookies'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 
@@ -30,6 +31,12 @@ const LoginDashboard = () => {
 
         // save user data to localStorage
         localStorage.setItem('user', JSON.stringify(res.data.data))
+
+        // save user jwt to cookie
+        setCookie(null, 'USER_AUTHORIZATION', res.data.data.jwt, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: '/',
+        })
 
         toast.success('Login Successful')
         Router.push('/')

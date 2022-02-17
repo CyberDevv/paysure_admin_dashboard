@@ -10,7 +10,10 @@ import {
 } from '..'
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 
-const HomeDashboard = () => {
+const HomeDashboard = ({dashboardStats}) => {
+
+  console.log(dashboardStats)
+  
   return (
     <Layout title="Home">
       <Ttile className="font-bold">
