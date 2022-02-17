@@ -36,7 +36,10 @@ export async function getServerSideProps(ctx) {
     },
   }
 
-  let data = null
+  let data = {
+    totalAgentsCount: 0,
+    totalSubscribersCount: 0,
+  }
 
   await axios
     .post(
@@ -70,7 +73,7 @@ export async function getServerSideProps(ctx) {
 
   return {
     props: {
-      data : processedData,
+      data : processedData || {},
     },
   }
 }
