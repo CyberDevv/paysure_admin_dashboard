@@ -21,7 +21,7 @@ export default async function createProfile(req, res) {
       'paysure/api/processor/create-profile',
       'POST',
     )
-    
+
     res.status(response.status).json(response)
   } catch (error) {
     console.log(error)
