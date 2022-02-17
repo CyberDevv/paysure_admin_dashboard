@@ -1,26 +1,42 @@
 import React from 'react'
 import axios from 'axios'
 import tw from 'twin.macro'
+import Router from 'next/router'
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
 
 import LabelInput from '../InputLabel'
 import { AuthButton } from '../MUIComponents'
+import { login } from '../../features/userSlice'
 import Layout from '../layouts/auth_layout/index.auth_layout'
 
 const LoginDashboard = () => {
   // useState hooks
-  const [email, setEmail] = React.useState('')
+  const [userName, setUserName] = React.useState('')
   const [password, setPassword] = React.useState('')
+
+  // useDispatch hooks
+  const dispatch = useDispatch()
 
   // Functions
   const handleLogin = React.useCallback(async () => {
-    try {
-      await axios.post('/api/auth/login', {
-        email,
+    await axios
+      .post('/api/auth/login', {
+        userName,
         password,
       })
-    } catch (error) {
-      console.log(error)
-    }
+      .then(res => {
+        dispatch(login(res.data.data))
+
+        // save user data to localStorage
+        localStorage.setItem('user', JSON.stringify(res.data.data))
+
+        toast.success('Login Successful')
+        Router.push('/')
+      })
+      .catch(err => {
+        toast.error(err.response.data.data)
+      })
   })
 
   const handleSetPassword = React.useCallback(e => {
@@ -28,17 +44,17 @@ const LoginDashboard = () => {
   })
 
   const handleSetEmail = React.useCallback(e => {
-    setEmail(e.target.value)
+    setUserName(e.target.value)
   })
 
   return (
     <Layout title="Login to your dashboard" login>
       <Form>
         <LabelInput
-          label="LoginId"
+          label="Username"
           type="text"
           placeholder="staff@example.com"
-          value={email}
+          value={userName}
           onChange={handleSetEmail}
         />
 
