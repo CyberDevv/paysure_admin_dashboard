@@ -73,7 +73,7 @@ export async function getServerSideProps(ctx) {
 
   return {
     props: {
-      data : processedData || {},
+      data: processedData || {},
     },
   }
 }
