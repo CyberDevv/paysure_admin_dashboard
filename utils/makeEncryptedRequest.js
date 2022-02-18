@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {toast} from 'react-toastify'
 
-export async function makeEncryptedRequest(data, url, method) {
+export async function makeEncryptedRequest(data, url, method, token) {
   try {
     if (method === 'POST') {
       // profile data to be sent to the server
@@ -16,7 +16,7 @@ export async function makeEncryptedRequest(data, url, method) {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
           Authorization: process.env.AUTHORIZATION,
-          // USER_AUTHORIZATION: userData.jwt,
+          USER_AUTHORIZATION: token,
         },
       }
 

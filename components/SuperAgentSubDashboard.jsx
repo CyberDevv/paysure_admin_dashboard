@@ -8,7 +8,10 @@ import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
 
-const SuperAgentsSubDashboard = () => {
+const SuperAgentsSubDashboard = ({superAgentData}) => {
+
+  console.log('superAgentData', superAgentData)
+  
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
@@ -111,7 +114,7 @@ const SuperAgentsSubDashboard = () => {
         </Modal>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={superAgentStats} />
 
       <DataGridViewTemp
         limited
@@ -143,6 +146,31 @@ const dropdownData = [
     label: 'Admin',
   },
 ]
+
+const superAgents = [
+  {
+    id: 1,
+    tid: 1,
+    fullName: 'Suresh Kumar',
+    firstName: 'boxi',
+    lastName: 'soxi',
+    middleName: 'NA',
+    status: 1,
+    statusStr: 'IN-ACTIVE',
+    emailAddress: 'box@gmail.com',
+    phonePri: '+2348032110024',
+    phoneSec: '+2348032110025',
+    address1: 'NA',
+    address2: '01234567',
+    partnerCode: 'NA',
+    userRole: 11,
+    userRoleStr: 'SUPER ADMINISTRATOR',
+    code: 'S0000000001',
+    userName: '+2348032119024',
+    stateStr: 'NA',
+  },
+]
+
 // FIXME: Temp data (should be replaced with real data)
 const rows = [
   {
@@ -332,19 +360,19 @@ const columns = [
 ]
 
 // FIXME: Temp data (should be replaced with real data)
-const temporalData = [
+const superAgentStats = [
   {
-    amount: '124',
-    title: 'Total Super Agents',
+    amount: superAgents.length,
+    title: 'Total number of super agents',
     link: '/agents/super_agents_list',
   },
   {
-    amount: '10',
-    title: 'Total Active Agents',
+    amount: superAgents.filter(d => d.status === 1).length,
+    title: 'Total number of active agents',
   },
   {
-    amount: '3',
-    title: 'Total Inactive Agents',
+    amount: superAgents.filter(d => d.status === 2).length,
+    title: 'Total number of inactive agents',
   },
 ]
 

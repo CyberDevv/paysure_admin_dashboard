@@ -6,9 +6,15 @@ import { Button } from '@mui/material'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
-import { Add, EditActionSVG, UserWithPositive, ViewActionSVG, Wallet } from './SVGIcons'
+import {
+  Add,
+  EditActionSVG,
+  UserWithPositive,
+  ViewActionSVG,
+  Wallet,
+} from './SVGIcons'
 
-const AgentsSubDashboard = () => {
+const AgentsSubDashboard = ({ agentData }) => {
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
@@ -25,6 +31,8 @@ const AgentsSubDashboard = () => {
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
+
+  console.log('agentData', agentData)
 
   return (
     <>
@@ -112,13 +120,13 @@ const AgentsSubDashboard = () => {
         </Modal>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={agentStats} />
 
       <DataGridViewTemp
         limited
         link="/agents/agents_list"
         title="Agents list"
-        rows={rows}
+        rows={agents}
         columns={columns}
         dropdownData={dropdownData}
         hasSearch
@@ -144,6 +152,31 @@ const dropdownData = [
     label: 'Admin',
   },
 ]
+
+const agents = [
+  {
+    id: 1,
+    tid: 1,
+    fullName: 'Suresh Kumar',
+    firstName: 'boxi',
+    lastName: 'soxi',
+    middleName: 'NA',
+    status: 1,
+    statusStr: 'IN-ACTIVE',
+    emailAddress: 'box@gmail.com',
+    phonePri: '+2348032110024',
+    phoneSec: '+2348032110025',
+    address1: 'NA',
+    address2: '01234567',
+    partnerCode: 'NA',
+    userRole: 11,
+    userRoleStr: 'SUPER ADMINISTRATOR',
+    code: 'S0000000001',
+    userName: '+2348032119024',
+    stateStr: 'NA',
+  },
+]
+
 // FIXME: Temp data (should be replaced with real data)
 const rows = [
   {
@@ -215,14 +248,14 @@ const rows = [
 // FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
-    field: 'col1',
+    field: 'tid',
     headerName: 'S/N',
     minWidth: 71,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col2',
+    field: 'fullName',
     headerName: 'Agent Name',
     minWidth: 227,
     flex: 1,
@@ -336,23 +369,23 @@ const columns = [
   },
 ]
 // FIXME: Temp data (should be replaced with real data)
-const temporalData = [
+const agentStats = [
   {
-    amount: '32213',
-    title: 'Total Transactions',
+    amount: '92,000',
+    title: 'Total number of transactions',
   },
   {
-    amount: '1324',
-    title: 'Total Agents',
+    amount: agents.length,
+    title: 'Total number of agents',
     link: '/agents/agents_list',
   },
   {
-    amount: '10',
-    title: 'Total Active Agents',
+    amount: agents.filter(d => d.status === 1).length,
+    title: 'Total number of active Agents',
   },
   {
-    amount: '3',
-    title: 'Total Inactive Agents',
+    amount: agents.filter(d => d.status === 2).length,
+    title: 'Total number of inactive agents',
   },
 ]
 

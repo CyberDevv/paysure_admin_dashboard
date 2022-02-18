@@ -1,5 +1,7 @@
+import axios from 'axios'
 import tw from 'twin.macro'
 import Router from 'next/router'
+import { toast } from 'react-toastify'
 import React, { useState } from 'react'
 import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
@@ -16,9 +18,9 @@ const TerminalsDashboard = () => {
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [logoURL, setLogoURL] = React.useState('')
-  const [plan, setPlan] = React.useState('')
-  const [settlementPlan, setSettlementPlan] = React.useState('')
-  const [abbreviation, setAbbreviation] = React.useState('')
+  const [bankId, setBankId] = React.useState('')
+  const [terminalBrand, setTerminalBrand] = React.useState('')
+  const [terminalSerialNo, setTerminalSerialNo] = React.useState('')
 
   // functions
   const handleDropdownSelected = React.useCallback(event => {
@@ -28,6 +30,24 @@ const TerminalsDashboard = () => {
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
+
+  // creates termial
+  const handleCreateTerminal = React.useCallback(() => {
+    axios
+      .post('/api/terminals/addTerminal', {
+        terminalId: 124,
+        terminalBrand,
+        terminalSerialNo,
+        bankId,
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+        toast.error(err.response.data.data)
+      })
+  })
 
   return (
     <Layout title="Terminals">
@@ -41,6 +61,7 @@ const TerminalsDashboard = () => {
 
           {/* Add organization modal */}
           <Modal
+            onClick={handleCreateTerminal}
             setState={setIsAddmodalOpened}
             title="Add Terminal"
             state={isaddModalOpened}
@@ -57,8 +78,8 @@ const TerminalsDashboard = () => {
               label="Serial No."
               type="text"
               placeholder="Serial No."
-              value={abbreviation}
-              setState={setAbbreviation}
+              value={terminalSerialNo}
+              setState={setTerminalSerialNo}
             />
             <Label
               label="Transaction Limit"
@@ -71,15 +92,15 @@ const TerminalsDashboard = () => {
               combo
               menuItems={menuItems}
               label="Bank"
-              value={plan}
-              setState={setPlan}
+              value={bankId}
+              setState={setBankId}
             />
             <Label
               combo
               menuItems={menuItems}
               label="Terminal Type"
-              value={settlementPlan}
-              setState={setSettlementPlan}
+              value={terminalBrand}
+              setState={setTerminalBrand}
             />
             <Label
               label="Nibbs Rate"

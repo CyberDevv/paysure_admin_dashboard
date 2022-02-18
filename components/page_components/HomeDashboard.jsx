@@ -269,7 +269,7 @@ const temporalData = [
   },
   {
     amount: '10',
-    title: 'Total Number of Organizations',
+    title: 'Total Number of Businesses',
     link: '/organizations',
   },
   {
