@@ -1,12 +1,15 @@
 import tw from 'twin.macro'
+import { Button } from '@mui/material'
 import React, { useState } from 'react'
-import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
+import CurrencyFormat from 'react-currency-format'
 
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { Print, ViewActionSVG } from '../SVGIcons'
 
-const TransacitonsDashboard = () => {
+const TransacitonsDashboard = ({ transactionStats }) => {
+  console.log(transactionStats)
+
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
 
@@ -15,13 +18,40 @@ const TransacitonsDashboard = () => {
     setSelectedDrop(event.target.value)
   })
 
+  const transactionStatsData = [
+    {
+      amount: (
+        <CurrencyFormat
+          value={transactionStats.at(-1).sumTotal}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      title: 'Total Transactions',
+      link: '/transactions/transactions_list',
+    },
+    {
+      amount: transactionStats.filter(item => item.status === 'Pending').length,
+      title: 'Total number of successful transactions',
+    },
+    {
+      amount: '3',
+      title: 'Total number of failed transactions',
+    },
+    {
+      amount: '3',
+      title: 'Total number of pending transactions',
+    },
+  ]
+
   return (
     <Layout title="Transactions">
       <div>
         <Ttile className="font-bold">Transactions</Ttile>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={transactionStatsData} />
 
       <OverviewCardSection
         title="Settlement Overview"
@@ -290,31 +320,6 @@ const agencyOveriewData = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '147878787',
-    title: 'Total Transactions',
-    link: '/transactions/transactions_list',
-  },
-  {
-    amount: '24',
-    title: 'Total Successful Settlements',
-  },
-  {
-    amount: '3',
-    title: 'Total Failed Transactions',
-  },
-  {
-    amount: '3',
-    title: 'Total Pending',
-  },
-]
-
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
-const Span = tw.span`text-[13px] text-[#10101266]`
-const MUIButton2 = tw(
-  Button,
-)`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
 
 export default TransacitonsDashboard
