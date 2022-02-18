@@ -3,10 +3,19 @@ import tw from 'twin.macro'
 import Link from 'next/link'
 import Image from 'next/image'
 import Router from 'next/router'
+import { destroyCookie } from 'nookies'
+import { useDispatch } from 'react-redux'
+import { IconButton, Menu, MenuItem } from '@mui/material'
 
 import { SettingsOUtline, CircledUser, MenuHamburger } from '../../SVGIcons'
+import { logout } from '../../../features/userSlice'
 
 const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
+  const dispatch = useDispatch()
+
+  // useState hook
+  const [anchorEl, setAnchorEl] = React.useState(null)
+
   // functions
   const handleSideBarToggle = React.useCallback(() => {
     setIsSideBarOpen(true)
@@ -14,6 +23,30 @@ const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
 
   const handleGoBack = React.useCallback(() => {
     Router.back()
+  })
+
+  const open = Boolean(anchorEl)
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    // Set
+    setCookie(null, 'fromClient', 'value', {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/',
+    })
+    setAnchorEl(null)
+  }
+
+  const handleLogout = React.useCallback(() => {
+    setAnchorEl(null)
+
+    dispatch(logout())
+    destroyCookie(null, 'USER_AUTHORIZATION')
+    localStorage.removeItem('user')
+    Router.push('/login')
   })
 
   return (
@@ -39,14 +72,37 @@ const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
         <AuthWrapper>
           <Link href="/settings">
             <a>
-              <I>
+              <IconButton>
                 <SettingsOUtline />
-              </I>
+              </IconButton>
             </a>
           </Link>
-          <I>
-            <CircledUser />
-          </I>
+
+          {/* Dropdonwn */}
+          <div>
+            <IconButton
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+            >
+              <CircledUser />
+            </IconButton>
+
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </div>
+
           <button onClick={handleSideBarToggle} css={[tw`lg:hidden`]}>
             <MenuHamburger />
           </button>
@@ -66,7 +122,6 @@ const ImageWrapper = tw.div`lg:hidden`
 const Title = tw.h5`text-sm hidden lg:block`
 const Title2 = tw.h5`text-sm lg:hidden mt-2`
 const AuthWrapper = tw.div`flex items-center space-x-4 text-paysure-text-100`
-const I = tw.i`hover:text-paysure-100`
 const Button = tw.button`normal-case text-paysure-text-100 text-sm hover:(underline)`
 const Button1 = tw(Button)`hidden lg:block`
 const Button2 = tw(Button)`lg:hidden mt-2`
