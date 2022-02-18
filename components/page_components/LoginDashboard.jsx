@@ -31,6 +31,8 @@ const LoginDashboard = () => {
       .then(res => {
         dispatch(login(res.data.data))
 
+        console.log(res.data)
+        
         // checks if the user is an admin
         if (res.data.data.userRole !== 1) {
           toast.error('You are not an admin')
@@ -52,6 +54,7 @@ const LoginDashboard = () => {
         Router.push('/')
       })
       .catch(err => {
+        console.log(err)
         setLoading(false)
         toast.error(err.response.data.data)
       })
