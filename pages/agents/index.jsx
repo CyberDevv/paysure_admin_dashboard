@@ -7,7 +7,7 @@ import nookies from 'nookies'
 import { SinglarSuperAgentDashboard } from '../../components'
 
 // Page init
-const Agents = ({data}) => {
+const Agents = ({ data }) => {
   console.log(data)
   return (
     <>
@@ -15,7 +15,7 @@ const Agents = ({data}) => {
         <title>Agents | Paysure</title>
       </Head>
 
-      <SinglarSuperAgentDashboard data= {data} />
+      <SinglarSuperAgentDashboard data={data} />
     </>
   )
 }
