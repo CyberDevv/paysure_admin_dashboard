@@ -30,7 +30,7 @@ const LoginDashboard = () => {
       })
       .then(res => {
         dispatch(login(res.data.data))
-        
+
         // checks if the user is an admin
         if (res.data.data.userRole !== 1) {
           toast.error('You are not an admin')
