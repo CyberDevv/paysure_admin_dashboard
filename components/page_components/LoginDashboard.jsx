@@ -15,12 +15,14 @@ const LoginDashboard = () => {
   // useState hooks
   const [userName, setUserName] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
 
   // useDispatch hooks
   const dispatch = useDispatch()
 
   // Functions
   const handleLogin = React.useCallback(async () => {
+    setLoading(true)
     await axios
       .post('/api/auth/login', {
         userName,
@@ -28,9 +30,9 @@ const LoginDashboard = () => {
       })
       .then(res => {
         dispatch(login(res.data.data))
-
+        
         // checks if the user is an admin
-        if (res.data.data.userRole !== 1) { 
+        if (res.data.data.userRole !== 1) {
           toast.error('You are not an admin')
           return
         }
@@ -44,10 +46,13 @@ const LoginDashboard = () => {
           path: '/',
         })
 
+        setLoading(false)
+
         toast.success('Login Successful')
         Router.push('/')
       })
       .catch(err => {
+        setLoading(false)
         toast.error(err.response.data.data)
       })
   })
@@ -80,7 +85,11 @@ const LoginDashboard = () => {
         />
 
         <div>
-          <AuthButton onClick={handleLogin} label="Login to dashboard" />
+          <AuthButton
+            // loading={loading}
+            onClick={handleLogin}
+            label="Login to dashboard"
+          />
         </div>
       </Form>
     </Layout>
