@@ -8,9 +8,7 @@ import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
 
-const SuperAgentsSubDashboard = ({superAgentData}) => {
-
-  console.log('superAgentData', superAgentData)
+const SuperAgentsSubDashboard = () => {
   
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)

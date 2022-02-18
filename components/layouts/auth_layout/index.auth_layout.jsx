@@ -14,11 +14,11 @@ const Auth_Layout_index = ({ children, title, icon, onClick, login }) => {
   const user = useSelector(state => state.user)
 
   // useEffect hook
-  React.useEffect(() => {
-    if (localStorage.getItem('user')) {
-      Router.push('/')
-    }
-  }, [user])
+  // React.useEffect(() => {
+  //   if (localStorage.getItem('user')) {
+  //     Router.push('/')
+  //   }
+  // }, [user])
 
   return (
     <MainWrapper>

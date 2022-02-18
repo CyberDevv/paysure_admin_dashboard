@@ -14,7 +14,7 @@ import {
   Wallet,
 } from './SVGIcons'
 
-const AgentsSubDashboard = ({ agentData }) => {
+const AgentsSubDashboard = () => {
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
@@ -31,8 +31,6 @@ const AgentsSubDashboard = ({ agentData }) => {
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
-
-  console.log('agentData', agentData)
 
   return (
     <>

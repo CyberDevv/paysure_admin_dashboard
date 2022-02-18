@@ -7,9 +7,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { Print, ViewActionSVG } from '../SVGIcons'
 
-const TransacitonsDashboard = ({ transactionStats }) => {
-  console.log(transactionStats)
-
+const TransacitonsDashboard = () => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
 
@@ -20,19 +18,21 @@ const TransacitonsDashboard = ({ transactionStats }) => {
 
   const transactionStatsData = [
     {
-      amount: (
-        <CurrencyFormat
-          value={transactionStats.at(-1).sumTotal}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      ),
+      amount: 323234,
+      // (
+      // <CurrencyFormat
+      //   value={transactionStats.at(-1).sumTotal}
+      //   displayType={'text'}
+      //   thousandSeparator={true}
+      //   prefix={'₦'}
+      // />
+      // ),
       title: 'Total Transactions',
       link: '/transactions/transactions_list',
     },
     {
-      amount: transactionStats.filter(item => item.status === 'Pending').length,
+      amount: 4,
+      // amount: transactionStats.filter(item => item.status === 'Pending').length,
       title: 'Total number of successful transactions',
     },
     {
