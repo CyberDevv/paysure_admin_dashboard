@@ -10,7 +10,15 @@ import {
   MenuItem,
 } from '@mui/material'
 
-import { EditActionSVG, EllipsisSVG, UserProfileSVG, UserWithNegative, Wallet } from '../SVGIcons'
+import {
+  EditActionSVG,
+  EllipsisSVG,
+  UserProfileSVG,
+  UserWithNegative,
+  UserWithPositive,
+  ViewActionSVG,
+  Wallet,
+} from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
@@ -20,6 +28,7 @@ import {
   OverviewCardSection,
   SendModal,
 } from '..'
+import CurrencyFormat from 'react-currency-format'
 
 const SuperAgentDashboard = () => {
   // useState hook
@@ -205,7 +214,14 @@ const SuperAgentDashboard = () => {
       {/* Wallet balance */}
       <WalletWrapper className="bgSVG">
         <P className="font-500">Total Wallet Balance</P>
-        <Amount className="font-500">350034</Amount>
+        <Amount className="font-500">
+          <CurrencyFormat
+            value={350034}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        </Amount>
       </WalletWrapper>
 
       {/* Transactions */}
@@ -323,20 +339,27 @@ const SuperAgentDashboard = () => {
 // FIXME: Temp data (should be replaced with real data)
 const agencyOveriewData = [
   {
-    amount: 55102430,
-    label: 'Total Transaction',
+    amount: (
+      <CurrencyFormat
+        value={350034}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
+    label: 'Total Transactions',
   },
   {
     amount: 1350,
-    label: 'Completed Transaction',
+    label: 'Total Number of Completed Transactions',
   },
   {
     amount: 10,
-    label: 'Failed',
+    label: 'Total Number of Failed Transactions',
   },
   {
     amount: 20,
-    label: 'Pending',
+    label: 'Total Number of Pending Transactions',
   },
 ]
 
@@ -379,9 +402,9 @@ const rows = [
   {
     id: 1,
     col1: 1,
-    col2: 'Apple',
+    col2: 'ETRANSACT',
     col3: 'POS',
-    col4: 1,
+    col4: ['TD1213', 'TD90232', 'TD3232'],
     col5: 4243,
     col6: '443943043',
     col7: '443943043',
@@ -392,9 +415,9 @@ const rows = [
   {
     id: 2,
     col1: 2,
-    col2: 'Master Card',
+    col2: 'KUDA',
     col3: 'POS',
-    col4: 1,
+    col4: ['TD1213', 'TD90232', 'TD3232'],
     col5: 4243,
     col6: '443943043',
     col7: '443943043',
@@ -407,7 +430,7 @@ const rows = [
     col1: 3,
     col2: 'Bessie Cooper',
     col3: 'Tv Subscription',
-    col4: 5000,
+    col4: ['TD1213', 'TD90232', 'TD3232', 'TD23232', 'TD2322'],
     col5: 39.9,
     col6: '443943043',
     col7: 'Bank Card',
@@ -420,7 +443,7 @@ const rows = [
     col1: 4,
     col2: 'Bessie Cooper',
     col3: 'Tv Subscription',
-    col4: 5000,
+    col4: ['TD1213', 'TD90232', 'TD3232', 'TD23232', 'TD2322'],
     col5: 39.9,
     col6: '443943043',
     col7: 'Bank Card',
@@ -433,7 +456,7 @@ const rows = [
     col1: 5,
     col2: 'Bessie Cooper',
     col3: 'Tv Subscription',
-    col4: 5000,
+    col4: ['TD1213', 'TD90232'],
     col5: 39.9,
     col6: '443943043',
     col7: 'Bank Card',
@@ -459,18 +482,32 @@ const Agentscolumns = [
     headerClassName: 'grid-header',
   },
   {
-    field: 'col3',
-    headerName: 'Parent',
-    minWidth: 236,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
     field: 'col4',
     headerName: 'Terminals',
-    minWidth: 103,
+    minWidth: 193,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <div tw="space-x-1">
+          {params.row.col4.slice(0, 2).map((item, index) => {
+            return (
+              <span
+                key={index}
+                css={[
+                  tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
+                ]}
+              >
+                {item}
+              </span>
+            )
+          })}
+          {params.row.col4.length > 2 && (
+            <span tw="ml-4">+{params.row.col4.length - 2}</span>
+          )}
+        </div>
+      )
+    },
   },
   {
     field: 'col5',
@@ -485,6 +522,16 @@ const Agentscolumns = [
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
@@ -492,6 +539,16 @@ const Agentscolumns = [
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col7}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col8',
@@ -500,18 +557,11 @@ const Agentscolumns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
     headerName: 'Date Added',
-    minWidth: 123,
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -521,6 +571,19 @@ const Agentscolumns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={
+            params.row.col8.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
+              : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
+          }
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
   },
   {
     field: 'col11',
@@ -544,7 +607,7 @@ const Agentscolumns = [
             c => (thisRow[c.field] = params.getValue(params.id, c.field)),
           )
 
-        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+        Router.push(`/agents/agent/${thisRow.col1}`)
       }
 
       return (
@@ -554,11 +617,11 @@ const Agentscolumns = [
           </button>
 
           <button onClick={handleView}>
-            <UserWithNegative />
+            <UserWithPositive />
           </button>
 
           <button onClick={handleView}>
-            <Wallet />
+            <ViewActionSVG />
           </button>
         </div>
       )
@@ -584,14 +647,14 @@ const Terminalcolumns = [
   {
     field: 'col3',
     headerName: 'Serial No.',
-    minWidth: 236,
+    minWidth: 136,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Bank',
-    minWidth: 103,
+    minWidth: 193,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -610,41 +673,33 @@ const Terminalcolumns = [
     headerClassName: 'grid-header',
   },
   {
-    field: 'col7',
-    headerName: 'Super Agent',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
     field: 'col8',
     headerName: 'Merchant',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
-    field: 'col9',
+    field: 'col10',
     headerName: 'Status',
     minWidth: 123,
     flex: 1,
     headerClassName: 'grid-header',
-  },
 
-  {
-    field: 'col10',
-    headerName: 'Last Transaction',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={
+            params.row.col8.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
+              : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
+          }
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
   },
   {
     field: 'col11',
@@ -677,9 +732,17 @@ const Terminalcolumns = [
             <EditActionSVG />
           </button>
 
-          <button onClick={handleView}>
-            <UserWithNegative />
-          </button>
+          {params.row.col8.toLowerCase() === 'active' && (
+            <button onClick={handleView}>
+              <UserWithNegative />
+            </button>
+          )}
+
+          {params.row.col8.toLowerCase() === 'inactive' && (
+            <button onClick={handleView}>
+              <UserWithPositive />
+            </button>
+          )}
 
           <button onClick={handleView}>
             <Wallet />
@@ -708,21 +771,14 @@ const Settlementcolumns = [
   {
     field: 'col3',
     headerName: 'Type',
-    minWidth: 236,
+    minWidth: 136,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Identifier',
-    minWidth: 103,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'Initiator',
-    minWidth: 176,
+    minWidth: 203,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -743,22 +799,15 @@ const Settlementcolumns = [
   {
     field: 'col8',
     headerName: 'Date',
-    minWidth: 153,
+    minWidth: 203,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
     headerName: 'Actions',
-    minWidth: 100,
+    minWidth: 120,
     flex: 1,
     headerClassName: 'grid-header',
     renderCell: params => {
@@ -787,7 +836,7 @@ const Settlementcolumns = [
           </button>
 
           <button onClick={handleView}>
-            <UserWithNegative />
+            <UserWithPositive />
           </button>
 
           <button onClick={handleView}>
@@ -800,104 +849,22 @@ const Settlementcolumns = [
 ]
 
 // FIXME: Temp data (should be replaced with real data)
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Name of Organisation',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Services',
-    minWidth: 236,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Services',
-    minWidth: 103,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Transactions{N}',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Action.',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const temporalData = [
   {
     amount: '240',
-    title: 'Agents',
+    title: 'Number of Agents',
   },
   {
     amount: '120',
-    title: 'Terminals',
+    title: 'Number of Terminals',
   },
   {
     amount: '30',
-    title: 'Active',
+    title: 'Number of Active',
   },
   {
     amount: '72',
-    title: 'Inactive',
+    title: 'Number of Inactive',
   },
 ]
 

@@ -1,4 +1,6 @@
 import React from 'react'
+import CurrencyFormat from 'react-currency-format'
+import tw from 'twin.macro'
 
 import { DataGridViewTemp } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
@@ -11,6 +13,10 @@ const TransactionListDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        hasSearch
+        hasFilter
+        hasSort
+        hasExportBtn
       />
 
       {/* TODO: add the date range picker */}
@@ -114,65 +120,61 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Name of Organisation',
+    headerName: 'Initiator',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Services',
+    headerName: 'Transaction Type',
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Services',
-    minWidth: 103,
+    headerName: 'Information',
+    minWidth: 143,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
-    headerName: 'No. of Transactions',
+    headerName: 'Amount',
     minWidth: 176,
     flex: 1,
     headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Transactions{N}',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col5}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col8',
-    headerName: 'Charges',
+    headerName: 'Status',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
+    renderCell: params => {
+      return (
+        <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+          {params.row.col8}
+        </span>
+      )
+    },
   },
   {
     field: 'col9',
     headerName: 'Date Added',
-    minWidth: 123,
+    minWidth: 173,
     flex: 1,
     headerClassName: 'grid-header',
   },

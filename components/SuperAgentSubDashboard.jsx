@@ -7,9 +7,9 @@ import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
+import CurrencyFormat from 'react-currency-format'
 
 const SuperAgentsSubDashboard = () => {
-  
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
@@ -176,7 +176,7 @@ const rows = [
     col1: 1,
     col2: 'ETRANSACT',
     col3: 'POS',
-    col4: 1,
+    col4: ['TD1213', 'TD90232', 'TD3232'],
     col5: 4243,
     col6: '443943043',
     col7: '443943043',
@@ -189,7 +189,7 @@ const rows = [
     col1: 2,
     col2: 'KUDA',
     col3: 'POS',
-    col4: 1,
+    col4: ['TD1213', 'TD90232', 'TD3232'],
     col5: 4243,
     col6: '443943043',
     col7: '443943043',
@@ -202,7 +202,7 @@ const rows = [
     col1: 3,
     col2: 'Bessie Cooper',
     col3: 'Tv Subscription',
-    col4: 5000,
+    col4: ['TD1213', 'TD90232', 'TD3232', 'TD23232', 'TD2322'],
     col5: 39.9,
     col6: '443943043',
     col7: 'Bank Card',
@@ -215,7 +215,7 @@ const rows = [
     col1: 4,
     col2: 'Bessie Cooper',
     col3: 'Tv Subscription',
-    col4: 5000,
+    col4: ['TD1213', 'TD90232', 'TD3232', 'TD23232', 'TD2322'],
     col5: 39.9,
     col6: '443943043',
     col7: 'Bank Card',
@@ -228,7 +228,7 @@ const rows = [
     col1: 5,
     col2: 'Bessie Cooper',
     col3: 'Tv Subscription',
-    col4: 5000,
+    col4: ['TD1213', 'TD90232'],
     col5: 39.9,
     col6: '443943043',
     col7: 'Bank Card',
@@ -263,9 +263,30 @@ const columns = [
   {
     field: 'col4',
     headerName: 'Terminals',
-    minWidth: 103,
+    minWidth: 193,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <div tw="space-x-1">
+          {params.row.col4.slice(0, 2).map((item, index) => {
+            return (
+              <span
+                key={index}
+                css={[
+                  tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
+                ]}
+              >
+                {item}
+              </span>
+            )
+          })}
+          {params.row.col4.length > 2 && (
+            <span tw="ml-4">+{params.row.col4.length - 2}</span>
+          )}
+        </div>
+      )
+    },
   },
   {
     field: 'col5',
@@ -280,6 +301,16 @@ const columns = [
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
@@ -287,26 +318,21 @@ const columns = [
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Current Plan',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col7}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col9',
     headerName: 'Date Added',
-    minWidth: 123,
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -316,6 +342,17 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={[
+            tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`,
+          ]}
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
   },
   {
     field: 'col11',

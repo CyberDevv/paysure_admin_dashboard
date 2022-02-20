@@ -11,6 +11,10 @@ const AgentTransactionListDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        hasSearch
+        hasFilter
+        hasSort
+        hasExportBtn
       />
 
       {/* TODO: add the date range picker */}
