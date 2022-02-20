@@ -55,6 +55,7 @@ export { default as Super_Agents_ListDashboard } from './page_components/Super_A
 export { default as SuperAgentDocViewDashboard } from './page_components/SuperAgentDocViewDashboard'
 export { default as SinglarSuperAgentDashboard } from './page_components/SinglarSuperAgentDashboard'
 export { default as DatRangePickerAndOthers } from './DataGridFunctionalities/DatRangePickerAndOthers'
+export { default as UserTransactionListDashboard } from './page_components/UserTransactionListDashboard'
 export { default as OrganizationServicesDashboard } from './page_components/OrganizationServicesDashboard'
 export { default as AgentTransactionListDashboard } from './page_components/AgentTransactionListDashboard'
 export { default as Roles_and_PermissionsDashboard } from './page_components/Roles_and_PermissionsDashboard'

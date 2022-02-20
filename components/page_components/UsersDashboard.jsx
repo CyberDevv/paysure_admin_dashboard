@@ -263,32 +263,36 @@ const columns = [
   },
   {
     field: 'col6',
-    headerName: '2786111763',
+    headerName: 'Account Number',
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col7',
-    headerName: 'Status',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
     field: 'col8',
-    headerName: 'Last Transaction',
+    headerName: 'Status',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
+    renderCell: params => {
+      return (
+        <span
+          css={[
+            tw`bg-[#E9FBF9] text-paysure-success-100 uppercase text-[10px] p-1 rounded`,
+          ]}
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
+  },
+  {
+    field: 'col7',
+    headerName: 'Last Transaction',
+    minWidth: 144,
+    flex: 1,
+    headerClassName: 'grid-header',
   },
   {
     field: 'col9',
@@ -341,20 +345,20 @@ const columns = [
 const temporalData = [
   {
     amount: '2312',
-    title: 'Total',
+    title: 'Total Number of Users',
     link: '/users/users_list',
   },
   {
     amount: '11434',
-    title: 'Total Transactions',
+    title: 'Total Number of Completed Transactions',
   },
   {
     amount: '114',
-    title: 'Total Pending Transactions',
+    title: 'Total Number of  Pending Transactions',
   },
   {
     amount: '124',
-    title: 'Total Failed Tranasctions',
+    title: 'Total Number of  Failed Tranasctions',
   },
 ]
 

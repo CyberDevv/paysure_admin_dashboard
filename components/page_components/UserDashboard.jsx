@@ -10,11 +10,12 @@ import {
   MenuItem,
 } from '@mui/material'
 
-import { EllipsisSVG, UserProfileSVG } from '../SVGIcons'
+import { EllipsisSVG, Print, UserProfileSVG, ViewActionSVG } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, OverviewCardSection, SendModal } from '..'
+import CurrencyFormat from 'react-currency-format'
 
 const UserDashboard = () => {
   // useState hook
@@ -198,12 +199,20 @@ const UserDashboard = () => {
       {/* Wallet balance */}
       <WalletWrapper className="bgSVG">
         <P className="font-500">Total Wallet Balance</P>
-        <Amount className="font-500">350034</Amount>
+        <Amount className="font-500">
+          <CurrencyFormat
+            value={350034}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        </Amount>
       </WalletWrapper>
 
       {/* Transactions */}
       <OverviewCardSection
         btnLabel="See all activities"
+        link="/users/1/transactionDetails"
         title="Transactions"
         data={agencyOveriewData}
       />
@@ -277,6 +286,10 @@ const UserDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        hasSearch
+        hasFilter
+        hasExportBtn
+        hasSort
       />
     </Layout>
   )
@@ -285,25 +298,33 @@ const UserDashboard = () => {
 // FIXME: Temp data (should be replaced with real data)
 const agencyOveriewData = [
   {
-    amount: 55102430,
+    amount: (
+      <CurrencyFormat
+        value={350034}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
     label: 'Total Transaction',
   },
   {
     amount: 1350,
-    label: 'Completed Transaction',
+    label: 'Total Number of Completed Transactions',
   },
   {
     amount: 10,
-    label: 'Failed',
+    label: 'Total Number of Failed Transactions',
   },
   {
     amount: 20,
-    label: 'Pending',
+    label: 'Total Number of Pending Transaction',
   },
 ]
 
 // FIXME: Temp data (should be replaced with real data)
 const userDetails = {
+  id: 1,
   name: 'Bolarinwa Bimbola',
   joined: '10 October, 2021',
   city: 'Ikeja',
@@ -414,65 +435,98 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Name of Organisation',
+    headerName: 'Initiator',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Services',
-    minWidth: 236,
+    headerName: 'Transaction Type',
+    minWidth: 170,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Services',
+    headerName: 'Contract',
     minWidth: 103,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
+    headerName: 'Amount',
+    minWidth: 130,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col5}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col6',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
+    headerName: 'Charges',
+    minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
-    headerName: 'Transactions{N}',
+    headerName: 'Elec Board',
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col8',
-    headerName: 'Charges',
+    headerName: 'Status',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
+    renderCell: params => {
+      return (
+        <span
+          css={
+            params.row.col8.toLowerCase() === 'pending'
+              ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded capitalize`
+              : tw`bg-border2 text-paysure-100 p-1 rounded capitalize`
+          }
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
+  },
+  {
+    field: 'col11',
+    headerName: 'Meter Number',
+    minWidth: 153,
+    flex: 1,
+    headerClassName: 'grid-header',
   },
   {
     field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 123,
+    headerName: 'Date',
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -482,6 +536,37 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/users/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <ViewActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <Print />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 
