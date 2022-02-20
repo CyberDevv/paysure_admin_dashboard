@@ -3,6 +3,8 @@ import tw from 'twin.macro'
 import Link from 'next/link'
 import { Avatar } from '@mui/material'
 
+import { HomeCardAvatar } from './SVGIcons'
+
 const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
   return (
     <div tw="mt-10">
@@ -29,7 +31,9 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
                             lg: '50px',
                           },
                         }}
-                      />
+                      >
+                        <HomeCardAvatar />
+                      </Avatar>
                     </AvatarWrapper>
                   )}
 
