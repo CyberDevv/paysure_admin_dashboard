@@ -1,5 +1,6 @@
 import React from 'react'
 import tw from 'twin.macro'
+import Router from 'next/router'
 
 import { DataGridViewTemp, HomeDisplayCard, DatRangePickerAndOthers } from '.'
 import { Print, ViewActionSVG } from './SVGIcons'
@@ -137,7 +138,7 @@ const columns = [
   {
     field: 'col4',
     headerName: '(219) 555-0114',
-    minWidth: 103,
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -151,35 +152,46 @@ const columns = [
   {
     field: 'col6',
     headerName: 'Business Name',
-    minWidth: 150,
+    minWidth: 200,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col7',
     headerName: 'Business Address',
-    minWidth: 144,
+    minWidth: 220,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col9',
     headerName: 'Date Added',
-    minWidth: 123,
+    minWidth: 160,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col10',
     headerName: 'Status',
-    minWidth: 100,
+    minWidth: 120,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={[
+            tw`bg-[#F1F1F5] text-[#A6B7D4] uppercase text-[10px] p-1 rounded`,
+          ]}
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
   },
   {
     field: 'col11',
     headerName: 'Actions',
-    minWidth: 100,
+    minWidth: 120,
     flex: 1,
     headerClassName: 'grid-header',
     renderCell: params => {
@@ -198,7 +210,7 @@ const columns = [
             c => (thisRow[c.field] = params.getValue(params.id, c.field)),
           )
 
-        // Router.push(`/signups/${thisRow.col1}`)
+        Router.push(`/signups/${thisRow.col1}`)
       }
 
       return (

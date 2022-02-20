@@ -14,7 +14,14 @@ import { DataGridViewTemp, OverviewCardSection } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
-import { Print, UserProfileSVG, ViewActionSVG, EllipsisSVG } from '../SVGIcons'
+import {
+  Print,
+  UserProfileSVG,
+  ViewActionSVG,
+  EllipsisSVG,
+  Wallet,
+} from '../SVGIcons'
+import CurrencyFormat from 'react-currency-format'
 
 const SuperAgentDocViewDashboard = () => {
   // useState hook
@@ -25,26 +32,26 @@ const SuperAgentDocViewDashboard = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   // functions
-  const handleApprove = React.useCallback(() =>
-    setIsSuspendAccountModalOpened(true),
-  )
+  const handleApprove = React.useCallback(() => {
+    console.log('Approve')
+  }, [])
 
   const handleSetNote = React.useCallback(e => {
     setNote(e.target.value)
   })
-  
-  const handleDeny = React.useCallback(e => {
-    setNote(e.target.value)
-  })
 
-   const open = Boolean(anchorEl)
+  const handleDeny = React.useCallback(e =>
+    setIsSuspendAccountModalOpened(true),
+  )
 
-   const handleBtnMenuShown = event => {
-     setAnchorEl(event.currentTarget)
-   }
-   const handleClose = () => {
-     setAnchorEl(null)
-   }
+  const open = Boolean(anchorEl)
+
+  const handleBtnMenuShown = event => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   return (
     <Layout goBack>
@@ -85,10 +92,10 @@ const SuperAgentDocViewDashboard = () => {
               }}
             >
               <MenuItem onClick={handleClose}>
-                <button onClick={handleApprove}>Send Email</button>
+                <button onClick={handleApprove}>Approve Account</button>
               </MenuItem>
               <MenuItem onClick={handleClose}>
-                <button onClick={handleDeny}>Send SMS</button>
+                <button onClick={handleDeny}>Deny Account</button>
               </MenuItem>
             </Menu>
           </div>
@@ -163,15 +170,15 @@ const SuperAgentDocViewDashboard = () => {
       {/* Wallet balance */}
       <WalletWrapper className="bgSVG">
         <P className="font-500">Total Wallet Balance</P>
-        <Amount className="font-500">350034</Amount>
+        <Amount className="font-500">
+          <CurrencyFormat
+            value={350034}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        </Amount>
       </WalletWrapper>
-
-      {/* Transactions */}
-      <OverviewCardSection
-        btnLabel="See all activities"
-        title="Transactions"
-        data={agencyOveriewData}
-      />
 
       {/* User information */}
       <UserInfoWrapper>
@@ -242,26 +249,6 @@ const SuperAgentDocViewDashboard = () => {
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: 55102430,
-    label: 'Total Transaction',
-  },
-  {
-    amount: 1350,
-    label: 'Completed Transaction',
-  },
-  {
-    amount: 10,
-    label: 'Failed',
-  },
-  {
-    amount: 20,
-    label: 'Pending',
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const userDetails = {
@@ -391,7 +378,7 @@ const columns = [
             c => (thisRow[c.field] = params.getValue(params.id, c.field)),
           )
 
-        Router.push(`/agents/super_agent/${thisRow.col1}`)
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
       }
 
       return (

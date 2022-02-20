@@ -14,6 +14,7 @@ import { UserProfileSVG, EllipsisSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
+import CurrencyFormat from 'react-currency-format'
 
 const UsersSignupsDashboard = () => {
   // useState hook
@@ -154,7 +155,14 @@ const UsersSignupsDashboard = () => {
       {/* Wallet balance */}
       <WalletWrapper className="bgSVG">
         <P className="font-500">Total Wallet Balance</P>
-        <Amount className="font-500">350034</Amount>
+        <Amount className="font-500">
+          <CurrencyFormat
+            value={350034}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        </Amount>
       </WalletWrapper>
 
       {/* User information */}
