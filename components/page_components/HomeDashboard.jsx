@@ -9,6 +9,7 @@ import {
   OverviewCardSection,
 } from '..'
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
+import CurrencyFormat from 'react-currency-format'
 
 const HomeDashboard = () => {
   return (
@@ -283,20 +284,27 @@ const temporalData = [
 // FIXME: Temp data (should be replaced with real data)
 const agencyOveriewData = [
   {
-    amount: 55102430,
+    amount: (
+      <CurrencyFormat
+        value={5233232}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
     label: 'Total Transactions',
   },
   {
     amount: 1350,
-    label: 'Completed Transactions',
+    label: 'Completed Number of Transactions',
   },
   {
     amount: 10,
-    label: 'Total Failed Transactions',
+    label: 'Total  Number of Failed Transactions',
   },
   {
     amount: 20,
-    label: 'Total Pending Transactions',
+    label: 'Total Number of Pending Transactions',
   },
 ]
 
@@ -304,19 +312,19 @@ const agencyOveriewData = [
 const agencyOveriewData2 = [
   {
     amount: 102430,
-    label: 'Total Users',
+    label: 'Total Number of Users',
   },
   {
     amount: 322321350,
-    label: 'Completed Transactions',
+    label: 'Total NUmber of Completed Transactions',
   },
   {
     amount: 10,
-    label: 'Total Failed',
+    label: 'Total Number of Failed',
   },
   {
     amount: 20,
-    label: 'Total Failed',
+    label: 'Total Number of Failed',
   },
 ]
 
