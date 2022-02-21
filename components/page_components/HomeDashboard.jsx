@@ -11,7 +11,78 @@ import {
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import CurrencyFormat from 'react-currency-format'
 
-const HomeDashboard = () => {
+const HomeDashboard = ({ homePageStats }) => {
+  console.log(homePageStats)
+  
+  // array of home page stats
+  const homePageData = [
+    {
+      amount: homePageStats.totalProviders,
+      title: 'Total Number of Providers',
+      link: '/providers',
+    },
+    {
+      amount: homePageStats.totalProviderServices,
+      title: 'Total Services Provided',
+    },
+    {
+      amount: homePageStats.totalSuperAgents,
+      title: 'Total Number of Super Agent',
+      link: '/agents',
+    },
+    {
+      amount: homePageStats.totalAgents,
+      title: 'Total Number of Agents',
+      link: '/agents_list',
+    },
+    {
+      amount: homePageStats.totalSubscribers,
+      title: 'Total Number of Users',
+      link: '/users',
+    },
+    {
+      amount: homePageStats.totalBusinesses,
+      title: 'Total Number of Businesses',
+      link: '/organizations',
+    },
+    {
+      amount: homePageStats.totalAdmins,
+      title: 'Total Number of Admins',
+      link: '/sub_accounts',
+    },
+    {
+      amount: homePageStats.totalProviders,
+      title: 'Total Number of Paysure Users',
+    },
+  ]
+
+  // array of agent stats
+  const agencyOveriewData = [
+    {
+      amount: (
+        <CurrencyFormat
+          value={homePageStats.totalSuccessfulTransactionsSum}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Total Transactions',
+    },
+    {
+      amount: homePageStats.totalSuccessfulTransactionsCount,
+      label: 'Total Number of Completed Transactions',
+    },
+    {
+      amount: homePageStats.totalFailedTransactionsCount,
+      label: 'Total  Number of Failed Transactions',
+    },
+    {
+      amount: '20(dummy)',
+      label: 'Total Number of Pending Transactions',
+    },
+  ]
+
   return (
     <Layout title="Home">
       <Ttile className="font-bold">
@@ -21,7 +92,7 @@ const HomeDashboard = () => {
         </TitleSpan>
       </Ttile>
 
-      <HomeDisplayCard data={temporalData} hasIcon />
+      <HomeDisplayCard data={homePageData} hasIcon />
 
       <OverviewCardSection title="Agency Overview" data={agencyOveriewData} />
 
@@ -240,75 +311,6 @@ const columns = [
 ]
 
 // FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '240',
-    title: 'Total Number of Providers',
-    link: '/providers',
-  },
-  {
-    amount: '120',
-    title: 'Total Services Provided',
-  },
-  {
-    amount: '30',
-    title: 'Total Number of Super Agent',
-    link: '/agents',
-  },
-  {
-    amount: '72',
-    title: 'Total Number of Agents',
-    link: '/agents_list',
-  },
-  {
-    amount: '534',
-    title: 'Total Number of Users',
-    link: '/users',
-  },
-  {
-    amount: '10',
-    title: 'Total Number of Businesses',
-    link: '/organizations',
-  },
-  {
-    amount: '10',
-    title: 'Total Number of Admins',
-    link: '/sub_accounts',
-  },
-  {
-    amount: '32429',
-    title: 'Total Number of Paysure Users',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: (
-      <CurrencyFormat
-        value={5233232}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Total Transactions',
-  },
-  {
-    amount: 1350,
-    label: 'Completed Number of Transactions',
-  },
-  {
-    amount: 10,
-    label: 'Total  Number of Failed Transactions',
-  },
-  {
-    amount: 20,
-    label: 'Total Number of Pending Transactions',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const agencyOveriewData2 = [
   {
     amount: 102430,
@@ -320,11 +322,11 @@ const agencyOveriewData2 = [
   },
   {
     amount: 10,
-    label: 'Total Number of Failed',
+    label: 'Total Number of Failed Transactions',
   },
   {
     amount: 20,
-    label: 'Total Number of Failed',
+    label: 'Total Number of Pending Transactions',
   },
 ]
 
