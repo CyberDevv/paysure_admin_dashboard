@@ -228,28 +228,28 @@ const columns = [
   {
     field: 'col2',
     headerName: 'Terminal ID',
-    minWidth: 227,
+    minWidth: 157,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
     headerName: 'Serial No.',
-    minWidth: 236,
+    minWidth: 156,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Bank',
-    minWidth: 103,
+    minWidth: 193,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
     headerName: 'Transactions',
-    minWidth: 176,
+    minWidth: 156,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -263,24 +263,17 @@ const columns = [
   {
     field: 'col7',
     headerName: 'Super Agent',
-    minWidth: 144,
+    minWidth: 194,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col8',
     headerName: 'Merchant',
-    minWidth: 153,
+    minWidth: 180,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
@@ -288,12 +281,25 @@ const columns = [
     minWidth: 123,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={
+            params.row.col8.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
+              : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
+          }
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
   },
 
   {
     field: 'col10',
     headerName: 'Last Transaction',
-    minWidth: 123,
+    minWidth: 193,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -345,16 +351,16 @@ const columns = [
 const temporalData = [
   {
     amount: '14',
-    title: 'Total Terminals',
+    title: 'Total Number of Terminals',
     link: '/terminals/terminals_list',
   },
   {
     amount: '24',
-    title: 'Total Active Terminals',
+    title: 'Total Number of Active Terminals',
   },
   {
     amount: '3',
-    title: 'Total Inactive Terminals',
+    title: 'Total Number of Inactive Terminals',
   },
 ]
 

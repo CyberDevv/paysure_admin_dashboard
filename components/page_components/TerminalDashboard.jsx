@@ -3,11 +3,10 @@ import tw from 'twin.macro'
 import { Button, IconButton, Chip, Menu, MenuItem } from '@mui/material'
 
 import {
-  EditActionSVG,
   UserProfileSVG,
-  UserWithNegative,
-  Wallet,
+  Print,
   EllipsisSVG,
+  ViewActionSVG
 } from '../SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
@@ -267,72 +266,72 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Name of Organisation',
+    headerName: 'Type',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Services',
+    headerName: 'Transaction Ref.',
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Services',
+    headerName: 'Amount',
     minWidth: 103,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
-    headerName: 'No. of Transactions',
+    headerName: 'RRR',
     minWidth: 176,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col6',
-    headerName: 'Wallet Balance',
+    headerName: 'Status Code',
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col7',
-    headerName: 'Transactions{N}',
+    headerName: 'Notification Time',
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col8',
-    headerName: 'Charges',
+    headerName: 'Status',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
+    renderCell: params => {
+      return (
+        <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+          {params.row.col8}
+        </span>
+      )
+    },
   },
   {
     field: 'col9',
     headerName: 'Date Added',
-    minWidth: 123,
+    minWidth: 163,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col10',
     headerName: 'Action.',
-    minWidth: 100,
+    minWidth: 130,
     flex: 1,
     headerClassName: 'grid-header',
     renderCell: params => {
@@ -357,15 +356,11 @@ const columns = [
       return (
         <div tw="space-x-1">
           <button onClick={handleEdit}>
-            <EditActionSVG />
+            <ViewActionSVG />
           </button>
 
           <button onClick={handleView}>
-            <UserWithNegative />
-          </button>
-
-          <button onClick={handleView}>
-            <Wallet />
+            <Print />
           </button>
         </div>
       )
@@ -377,19 +372,19 @@ const columns = [
 const temporalData = [
   {
     amount: '240',
-    title: 'Total Transactions',
+    title: 'Total Number of Transactions',
   },
   {
     amount: '120',
-    title: 'Successful Transactions',
+    title: 'Total Number of Successful Transactions',
   },
   {
     amount: '30',
-    title: 'Failed Transactions',
+    title: 'Total Number of Failed Transactions',
   },
   {
     amount: '72',
-    title: 'Reversed Transactions',
+    title: 'Total Number of Reversed Transactions',
   },
 ]
 
