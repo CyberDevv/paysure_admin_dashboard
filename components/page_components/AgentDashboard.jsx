@@ -26,6 +26,8 @@ import {
   OverviewCardSection,
   SendModal,
 } from '..'
+import CurrencyFormat from 'react-currency-format'
+import Link from 'next/link'
 
 const AgentDashboard = () => {
   // useState hook
@@ -211,7 +213,14 @@ const AgentDashboard = () => {
       {/* Wallet balance */}
       <WalletWrapper className="bgSVG">
         <P className="font-500">Total Wallet Balance</P>
-        <Amount className="font-500">350034</Amount>
+        <Amount className="font-500">
+          <CurrencyFormat
+            value={234022}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        </Amount>
       </WalletWrapper>
 
       {/* Transactions */}
@@ -318,20 +327,28 @@ const AgentDashboard = () => {
 // FIXME: Temp data (should be replaced with real data)
 const agencyOveriewData = [
   {
-    amount: 55102430,
+    amount: (
+      <CurrencyFormat
+        value={342323}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
+
     label: 'Total Transaction',
   },
   {
     amount: 1350,
-    label: 'Completed Transaction',
+    label: 'Total Number of Completed Transactions',
   },
   {
     amount: 10,
-    label: 'Failed',
+    label: 'Total Number of Failed Transactions',
   },
   {
     amount: 20,
-    label: 'Pending',
+    label: 'Total Number of Pending Transactions',
   },
 ]
 
@@ -457,67 +474,69 @@ const Terminalcolumns = [
   {
     field: 'col3',
     headerName: 'Serial No.',
-    minWidth: 236,
+    minWidth: 136,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Bank',
-    minWidth: 103,
+    minWidth: 193,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
-    headerName: 'Transactions',
+    headerName: 'No. of Transactions',
     minWidth: 176,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col6',
-    headerName: 'Nibble Rate (%)',
+    headerName: 'Transactions (N)',
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
-    field: 'col7',
-    headerName: 'Super Agent',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Merchant',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
-  },
-  {
-    field: 'col9',
+    field: 'col10',
     headerName: 'Status',
     minWidth: 123,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={
+            params.row.col8.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
+              : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
+          }
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
   },
 
   {
-    field: 'col10',
-    headerName: 'Last Transaction',
-    minWidth: 123,
+    field: 'col8',
+    headerName: 'Date Added',
+    minWidth: 163,
     flex: 1,
     headerClassName: 'grid-header',
+    disableClickEventBubbling: true,
   },
   {
     field: 'col11',
@@ -550,9 +569,17 @@ const Terminalcolumns = [
             <EditActionSVG />
           </button>
 
-          <button onClick={handleView}>
-            <UserWithNegative />
-          </button>
+          {params.row.col8.toLowerCase() === 'active' && (
+            <button onClick={handleView}>
+              <UserWithNegative />
+            </button>
+          )}
+
+          {params.row.col8.toLowerCase() === 'inactive' && (
+            <button onClick={handleView}>
+              <UserWithPositive />
+            </button>
+          )}
 
           <button onClick={handleView}>
             <Wallet />
@@ -573,38 +600,34 @@ const Settlementcolumns = [
   },
   {
     field: 'col2',
-    headerName: 'Amount',
-    minWidth: 227,
+    headerName: 'Terminal ID',
+    minWidth: 167,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Type',
-    minWidth: 236,
+    headerName: 'Transaction ID',
+    minWidth: 166,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Identifier',
-    minWidth: 103,
+    headerName: 'Amount',
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'Initiator',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Percentage',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col4}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
@@ -612,11 +635,24 @@ const Settlementcolumns = [
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={
+            params.row.col7.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
+              : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
+          }
+        >
+          {params.row.col7}
+        </span>
+      )
+    },
   },
   {
     field: 'col8',
-    headerName: 'Date',
-    minWidth: 153,
+    headerName: 'Date Added',
+    minWidth: 163,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
@@ -631,7 +667,7 @@ const Settlementcolumns = [
   {
     field: 'col9',
     headerName: 'Actions',
-    minWidth: 100,
+    minWidth: 130,
     flex: 1,
     headerClassName: 'grid-header',
     renderCell: params => {
@@ -655,17 +691,13 @@ const Settlementcolumns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
+          {/* <button onClick={handleEdit}>
             <EditActionSVG />
-          </button>
+          </button> */}
 
-          <button onClick={handleView}>
-            <UserWithNegative />
-          </button>
-
-          <button onClick={handleView}>
-            <Wallet />
-          </button>
+          <Link href="">
+            <a tw= "text-paysure-100 cursor-pointer">View</a>
+          </Link>
         </div>
       )
     },
@@ -730,13 +762,6 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',

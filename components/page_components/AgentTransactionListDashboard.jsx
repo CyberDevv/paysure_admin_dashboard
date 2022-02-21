@@ -1,7 +1,10 @@
 import React from 'react'
+import CurrencyFormat from 'react-currency-format'
+import tw from 'twin.macro'
 
 import { DataGridViewTemp } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { Print, ViewActionSVG } from '../SVGIcons'
 
 const AgentTransactionListDashboard = () => {
   return (
@@ -118,65 +121,53 @@ const columns = [
   },
   {
     field: 'col2',
-    headerName: 'Name of Organisation',
+    headerName: 'Transaction Type',
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
-    headerName: 'Services',
-    minWidth: 236,
+    headerName: 'Information',
+    minWidth: 196,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
-    headerName: 'Services',
+    headerName: 'Amount',
     minWidth: 103,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col4}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col5',
-    headerName: 'No. of Transactions',
+    headerName: 'Status',
     minWidth: 176,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+          {params.row.col8}
+        </span>
+      )
+    },
   },
   {
     field: 'col6',
-    headerName: 'Wallet Balance',
+    headerName: 'Date',
     minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Transactions{N}',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 123,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -186,6 +177,37 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/agents/agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <ViewActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <Print />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 

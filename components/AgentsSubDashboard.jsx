@@ -13,6 +13,7 @@ import {
   ViewActionSVG,
   Wallet,
 } from './SVGIcons'
+import CurrencyFormat from 'react-currency-format'
 
 const AgentsSubDashboard = () => {
   // useState hook
@@ -163,6 +164,7 @@ const agents = [
     statusStr: 'IN-ACTIVE',
     emailAddress: 'box@gmail.com',
     phonePri: '+2348032110024',
+    terminals: ['TD1213', 'TD90232', 'TD3232'],
     phoneSec: '+2348032110025',
     address1: 'NA',
     address2: '01234567',
@@ -267,16 +269,37 @@ const columns = [
     headerClassName: 'grid-header',
   },
   {
-    field: 'col4',
+    field: 'terminals',
     headerName: 'Terminals',
-    minWidth: 103,
+    minWidth: 203,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <div tw="space-x-1">
+          {params.row.terminals.slice(0, 2).map((item, index) => {
+            return (
+              <span
+                key={index}
+                css={[
+                  tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
+                ]}
+              >
+                {item}
+              </span>
+            )
+          })}
+          {params.row.terminals.length > 2 && (
+            <span tw="ml-4">+{params.row.terminals.length - 2}</span>
+          )}
+        </div>
+      )
+    },
   },
   {
     field: 'col5',
     headerName: 'No. of Transactions',
-    minWidth: 176,
+    minWidth: 166,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -286,6 +309,16 @@ const columns = [
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
@@ -293,6 +326,16 @@ const columns = [
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col8',
@@ -301,13 +344,6 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
@@ -322,6 +358,17 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={[
+            tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`,
+          ]}
+        >
+          {params.row.col8}
+        </span>
+      )
+    },
   },
   {
     field: 'col11',
