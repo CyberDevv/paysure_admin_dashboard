@@ -33,7 +33,7 @@ export async function getServerSideProps(ctx) {
 
   return {
     props: {
-      data: response.data,
+      data: response ? response.data : {},
     },
   }
 }

@@ -29,13 +29,20 @@ const LoginDashboard = () => {
         password,
       })
       .then(res => {
-        dispatch(login(res.data.data))
+        if (!res.data.data) {
+          toast.error('Please refresh the page and try again.')
+          setLoading(false)
+          return
+        }
 
         // checks if the user is an admin
         if (res.data.data.userRole !== 1) {
           toast.error('You are not an admin')
+          setLoading(false)
           return
         }
+
+        dispatch(login(res.data.data))
 
         // save user data to localStorage
         localStorage.setItem('user', JSON.stringify(res.data.data))
@@ -53,7 +60,9 @@ const LoginDashboard = () => {
       })
       .catch(err => {
         setLoading(false)
-        toast.error(err.response.data.data.errorDesc)
+        if (err.response) {
+          toast.error(err.response.data.data.errorDesc)
+        }
       })
   })
 

@@ -29,6 +29,7 @@ export { default as UserListDashboard } from './page_components/UserListDashboar
 export { default as TerminalDashboard } from './page_components/TerminalDashboard'
 export { default as CreatePermissionDashboard } from './CreatePermissionDashboard'
 export { default as SettingsDashboard } from './page_components/SettingsDashboard'
+export { default as ProviderDashboard } from './page_components/ProviderDashboard'
 export { default as SuperAgentSignupsDashboard } from './SuperAgentSignupsDashboard'
 export { default as ProvidersDashboard } from './page_components/ProvidersDashboard'
 export { default as AgentListDashboard } from './page_components/AgentListDashboard'

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 
 export async function makeEncryptedRequest(data, url, method, token) {
   try {
@@ -40,9 +40,11 @@ export async function makeEncryptedRequest(data, url, method, token) {
       }
     }
   } catch (error) {
-    return {
-      status: error.response.status,
-      data: error.response.data.errorDesc,
+    if (error.response) {
+      return {
+        status: error.response.status,
+        data: error.response.data.errorDesc,
+      }
     }
   }
 }

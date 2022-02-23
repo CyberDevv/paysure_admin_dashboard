@@ -8,6 +8,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import CurrencyFormat from 'react-currency-format'
 
 const ProvidersDashboard = () => {
   // useState hook
@@ -177,7 +178,7 @@ const columns = [
   {
     field: 'col4',
     headerName: 'No. of Services',
-    minWidth: 103,
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -194,6 +195,16 @@ const columns = [
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
@@ -201,6 +212,16 @@ const columns = [
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col7}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col8',
@@ -209,11 +230,21 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col8}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col9',
     headerName: 'Date Added',
-    minWidth: 123,
+    minWidth: 183,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -241,7 +272,7 @@ const columns = [
             c => (thisRow[c.field] = params.getValue(params.id, c.field)),
           )
 
-        Router.push(`/agents/super_agent/${thisRow.col1}`)
+        Router.push(`/providers/${thisRow.col1}`)
       }
 
       return (
@@ -263,39 +294,67 @@ const columns = [
 const temporalData = [
   {
     amount: '14',
-    title: 'Total Providers',
+    title: 'Total Number of Providers',
     link: '/providers/providers_list',
   },
   {
     amount: '13',
-    title: 'Total Services',
+    title: 'Total Number of Services',
   },
   {
     amount: '13',
-    title: 'Total Transactions',
+    title: 'Total Number of Transactions',
   },
   {
     amount: '13',
-    title: 'Total Charges',
+    title: 'Total Number of Charges',
   },
 ]
 
 // FIXME: Temp data (should be replaced with real data)
 const agencyOveriewData = [
   {
-    amount: 93032434,
-    label: 'All Transaction',
+    amount: (
+      <CurrencyFormat
+        value={89787655}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
+    label: 'Total Transactions',
   },
   {
-    amount: 289383,
+    amount: (
+      <CurrencyFormat
+        value={289434}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
     label: 'Data',
   },
   {
-    amount: 70000,
+    amount: (
+      <CurrencyFormat
+        value={70000}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
     label: 'Transfer',
   },
   {
-    amount: 700000,
+    amount: (
+      <CurrencyFormat
+        value={70000}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
     label: 'Transfer',
   },
 ]

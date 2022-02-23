@@ -17,15 +17,15 @@ const Index_main_layout = ({ children, title, goBack }) => {
   // useSelector hook
   const user = useSelector(state => state.user)
 
-  // useEffect hook
-  React.useEffect(() => {
+  // useLayoutEffect hook
+  React.useLayoutEffect(() => {
     // check if user is logged in
     if (!user.isLoggedIn && localStorage.getItem('user')) {
       dispatch(login(JSON.parse(localStorage.getItem('user'))))
     }
   }, [user])
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (!localStorage.getItem('user')) {
       Router.push('/login')
     }
