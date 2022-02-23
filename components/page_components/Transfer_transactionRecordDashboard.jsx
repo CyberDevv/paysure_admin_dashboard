@@ -7,7 +7,7 @@ import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const UserDashboard = () => {
+const Transfer_transactionRecordDashboard = () => {
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -31,7 +31,7 @@ const UserDashboard = () => {
           <AvatarWrapper>
             <AvatarDetails>
               <UserName className="font-bold">{userDetails.name}</UserName>
-              <LastSeen>Data | Airtime | Transfer</LastSeen>
+              <LastSeen>Transfer</LastSeen>
             </AvatarDetails>
           </AvatarWrapper>
 
@@ -75,27 +75,7 @@ const UserDashboard = () => {
         </ButtonWrapper>
       </Header>
 
-      {/* Wallet balance */}
-      <WalletWrapper className="bgSVG">
-        <div>
-          <P className="font-500">Total Wallet Balance</P>
-          <Amount className="font-500">
-            <CurrencyFormat
-              value={350034}
-              displayType={'text'}
-              thousandSeparator={true}
-              prefix={'₦'}
-            />
-          </Amount>
-        </div>
-
-        <MUIButton>Fund Wallet</MUIButton>
-      </WalletWrapper>
-
       <HomeDisplayCard data={temporalData} />
-
-      {/* Services */}
-      <OverviewCardSection title="Services" data={agencyOveriewData} />
 
       {/* DataGrid */}
       <DataGridViewTemp
@@ -112,46 +92,6 @@ const UserDashboard = () => {
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: (
-      <CurrencyFormat
-        value={887655}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Airtime',
-    link: '/providers/1/airtime_transactionRecord',
-  },
-  {
-    amount: (
-      <CurrencyFormat
-        value={7655}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Data',
-    link: '/providers/1/data_transactionRecord',
-  },
-  {
-    amount: (
-      <CurrencyFormat
-        value={89787}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Transfer',
-    link: '/providers/1/transfer_transactionRecord',
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const userDetails = {
@@ -263,6 +203,13 @@ const columns = [
     field: 'col3',
     headerName: 'Transaction ID',
     minWidth: 186,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'col8',
+    headerName: 'Network Provider',
+    minWidth: 156,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -405,9 +352,5 @@ const MUIButton = tw(
   Button,
 )`normal-case text-white bg-paysure-100 px-3 py-[13px] rounded-lg hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 const UserGrid = tw.div`mt-5 space-y-4 lg:(mt-10 space-y-6)`
-const WalletWrapper = tw.div`mt-10 p-4 space-y-1 flex items-center justify-between rounded-xl lg:(py-10 px-8 space-y-4 rounded-[28px])`
-const P = tw.p`leading-[19px] text-sm lg:text-base`
-const Amount = tw.h4`text-4xl lg:text-[40px] leading-[48px] tracking-[-0.05em]`
-UserGrid
 
-export default UserDashboard
+export default Transfer_transactionRecordDashboard

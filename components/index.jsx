@@ -60,4 +60,7 @@ export { default as UserTransactionListDashboard } from './page_components/UserT
 export { default as OrganizationServicesDashboard } from './page_components/OrganizationServicesDashboard'
 export { default as AgentTransactionListDashboard } from './page_components/AgentTransactionListDashboard'
 export { default as Roles_and_PermissionsDashboard } from './page_components/Roles_and_PermissionsDashboard'
+export { default as Data_transactionRecordDashboard } from './page_components/Data_transactionRecordDashboard'
+export { default as Airtime_transactionRecordDashboard } from './page_components/Airtime_transactionRecordDashboard'
+export { default as Transfer_transactionRecordDashboard } from './page_components/Transfer_transactionRecordDashboard'
 export { default as OrganizationTransactionListDashboard } from './page_components/OrganizationTransactionListDashboard'

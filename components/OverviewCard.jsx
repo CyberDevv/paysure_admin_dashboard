@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 import { OverViewCard } from '.'
 
-const OverviewCardSection = ({ title, data, btnLabel, link, onClick }) => {
+const OverviewCardSection = ({ title, data, btnLabel, link }) => {
   return (
     <Wrapper>
       <div tw="flex items-center justify-between">
@@ -22,8 +22,15 @@ const OverviewCardSection = ({ title, data, btnLabel, link, onClick }) => {
 
       <div>
         <Div>
-          {data.map(({ amount, label }, index) => {
-            return <OverViewCard key={index} amount={amount} label={label} onClick= {onClick} />
+          {data.map(({ amount, label, link }, index) => {
+            return (
+              <OverViewCard
+                key={index}
+                amount={amount}
+                label={label}
+                onClick={link}
+              />
+            )
           })}
         </Div>
       </div>
