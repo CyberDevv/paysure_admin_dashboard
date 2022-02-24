@@ -1,20 +1,16 @@
 import React from 'react'
 import tw from 'twin.macro'
 import Router from 'next/router'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import NavBar from './Navbar.auth_layout'
-import { login } from '../../../features/userSlice'
 
 const Auth_Layout_index = ({ children, title, icon, onClick, login }) => {
-  // useDispatch hook
-  const dispatch = useDispatch()
-
   // useSelector hook
   const user = useSelector(state => state.user)
 
-  // useLayoutEffect hook
-  React.useLayoutEffect(() => {
+  // useEffect hook
+  React.useEffect(() => {
     if (localStorage.getItem('user')) {
       Router.push('/')
     }
