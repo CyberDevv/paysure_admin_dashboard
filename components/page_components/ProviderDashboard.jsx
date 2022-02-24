@@ -3,13 +3,25 @@ import tw from 'twin.macro'
 import CurrencyFormat from 'react-currency-format'
 import { Button, IconButton, Menu, MenuItem } from '@mui/material'
 
-import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
+import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const UserDashboard = () => {
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [isModalOpened, setIsModalOpened] = React.useState(false)
+  const [modalState, setModalState] = React.useState('fundWallet')
+  const [fundAmount, setFundAmount] = React.useState('0.00')
+  const [cardNumber, setCardNumber] = React.useState('')
+  const [expiryDate, setExpiryDate] = React.useState('')
+  const [cvv, setCVV] = React.useState('')
+  const [modalTitle, setModalTitle] = React.useState([
+    'Fund Wallet',
+    'Continue',
+  ])
 
   // functions
   const handleDeactivate = React.useCallback(() => clg('handleDeactivate'))
@@ -19,9 +31,40 @@ const UserDashboard = () => {
   const handleBtnMenuShown = event => {
     setAnchorEl(event.currentTarget)
   }
+
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const handSetIsModalOpened = React.useCallback(() => setIsModalOpened(true))
+
+  const handleModalBtnClick = React.useCallback(() => {
+    // fund wallet
+    if (modalState === 'fundWallet') {
+      setModalState('newCard')
+      setModalTitle(['New Card', 'Continue'])
+    }
+
+    // new card
+    if (modalState === 'newCard') {
+      setModalState('otp')
+      setModalTitle(['Enter OTP', 'Complete'])
+    }
+
+    // otp
+    if (modalState === 'otp') {
+      setModalState('selectCard')
+      setModalTitle(['Select Card', 'Proceed'])
+    }
+
+    // selectCard
+    if (modalState === 'selectCard') {
+      setIsModalOpened(false)
+      
+      setModalState('fundWallet')
+      setModalTitle(['Fund Wallet', 'Continue'])
+    }
+  })
 
   return (
     <Layout goBack>
@@ -74,7 +117,6 @@ const UserDashboard = () => {
           </MUIButton>
         </ButtonWrapper>
       </Header>
-
       {/* Wallet balance */}
       <WalletWrapper className="bgSVG">
         <div>
@@ -89,14 +131,84 @@ const UserDashboard = () => {
           </Amount>
         </div>
 
-        <MUIButton>Fund Wallet</MUIButton>
+        <MUIButton onClick={handSetIsModalOpened}>Fund Wallet</MUIButton>
+
+        {/* Add Users modal */}
+        <Modal
+          setState={setIsModalOpened}
+          title={modalTitle[0]}
+          state={isModalOpened}
+          buttonLabel={modalTitle[1]}
+          onClick={handleModalBtnClick}
+        >
+          {/* Fund Wallet */}
+          {modalState === 'fundWallet' && (
+            <div tw="my-16 flex flex-col items-center justify-center">
+              <input
+                tw="text-[32px] text-paysure-text-100 w-full text-center focus:outline-none"
+                type="text"
+                value={fundAmount}
+                onChange={e => setFundAmount(e.target.value)}
+              />
+
+              <p tw="text-sm text-[#505780]">Enter Amount</p>
+            </div>
+          )}
+
+          {/* New card */}
+          {modalState === 'newCard' && (
+            <div tw="my-8 space-y-10">
+              <Label
+                label="Enter Card Number"
+                type="text"
+                value={cardNumber}
+                setState={setCardNumber}
+                placeholder="0000 0000 0000 0000"
+              />
+              <FlexBox>
+                <Label
+                  label="Exp date"
+                  type="text"
+                  value={expiryDate}
+                  setState={setExpiryDate}
+                />
+                <Label
+                  label="CVV"
+                  type="text"
+                  placeholder=""
+                  value={cvv}
+                  setState={setCVV}
+                />
+              </FlexBox>
+            </div>
+          )}
+
+          {/* Enter OTP */}
+          {modalState === 'otp' && <div tw="my-8 space-y-10">oTp</div>}
+
+          {/* Select Card */}
+          {modalState === 'selectCard' && (
+            <div tw="my-8 flex flex-col items-center justify-center">
+              <h4 tw="text-[24px]" className="font-500">
+                Transaction Successful
+              </h4>
+
+              <p tw="text-[#666666] text-[14px] mt-2">
+                <CurrencyFormat
+                  value={fundAmount}
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  prefix={'₦'}
+                />{' '}
+                has been added to your wallet
+              </p>
+            </div>
+          )}
+        </Modal>
       </WalletWrapper>
-
       <HomeDisplayCard data={temporalData} />
-
       {/* Services */}
       <OverviewCardSection title="Services" data={agencyOveriewData} />
-
       {/* DataGrid */}
       <DataGridViewTemp
         limited
@@ -408,6 +520,6 @@ const UserGrid = tw.div`mt-5 space-y-4 lg:(mt-10 space-y-6)`
 const WalletWrapper = tw.div`mt-10 p-4 space-y-1 flex items-center justify-between rounded-xl lg:(py-10 px-8 space-y-4 rounded-[28px])`
 const P = tw.p`leading-[19px] text-sm lg:text-base`
 const Amount = tw.h4`text-4xl lg:text-[40px] leading-[48px] tracking-[-0.05em]`
-UserGrid
+const FlexBox = tw.div`flex items-center justify-between space-x-4`
 
 export default UserDashboard

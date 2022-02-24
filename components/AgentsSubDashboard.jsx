@@ -9,9 +9,7 @@ import Label from './layouts/modal_ayout/LabelInput.main_layout'
 import {
   Add,
   EditActionSVG,
-  UserWithPositive,
   ViewActionSVG,
-  Wallet,
 } from './SVGIcons'
 import CurrencyFormat from 'react-currency-format'
 
