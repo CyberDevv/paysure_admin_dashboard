@@ -6,11 +6,7 @@ import { Button } from '@mui/material'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
-import {
-  Add,
-  EditActionSVG,
-  ViewActionSVG,
-} from './SVGIcons'
+import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
 import CurrencyFormat from 'react-currency-format'
 
 const AgentsSubDashboard = () => {
