@@ -1,13 +1,14 @@
 import React from 'react'
 import tw from 'twin.macro'
+import OtpInput from 'react-otp-input'
 import CurrencyFormat from 'react-currency-format'
 import { Button, IconButton, Menu, MenuItem } from '@mui/material'
 
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
-import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = () => {
   // useState hook
@@ -16,6 +17,7 @@ const UserDashboard = () => {
   const [modalState, setModalState] = React.useState('fundWallet')
   const [fundAmount, setFundAmount] = React.useState('0.00')
   const [cardNumber, setCardNumber] = React.useState('')
+  const [otp, setOTP] = React.useState('')
   const [expiryDate, setExpiryDate] = React.useState('')
   const [cvv, setCVV] = React.useState('')
   const [modalTitle, setModalTitle] = React.useState([
@@ -37,6 +39,8 @@ const UserDashboard = () => {
   }
 
   const handSetIsModalOpened = React.useCallback(() => setIsModalOpened(true))
+
+  const handleOTPChange = React.useCallback(otp => setOTP(otp))
 
   const handleModalBtnClick = React.useCallback(() => {
     // fund wallet
@@ -60,7 +64,7 @@ const UserDashboard = () => {
     // selectCard
     if (modalState === 'selectCard') {
       setIsModalOpened(false)
-      
+
       setModalState('fundWallet')
       setModalTitle(['Fund Wallet', 'Continue'])
     }
@@ -184,12 +188,49 @@ const UserDashboard = () => {
           )}
 
           {/* Enter OTP */}
-          {modalState === 'otp' && <div tw="my-8 space-y-10">oTp</div>}
+          {modalState === 'otp' && (
+            <div tw="my-8 space-y-7">
+              <p tw="text-[13px] text-[#454D54] text-center">
+                A one time password was sent to you
+              </p>
+
+              <OtpInput
+                value={otp}
+                onChange={handleOTPChange}
+                numInputs={6}
+                isInputSecure
+                shouldAutoFocus
+                inputStyle={{
+                  fontSize: '32px',
+                  border: '1px solid #E3E5E8',
+                  // padding: '0 20px',
+                  borderRadius: '4px',
+                  width: '100%',
+                  margin: '0 4px',
+                }}
+                containerStyle={{
+                  displa: 'flex',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
+                // separator={<span>-</span>}
+              />
+
+              <p tw="text-[13px] text-[#454D54] text-center">
+                Didn't receive code?{' '}
+                <a href="" tw="text-paysure-100 hover:(underline)">
+                  Request again
+                </a>
+              </p>
+            </div>
+          )}
 
           {/* Select Card */}
           {modalState === 'selectCard' && (
             <div tw="my-8 flex flex-col items-center justify-center">
-              <h4 tw="text-[24px]" className="font-500">
+              <SuccessfulSVG />
+
+              <h4 tw="text-[24px] mt-6" className="font-500">
                 Transaction Successful
               </h4>
 

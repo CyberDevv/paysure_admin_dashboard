@@ -1086,3 +1086,36 @@ export const HomeCardAvatar = () => {
     </SvgIcon>
   )
 }
+export const SuccessfulSVG = () => {
+  return (
+    <SvgIcon
+      viewBox="0 0 144 144"
+      sx={{
+        width: '144px',
+        height: '144px',
+        fill: 'none',
+      }}
+    >
+      <circle
+        cx="72"
+        cy="72"
+        r="62"
+        fill="#6500E0"
+        stroke="#F1E6FF"
+        stroke-width="20"
+      />
+      <rect
+        width="40"
+        height="40"
+        transform="translate(52 52)"
+        fill="#6500E0"
+      />
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M86.6339 61.1161C87.122 61.6043 87.122 62.3957 86.6339 62.8839L69.1339 80.3839C68.8995 80.6183 68.5815 80.75 68.25 80.75C67.9185 80.75 67.6005 80.6183 67.3661 80.3839L58.6161 71.6339C58.128 71.1457 58.128 70.3543 58.6161 69.8661C59.1043 69.378 59.8957 69.378 60.3839 69.8661L68.25 77.7322L84.8661 61.1161C85.3543 60.628 86.1457 60.628 86.6339 61.1161Z"
+        fill="white"
+      />
+    </SvgIcon>
+  )
+}
