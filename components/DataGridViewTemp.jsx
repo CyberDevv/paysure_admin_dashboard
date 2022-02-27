@@ -12,10 +12,15 @@ const DataGridViewTemp = ({
   limited,
   dropdownData,
   hasSearch,
-  hasFilter,
   hasSort,
   hasExportBtn,
-  hasMT
+  hasFilterShowing,
+  hasFilterStatus,
+  hasFilterType,
+  hasMT,
+  typeDropdownData,
+  label,
+  StatusDropdownData,
 }) => {
   return (
     <div css={[(limited || hasMT) && tw`mt-10`]}>
@@ -36,9 +41,14 @@ const DataGridViewTemp = ({
         dropdownData={dropdownData}
         limited={limited}
         hasSearch={hasSearch}
-        hasFilter={hasFilter}
         hasSort={hasSort}
         hasExportBtn={hasExportBtn}
+        label={label}
+        hasFilterShowing={hasFilterShowing}
+        hasFilterStatus={hasFilterStatus}
+        hasFilterType={hasFilterType}
+        typeDropdownData={typeDropdownData}
+        StatusDropdownData={StatusDropdownData}
       />
     </div>
   )

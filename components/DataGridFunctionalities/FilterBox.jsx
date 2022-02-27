@@ -3,7 +3,7 @@ import tw from 'twin.macro'
 import PropTypes from 'prop-types'
 import { InputAdornment, MenuItem, TextField } from '@mui/material'
 
-const FilterBox = ({ dropdownData = [] }) => {
+const FilterBox = ({ dropdownData = [], label }) => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = React.useState(dropdownData[0].value)
 
@@ -16,12 +16,13 @@ const FilterBox = ({ dropdownData = [] }) => {
     <TextField
       select
       value={selectedDrop}
+      defaultValue={dropdownData[0].value}
       onChange={handleDropdownSelected}
       size="small"
       fullWidth
       sx={{
         fontSize: '13px',
-        minWidth: '157px',
+        minWidth: '80px',
         '& .MuiOutlinedInput-root': {
           '& fieldset': {
             borderColor: '#EBF2FA',
@@ -34,7 +35,7 @@ const FilterBox = ({ dropdownData = [] }) => {
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <Span>Showing:</Span>
+            <Span>{label || 'Showing'}:</Span>
           </InputAdornment>
         ),
       }}

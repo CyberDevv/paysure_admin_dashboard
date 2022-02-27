@@ -11,9 +11,13 @@ const DataGridView = ({
   dropdownData,
   limited,
   hasSearch,
-  hasFilter,
   hasSort,
   hasExportBtn,
+  hasFilterShowing,
+  hasFilterStatus,
+  hasFilterType,
+  typeDropdownData,
+  StatusDropdownData,
 }) => {
   return (
     <Wrapper>
@@ -28,7 +32,19 @@ const DataGridView = ({
           {hasSearch && <SearchBar />}
 
           {/* Filter */}
-          {hasFilter && <FilterBox dropdownData={dropdownData} />}
+          {hasFilterShowing && (
+            <FilterBox label="Showing" dropdownData={dropdownData} />
+          )}
+
+          {/* Filter2 */}
+          {hasFilterType && (
+            <FilterBox label="Type" dropdownData={typeDropdownData} />
+          )}
+
+          {/* Filter3 */}
+          {hasFilterStatus && (
+            <FilterBox label="Status" dropdownData={StatusDropdownData} />
+          )}
         </div>
 
         <div css={[tw`flex items-center justify-between w-full space-x-2.5`]}>
@@ -81,7 +97,7 @@ const DataGridView = ({
 
 // Tailwind styles
 const Wrapper = tw.div`my-4 space-y-6`
-const FuncWrappper = tw.div`space-y-2.5 xl:(flex items-center justify-between space-x-2.5 space-y-0)`
+const FuncWrappper = tw.div`space-y-2.5 2xl:(flex items-center justify-between space-x-2.5 space-y-0)`
 const MUIButton = tw(
   Button,
 )`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`

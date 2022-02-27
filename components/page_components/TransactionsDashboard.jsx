@@ -9,24 +9,23 @@ import { Print, ViewActionSVG } from '../SVGIcons'
 
 const TransacitonsDashboard = () => {
   // UseState hook
-  const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
+  const [selectedDrop, setSelectedDrop] = useState(showingDropdownData[0].value)
 
-  // functions
-  const handleDropdownSelected = React.useCallback(event => {
-    setSelectedDrop(event.target.value)
-  })
+  // // functions
+  // const handleDropdownSelected = React.useCallback(event => {
+  //   setSelectedDrop(event.target.value)
+  // })
 
   const transactionStatsData = [
     {
-      amount: 323234,
-      // (
-      // <CurrencyFormat
-      //   value={transactionStats.at(-1).sumTotal}
-      //   displayType={'text'}
-      //   thousandSeparator={true}
-      //   prefix={'₦'}
-      // />
-      // ),
+      amount: (
+        <CurrencyFormat
+          value={373732}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
       title: 'Total Transactions',
       link: '/transactions/transactions_list',
     },
@@ -64,9 +63,13 @@ const TransacitonsDashboard = () => {
         title="Transaction Records"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
+        dropdownData={showingDropdownData}
+        typeDropdownData={typeDropdownData}
+        StatusDropdownData={StatusDropdownData}
         hasSearch
-        hasFilter
+        hasFilterShowing
+        hasFilterStatus
+        hasFilterType
         hasSort
         hasExportBtn
         // TODO: has additional two filtering options
@@ -75,8 +78,30 @@ const TransacitonsDashboard = () => {
   )
 }
 
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
+const showingDropdownData = [
+  {
+    value: 'superAgents',
+    label: 'Super Agents',
+  },
+  {
+    value: 'agents',
+    label: 'Agents',
+  },
+  {
+    value: 'users',
+    label: 'Users',
+  },
+  {
+    value: 'settlements',
+    label: 'Settlements',
+  },
+  {
+    value: 'providers',
+    label: 'Providers',
+  },
+]
+
+const StatusDropdownData = [
   {
     value: 'all',
     label: 'All',
@@ -88,6 +113,21 @@ const dropdownData = [
   {
     value: 'admin',
     label: 'Admin',
+  },
+]
+
+const typeDropdownData = [
+  {
+    value: 'withdrawal',
+    label: 'Withdrawal',
+  },
+  {
+    value: 'fundWallet',
+    label: 'Fund Wallet',
+  },
+  {
+    value: 'settlement',
+    label: 'Settlement',
   },
 ]
 
@@ -172,30 +212,40 @@ const columns = [
   {
     field: 'col2',
     headerName: 'Mark Pan',
-    minWidth: 227,
+    minWidth: 167,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
     headerName: 'Terminal ID',
-    minWidth: 236,
+    minWidth: 167,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Merchant Name',
-    minWidth: 103,
+    minWidth: 203,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
     headerName: 'Amount',
-    minWidth: 176,
+    minWidth: 156,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col5}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col6',
@@ -203,6 +253,16 @@ const columns = [
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
@@ -214,17 +274,10 @@ const columns = [
   {
     field: 'col8',
     headerName: 'RRR',
-    minWidth: 153,
+    minWidth: 143,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
@@ -234,36 +287,36 @@ const columns = [
     headerClassName: 'grid-header',
   },
 
-  {
-    field: 'col10',
-    headerName: 'Identifier',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col11',
-    headerName: 'Percentage',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
+  // {
+  //   field: 'col10',
+  //   headerName: 'Identifier',
+  //   minWidth: 123,
+  //   flex: 1,
+  //   headerClassName: 'grid-header',
+  // },
+  // {
+  //   field: 'col11',
+  //   headerName: 'Percentage',
+  //   minWidth: 100,
+  //   flex: 1,
+  //   headerClassName: 'grid-header',
+  // },
 
-  {
-    field: 'col12',
-    headerName: 'Status',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
+  // {
+  //   field: 'col12',
+  //   headerName: 'Status',
+  //   minWidth: 100,
+  //   flex: 1,
+  //   headerClassName: 'grid-header',
+  // },
 
-  {
-    field: 'col13',
-    headerName: 'Date',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
+  // {
+  //   field: 'col13',
+  //   headerName: 'Date',
+  //   minWidth: 100,
+  //   flex: 1,
+  //   headerClassName: 'grid-header',
+  // },
   {
     field: 'col14',
     headerName: 'Actions',
