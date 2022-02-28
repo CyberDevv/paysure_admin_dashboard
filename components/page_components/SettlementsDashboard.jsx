@@ -5,6 +5,7 @@ import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
+import CurrencyFormat from 'react-currency-format'
 
 const SettlementsDashboard = () => {
   // UseState hook
@@ -35,9 +36,13 @@ const SettlementsDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        typeDropdownData={dropdownData}
         hasSearch
         hasSort
-        hasFilter
+        hasFilterStatus
+        hasFilterType
+        hasFilter="Benefactor"
+        StatusDropdownData={dropdownData}
         hasExportBtn
       />
     </Layout>
@@ -141,21 +146,31 @@ const columns = [
   {
     field: 'col2',
     headerName: 'Amount',
-    minWidth: 227,
+    minWidth: 167,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col2}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col3',
     headerName: 'Type',
-    minWidth: 236,
+    minWidth: 136,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Identifier',
-    minWidth: 103,
+    minWidth: 143,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -187,13 +202,6 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
@@ -258,28 +266,31 @@ const agencyOveriewData = [
 // FIXME: Temp data (should be replaced with real data)
 const temporalData = [
   {
-    amount: '147878787',
+    amount: (
+      <CurrencyFormat
+        value={8978755}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'₦'}
+      />
+    ),
     title: 'Total Settlements',
     link: '/settlements/settlements_list',
   },
   {
     amount: '24',
-    title: 'Total Successful Settlements',
+    title: 'Total Number of Successful Settlements',
   },
   {
     amount: '3',
-    title: 'Total Failed Transactions',
+    title: 'Total Number of Failed Settlements',
   },
   {
     amount: '3',
-    title: 'Total Pending',
+    title: 'Total Number of Pending Settlements',
   },
 ]
 
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
-const Span = tw.span`text-[13px] text-[#10101266]`
-const MUIButton2 = tw(
-  Button,
-)`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
 
 export default SettlementsDashboard

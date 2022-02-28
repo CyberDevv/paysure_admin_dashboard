@@ -18,6 +18,7 @@ const DataGridView = ({
   hasFilterType,
   typeDropdownData,
   StatusDropdownData,
+  hasFilter,
 }) => {
   return (
     <Wrapper>
@@ -32,9 +33,13 @@ const DataGridView = ({
           {hasSearch && <SearchBar />}
 
           {/* Filter */}
-          {hasFilterShowing && (
-            <FilterBox label="Showing" dropdownData={dropdownData} />
-          )}
+          {hasFilterShowing ||
+            (hasFilter && (
+              <FilterBox
+                label={hasFilter || 'Showing'}
+                dropdownData={dropdownData}
+              />
+            ))}
 
           {/* Filter2 */}
           {hasFilterType && (
