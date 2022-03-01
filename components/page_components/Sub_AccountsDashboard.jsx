@@ -93,11 +93,15 @@ const Sub_AccountsDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
+        StatusDropdownData={dropdownData}
+        typeDropdownData={dropdownData}
         hasSearch
-        hasFilter
+        hasFilter= "Benefactor"
         hasExportBtn
         hasSort
         hasMT
+        hasFilterType
+        hasFilterStatus
       />
     </Layout>
   )
@@ -199,21 +203,21 @@ const columns = [
   {
     field: 'col3',
     headerName: 'Roles',
-    minWidth: 236,
+    minWidth: 166,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Email',
-    minWidth: 103,
+    minWidth: 203,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
     headerName: 'Date Joined',
-    minWidth: 100,
+    minWidth: 160,
     flex: 1,
     headerClassName: 'grid-header',
   },
