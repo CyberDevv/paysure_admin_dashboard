@@ -14,6 +14,13 @@ const Roles_and_PermissionsDashboard = () => {
   const [title, setTitle] = React.useState('')
   const [upperLimit, setUpperLimit] = React.useState('')
   const [description, setDescription] = React.useState('')
+  const [administrator, setAdministrator] = React.useState([
+    false,
+    false,
+    false,
+  ])
+  const [accountAdmin, setAccountAdmin] = React.useState([false, false, false])
+  const [accountUser, setAccountUser] = React.useState([false, false, false])
 
   // functions
   const handSetIsAddmodalOpened = React.useCallback(() =>
@@ -23,6 +30,64 @@ const Roles_and_PermissionsDashboard = () => {
   const handleSetDescription = React.useCallback(e => {
     setDescription(e.target.value)
   })
+
+  // Administrator checboxes function
+  const handleAdminstratorChange1 = event => {
+    setAdministrator([event.target.checked, administrator[1], administrator[2]])
+  }
+  const handleAdminstratorChange2 = event => {
+    setAdministrator([administrator[0], event.target.checked, administrator[2]])
+  }
+  const handleAdminstratorChange3 = event => {
+    setAdministrator([administrator[0], administrator[1], event.target.checked])
+  }
+
+  // Account Admin checboxes function
+  const handleAccountAdminChange1 = event => {
+    setAccountAdmin([event.target.checked, accountAdmin[1], accountAdmin[2]])
+  }
+  const handleAccountAdminChange2 = event => {
+    setAccountAdmin([accountAdmin[0], event.target.checked, accountAdmin[2]])
+  }
+  const handleAccountAdminChange3 = event => {
+    setAccountAdmin([accountAdmin[0], accountAdmin[1], event.target.checked])
+  }
+
+  // Account User checboxes function
+  const handleAccountUserChange1 = event => {
+    setAccountUser([event.target.checked, accountUser[1], accountUser[2]])
+  }
+  const handleAccountUserChange2 = event => {
+    setAccountUser([accountUser[0], event.target.checked, accountUser[2]])
+  }
+  const handleAccountUserChange3 = event => {
+    setAccountUser([accountUser[0], accountUser[1], event.target.checked])
+  }
+
+  // Roles overall checkbox function
+  const handleSupportChange = event => {
+    setAdministrator([event.target.checked, administrator[1], administrator[2]])
+
+    setAccountAdmin([event.target.checked, accountAdmin[1], accountAdmin[2]])
+
+    setAccountUser([event.target.checked, accountUser[1], accountUser[2]])
+  }
+
+  const handleReconciliationChange = event => {
+    setAdministrator([administrator[0], event.target.checked, administrator[2]])
+
+    setAccountAdmin([accountAdmin[0], event.target.checked, accountAdmin[2]])
+
+    setAccountUser([accountUser[0], event.target.checked, accountUser[2]])
+  }
+
+  const handleUnknownChange = event => {
+    setAdministrator([administrator[0], administrator[1], event.target.checked])
+
+    setAccountAdmin([accountAdmin[0], accountAdmin[1], event.target.checked])
+
+    setAccountUser([accountUser[0], accountUser[1], event.target.checked])
+  }
 
   return (
     <Layout title="Roles & Permissions">
@@ -118,15 +183,36 @@ const Roles_and_PermissionsDashboard = () => {
               <THeaderInherit className="font-500">Roles</THeaderInherit>
               <THeader className="font-500">
                 Support
-                <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                <Checkbox
+                  checked={
+                    administrator[0] && accountAdmin[0] && accountUser[0]
+                  }
+                  icon={<UnChecked />}
+                  checkedIcon={<Checked />}
+                  onChange={handleSupportChange}
+                />
               </THeader>
               <THeader className="font-500">
                 Reconciliation{' '}
-                <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                <Checkbox
+                  checked={
+                    administrator[1] && accountAdmin[1] && accountUser[1]
+                  }
+                  icon={<UnChecked />}
+                  checkedIcon={<Checked />}
+                  onChange={handleReconciliationChange}
+                />
               </THeader>
               <THeader className="font-500">
                 Reconciliation{' '}
-                <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                <Checkbox
+                  checked={
+                    administrator[2] && accountAdmin[2] && accountUser[2]
+                  }
+                  icon={<UnChecked />}
+                  checkedIcon={<Checked />}
+                  onChange={handleUnknownChange}
+                />
               </THeader>
             </Table>
 
@@ -135,39 +221,84 @@ const Roles_and_PermissionsDashboard = () => {
               <Table>
                 <TBodyInherit>Administrator</TBodyInherit>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={administrator[0]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAdminstratorChange1}
+                  />
                 </TBody>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={administrator[1]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAdminstratorChange2}
+                  />
                 </TBody>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={administrator[2]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAdminstratorChange3}
+                  />
                 </TBody>
               </Table>
 
               <Table>
-                <TBodyInherit>Administrator</TBodyInherit>
+                <TBodyInherit>Account Admin</TBodyInherit>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={accountAdmin[0]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAccountAdminChange1}
+                  />
                 </TBody>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={accountAdmin[1]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAccountAdminChange2}
+                  />
                 </TBody>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={accountAdmin[2]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAccountAdminChange3}
+                  />
                 </TBody>
               </Table>
 
               <Table>
-                <TBodyInherit>Administrator</TBodyInherit>
+                <TBodyInherit>Account User</TBodyInherit>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={accountUser[0]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAccountUserChange1}
+                  />
                 </TBody>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={accountUser[1]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAccountUserChange2}
+                  />
                 </TBody>
                 <TBody>
-                  <Checkbox icon={<UnChecked />} checkedIcon={<Checked />} />
+                  <Checkbox
+                    checked={accountUser[2]}
+                    icon={<UnChecked />}
+                    checkedIcon={<Checked />}
+                    onChange={handleAccountUserChange3}
+                  />
                 </TBody>
               </Table>
             </TableBody>
