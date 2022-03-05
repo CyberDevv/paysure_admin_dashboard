@@ -31,7 +31,7 @@ const LoginDashboard = () => {
       .then(res => {
         if (!res.data.data) {
           console.log(res.data)
-          
+
           toast.error('Please refresh the page and try again.')
           setLoading(false)
           return

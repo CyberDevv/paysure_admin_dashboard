@@ -13,7 +13,7 @@ import CurrencyFormat from 'react-currency-format'
 
 const HomeDashboard = ({ homePageStats }) => {
   console.log(homePageStats)
-  
+
   // array of home page stats
   const homePageData = [
     {
