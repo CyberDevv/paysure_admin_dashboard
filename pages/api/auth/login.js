@@ -10,6 +10,8 @@ export default async function loginAPI(req, res) {
       'POST',
     )
 
+    console.log(response)
+
     res.status(response.status).json(response)
   } catch (error) {
     res.json(error)
