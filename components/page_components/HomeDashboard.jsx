@@ -50,10 +50,6 @@ const HomeDashboard = ({ homePageStats }) => {
       title: 'Total Number of Admins',
       link: '/sub_accounts',
     },
-    {
-      amount: homePageStats.totalProviders,
-      title: 'Total Number of Paysure Users',
-    },
   ]
 
   // array of agent stats
