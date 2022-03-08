@@ -3,10 +3,10 @@ import React from 'react'
 
 import Layout from '../layouts/main_layout/index.main_layout'
 import {
-  DataGridViewTemp,
-  DatRangePickerAndOthers,
   HomeDisplayCard,
+  DataGridViewTemp,
   OverviewCardSection,
+  DatRangePickerAndOthers,
 } from '..'
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import CurrencyFormat from 'react-currency-format'
