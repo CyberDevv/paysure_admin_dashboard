@@ -1,19 +1,14 @@
 import tw from 'twin.macro'
 import React from 'react'
 
-import Layout from '../layouts/main_layout/index.main_layout'
-import {
-  HomeDisplayCard,
-  DataGridViewTemp,
-  OverviewCardSection,
-  DatRangePickerAndOthers,
-} from '..'
-import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import CurrencyFormat from 'react-currency-format'
+import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
+import Layout from '../layouts/main_layout/index.main_layout'
+import { HomeDisplayCard, DataGridViewTemp, OverviewCardSection } from '..'
 
 const HomeDashboard = ({ homePageStats }) => {
   console.log(homePageStats)
-  
+
   // array of home page stats
   const homePageData = [
     {

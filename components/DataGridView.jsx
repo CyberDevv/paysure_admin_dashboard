@@ -1,7 +1,11 @@
 import tw from 'twin.macro'
 import React from 'react'
-import { Button } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid'
+import { Button, Menu, MenuItem } from '@mui/material'
+import {
+  DataGrid,
+  GridToolbarContainer,
+  useGridApiContext,
+} from '@mui/x-data-grid'
 
 import { FilterBox, SearchBar, DatRangePickerAndOthers } from '.'
 
@@ -20,48 +24,110 @@ const DataGridView = ({
   StatusDropdownData,
   hasFilter,
 }) => {
+  // Datagird Toolbar
+  const CustomToolbar = () => {
+    // useState hook
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const open = Boolean(anchorEl)
+
+    const apiRef = useGridApiContext()
+
+    // funcitons
+    const handleExportCSV = options => apiRef.current.exportDataAsCsv(options)
+
+    const handleExportPrint = options =>
+      apiRef.current.exportDataAsPrint(options)
+
+    const handleClick = event => {
+      setAnchorEl(event.currentTarget)
+    }
+
+    const handleClose = () => {
+      setAnchorEl(null)
+    }
+
+    const handleExportAsCSV = () => {
+      handleClose()
+
+      handleExportCSV({ filename: 'my-export.csv' })
+    }
+
+    const handlePrint = () => {
+      handleClose()
+
+      handleExportPrint({ filename: 'my-export.csv' })
+    }
+
+    return (
+      <GridToolbarContainer tw="mb-6">
+        <FuncWrappper>
+          <div
+            css={[
+              tw`space-y-2.5 sm:(flex items-center flex-row space-x-2.5 space-y-0)`,
+            ]}
+          >
+            {/* Search */}
+            {hasSearch && <SearchBar />}
+
+            {/* Filter */}
+            {hasFilterShowing ||
+              (hasFilter && (
+                <FilterBox
+                  label={hasFilter || 'Showing'}
+                  dropdownData={dropdownData}
+                />
+              ))}
+
+            {/* Filter2 */}
+            {hasFilterType && (
+              <FilterBox label="Type" dropdownData={typeDropdownData} />
+            )}
+
+            {/* Filter3 */}
+            {hasFilterStatus && (
+              <FilterBox label="Status" dropdownData={StatusDropdownData} />
+            )}
+          </div>
+
+          <div css={[tw`flex items-center justify-between w-full space-x-2.5`]}>
+            {/* Date range picker */}
+            {hasSort && <DatRangePickerAndOthers />}
+
+            {/* Export btn */}
+            {hasExportBtn && (
+              <>
+                <MUIButton
+                  id="basic-button"
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+                >
+                  Export data
+                </MUIButton>
+
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={handleExportAsCSV}>Export as CSV</MenuItem>
+                  <MenuItem onClick={handlePrint}>Print</MenuItem>
+                </Menu>
+              </>
+            )}
+          </div>
+        </FuncWrappper>
+      </GridToolbarContainer>
+    )
+  }
+
   return (
     <Wrapper>
-      {/* Functionalitiies */}
-      <FuncWrappper>
-        <div
-          css={[
-            tw`space-y-2.5 sm:(flex items-center flex-row space-x-2.5 space-y-0)`,
-          ]}
-        >
-          {/* Search */}
-          {hasSearch && <SearchBar />}
-
-          {/* Filter */}
-          {hasFilterShowing ||
-            (hasFilter && (
-              <FilterBox
-                label={hasFilter || 'Showing'}
-                dropdownData={dropdownData}
-              />
-            ))}
-
-          {/* Filter2 */}
-          {hasFilterType && (
-            <FilterBox label="Type" dropdownData={typeDropdownData} />
-          )}
-
-          {/* Filter3 */}
-          {hasFilterStatus && (
-            <FilterBox label="Status" dropdownData={StatusDropdownData} />
-          )}
-        </div>
-
-        <div css={[tw`flex items-center justify-between w-full space-x-2.5`]}>
-          {/* Date range picker */}
-          {hasSort && <DatRangePickerAndOthers />}
-
-          {/* Export btn */}
-          {hasExportBtn && <MUIButton>Export data</MUIButton>}
-        </div>
-      </FuncWrappper>
-
-      {/* DataGrid/ */}
       <div style={{ display: 'flex' }}>
         <div style={{ flexGrow: 1, width: '100%' }}>
           <DataGrid
@@ -72,6 +138,9 @@ const DataGridView = ({
             hideFooter
             disableSelectionOnClick
             rowHeight={70}
+            components={{
+              Toolbar: CustomToolbar,
+            }}
             sx={{
               border: 'none',
               '& .grid-header': {
@@ -101,8 +170,8 @@ const DataGridView = ({
 }
 
 // Tailwind styles
-const Wrapper = tw.div`my-4 space-y-6`
-const FuncWrappper = tw.div`space-y-2.5 2xl:(flex items-center justify-between space-x-2.5 space-y-0)`
+const Wrapper = tw.div`my-4`
+const FuncWrappper = tw.div`w-full space-y-2.5 2xl:(flex items-center justify-between space-x-2.5 space-y-0)`
 const MUIButton = tw(
   Button,
 )`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
