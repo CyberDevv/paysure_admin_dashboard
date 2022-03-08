@@ -14,7 +14,7 @@ const SearchBar = () => {
         fontSize: '13px',
         minWidth: {
           xs: '200px',
-          lg: '256px'
+          lg: '256px',
         },
         '& .MuiOutlinedInput-root': {
           '& fieldset': {

@@ -15,8 +15,8 @@ const UserTransactionListDashboard = () => {
         columns={columns}
         dropdownData={dropdownData}
         hasFilter
-        hasSort 
-        hasSearch 
+        hasSort
+        hasSearch
         hasExportBtn
       />
 
