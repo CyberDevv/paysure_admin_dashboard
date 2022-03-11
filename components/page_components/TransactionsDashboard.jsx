@@ -1,11 +1,11 @@
 import tw from 'twin.macro'
-import { Button } from '@mui/material'
 import React, { useState } from 'react'
 import CurrencyFormat from 'react-currency-format'
 
+import { Print, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
-import { Print, ViewActionSVG } from '../SVGIcons'
+import { printPartOfPage, Yo } from '../../utils/print'
 
 const TransacitonsDashboard = () => {
   // UseState hook
@@ -74,6 +74,8 @@ const TransacitonsDashboard = () => {
         hasExportBtn
         // TODO: has additional two filtering options
       />
+
+      <div tw="hidden" id="printData"></div>
     </Layout>
   )
 }
@@ -286,37 +288,6 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
   },
-
-  // {
-  //   field: 'col10',
-  //   headerName: 'Identifier',
-  //   minWidth: 123,
-  //   flex: 1,
-  //   headerClassName: 'grid-header',
-  // },
-  // {
-  //   field: 'col11',
-  //   headerName: 'Percentage',
-  //   minWidth: 100,
-  //   flex: 1,
-  //   headerClassName: 'grid-header',
-  // },
-
-  // {
-  //   field: 'col12',
-  //   headerName: 'Status',
-  //   minWidth: 100,
-  //   flex: 1,
-  //   headerClassName: 'grid-header',
-  // },
-
-  // {
-  //   field: 'col13',
-  //   headerName: 'Date',
-  //   minWidth: 100,
-  //   flex: 1,
-  //   headerClassName: 'grid-header',
-  // },
   {
     field: 'col14',
     headerName: 'Actions',
@@ -324,10 +295,6 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
       const handleView = e => {
         const api = params.api
         const thisRow = {}
@@ -342,13 +309,68 @@ const columns = [
         // Router.push(`/agents/super_agent/${thisRow.col1}`)
       }
 
+      const handlePrint = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // print the row data in a table
+        const printData = document.getElementById('printData')
+        printData.innerHTML = `
+        <div style="width: 100%; font-family: 'arial';">
+          <h3 style= "text-align: center;">Transaction Details</h3>
+              <div style="border: 1px solid #999; width: 100%; box-sizing: border-box; padding: 2px">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; background: #f6f6f6; padding: 8px 0">
+                  <h4 style="padding-left: 4px;">Mark Pan</h4> 
+                  <h4 style= "font-weight: 300">${thisRow.col2}</h4>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 8px 0">
+                  <h4 style="padding-left: 4px;">Terminal ID</h4>
+                  <h4 style= "font-weight: 300">${thisRow.col3}</h4>
+                  </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; background: #f6f6f6; padding: 8px 0">
+                  <h4 style="padding-left: 4px;">Merchant Name</h4>
+                  <h4 style= "font-weight: 300">${thisRow.col4}</h4>
+                  </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 8px 0">
+                  <h4 style="padding-left: 4px;">Amount</h4>
+                  <h4 style= "font-weight: 300">${thisRow.col5}</h4>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; background: #f6f6f6; padding: 8px 0">
+                  <h4 style="padding-left: 4px;">Charge</h4>
+                  <h4 style= "font-weight: 300">${thisRow.col6}</h4>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 8px 0">
+                  <h4 style="padding-left: 4px;">Transaction Ref.</h4>
+                  <h4 style= "font-weight: 300">${thisRow.col7}</h4>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; background: #f6f6f6; padding: 8px 0">
+                  <h4 style="padding-left: 4px;">RRR</h4>
+                  <h4 style= "font-weight: 300">${thisRow.col8}</h4>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; padding: 8px 0">
+                  <h4 style="padding-left: 4px;">Type</h4>
+                  <h4 style= "font-weight: 300">${thisRow.col9}</h4>
+                </div>
+              </div>
+        </div>
+        `
+        printPartOfPage('printData')
+      }
+
       return (
         <div tw="space-x-1">
           <button onClick={handleView}>
             <ViewActionSVG />
           </button>
 
-          <button onClick={handleEdit}>
+          <button onClick={handlePrint}>
             <Print />
           </button>
         </div>

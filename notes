@@ -1,9 +1,0 @@
-* In the create role modal, there is a upper limit field which is not in the endpoint
-* Are partners providers or organizations? because I couldn't find any of the two in the documentation
-* And please, what do you mean by mapped terminals
-
-
-
->> To PM
-* In the roles and permissions page, should it be active roles or all rolespaysure/api/processor/create-role
-* Some of the add modals in the UI has more than what is accepted into the endpoint e.g add terminal
