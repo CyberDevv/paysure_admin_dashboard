@@ -50,24 +50,10 @@ const AddBandDashboard = ({ setShowAddPanel }) => {
         />
         <Label
           combo
-          menuItems={menuItems}
+          menuItems={['Percentage', 'Flat']}
           label="Charge Type"
           value={charge}
           setState={setChargeType}
-        />
-        <Label
-          label="Paysure Rate"
-          type="text"
-          placeholder="50"
-          value={paysureRate}
-          setState={setPaysureRate}
-        />
-        <Label
-          label="Agent Rate"
-          type="text"
-          placeholder="0"
-          value={agentRate}
-          setState={setAgentRate}
         />
         <Label
           value={nibbs}
@@ -77,18 +63,32 @@ const AddBandDashboard = ({ setShowAddPanel }) => {
           setState={setNibbs}
         />
         <Label
-          label="Charge Rate (%)"
+          label="Charge Rate"
           type="text"
           placeholder="0"
           value={chargeRate}
           setState={setChargeRate}
         />
         <Label
-          label="Super Agent Rate (%)"
+          label="Paysure Rate"
+          type="text"
+          placeholder="50"
+          value={paysureRate}
+          setState={setPaysureRate}
+        />
+        <Label
+          label="Super Agent Rate"
           type="text"
           placeholder="0"
           value={superAgentRate}
           setState={setSuperAgentRate}
+        />
+        <Label
+          label="Agent Rate"
+          type="text"
+          placeholder="0"
+          value={agentRate}
+          setState={setAgentRate}
         />
       </Form>
 
