@@ -34,7 +34,7 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
   const NavItem = ({ label, icon, link }) => {
     return (
       <li>
-        <Link href={`/${link || label.toLowerCase()}`}>
+        <Link href={link || `/${label.toLowerCase()}`}>
           <a>
             <MUIButton
               fullWidth
