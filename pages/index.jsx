@@ -1,5 +1,4 @@
 // imports
-import axios from 'axios'
 import React from 'react'
 import Head from 'next/head'
 import nookies from 'nookies'
@@ -30,6 +29,8 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
+
+  console.log(response)
 
   return {
     props: {

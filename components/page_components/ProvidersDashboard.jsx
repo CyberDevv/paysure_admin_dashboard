@@ -1,24 +1,146 @@
-import tw from 'twin.macro'
+import axios from 'axios'
 import React from 'react'
+import tw from 'twin.macro'
 import Router from 'next/router'
 import { Button } from '@mui/material'
-
-import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
-import Layout from '../layouts/main_layout/index.main_layout'
-import Modal from '../layouts/modal_ayout/index.modal_layout'
-import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { toast } from 'react-toastify'
 import CurrencyFormat from 'react-currency-format'
 
-const ProvidersDashboard = () => {
+import Layout from '../layouts/main_layout/index.main_layout'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
+import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection, SearchBar, FilterBox } from '..'
+
+const ProvidersDashboard = ({ providerStats, providersList }) => {
+  // Array of provider stats data
+  const providerStatsData = [
+    {
+      amount: providerStats.totalProviders,
+      title: 'Total Number of Providers',
+      link: '/providers/providers_list',
+    },
+    {
+      amount: providerStats.totalServices,
+      title: 'Total Number of Services',
+    },
+    {
+      amount: providerStats.totalTransactions,
+      title: 'Total Number of Transactions',
+    },
+    {
+      amount: providerStats.totalCharges,
+      title: 'Total Number of Charges',
+    },
+  ]
+
+  // Array of metric data
+  const metricData = [
+    {
+      amount: (
+        <CurrencyFormat
+          value={providerStats.sumTotalTransfers}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Total Transactions',
+    },
+    {
+      amount: (
+        <CurrencyFormat
+          value={providerStats.sumTotalData}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Data',
+    },
+    {
+      amount: (
+        <CurrencyFormat
+          value={70000}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Transfer',
+    },
+    {
+      amount: (
+        <CurrencyFormat
+          value={70000}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Airtime',
+    },
+  ]
+
+  const rows = providersList.map((provider, index) => {
+    return {
+      id: provider.tid,
+      col1: index + 1,
+      col2: provider.providerName,
+      col3: provider.servicesDesc,
+      col4: provider.servicesCount,
+      col5: provider.noOfTransactions,
+      col6: provider.walletBalance,
+      col7: provider.none,
+      col8: provider.none,
+      col9: provider.none,
+      col10: '',
+    }
+  })
+
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [providerName, setProviderName] = React.useState('')
+  const [walletBalance, setWalletBallance] = React.useState('')
+  const [servicesDesc, setServicesDesc] = React.useState('')
+  const [servicesCount, setServicesCount] = React.useState('')
 
   // functions
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
+
+  const handleAddProvider = React.useCallback(() => {
+    let walletBalanceRefined = `${walletBalance}.00`
+
+    axios
+      .post('/api/providers/addProvider', {
+        providerName,
+        walletBalanceRefined,
+        servicesCount,
+        servicesDesc,
+      })
+      .then(res => {
+        if (res.status === 200) {
+          toast.success('Provider added successfully')
+
+          setProviderName('')
+          setWalletBallance('')
+          setServicesDesc('')
+          setServicesCount('')
+          setIsAddmodalOpened(false)
+        }
+      })
+      .catch(err => {
+        if (err.response.status === 913) {
+          toast.error('Provider already exists')
+        } else {
+          toast.error('Error adding provider')
+        }
+
+        console.log('err >>>>', err.response.status)
+      })
+  })
 
   return (
     <Layout title="Providers">
@@ -38,6 +160,7 @@ const ProvidersDashboard = () => {
           state={isaddModalOpened}
           setState={setIsAddmodalOpened}
           buttonLabel="Next"
+          onClick={handleAddProvider}
         >
           <Label
             label="Name of Provider"
@@ -46,12 +169,33 @@ const ProvidersDashboard = () => {
             value={providerName}
             setState={setProviderName}
           />
+          <Label
+            label="Wallet Ballance"
+            type="text"
+            placeholder="₦20,000"
+            value={walletBalance}
+            setState={setWalletBallance}
+          />
+          <Label
+            label="Services"
+            type="text"
+            placeholder="Provider"
+            value={servicesDesc}
+            setState={setServicesDesc}
+          />
+          <Label
+            label="Number of Services"
+            type="number"
+            placeholder="0"
+            value={servicesCount}
+            setState={setServicesCount}
+          />
         </Modal>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={providerStatsData} />
 
-      <OverviewCardSection title="Metrics" data={agencyOveriewData} />
+      <OverviewCardSection title="Metrics" data={metricData} />
 
       <DataGridViewTemp
         limited
@@ -60,9 +204,11 @@ const ProvidersDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-        hasSearch
-        hasFilter
-      />
+        className= {tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
+      >
+          <SearchBar />
+          <FilterBox label="Showing" dropdownData={dropdownData} />
+      </DataGridViewTemp>
     </Layout>
   )
 }
@@ -83,76 +229,6 @@ const dropdownData = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'ETRANSACT',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'KUDA',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -287,75 +363,6 @@ const columns = [
         </div>
       )
     },
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '14',
-    title: 'Total Number of Providers',
-    link: '/providers/providers_list',
-  },
-  {
-    amount: '13',
-    title: 'Total Number of Services',
-  },
-  {
-    amount: '13',
-    title: 'Total Number of Transactions',
-  },
-  {
-    amount: '13',
-    title: 'Total Number of Charges',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: (
-      <CurrencyFormat
-        value={89787655}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Total Transactions',
-  },
-  {
-    amount: (
-      <CurrencyFormat
-        value={289434}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Data',
-  },
-  {
-    amount: (
-      <CurrencyFormat
-        value={70000}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Transfer',
-  },
-  {
-    amount: (
-      <CurrencyFormat
-        value={70000}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Transfer',
   },
 ]
 
