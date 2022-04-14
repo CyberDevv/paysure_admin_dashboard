@@ -16,9 +16,9 @@ export default async function addTerminal(req, res) {
     )
 
     console.log(terminalId, terminalBrand, terminalSerialNo, bankId)
-    
+
     console.log(response)
-    
+
     res.status(301).json(response)
   } catch (error) {
     console.log(error)

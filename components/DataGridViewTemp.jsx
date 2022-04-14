@@ -23,11 +23,7 @@ const DataGridViewTemp = ({
 
         {link && (
           <Link href={link}>
-            <a
-              css={[
-                tw`text-paysure-100 hover:underline cursor-pointer`,
-              ]}
-            >
+            <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
               View all
             </a>
           </Link>

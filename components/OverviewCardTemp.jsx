@@ -7,7 +7,7 @@ const OverviewCardTemp = ({ amount, label, onClick }) => {
   return (
     <>
       {onClick && (
-        <Wrapper tw= "hover:(bg-gray-100 transition-colors duration-300)">
+        <Wrapper tw="hover:(bg-gray-100 transition-colors duration-300)">
           <Link href={onClick}>
             <a>
               <H1 className="font-bold">{amount}</H1>
