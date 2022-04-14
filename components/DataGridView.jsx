@@ -7,22 +7,29 @@ import {
   useGridApiContext,
 } from '@mui/x-data-grid'
 
-import { FilterBox, SearchBar, DatRangePickerAndOthers } from '.'
+import { EmptyDataRowSVG } from './SVGIcons'
+
+const CustomNoRowsOverlay = () => {
+  return (
+    <div tw="flex items-center justify-center w-full h-full">
+      <div tw="text-center py-10">
+        <EmptyDataRowSVG />
+        <h1 tw="text-2xl text-[#979797] mt-3.5">There's nothing to show yet</h1>
+        <p tw="text-[15px] text-[#979797] mt-3.5">
+          We'll have something to show you once transaction start happening
+        </p>
+      </div>
+    </div>
+  )
+}
 
 const DataGridView = ({
   rows,
   columns,
-  dropdownData,
   limited,
-  hasSearch,
-  hasSort,
   hasExportBtn,
-  hasFilterShowing,
-  hasFilterStatus,
-  hasFilterType,
-  typeDropdownData,
-  StatusDropdownData,
-  hasFilter,
+  children,
+  className,
 }) => {
   // Datagird Toolbar
   const CustomToolbar = () => {
@@ -61,47 +68,19 @@ const DataGridView = ({
     return (
       <GridToolbarContainer tw="mb-6">
         <FuncWrappper>
-          <div
-            css={[
-              tw`space-y-2.5 sm:(flex items-center flex-row space-x-2.5 space-y-0)`,
-            ]}
-          >
-            {/* Search */}
-            {hasSearch && <SearchBar />}
-
-            {/* Filter */}
-            {hasFilterShowing ||
-              (hasFilter && (
-                <FilterBox
-                  label={hasFilter || 'Showing'}
-                  dropdownData={dropdownData}
-                />
-              ))}
-
-            {/* Filter2 */}
-            {hasFilterType && (
-              <FilterBox label="Type" dropdownData={typeDropdownData} />
-            )}
-
-            {/* Filter3 */}
-            {hasFilterStatus && (
-              <FilterBox label="Status" dropdownData={StatusDropdownData} />
-            )}
-          </div>
-
-          <div css={[tw`flex items-center justify-between w-full space-x-2.5`]}>
-            {/* Date range picker */}
-            {hasSort && <DatRangePickerAndOthers />}
+          <div css={className}>
+            {children}
 
             {/* Export btn */}
             {hasExportBtn && (
-              <>
+              <div tw="flex justify-end w-full">
                 <MUIButton
                   id="basic-button"
                   aria-controls={open ? 'basic-menu' : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? 'true' : undefined}
                   onClick={handleClick}
+                  tw="min-w-[fit-content] w-[fit-content] max-w-[fit-content]"
                 >
                   Export data
                 </MUIButton>
@@ -118,7 +97,7 @@ const DataGridView = ({
                   <MenuItem onClick={handleExportAsCSV}>Export as CSV</MenuItem>
                   <MenuItem onClick={handlePrint}>Print</MenuItem>
                 </Menu>
-              </>
+              </div>
             )}
           </div>
         </FuncWrappper>
@@ -140,6 +119,7 @@ const DataGridView = ({
             rowHeight={70}
             components={{
               Toolbar: CustomToolbar,
+              // NoRowsOverlay: CustomNoRowsOverlay,
             }}
             sx={{
               border: 'none',
@@ -153,6 +133,9 @@ const DataGridView = ({
                 borderBottom: '1px solid #EBF2FA',
                 fontSize: '13px',
                 color: '#16192C',
+              },
+              '& .MuiDataGrid-virtualScrollerContent': {
+                minHeight: '300px !important',
               },
               '& .MuiDataGrid-cell': {
                 paddingX: '20px',

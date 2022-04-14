@@ -4,13 +4,15 @@ import tw from 'twin.macro'
 import Router from 'next/router'
 import { Button } from '@mui/material'
 
-import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import { DataGridViewTemp, HomeDisplayCard, SearchBar, FilterBox, DatRangePickerAndOthers } from '..'
 
-const UserssDashboard = () => {
+const UserssDashboard = ({ data }) => {
+  const { trxInfo, transStats, userCount } = data
+
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
@@ -38,6 +40,42 @@ const UserssDashboard = () => {
       state,
       city,
     })
+  })
+
+  const metricData = [
+    {
+      amount: userCount,
+      title: 'Total Number of Users',
+      link: '/users/users_list',
+    },
+    {
+      amount: transStats.succesfulCount,
+      title: 'Total Number of Completed Transactions',
+    },
+    {
+      amount: transStats.countPending,
+      title: 'Total Number of  Pending Transactions',
+    },
+    {
+      amount: transStats.countfailed,
+      title: 'Total Number of  Failed Tranasctions',
+    },
+  ]
+
+  const rows = trxInfo.map((item, index) => {
+    return {
+      id: item.tid,
+      col1: index + 1,
+      col2: item.fullName,
+      col3: item.none,
+      col4: item.emailAddress,
+      col5: item.phonePri,
+      col6: item.none,
+      col7: item.statusStr,
+      col8: item.none,
+      col9: item.none,
+      col10: '',
+    }
   })
 
   return (
@@ -121,7 +159,7 @@ const UserssDashboard = () => {
         </Modal>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={metricData} />
 
       <DataGridViewTemp
         link="/users/users_list"
@@ -129,12 +167,15 @@ const UserssDashboard = () => {
         title="Users list"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        hasSearch
         hasExportBtn
-        hasFilter
-        hasSort
-      />
+        className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
+      >
+        <div tw= " space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+          <SearchBar />
+          <FilterBox label="Showing" dropdownData={dropdownData} />
+        </div>
+        <DatRangePickerAndOthers />
+      </DataGridViewTemp>
     </Layout>
   )
 }
@@ -155,76 +196,6 @@ const dropdownData = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'ETRANSACT',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'KUDA',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -236,40 +207,40 @@ const columns = [
   {
     field: 'col2',
     headerName: 'Name',
-    minWidth: 227,
+    minWidth: 250,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col3',
     headerName: 'Wallet Balance',
-    minWidth: 236,
+    minWidth: 220,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col4',
     headerName: 'Email',
-    minWidth: 103,
+    minWidth: 220,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col5',
     headerName: 'Phone Number',
-    minWidth: 176,
+    minWidth: 180,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col6',
     headerName: 'Account Number',
-    minWidth: 150,
+    minWidth: 180,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col8',
+    field: 'col7',
     headerName: 'Status',
     minWidth: 153,
     flex: 1,
@@ -279,16 +250,19 @@ const columns = [
       return (
         <span
           css={[
-            tw`bg-[#E9FBF9] text-paysure-success-100 uppercase text-[10px] p-1 rounded`,
+            tw`uppercase text-[10px] p-1 rounded`,
+            params.row.col7.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 `
+              : tw`bg-[#FDF6EF] text-[#EDA95A] `,
           ]}
         >
-          {params.row.col8}
+          {params.row.col7}
         </span>
       )
     },
   },
   {
-    field: 'col7',
+    field: 'col8',
     headerName: 'Last Transaction',
     minWidth: 144,
     flex: 1,
@@ -338,27 +312,6 @@ const columns = [
         </div>
       )
     },
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '2312',
-    title: 'Total Number of Users',
-    link: '/users/users_list',
-  },
-  {
-    amount: '11434',
-    title: 'Total Number of Completed Transactions',
-  },
-  {
-    amount: '114',
-    title: 'Total Number of  Pending Transactions',
-  },
-  {
-    amount: '124',
-    title: 'Total Number of  Failed Tranasctions',
   },
 ]
 
