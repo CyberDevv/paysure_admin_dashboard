@@ -30,6 +30,8 @@ const DataGridView = ({
   hasExportBtn,
   children,
   className,
+  pageSize,
+  pagination
 }) => {
   // Datagird Toolbar
   const CustomToolbar = () => {
@@ -114,9 +116,11 @@ const DataGridView = ({
             columns={columns}
             autoHeight
             disableColumnMenu
-            hideFooter
+            hideFooter={!pagination}
             disableSelectionOnClick
             rowHeight={70}
+            pageSize={pageSize}
+            pagination={pagination}
             components={{
               Toolbar: CustomToolbar,
               // NoRowsOverlay: CustomNoRowsOverlay,

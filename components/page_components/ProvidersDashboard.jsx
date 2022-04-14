@@ -10,7 +10,13 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection, SearchBar, FilterBox } from '..'
+import {
+  DataGridViewTemp,
+  HomeDisplayCard,
+  OverviewCardSection,
+  SearchBar,
+  FilterBox,
+} from '..'
 
 const ProvidersDashboard = ({ providerStats, providersList }) => {
   // Array of provider stats data
@@ -203,11 +209,10 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
         title="Providers"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        className= {tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
+        className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
       >
-          <SearchBar />
-          <FilterBox label="Showing" dropdownData={dropdownData} />
+        <SearchBar />
+        <FilterBox label="Showing" dropdownData={dropdownData} />
       </DataGridViewTemp>
     </Layout>
   )

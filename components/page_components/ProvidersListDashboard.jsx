@@ -1,17 +1,41 @@
 import React from 'react'
+import tw from 'twin.macro'
+import CurrencyFormat from 'react-currency-format'
 
-import { DataGridViewTemp } from '..'
+import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 
-const ProvidersListDashboard = () => {
+const ProvidersListDashboard = ({ providersList }) => {
+  const rows = providersList.map((provider, index) => {
+    return {
+      id: provider.tid,
+      col1: index + 1,
+      col2: provider.providerName,
+      col3: provider.servicesDesc,
+      col4: provider.servicesCount,
+      col5: provider.noOfTransactions,
+      col6: provider.walletBalance,
+      col7: provider.none,
+      col8: provider.none,
+      col9: provider.none,
+      col10: '',
+    }
+  })
+
   return (
     <Layout goBack>
       <DataGridViewTemp
         title="Providers"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-      />
+        pageSize={10}
+        pagination={true}
+        className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
+      >
+        <SearchBar />
+        <FilterBox label="Showing" dropdownData={dropdownData} />
+      </DataGridViewTemp>
     </Layout>
   )
 }
@@ -32,76 +56,6 @@ const dropdownData = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -127,7 +81,7 @@ const columns = [
   {
     field: 'col4',
     headerName: 'No. of Services',
-    minWidth: 103,
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -144,6 +98,16 @@ const columns = [
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
@@ -151,6 +115,16 @@ const columns = [
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col7}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col8',
@@ -159,18 +133,21 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col8}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col9',
     headerName: 'Date Added',
-    minWidth: 123,
+    minWidth: 183,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -179,7 +156,40 @@ const columns = [
     headerName: 'Action',
     minWidth: 100,
     flex: 1,
+    sortable: false,
     headerClassName: 'grid-header',
+
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/providers/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <ViewActionSVG />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 

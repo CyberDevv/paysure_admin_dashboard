@@ -15,6 +15,8 @@ const DataGridViewTemp = ({
   label,
   children,
   className,
+  pageSize,
+  pagination,
 }) => {
   return (
     <div css={[(limited || hasMT) && tw`mt-10`]}>
@@ -23,11 +25,7 @@ const DataGridViewTemp = ({
 
         {link && (
           <Link href={link}>
-            <a
-              css={[
-                tw`text-paysure-100 hover:underline cursor-pointer`,
-              ]}
-            >
+            <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
               View all
             </a>
           </Link>
@@ -40,6 +38,8 @@ const DataGridViewTemp = ({
         hasExportBtn={hasExportBtn}
         label={label}
         className={className}
+        pageSize={pageSize}
+        pagination={pagination}
       >
         {children}
       </DataGridView>
