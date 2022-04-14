@@ -104,48 +104,232 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
     }
   })
 
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col2',
+      headerName: 'Name of Provider',
+      minWidth: 227,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col3',
+      headerName: 'Services',
+      minWidth: 236,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col4',
+      headerName: 'No. of Services',
+      minWidth: 153,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col5',
+      headerName: 'No. of Transactions',
+      minWidth: 176,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col6',
+      headerName: 'Wallet Balance',
+      minWidth: 150,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col6}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col7',
+      headerName: 'Transactions(N)',
+      minWidth: 144,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col7}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col8',
+      headerName: 'Charges',
+      minWidth: 153,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col8}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col9',
+      headerName: 'Date Added',
+      minWidth: 183,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col10',
+      headerName: 'Action',
+      minWidth: 100,
+      flex: 1,
+      sortable: false,
+      headerClassName: 'grid-header',
+
+      renderCell: params => {
+        const handleEdit = () => {
+          handSetIsAddmodalOpened()
+
+          setProviderName(params.row.col2)
+          setWalletBallance(params.row.col6)
+          setServicesDesc(params.row.col3)
+          setServicesCount(params.row.col4)
+          setBtnLabel('Save')
+          setModalLabel('Update Provider')
+        }
+
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          Router.push(`/providers/${thisRow.col1}`)
+        }
+
+        return (
+          <div tw="space-x-1">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </div>
+        )
+      },
+    },
+  ]
+
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [providerName, setProviderName] = React.useState('')
   const [walletBalance, setWalletBallance] = React.useState('')
   const [servicesDesc, setServicesDesc] = React.useState('')
   const [servicesCount, setServicesCount] = React.useState('')
+  const [btnLabel, setBtnLabel] = React.useState('Add Provider')
+  const [modalLabel, setModalLabel] = React.useState('Add New Provider')
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
+  const handSetIsAddmodalOpened = React.useCallback(
+    () => (
+      setBtnLabel('Add Provider'),
+      setIsAddmodalOpened(true),
+      setModalLabel('Add New Provider'),
+      setProviderName(''),
+      setWalletBallance(''),
+      setServicesDesc(''),
+      setServicesCount('')
+    ),
   )
 
   const handleAddProvider = React.useCallback(() => {
     let walletBalanceRefined = `${walletBalance}.00`
 
-    axios
-      .post('/api/providers/addProvider', {
-        providerName,
-        walletBalanceRefined,
-        servicesCount,
-        servicesDesc,
-      })
-      .then(res => {
-        if (res.status === 200) {
-          toast.success('Provider added successfully')
+    if (modalLabel === 'Add New Provider') {
+      axios
+        .post('/api/providers/addProvider', {
+          providerName,
+          walletBalanceRefined,
+          servicesCount,
+          servicesDesc,
+        })
+        .then(res => {
+          if (res.status === 200) {
+            toast.success('Provider added successfully')
 
-          setProviderName('')
-          setWalletBallance('')
-          setServicesDesc('')
-          setServicesCount('')
-          setIsAddmodalOpened(false)
-        }
-      })
-      .catch(err => {
-        if (err.response.status === 913) {
-          toast.error('Provider already exists')
-        } else {
-          toast.error('Error adding provider')
-        }
+            setProviderName('')
+            setWalletBallance('')
+            setServicesDesc('')
+            setServicesCount('')
+            setIsAddmodalOpened(false)
+          }
+        })
+        .catch(err => {
+          if (err.response.status === 913) {
+            toast.error('Provider already exists')
+          } else {
+            toast.error('Error adding provider')
+          }
 
-        console.log('err >>>>', err.response.status)
-      })
+          console.log('err >>>>', err.response.status)
+        })
+    } else {
+      axios
+        .post('/api/providers/editProvider', {
+          providerName,
+          walletBalanceRefined,
+          servicesCount,
+          servicesDesc,
+        })
+        .then(res => {
+          if (res.status === 200) {
+            toast.success('Provider updated successfully')
+
+            setProviderName('')
+            setWalletBallance('')
+            setServicesDesc('')
+            setServicesCount('')
+            setIsAddmodalOpened(false)
+          }
+        })
+        .catch(err => {
+          if (err.response.status === 913) {
+            toast.error('Provider already exists')
+          } else {
+            toast.error('Error updating provider')
+          }
+
+          console.log('err >>>>', err.response.status)
+        })
+    }
   })
 
   return (
@@ -162,10 +346,10 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
 
         {/* Add Provider modal */}
         <Modal
-          title="Add new Provider"
+          title={modalLabel}
           state={isaddModalOpened}
           setState={setIsAddmodalOpened}
-          buttonLabel="Next"
+          buttonLabel={btnLabel}
           onClick={handleAddProvider}
         >
           <Label
@@ -231,143 +415,6 @@ const dropdownData = [
   {
     value: 'admin',
     label: 'Admin',
-  },
-]
-
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Name of Provider',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Services',
-    minWidth: 236,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'No. of Services',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col6}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col7',
-    headerName: 'Transactions(N)',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col7}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col8',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col8}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 183,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Action',
-    minWidth: 100,
-    flex: 1,
-    sortable: false,
-    headerClassName: 'grid-header',
-
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        Router.push(`/providers/${thisRow.col1}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
-
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
-        </div>
-      )
-    },
   },
 ]
 
