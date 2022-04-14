@@ -22,7 +22,7 @@ const FilterBox = ({ dropdownData = [], label }) => {
       fullWidth
       sx={{
         fontSize: '13px',
-        minWidth: '80px',
+        minWidth: '200px',
         '& .MuiOutlinedInput-root': {
           '& fieldset': {
             borderColor: '#EBF2FA',

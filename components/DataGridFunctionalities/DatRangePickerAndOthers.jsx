@@ -16,6 +16,7 @@ const DatRangePickerAndOthers = () => {
       <TextField
         {...startProps}
         variant="standard"
+        fullWidth
         sx={{
           '& .MuiInput-root': {
             fontSize: '13px',
@@ -44,6 +45,7 @@ const DatRangePickerAndOthers = () => {
       <Box sx={{ mx: '8px', color: '#979797' }}> | </Box>
       <TextField
         variant="standard"
+        fullWidth
         sx={{
           '& .MuiInput-root': {
             fontSize: '13px',
@@ -81,7 +83,7 @@ const DatRangePickerAndOthers = () => {
   return (
     <div
       css={[
-        tw`w-[300px] border border-[#EBF2FA] hover:(border-[#c6c7c9]) lg:(min-w-[289px] w-1/2) 2xl:(max-w-sm) px-4 py-1.5 rounded sm:w-2/3`,
+        tw`border border-[#EBF2FA] w-full hover:(border-[#c6c7c9]) lg:(min-w-[289px]) 2xl:() px-4 py-1.5 rounded`,
       ]}
     >
       <LocalizationProvider dateAdapter={DateAdapter}>

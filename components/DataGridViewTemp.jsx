@@ -10,18 +10,11 @@ const DataGridViewTemp = ({
   columns,
   link,
   limited,
-  dropdownData,
-  hasSearch,
-  hasSort,
   hasExportBtn,
-  hasFilterShowing,
-  hasFilterStatus,
-  hasFilterType,
   hasMT,
-  typeDropdownData,
   label,
-  StatusDropdownData,
-  hasFilter
+  children,
+  className,
 }) => {
   return (
     <div css={[(limited || hasMT) && tw`mt-10`]}>
@@ -30,7 +23,11 @@ const DataGridViewTemp = ({
 
         {link && (
           <Link href={link}>
-            <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
+            <a
+              css={[
+                tw`text-paysure-100 hover:underline cursor-pointer`,
+              ]}
+            >
               View all
             </a>
           </Link>
@@ -39,19 +36,13 @@ const DataGridViewTemp = ({
       <DataGridView
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
         limited={limited}
-        hasSearch={hasSearch}
-        hasSort={hasSort}
         hasExportBtn={hasExportBtn}
         label={label}
-        hasFilterShowing={hasFilterShowing}
-        hasFilterStatus={hasFilterStatus}
-        hasFilterType={hasFilterType}
-        typeDropdownData={typeDropdownData}
-        StatusDropdownData={StatusDropdownData}
-        hasFilter= {hasFilter}
-      />
+        className={className}
+      >
+        {children}
+      </DataGridView>
     </div>
   )
 }
