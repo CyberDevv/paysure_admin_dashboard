@@ -6,7 +6,7 @@ export default async function addTerminal(req, res) {
   const { USER_AUTHORIZATION } = parseCookies({ req })
 
   try {
-    const { providerName, walletBalanceRefined, servicesCount, servicesDesc } =
+    const { providerName, walletBalanceRefined, servicesCount, servicesDesc, tid } =
       req.body
 
     const response = await makeEncryptedRequest(
@@ -15,6 +15,7 @@ export default async function addTerminal(req, res) {
         walletBalance: walletBalanceRefined,
         servicesCount,
         servicesDesc,
+        tid
       },
       'paysure/api/processor/edit-provider',
       'POST',

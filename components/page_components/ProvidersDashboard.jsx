@@ -211,6 +211,7 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
         const handleEdit = () => {
           handSetIsAddmodalOpened()
 
+          setTid(params.row.id)
           setProviderName(params.row.col2)
           setWalletBallance(params.row.col6)
           setServicesDesc(params.row.col3)
@@ -254,6 +255,7 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
   const [walletBalance, setWalletBallance] = React.useState('')
   const [servicesDesc, setServicesDesc] = React.useState('')
   const [servicesCount, setServicesCount] = React.useState('')
+  const [tid, setTid] = React.useState('')
   const [btnLabel, setBtnLabel] = React.useState('Add Provider')
   const [modalLabel, setModalLabel] = React.useState('Add New Provider')
 
@@ -308,6 +310,7 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
           walletBalanceRefined,
           servicesCount,
           servicesDesc,
+          tid
         })
         .then(res => {
           if (res.status === 200) {
