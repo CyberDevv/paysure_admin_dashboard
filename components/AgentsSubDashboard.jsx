@@ -2,18 +2,19 @@ import React from 'react'
 import tw from 'twin.macro'
 import Router from 'next/router'
 import { Button } from '@mui/material'
+import CurrencyFormat from 'react-currency-format'
 
-import { DataGridViewTemp, HomeDisplayCard } from '.'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
+import { DataGridViewTemp, HomeDisplayCard, SearchBar, FilterBox } from '.'
 import {
   Add,
   EditActionSVG,
   ViewActionSVG,
 } from './SVGIcons'
-import CurrencyFormat from 'react-currency-format'
 
-const AgentsSubDashboard = () => {
+const AgentsSubDashboard = ({ agentData }) => {
+  const { transStats, trxInfo, userCount } = agentData
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
@@ -31,6 +32,43 @@ const AgentsSubDashboard = () => {
     setIsAddmodalOpened(true),
   )
 
+  const agentStats = [
+    {
+      amount: transStats.totalTransactiionsCount,
+      title: 'Total number of transactions',
+    },
+    {
+      amount: userCount,
+      title: 'Total number of agents',
+      link: '/agents/agents_list',
+    },
+    {
+      amount: trxInfo.filter(d => d.status === 1).length,
+      title: 'Total number of active Agents',
+    },
+    {
+      amount: trxInfo.filter(d => d.status !== 1).length,
+      title: 'Total number of inactive agents',
+    },
+  ]
+  
+  const rows = trxInfo.map((item, index) => {
+    return {
+      id: item.tid,
+      col1: index + 1,
+      col2: item.fullName,
+      col3: item.none,
+      col4:  ['TD1213', 'TD90232', 'TD3232'],           //item.none,
+      col5: item.none,
+      col6: item.none,
+      col7: item.none,
+      col8: item.none,
+      col9: item.none,
+      col10: item.statusStr,
+      col11: '',
+    }
+  })
+  
   return (
     <>
       <div css={[tw`flex justify-between items-center`]}>
@@ -123,14 +161,16 @@ const AgentsSubDashboard = () => {
         limited
         link="/agents/agents_list"
         title="Agents list"
-        rows={agents}
+        rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        hasSearch
-        hasFilter
         hasExportBtn
-        // TODO: This has an additional sorting option
-      />
+        className={tw`space-y-4 w-full md:(flex justify-between space-y-0)`}
+      >
+        <div tw="space-y-4 w-full md:(flex items-center space-y-0 space-x-4)">
+          <SearchBar />
+          <FilterBox label="Showing" dropdownData={dropdownData} />
+        </div>
+      </DataGridViewTemp>
     </>
   )
 }
@@ -150,110 +190,16 @@ const dropdownData = [
   },
 ]
 
-const agents = [
-  {
-    id: 1,
-    tid: 1,
-    fullName: 'Suresh Kumar',
-    firstName: 'boxi',
-    lastName: 'soxi',
-    middleName: 'NA',
-    status: 1,
-    statusStr: 'IN-ACTIVE',
-    emailAddress: 'box@gmail.com',
-    phonePri: '+2348032110024',
-    terminals: ['TD1213', 'TD90232', 'TD3232'],
-    phoneSec: '+2348032110025',
-    address1: 'NA',
-    address2: '01234567',
-    partnerCode: 'NA',
-    userRole: 11,
-    userRoleStr: 'SUPER ADMINISTRATOR',
-    code: 'S0000000001',
-    userName: '+2348032119024',
-    stateStr: 'NA',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'ETRANSACT',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'KUDA',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
-    field: 'tid',
+    field: 'col1',
     headerName: 'S/N',
     minWidth: 71,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'fullName',
+    field: 'col2',
     headerName: 'Agent Name',
     minWidth: 227,
     flex: 1,
@@ -267,7 +213,7 @@ const columns = [
     headerClassName: 'grid-header',
   },
   {
-    field: 'terminals',
+    field: 'col4',
     headerName: 'Terminals',
     minWidth: 203,
     flex: 1,
@@ -275,7 +221,7 @@ const columns = [
     renderCell: params => {
       return (
         <div tw="space-x-1">
-          {params.row.terminals.slice(0, 2).map((item, index) => {
+          {params.row.col4.slice(0, 2).map((item, index) => {
             return (
               <span
                 key={index}
@@ -287,8 +233,8 @@ const columns = [
               </span>
             )
           })}
-          {params.row.terminals.length > 2 && (
-            <span tw="ml-4">+{params.row.terminals.length - 2}</span>
+          {params.row.col4.length > 2 && (
+            <span tw="ml-4">+{params.row.col4.length - 2}</span>
           )}
         </div>
       )
@@ -360,10 +306,13 @@ const columns = [
       return (
         <span
           css={[
-            tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`,
+            tw`uppercase text-[10px] p-1 rounded`,
+            params.row.col10.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 `
+              : tw`bg-[#FDF6EF] text-[#EDA95A] `,
           ]}
         >
-          {params.row.col8}
+          {params.row.col10}
         </span>
       )
     },
@@ -409,26 +358,6 @@ const columns = [
         </div>
       )
     },
-  },
-]
-// FIXME: Temp data (should be replaced with real data)
-const agentStats = [
-  {
-    amount: '92,000',
-    title: 'Total number of transactions',
-  },
-  {
-    amount: agents.length,
-    title: 'Total number of agents',
-    link: '/agents/agents_list',
-  },
-  {
-    amount: agents.filter(d => d.status === 1).length,
-    title: 'Total number of active Agents',
-  },
-  {
-    amount: agents.filter(d => d.status === 2).length,
-    title: 'Total number of inactive agents',
   },
 ]
 

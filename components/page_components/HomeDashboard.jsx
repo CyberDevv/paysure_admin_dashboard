@@ -28,7 +28,7 @@ const HomeDashboard = ({ homePageStats }) => {
     {
       amount: homePageStats.totalAgents,
       title: 'Total Number of Agents',
-      link: '/agents_list',
+      link: '/agents',
     },
     {
       amount: homePageStats.totalSubscribers,

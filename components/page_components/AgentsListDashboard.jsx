@@ -1,17 +1,42 @@
 import React from 'react'
+import tw from 'twin.macro'
+import CurrencyFormat from 'react-currency-format'
 
-import { DataGridViewTemp } from '..'
+import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
+import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 
-const AgentsListDashboard = () => {
+const AgentsListDashboard = ({ agentData }) => {
+  const { trxInfo } = agentData
+  
+    const rows = trxInfo.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.fullName,
+        col3: item.none,
+        col4: ['TD1213', 'TD90232', 'TD3232'], //item.none,
+        col5: item.none,
+        col6: item.none,
+        col7: item.none,
+        col8: item.none,
+        col9: item.none,
+        col10: item.statusStr,
+        col11: '',
+      }
+    })
+  
   return (
     <Layout goBack>
       <DataGridViewTemp
         title="Agents"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-      />
+        className={tw`space-y-4 w-full md:(flex items-center space-x-4 space-y-0) xl:(max-w-2xl)`}
+      >
+          <SearchBar />
+          <FilterBox label="Showing" dropdownData={dropdownData} />
+      </DataGridViewTemp>
     </Layout>
   )
 }
@@ -32,76 +57,6 @@ const dropdownData = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -127,14 +82,35 @@ const columns = [
   {
     field: 'col4',
     headerName: 'Terminals',
-    minWidth: 103,
+    minWidth: 203,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <div tw="space-x-1">
+          {params.row.col4.slice(0, 2).map((item, index) => {
+            return (
+              <span
+                key={index}
+                css={[
+                  tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
+                ]}
+              >
+                {item}
+              </span>
+            )
+          })}
+          {params.row.col4.length > 2 && (
+            <span tw="ml-4">+{params.row.col4.length - 2}</span>
+          )}
+        </div>
+      )
+    },
   },
   {
     field: 'col5',
     headerName: 'No. of Transactions',
-    minWidth: 176,
+    minWidth: 166,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -144,6 +120,16 @@ const columns = [
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
@@ -151,6 +137,16 @@ const columns = [
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col8',
@@ -159,13 +155,6 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
   },
   {
     field: 'col9',
@@ -180,6 +169,20 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={[
+            tw`uppercase text-[10px] p-1 rounded`,
+            params.row.col10.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 `
+              : tw`bg-[#FDF6EF] text-[#EDA95A] `,
+          ]}
+        >
+          {params.row.col10}
+        </span>
+      )
+    },
   },
   {
     field: 'col11',
@@ -187,6 +190,41 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/agents/agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          {/* <button onClick={handleView}>
+            <UserWithPositive />
+          </button> */}
+
+          <button onClick={handleView}>
+            <ViewActionSVG />
+          </button>
+        </div>
+      )
+    },
   },
 ]
 
