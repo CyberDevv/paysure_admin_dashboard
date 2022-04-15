@@ -310,7 +310,7 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
           walletBalanceRefined,
           servicesCount,
           servicesDesc,
-          tid
+          tid,
         })
         .then(res => {
           if (res.status === 200) {
