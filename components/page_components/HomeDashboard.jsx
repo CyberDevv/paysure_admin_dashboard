@@ -1,13 +1,21 @@
-import tw from 'twin.macro'
 import React from 'react'
+import tw from 'twin.macro'
+import moment from 'moment'
 
 import CurrencyFormat from 'react-currency-format'
+import numberFormatter from '../../utils/numberFormatter'
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
-import { HomeDisplayCard, DataGridViewTemp, OverviewCardSection } from '..'
+import {
+  HomeDisplayCard,
+  DataGridViewTemp,
+  OverviewCardSection,
+  SearchBar,
+  FilterBox,
+} from '..'
 
-const HomeDashboard = ({ homePageStats }) => {
-  console.log(homePageStats)
+const HomeDashboard = ({ homePageStats, homePageGrid }) => {
+  const { transData } = homePageGrid
 
   // array of home page stats
   const homePageData = [
@@ -52,7 +60,7 @@ const HomeDashboard = ({ homePageStats }) => {
     {
       amount: (
         <CurrencyFormat
-          value={homePageStats.totalSuccessfulTransactionsSum}
+          value={homePageGrid.agentTotalCompletedTransactionsSum}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
@@ -61,18 +69,55 @@ const HomeDashboard = ({ homePageStats }) => {
       label: 'Total Transactions',
     },
     {
-      amount: homePageStats.totalSuccessfulTransactionsCount,
+      amount: numberFormatter(homePageGrid.agentTotalCompleteTransactionsCount),
       label: 'Total Number of Completed Transactions',
     },
     {
-      amount: homePageStats.totalFailedTransactionsCount,
+      amount: numberFormatter(homePageGrid.agentTotalFailedTransactionsCount),
       label: 'Total  Number of Failed Transactions',
     },
     {
-      amount: '20(dummy)',
+      amount: numberFormatter(homePageGrid.agentTotalPendingTransactionsCount),
       label: 'Total Number of Pending Transactions',
     },
   ]
+
+  // array of users stats
+  const agencyOveriewData2 = [
+    {
+      amount: numberFormatter(homePageStats.totalSubscribers),
+      label: 'Total Number of Users',
+    },
+    {
+      amount: numberFormatter(homePageGrid.userTotalCompleteTransactionsCount),
+      label: 'Total NUmber of Completed Transactions',
+    },
+    {
+      amount: numberFormatter(homePageGrid.userTotalFailedTransactionsCount),
+      label: 'Total Number of Failed Transactions',
+    },
+    {
+      amount: numberFormatter(homePageGrid.userTotalPendingTransactionsCount),
+      label: 'Total Number of Pending Transactions',
+    },
+  ]
+
+  // DataGrid rows
+  const rows = transData.map((item, index) => {
+    return {
+      id: item.tid,
+      col1: index + 1,
+      col2: item.none,
+      col3: item.transType,
+      col4: item.amount,
+      col5: item.fee,
+      col6: item.paymentRef,
+      col7: item.paymentMethod,
+      col8: item.transtatus,
+      col9: item.transDate,
+      col10: '',
+    }
+  })
 
   return (
     <Layout title="Home">
@@ -95,18 +140,24 @@ const HomeDashboard = ({ homePageStats }) => {
         title="Recent Transactions"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        hasSearch
-        hasFilter
-        hasSort
         hasExportBtn
-      />
+        className={tw`space-y-4 w-full md:(flex justify-between space-y-0)`}
+      >
+        <div tw="space-y-4 w-full md:(flex items-center space-y-0 space-x-4)">
+          <SearchBar />
+          <FilterBox label="Showing" dropdownData={dropdownData} />
+        </div>
+      </DataGridViewTemp>
     </Layout>
   )
 }
 
 // FIXME: Temp data (should be replaced with real data)
 const dropdownData = [
+  {
+    value: 'all',
+    label: 'All',
+  },
   {
     value: 'user',
     label: 'User',
@@ -117,76 +168,6 @@ const dropdownData = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -215,6 +196,16 @@ const columns = [
     minWidth: 126,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col4}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col5',
@@ -222,25 +213,35 @@ const columns = [
     minWidth: 101,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col5}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col6',
     headerName: 'Transaction Ref.',
-    minWidth: 139,
+    minWidth: 270,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col7',
     headerName: 'Payment Method',
-    minWidth: 144,
+    minWidth: 184,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
     field: 'col8',
     headerName: 'Status',
-    minWidth: 101,
+    minWidth: 131,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
@@ -255,7 +256,7 @@ const columns = [
   {
     field: 'col9',
     headerName: 'Notification Time',
-    minWidth: 185,
+    minWidth: 200,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -298,26 +299,6 @@ const columns = [
         </div>
       )
     },
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData2 = [
-  {
-    amount: 102430,
-    label: 'Total Number of Users',
-  },
-  {
-    amount: 322321350,
-    label: 'Total NUmber of Completed Transactions',
-  },
-  {
-    amount: 10,
-    label: 'Total Number of Failed Transactions',
-  },
-  {
-    amount: 20,
-    label: 'Total Number of Pending Transactions',
   },
 ]
 

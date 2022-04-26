@@ -33,12 +33,16 @@ export async function makeEncryptedRequest(data, url, method, token) {
         REQ_HEADER,
       )
 
+      // console.log('<<<<<< response2 >>>>', response2)
+
       return {
         status: response2.status,
         data: response2.data,
       }
     }
   } catch (error) {
+    // console.log('<<<<< error >>>>>', error)
+
     if (error.response) {
       return {
         status: error.response.status,
