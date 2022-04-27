@@ -1,6 +1,5 @@
 import React from 'react'
 import tw from 'twin.macro'
-import moment from 'moment'
 
 import CurrencyFormat from 'react-currency-format'
 import numberFormatter from '../../utils/numberFormatter'

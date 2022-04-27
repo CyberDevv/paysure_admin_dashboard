@@ -1,19 +1,80 @@
 import tw from 'twin.macro'
 import React, { useState } from 'react'
-import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
-
-import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
-import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
 import CurrencyFormat from 'react-currency-format'
 
-const SettlementsDashboard = () => {
-  // UseState hook
-  const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
+import numberFormatter from '../../utils/numberFormatter'
+import Layout from '../layouts/main_layout/index.main_layout'
+import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
+import {
+  DataGridViewTemp,
+  HomeDisplayCard,
+  OverviewCardSection,
+  SearchBar,
+  FilterBox,
+  DatRangePickerAndOthers,
+} from '..'
 
-  // functions
-  const handleDropdownSelected = React.useCallback(event => {
-    setSelectedDrop(event.target.value)
+const SettlementsDashboard = ({ settlementData }) => {
+// console.log("🚀 ~ file: SettlementsDashboard.jsx ~ line 18 ~ SettlementsDashboard ~ settlementData", settlementData)
+  const { transData } = settlementData
+
+  // Settlement data metric array
+  const settlementDataArray = [
+    {
+      amount: (
+        <CurrencyFormat
+          value={settlementData.totalSettlements}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      title: 'Total Settlements',
+      link: '/settlements/settlements_list',
+    },
+    {
+      amount: numberFormatter(settlementData.totalNoOfSuccessfulSettlements),
+      title: 'Total Number of Successful Settlements',
+    },
+    {
+      amount: numberFormatter(settlementData.totalFailedSettlementsCount),
+      title: 'Total Number of Failed Settlements',
+    },
+    {
+      amount: numberFormatter(settlementData.totalPendingSettlementsCount),
+      title: 'Total Number of Pending Settlements',
+    },
+  ]
+
+  const agencyOveriewData = [
+    {
+      amount: numberFormatter(settlementData.paysureSettlement),
+      label: 'Paysure Settlement',
+    },
+    {
+      amount: numberFormatter(settlementData.superAgentSettlements),
+      label: 'Super Agent Settlement',
+    },
+    {
+      amount: numberFormatter(settlementData.agentsSettlement),
+      label: 'Agent Settlement',
+    },
+  ]
+
+  // DataGrid rows
+  const rows = transData.map((item, index) => {
+    return {
+      id: item.tid,
+      col1: index + 1,
+      col2: item.amount,
+      col3: item.transType,
+      col4: item.none,
+      col5: item.none,
+      col6: item.percentage,
+      col7: item.transtatus,
+      col8: item.transDate,
+      col9: '',
+    }
   })
 
   return (
@@ -22,7 +83,7 @@ const SettlementsDashboard = () => {
         <Ttile className="font-bold">Settlements</Ttile>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={settlementDataArray} />
 
       <OverviewCardSection
         title="Settlement Overview"
@@ -35,19 +96,66 @@ const SettlementsDashboard = () => {
         title="Settlement Records"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        typeDropdownData={dropdownData}
-        hasSearch
-        hasSort
-        hasFilterStatus
-        hasFilterType
-        hasFilter="Benefactor"
-        StatusDropdownData={dropdownData}
         hasExportBtn
-      />
+        className={tw`grid sm:grid-template-columns[auto] gap-4 w-full xl:(grid-cols-2)`}
+      >
+        <div tw="col-span-2 grid sm:grid-cols-2 gap-4 xl:(grid-cols-4)">
+          <SearchBar />
+          <FilterBox label="Type" dropdownData={typedropdownData} />
+          <FilterBox label="Status" dropdownData={StatusdropdownData} />
+          <FilterBox label="Benefactor" dropdownData={dropdownData} />
+        </div>
+        <DatRangePickerAndOthers />
+      </DataGridViewTemp>
     </Layout>
   )
 }
+
+const typedropdownData = [
+  {
+    value: 'all',
+    label: 'All',
+  },
+  {
+    value: 'pending',
+    label: 'Pending',
+  },
+  {
+    value: 'failed',
+    label: 'Failed',
+  },
+  {
+    value: 'deposit transfer',
+    label: 'Deposit Transfer',
+  },
+  {
+    value: 'unknown/pending',
+    label: 'Unknown/Pending',
+  },
+  {
+    value: 'income settlements',
+    label: 'Income Settlements',
+  },
+]
+
+const StatusdropdownData = [
+  {
+    value: 'all',
+    label: 'All',
+  },
+  {
+    value: 'failed',
+    label: 'Failed',
+  },
+  {
+    value: 'pending',
+    label: 'Pending',
+  },
+  {
+    value: 'successful',
+    label: 'Successful',
+  },
+]
 
 // FIXME: Temp data (should be replaced with real data)
 const dropdownData = [
@@ -65,76 +173,6 @@ const dropdownData = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -194,6 +232,13 @@ const columns = [
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+          {params.row.col7}
+        </span>
+      )
+    },
   },
   {
     field: 'col8',
@@ -244,50 +289,6 @@ const columns = [
         </div>
       )
     },
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: 55102430,
-    label: 'Paysure Settlement',
-  },
-  {
-    amount: 1350,
-    label: 'Super Agent Settlement',
-  },
-  {
-    amount: 10,
-    label: 'Agent Settlement',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: (
-      <CurrencyFormat
-        value={8978755}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    title: 'Total Settlements',
-    link: '/settlements/settlements_list',
-  },
-  {
-    amount: '24',
-    title: 'Total Number of Successful Settlements',
-  },
-  {
-    amount: '3',
-    title: 'Total Number of Failed Settlements',
-  },
-  {
-    amount: '3',
-    title: 'Total Number of Pending Settlements',
   },
 ]
 
