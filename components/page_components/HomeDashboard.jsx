@@ -14,7 +14,7 @@ import {
 } from '..'
 
 const HomeDashboard = ({ homePageStats, homePageGrid }) => {
-  const { transData } = homePageGrid
+  const { transData = [] } = homePageGrid
 
   // array of home page stats
   const homePageData = [

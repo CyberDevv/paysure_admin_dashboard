@@ -4,13 +4,16 @@ import OtpInput from 'react-otp-input'
 import CurrencyFormat from 'react-currency-format'
 import { Button, IconButton, Menu, MenuItem } from '@mui/material'
 
+import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
-const UserDashboard = () => {
+const UserDashboard = ({ providerData }) => {
+  const { providerTrxData = [] } = providerData
+
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [isModalOpened, setIsModalOpened] = React.useState(false)
@@ -67,6 +70,48 @@ const UserDashboard = () => {
 
       setModalState('fundWallet')
       setModalTitle(['Fund Wallet', 'Continue'])
+    }
+  })
+
+  // Array of the provider data
+  const providerDataArray = [
+    {
+      amount: (
+        <CurrencyFormat
+          value={providerData.totalTransSum}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      title: 'Total Transactions',
+    },
+    {
+      amount: numberFormatter(providerData.completedTransCount),
+      title: 'Total Number of Completed Transactions',
+    },
+    {
+      amount: numberFormatter(providerData.failedCount),
+      title: 'Total Number of Failed Transactions',
+    },
+    {
+      amount: numberFormatter(providerData.none),
+      title: 'Total Number of Pending Transactions',
+    },
+  ]
+
+  // DataGrid rows
+  const rows = providerTrxData.map((item, index) => {
+    return {
+      id: item.tid,
+      col1: index + 1,
+      col2: item.transType,
+      col3: item.none,
+      col4: item.amount,
+      col5: item.fee,
+      col6: item.transtatus,
+      col7: item.transDate,
+      col8: '',
     }
   })
 
@@ -247,7 +292,7 @@ const UserDashboard = () => {
           )}
         </Modal>
       </WalletWrapper>
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={providerDataArray} />
       {/* Services */}
       <OverviewCardSection title="Services" data={agencyOveriewData} />
       {/* DataGrid */}
@@ -257,11 +302,7 @@ const UserDashboard = () => {
         title="Transaction Records"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        hasFilter
-        hasSort
-        // TODO: has additional filter action
-      />
+      ></DataGridViewTemp>
     </Layout>
   )
 }
@@ -327,76 +368,6 @@ const dropdownData = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -468,20 +439,20 @@ const columns = [
               : tw`bg-border2 text-paysure-100 p-1 rounded capitalize`
           }
         >
-          {params.row.col8}
+          {params.row.col6}
         </span>
       )
     },
   },
   {
-    field: 'col9',
+    field: 'col7',
     headerName: 'Date',
     minWidth: 170,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col10',
+    field: 'col8',
     headerName: 'Action.',
     minWidth: 100,
     flex: 1,
@@ -517,33 +488,6 @@ const columns = [
         </div>
       )
     },
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: (
-      <CurrencyFormat
-        value={89787655}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    title: 'Total Transactions',
-  },
-  {
-    amount: '120',
-    title: 'Total Number of Completed Transactions',
-  },
-  {
-    amount: '30',
-    title: 'Total Number of Failed Transactions',
-  },
-  {
-    amount: '72',
-    title: 'Total Number of Pending Transactions',
   },
 ]
 
