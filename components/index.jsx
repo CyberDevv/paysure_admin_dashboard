@@ -1,3 +1,4 @@
+export { default as Receipt } from './Receipt'
 export { default as TabPanel } from './TabPanel'
 export { default as SendModal } from './modal/SendModal'
 export { default as DataGridView } from './DataGridView'

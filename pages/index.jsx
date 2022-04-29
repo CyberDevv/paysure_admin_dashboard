@@ -1,5 +1,6 @@
 // imports
 import React from 'react'
+import moment from 'moment'
 import Head from 'next/head'
 import nookies from 'nookies'
 import Router from 'next/router'
@@ -52,10 +53,10 @@ export async function getServerSideProps(ctx) {
   const response = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
-      fromDate: '2021-03-31 23:59:59',
-      toDate: '2022-04-30 23:59:59',
+      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
+      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
       pageId: 1,
-      pageSize: 2,
+      pageSize: 5,
     },
     'paysure/api/processor/admin-dashboard-stats-with-grid',
     'POST',
