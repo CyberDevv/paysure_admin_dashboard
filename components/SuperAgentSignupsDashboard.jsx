@@ -20,7 +20,7 @@ const SuperAgentSignupsDashboard = () => {
         columns={columns}
         dropdownData={dropdownData}
         hasSearch
-        hasFilter                                                                                                                 
+        hasFilter
         hasSort
         hasExportBtn
         // TODO: has another filtering button

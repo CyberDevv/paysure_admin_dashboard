@@ -118,7 +118,10 @@ const TaggedTextfield = ({ ...props }) => {
                     <InputAdornment position="start">
                       <Span tw="mr-1">Send to:</Span>
 
-                      <div tw="overflow-x-auto sm:max-w-xs" className="scrollHidden">
+                      <div
+                        tw="overflow-x-auto sm:max-w-xs"
+                        className="scrollHidden"
+                      >
                         {selectedItem.map(item => (
                           <Chip
                             key={item}

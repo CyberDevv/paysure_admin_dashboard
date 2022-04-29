@@ -31,7 +31,7 @@ const DataGridView = ({
   children,
   className,
   pageSize,
-  pagination
+  pagination,
 }) => {
   // Datagird Toolbar
   const CustomToolbar = () => {

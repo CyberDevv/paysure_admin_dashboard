@@ -55,7 +55,7 @@ export default function AgentDashboard({ agentData }) {
           </MUITabs>
         </Box>
         <TabPanel tabvalue={tabValue} index={0}>
-          <AgentSubDashboard agentData= {agentData} />
+          <AgentSubDashboard agentData={agentData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
           <SuperAgentSubDashboard />

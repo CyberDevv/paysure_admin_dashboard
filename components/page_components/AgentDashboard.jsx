@@ -696,7 +696,7 @@ const Settlementcolumns = [
           </button> */}
 
           <Link href="">
-            <a tw= "text-paysure-100 cursor-pointer">View</a>
+            <a tw="text-paysure-100 cursor-pointer">View</a>
           </Link>
         </div>
       )
