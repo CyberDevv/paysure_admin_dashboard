@@ -1,6 +1,8 @@
 import React from 'react'
+import moment from 'moment'
 import tw from 'twin.macro'
 
+import ReactToPrint from 'react-to-print'
 import CurrencyFormat from 'react-currency-format'
 import numberFormatter from '../../utils/numberFormatter'
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
@@ -11,10 +13,13 @@ import {
   OverviewCardSection,
   SearchBar,
   FilterBox,
+  DatRangePickerAndOthers,
+  Receipt,
 } from '..'
 
 const HomeDashboard = ({ homePageStats, homePageGrid }) => {
   const { transData = [] } = homePageGrid
+  // console.log(transData)
 
   // array of home page stats
   const homePageData = [
@@ -118,6 +123,157 @@ const HomeDashboard = ({ homePageStats, homePageGrid }) => {
     }
   })
 
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
+    },
+    {
+      field: 'col2',
+      headerName: 'Initiator',
+      minWidth: 227,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col3',
+      headerName: 'Type',
+      minWidth: 140,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col4',
+      headerName: 'Amount',
+      minWidth: 126,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col4}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col5',
+      headerName: 'Charge',
+      minWidth: 101,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col5}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col6',
+      headerName: 'Transaction Ref.',
+      minWidth: 270,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col7',
+      headerName: 'Payment Method',
+      minWidth: 184,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col8',
+      headerName: 'Status',
+      minWidth: 131,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+      renderCell: params => {
+        return (
+          <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+            {params.row.col8}
+          </span>
+        )
+      },
+    },
+    {
+      field: 'col9',
+      headerName: 'Notification Time',
+      minWidth: 200,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
+    },
+    {
+      field: 'col10',
+      headerName: 'Action',
+      minWidth: 100,
+      flex: 1,
+      sortable: false,
+      headerClassName: 'grid-header',
+
+      renderCell: params => {
+        const handlePrint = () => {}
+
+        // const handlePrint = e => {
+        //   const api = params.api
+        //   const thisRow = {}
+
+        //   api
+        //     .getAllColumns()
+        //     .filter(c => c.field !== '__check__' && !!c)
+        //     .forEach(
+        //       c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+        //     )
+
+        //   // Router.push(`/agents/super_agent/${thisRow.col1}`)
+        // }
+
+        return (
+          // <div tw="space-x-1">
+          //   <button onClick={handleEdit}>
+          //     <EditActionSVG />
+          //   </button>
+
+          //   <button onClick={handleView}>
+          //     <ViewActionSVG />
+          //   </button>
+          // </div>
+
+          <ReactToPrint
+            trigger={() => (
+              <button onClick={handlePrint} tw="normal-case text-paysure-100">
+                Print
+              </button>
+            )}
+            content={() => componentRef.current}
+          />
+        )
+      },
+    },
+  ]
+
+  const componentRef = React.useRef()
+
   return (
     <Layout title="Home">
       <Ttile className="font-bold">
@@ -140,13 +296,21 @@ const HomeDashboard = ({ homePageStats, homePageGrid }) => {
         rows={rows}
         columns={columns}
         hasExportBtn
-        className={tw`space-y-4 w-full md:(flex justify-between space-y-0)`}
+        className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
-        <div tw="space-y-4 w-full md:(flex items-center space-y-0 space-x-4)">
+        <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
           <SearchBar />
           <FilterBox label="Showing" dropdownData={dropdownData} />
         </div>
+        <DatRangePickerAndOthers />
       </DataGridViewTemp>
+
+      {/* Print */}
+      <div>
+        <div tw="hidden">
+          <Receipt ref={componentRef} isTransaction />
+        </div>
+      </div>
     </Layout>
   )
 }
@@ -164,140 +328,6 @@ const dropdownData = [
   {
     value: 'admin',
     label: 'Admin',
-  },
-]
-
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Initiator',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Type',
-    minWidth: 140,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Amount',
-    minWidth: 126,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col4}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col5',
-    headerName: 'Charge',
-    minWidth: 101,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col5}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col6',
-    headerName: 'Transaction Ref.',
-    minWidth: 270,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Payment Method',
-    minWidth: 184,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Status',
-    minWidth: 131,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    renderCell: params => {
-      return (
-        <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-          {params.row.col8}
-        </span>
-      )
-    },
-  },
-  {
-    field: 'col9',
-    headerName: 'Notification Time',
-    minWidth: 200,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Action',
-    minWidth: 100,
-    flex: 1,
-    sortable: false,
-    headerClassName: 'grid-header',
-
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        // Router.push(`/agents/super_agent/${thisRow.col1}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
-
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
-        </div>
-      )
-    },
   },
 ]
 

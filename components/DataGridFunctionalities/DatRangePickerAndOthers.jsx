@@ -3,77 +3,81 @@ import React, { useState } from 'react'
 import DateAdapter from '@mui/lab/AdapterMoment'
 import { Box, InputAdornment, TextField } from '@mui/material'
 import { DateRangePicker, LocalizationProvider } from '@mui/lab'
+import moment from 'moment'
 
 import { Calendar } from '../SVGIcons'
 
 const DatRangePickerAndOthers = () => {
   // UseState hook
-  const [value, setValue] = useState([null, null])
+  const [value, setValue] = useState([moment().subtract(30, 'days'), new Date()])
+  console.log(value)
 
   // components
-  const handleRenderInput = React.useCallback((startProps, endProps) => (
-    <>
-      <TextField
-        {...startProps}
-        variant="standard"
-        fullWidth
-        sx={{
-          '& .MuiInput-root': {
-            fontSize: '13px',
-          },
-          '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ': {
-            content: 'none',
-          },
-          '& .css-1480iag-MuiInputBase-root-MuiInput-root:after': {
-            conntent: 'none',
-            border: 'none',
-          },
-        }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Span>From:</Span>
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end">
-              <Calendar />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Box sx={{ mx: '8px', color: '#979797' }}> | </Box>
-      <TextField
-        variant="standard"
-        fullWidth
-        sx={{
-          '& .MuiInput-root': {
-            fontSize: '13px',
-          },
-          '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ': {
-            content: 'none',
-          },
-          '& .css-1480iag-MuiInputBase-root-MuiInput-root:after': {
-            conntent: 'none',
-            border: 'none',
-          },
-        }}
-        {...endProps}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Span>To:</Span>
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end">
-              <Calendar />
-            </InputAdornment>
-          ),
-        }}
-      />
-    </>
-  ))
+  const handleRenderInput = React.useCallback((startProps, endProps) => {
+    return (
+      <>
+        <TextField
+          {...startProps}
+          variant="standard"
+          fullWidth
+          sx={{
+            '& .MuiInput-root': {
+              fontSize: '13px',
+            },
+            '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ': {
+              content: 'none',
+            },
+            '& .css-1480iag-MuiInputBase-root-MuiInput-root:after': {
+              conntent: 'none',
+              border: 'none',
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Span>From:</Span>
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <Calendar />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Box sx={{ mx: '8px', color: '#979797' }}> | </Box>
+        <TextField
+          variant="standard"
+          fullWidth
+          sx={{
+            '& .MuiInput-root': {
+              fontSize: '13px',
+            },
+            '& .css-1480iag-MuiInputBase-root-MuiInput-root:before ': {
+              content: 'none',
+            },
+            '& .css-1480iag-MuiInputBase-root-MuiInput-root:after': {
+              conntent: 'none',
+              border: 'none',
+            },
+          }}
+          {...endProps}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Span>To:</Span>
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <Calendar />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </>
+    )
+  })
 
   // functions
   const handleSetValue = React.useCallback(newValue => {
@@ -91,6 +95,7 @@ const DatRangePickerAndOthers = () => {
           startText=""
           inputFormat="DD MMMM"
           endText=""
+          disableFuture
           value={value}
           onChange={handleSetValue}
           renderInput={handleRenderInput}
