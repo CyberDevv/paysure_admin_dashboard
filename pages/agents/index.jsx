@@ -11,7 +11,7 @@ import { SinglarSuperAgentDashboard } from '../../components'
 import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
 // Page init
-const Agents = ({status, data}) => {
+const Agents = ({ status, data }) => {
   // dispatch
   const dispatch = useDispatch()
 
@@ -32,7 +32,7 @@ const Agents = ({status, data}) => {
         <title>Agents | Paysure</title>
       </Head>
 
-      <SinglarSuperAgentDashboard agentData= {data} />
+      <SinglarSuperAgentDashboard agentData={data} />
     </>
   )
 }
