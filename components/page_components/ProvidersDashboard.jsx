@@ -89,6 +89,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
     },
   ]
 
+  // rows
   let rows
 
   // check if providerList is an array
@@ -293,6 +294,12 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
   )
 
   const handleAddProvider = React.useCallback(() => {
+    // Validation
+    if (!providerName || !walletBalance || !servicesDesc || !servicesCount) {
+      toast.error('Please fill all the fields')
+      return
+    }
+
     let walletBalanceRefined = `${walletBalance}.00`
     setIsLoading(true)
 

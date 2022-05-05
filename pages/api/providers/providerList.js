@@ -18,7 +18,6 @@ export default async function providerList(req, res) {
 
     res.status(response.status).json(response.data)
   } catch (error) {
-    console.log(error)
-    res.json(error)
+    error && res.json(error)
   }
 }
