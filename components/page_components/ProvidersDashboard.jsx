@@ -311,6 +311,8 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
           }
         })
         .catch(err => {
+          setIsLoading(false)
+
           if (err.response.status === 913) {
             toast.error('Provider already exists')
           } else {
