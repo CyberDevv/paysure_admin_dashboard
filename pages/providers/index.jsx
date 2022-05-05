@@ -49,7 +49,7 @@ function ProviderPage() {
 
   const { data } = useSWR('/api/providers/providerStats', fetcher, {
     revalidateOnMount: true,
-    revalidateIfStale: true
+    revalidateIfStale: true,
   })
 
   const { data: data2 } = useSWR('/api/providers/providerList', fetcher, {
@@ -74,14 +74,14 @@ export default function Providers({ fallback, status, status2 }) {
 
   // useEffect hook
   React.useEffect(() => {
-    if ((status || status2) === 873) {
+    if (status === 873 || status2 === 873) {
       // logout the user and push to login page
       dispatch(logout())
       destroyCookie(null, 'USER_AUTHORIZATION')
       localStorage.removeItem('user')
       Router.push('/login')
     }
-  })
+  }, [status, status2, fallback, dispatch])
 
   return (
     <SWRConfig value={{ fallback }}>
@@ -101,4 +101,3 @@ export default function Providers({ fallback, status, status2 }) {
 //   // )
 
 //   // console.log('providerMetrics >>>>>' + JSON.stringify(providerMetrics))
-

@@ -89,21 +89,28 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
     },
   ]
 
-  const rows = providersList.map((provider, index) => {
-    return {
-      id: provider.tid,
-      col1: index + 1,
-      col2: provider.providerName,
-      col3: provider.servicesDesc,
-      col4: provider.servicesCount,
-      col5: provider.noOfTransactions,
-      col6: provider.walletBalance,
-      col7: provider.none,
-      col8: provider.none,
-      col9: provider.none,
-      col10: '',
-    }
-  })
+  let rows
+
+  // check if providerList is an array
+  if (Array.isArray(providersList)) {
+    rows = providersList.map((provider, index) => {
+      return {
+        id: provider.tid,
+        col1: index + 1,
+        col2: provider.providerName,
+        col3: provider.servicesDesc,
+        col4: provider.none,
+        col5: provider.noOfTransactions,
+        col6: provider.walletBalance,
+        col7: provider.transSum,
+        col8: provider.feeSum,
+        col9: provider.dateCreated,
+        col10: '',
+      }
+    })
+  } else {
+    rows = []
+  }
 
   const columns = [
     {
@@ -311,6 +318,8 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
           }
         })
         .catch(err => {
+          setIsLoading(false)
+
           if (err.response.status === 913) {
             toast.error('Provider already exists')
           } else {
