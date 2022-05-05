@@ -49,7 +49,7 @@ function ProviderPage() {
 
   const { data } = useSWR('/api/providers/providerStats', fetcher, {
     revalidateOnMount: true,
-    revalidateIfStale: true
+    revalidateIfStale: true,
   })
 
   const { data: data2 } = useSWR('/api/providers/providerList', fetcher, {
@@ -101,4 +101,3 @@ export default function Providers({ fallback, status, status2 }) {
 //   // )
 
 //   // console.log('providerMetrics >>>>>' + JSON.stringify(providerMetrics))
-
