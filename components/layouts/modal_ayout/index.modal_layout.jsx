@@ -1,5 +1,6 @@
 import tw from 'twin.macro'
 import React from 'react'
+import { LoadingButton } from '@mui/lab'
 import { Button, Dialog, Divider } from '@mui/material'
 
 import { Close } from '../../SVGIcons'
@@ -11,6 +12,7 @@ const Index_modal_layout = ({
   setState,
   children,
   onClick,
+  loading,
 }) => {
   // function
   const handleClose = React.useCallback(() => {
@@ -50,7 +52,7 @@ const Index_modal_layout = ({
             }}
           />
 
-          <ModalButton onClick={onClick} className="font-500">
+          <ModalButton loading={loading} onClick={onClick} className="font-500">
             {buttonLabel}
           </ModalButton>
         </Form>
@@ -64,7 +66,7 @@ const InnerDialog = tw.div`py-5 overflow-hidden w-[400px]`
 const DialogTitle = tw.h5`px-8 text-base text-paysure-text-100 text-center`
 const Form = tw.form`px-8 py-4`
 const ModalButton = tw(
-  Button,
+  LoadingButton,
 )`normal-case bg-paysure-100 text-white w-full py-5 rounded-xl text-sm hover:(bg-paysure-100 shadow-xl)`
 const IconWrapper = tw.button`absolute right-5 top-3.5 text-[#425D8A] hover:(text-red-700) transition-colors cursor-pointer stroke-current`
 

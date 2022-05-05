@@ -112,7 +112,8 @@ const DataGridView = ({
       <div style={{ display: 'flex' }}>
         <div style={{ flexGrow: 1, width: '100%' }}>
           <DataGrid
-            rows={rows}
+            rows={ rows}
+            // rows={limited ? rows.slice(0, 5) : rows}
             columns={columns}
             autoHeight
             disableColumnMenu

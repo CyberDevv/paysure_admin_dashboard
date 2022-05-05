@@ -32,7 +32,7 @@ export async function makeEncryptedRequestWithoutUserJWT(data, url, method) {
         REQ_HEADER,
       )
 
-      console.log('<<<<<< response2 >>>>', response2)
+      // console.log('<<<<<< response2 >>>>', response2)
 
       return {
         status: response2.status,
@@ -40,7 +40,7 @@ export async function makeEncryptedRequestWithoutUserJWT(data, url, method) {
       }
     }
   } catch (error) {
-    console.log('<<<<< error >>>>>', error)
+    // console.log('<<<<< error >>>>>', error)
 
     if (error.response) {
       return {

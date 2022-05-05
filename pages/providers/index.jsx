@@ -1,8 +1,8 @@
-// imports
 import React from 'react'
 import Head from 'next/head'
 import nookies from 'nookies'
 import Router from 'next/router'
+import useSWR, { SWRConfig } from 'swr'
 import { destroyCookie } from 'nookies'
 import { useDispatch } from 'react-redux'
 
@@ -10,14 +10,71 @@ import { logout } from '../../features/userSlice'
 import { ProvidersDashboard } from '../../components'
 import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
-// Page init
-const Providers = ({ providerStats, providersList, status }) => {
+export async function getServerSideProps(ctx) {
+  const { USER_AUTHORIZATION } = nookies.get(ctx)
+  // `getStaticProps` is executed on the server side.
+  const providerStats = await makeEncryptedRequest(
+    {},
+    'paysure/api/processor/lookup-provider-stats',
+    'POST',
+    USER_AUTHORIZATION,
+  )
+
+  const providersList = await makeEncryptedRequest(
+    {
+      searchKey: '',
+    },
+    'paysure/api/processor/list-providers',
+    'POST',
+    USER_AUTHORIZATION,
+  )
+
+  return {
+    props: {
+      status: providerStats ? providerStats.status : 500,
+      status2: providersList ? providersList.status : 500,
+      fallback: {
+        '/api/providers/providerStats': providerStats ? providerStats.data : [],
+        '/api/providers/providerList': providersList ? providersList.data : [],
+      },
+    },
+  }
+}
+
+function ProviderPage() {
+  async function fetcher(url) {
+    const res = await fetch(url)
+    return res.json()
+  }
+
+  const { data } = useSWR('/api/providers/providerStats', fetcher, {
+    revalidateOnMount: true,
+    revalidateIfStale: true
+  })
+
+  const { data: data2 } = useSWR('/api/providers/providerList', fetcher, {
+    revalidateOnMount: true,
+    revalidateIfStale: true,
+  })
+
+  return (
+    <>
+      <Head>
+        <title>Providers | Paysure</title>
+      </Head>
+
+      <ProvidersDashboard providerStats={data} providersList={data2} />
+    </>
+  )
+}
+
+export default function Providers({ fallback, status, status2 }) {
   // dispatch
   const dispatch = useDispatch()
 
   // useEffect hook
   React.useEffect(() => {
-    if (status === 873) {
+    if ((status || status2) === 873) {
       // logout the user and push to login page
       dispatch(logout())
       destroyCookie(null, 'USER_AUTHORIZATION')
@@ -27,45 +84,21 @@ const Providers = ({ providerStats, providersList, status }) => {
   })
 
   return (
-    <>
-      <Head>
-        <title>Providers | Paysure</title>
-      </Head>
-
-      <ProvidersDashboard
-        providerStats={providerStats}
-        providersList={providersList}
-      />
-    </>
+    <SWRConfig value={{ fallback }}>
+      <ProviderPage />
+    </SWRConfig>
   )
 }
 
-// getStaticProps
-export async function getServerSideProps(ctx) {
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
+//   // const providerMetrics = await makeEncryptedRequest(
+//   //   {
+//   //     pageId: 1,
+//   //     pageSize: 5,
+//   //   },
+//   //   'paysure/api/processor/list-providers-summaries',
+//   //   'POST',
+//   //   USER_AUTHORIZATION,
+//   // )
 
-  const providerStats = await makeEncryptedRequest(
-    {},
-    'paysure/api/processor/lookup-provider-stats',
-    'POST',
-    USER_AUTHORIZATION,
-  )
+//   // console.log('providerMetrics >>>>>' + JSON.stringify(providerMetrics))
 
-  const providersList = await makeEncryptedRequest(
-    { searchKey: '' },
-    'paysure/api/processor/list-providers',
-    'POST',
-    USER_AUTHORIZATION,
-  )
-
-  return {
-    props: {
-      status: providerStats ? providerStats.status : {},
-      providersList: providersList ? providersList.data : {},
-      providerStats: providerStats ? providerStats.data : {},
-    },
-  }
-}
-
-// Page export
-export default Providers

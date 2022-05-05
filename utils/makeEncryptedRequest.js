@@ -41,7 +41,7 @@ export async function makeEncryptedRequest(data, url, method, token) {
       }
     }
   } catch (error) {
-    // console.log('<<<<< error >>>>>', error)
+    // console.log('<<<<< error >>>>>', error.response)
 
     if (error.response) {
       return {

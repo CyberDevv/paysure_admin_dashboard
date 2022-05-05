@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React from 'react'
+import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
 import { Button } from '@mui/material'
@@ -18,7 +19,7 @@ import {
   FilterBox,
 } from '..'
 
-const ProvidersDashboard = ({ providerStats, providersList }) => {
+const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
   // Array of provider stats data
   const providerStatsData = [
     {
@@ -111,6 +112,9 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
       minWidth: 71,
       flex: 1,
       headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
     },
     {
       field: 'col2',
@@ -125,6 +129,9 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
       minWidth: 236,
       flex: 1,
       headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span tw="truncate">{params.row.col3}</span>
+      },
     },
     {
       field: 'col4',
@@ -198,6 +205,11 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
       minWidth: 183,
       flex: 1,
       headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
     },
     {
       field: 'col10',
@@ -258,6 +270,7 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
   const [tid, setTid] = React.useState('')
   const [btnLabel, setBtnLabel] = React.useState('Add Provider')
   const [modalLabel, setModalLabel] = React.useState('Add New Provider')
+  const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
   const handSetIsAddmodalOpened = React.useCallback(
@@ -274,6 +287,7 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
 
   const handleAddProvider = React.useCallback(() => {
     let walletBalanceRefined = `${walletBalance}.00`
+    setIsLoading(true)
 
     if (modalLabel === 'Add New Provider') {
       axios
@@ -286,6 +300,8 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
         .then(res => {
           if (res.status === 200) {
             toast.success('Provider added successfully')
+
+            setIsLoading(false)
 
             setProviderName('')
             setWalletBallance('')
@@ -310,11 +326,13 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
           walletBalanceRefined,
           servicesCount,
           servicesDesc,
-          tid
+          tid,
         })
         .then(res => {
           if (res.status === 200) {
             toast.success('Provider updated successfully')
+
+            setIsLoading(false)
 
             setProviderName('')
             setWalletBallance('')
@@ -324,6 +342,7 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
           }
         })
         .catch(err => {
+          setIsLoading(false)
           if (err.response.status === 913) {
             toast.error('Provider already exists')
           } else {
@@ -353,6 +372,7 @@ const ProvidersDashboard = ({ providerStats, providersList }) => {
           state={isaddModalOpened}
           setState={setIsAddmodalOpened}
           buttonLabel={btnLabel}
+          loading={isLoading}
           onClick={handleAddProvider}
         >
           <Label
