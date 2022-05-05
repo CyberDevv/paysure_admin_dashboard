@@ -15,7 +15,7 @@ import {
 } from '..'
 
 const SettlementsDashboard = ({ settlementData }) => {
-// console.log("🚀 ~ file: SettlementsDashboard.jsx ~ line 18 ~ SettlementsDashboard ~ settlementData", settlementData)
+  // console.log("🚀 ~ file: SettlementsDashboard.jsx ~ line 18 ~ SettlementsDashboard ~ settlementData", settlementData)
   const { transData } = settlementData
 
   // Settlement data metric array

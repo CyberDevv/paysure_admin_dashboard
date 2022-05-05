@@ -8,7 +8,13 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, SearchBar, FilterBox, DatRangePickerAndOthers } from '..'
+import {
+  DataGridViewTemp,
+  HomeDisplayCard,
+  SearchBar,
+  FilterBox,
+  DatRangePickerAndOthers,
+} from '..'
 
 const UserssDashboard = ({ data }) => {
   const { trxInfo, transStats, userCount } = data
@@ -170,7 +176,7 @@ const UserssDashboard = ({ data }) => {
         hasExportBtn
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
-        <div tw= " space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+        <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
           <SearchBar />
           <FilterBox label="Showing" dropdownData={dropdownData} />
         </div>

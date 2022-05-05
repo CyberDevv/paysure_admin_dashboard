@@ -83,7 +83,11 @@ const UserDashboard = () => {
       <HomeDisplayCard data={temporalData} />
 
       {/* Services */}
-      <OverviewCardSection title="Services" data={agencyOveriewData} onClick= "/organizations/1/service/1" />
+      <OverviewCardSection
+        title="Services"
+        data={agencyOveriewData}
+        onClick="/organizations/1/service/1"
+      />
 
       {/* DataGrid */}
       <DataGridViewTemp

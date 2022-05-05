@@ -96,7 +96,7 @@ const Sub_AccountsDashboard = () => {
         StatusDropdownData={dropdownData}
         typeDropdownData={dropdownData}
         hasSearch
-        hasFilter= "Benefactor"
+        hasFilter="Benefactor"
         hasExportBtn
         hasSort
         hasMT
