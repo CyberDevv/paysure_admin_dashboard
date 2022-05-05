@@ -7,11 +7,7 @@ import CurrencyFormat from 'react-currency-format'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, SearchBar, FilterBox } from '.'
-import {
-  Add,
-  EditActionSVG,
-  ViewActionSVG,
-} from './SVGIcons'
+import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
 
 const AgentsSubDashboard = ({ agentData }) => {
   const { transStats, trxInfo, userCount } = agentData
@@ -51,14 +47,14 @@ const AgentsSubDashboard = ({ agentData }) => {
       title: 'Total number of inactive agents',
     },
   ]
-  
+
   const rows = trxInfo.map((item, index) => {
     return {
       id: item.tid,
       col1: index + 1,
       col2: item.fullName,
       col3: item.none,
-      col4:  ['TD1213', 'TD90232', 'TD3232'],           //item.none,
+      col4: ['TD1213', 'TD90232', 'TD3232'], //item.none,
       col5: item.none,
       col6: item.none,
       col7: item.none,
@@ -68,7 +64,7 @@ const AgentsSubDashboard = ({ agentData }) => {
       col11: '',
     }
   })
-  
+
   return (
     <>
       <div css={[tw`flex justify-between items-center`]}>
