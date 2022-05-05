@@ -9,7 +9,10 @@ import { Calendar } from '../SVGIcons'
 
 const DatRangePickerAndOthers = () => {
   // UseState hook
-  const [value, setValue] = useState([moment().subtract(30, 'days'), new Date()])
+  const [value, setValue] = useState([
+    moment().subtract(30, 'days'),
+    new Date(),
+  ])
   console.log(value)
 
   // components
