@@ -8,24 +8,24 @@ import Layout from '../layouts/main_layout/index.main_layout'
 
 const AgentsListDashboard = ({ agentData }) => {
   const { trxInfo } = agentData
-  
-    const rows = trxInfo.map((item, index) => {
-      return {
-        id: item.tid,
-        col1: index + 1,
-        col2: item.fullName,
-        col3: item.none,
-        col4: ['TD1213', 'TD90232', 'TD3232'], //item.none,
-        col5: item.none,
-        col6: item.none,
-        col7: item.none,
-        col8: item.none,
-        col9: item.none,
-        col10: item.statusStr,
-        col11: '',
-      }
-    })
-  
+
+  const rows = trxInfo.map((item, index) => {
+    return {
+      id: item.tid,
+      col1: index + 1,
+      col2: item.fullName,
+      col3: item.none,
+      col4: ['TD1213', 'TD90232', 'TD3232'], //item.none,
+      col5: item.none,
+      col6: item.none,
+      col7: item.none,
+      col8: item.none,
+      col9: item.none,
+      col10: item.statusStr,
+      col11: '',
+    }
+  })
+
   return (
     <Layout goBack>
       <DataGridViewTemp
@@ -34,8 +34,8 @@ const AgentsListDashboard = ({ agentData }) => {
         columns={columns}
         className={tw`space-y-4 w-full md:(flex items-center space-x-4 space-y-0) xl:(max-w-2xl)`}
       >
-          <SearchBar />
-          <FilterBox label="Showing" dropdownData={dropdownData} />
+        <SearchBar />
+        <FilterBox label="Showing" dropdownData={dropdownData} />
       </DataGridViewTemp>
     </Layout>
   )

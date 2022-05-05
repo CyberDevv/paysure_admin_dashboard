@@ -57,7 +57,7 @@ export async function getServerSideProps(ctx) {
   )
 
   console.log(response)
-  
+
   return {
     props: {
       status: response ? response.status : '500',

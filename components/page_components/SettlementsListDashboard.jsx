@@ -12,7 +12,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
 
 const SettlementListDashboard = ({ settlementListData }) => {
-// console.log("🚀 ~ file: SettlementsListDashboard.jsx ~ line 15 ~ SettlementListDashboard ~ settlementListData", settlementListData)
+  // console.log("🚀 ~ file: SettlementsListDashboard.jsx ~ line 15 ~ SettlementListDashboard ~ settlementListData", settlementListData)
   const { transData } = settlementListData
 
   // DataGrid rows
