@@ -12,7 +12,6 @@ import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const { USER_AUTHORIZATION } = nookies.get(ctx)
-  // `getStaticProps` is executed on the server side.
   const providerStats = await makeEncryptedRequest(
     {},
     'paysure/api/processor/lookup-provider-stats',
