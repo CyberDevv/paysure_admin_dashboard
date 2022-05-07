@@ -1,15 +1,25 @@
-import tw from 'twin.macro'
 import React from 'react'
+import axios from 'axios'
+import tw from 'twin.macro'
+import Router from 'next/router'
+import { toast } from 'react-toastify'
 import { Button } from '@mui/material'
+import { useDispatch } from 'react-redux'
 
-import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import Router from 'next/router'
+import { fetchPartnerClass } from '../../features/partnerClassSlice'
 
 const OrganizationsDashboard = () => {
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    dispatch(fetchPartnerClass())
+  }, [dispatch])
+
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [name, setName] = React.useState('')
@@ -18,11 +28,47 @@ const OrganizationsDashboard = () => {
   const [address, setAddress] = React.useState('')
   const [logoURL, setLogoURL] = React.useState('')
   const [abbreviation, setAbbreviation] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
   const handSetIsAddmodalOpened = React.useCallback(() =>
     setIsAddmodalOpened(true),
   )
+
+  // handle add organization
+  const handleAddOrganization = () => {
+    // validation if all fields are filled
+    if (!name || !email || !phone || !address || !logoURL || !abbreviation) {
+      toast.error('Please fill all the fields')
+      return
+    }
+
+    // set loading
+    setIsLoading(true)
+
+    // fetching data
+    axios
+      .post('/api/organizatons/addOrganization', {
+        name,
+        email,
+        phone,
+        address,
+        logoURL,
+        abbreviation,
+      })
+      .then(res => {
+        // set loading
+        console.log(res)
+        setIsLoading(false)
+      })
+      .catch(err => {
+        // set loading
+        setIsLoading(false)
+        toast.error('Error adding organization')
+
+        console.log(err.response)
+      })
+  }
 
   return (
     <Layout title="Organizations">
@@ -42,6 +88,8 @@ const OrganizationsDashboard = () => {
           title="Add new Organization"
           state={isaddModalOpened}
           buttonLabel="Next"
+          loading={isLoading}
+          onClick={handleAddOrganization}
         >
           <Label
             label="Name"
