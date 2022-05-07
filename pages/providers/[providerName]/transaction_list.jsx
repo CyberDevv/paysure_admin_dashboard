@@ -68,7 +68,10 @@ function ProviderListPage() {
         <title>{providerName} - Transaction Record | Paysure</title>
       </Head>
 
-      <ProviderTransactionListDashboard providerName={providerName} providerData={data} />
+      <ProviderTransactionListDashboard
+        providerName={providerName}
+        providerData={data}
+      />
     </>
   )
 }

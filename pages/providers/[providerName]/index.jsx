@@ -68,7 +68,7 @@ function ProviderPage() {
         <title>Provider - {providerName} | Paysure</title>
       </Head>
 
-      <ProviderDashboard providerName= {providerName} providerData={data} />
+      <ProviderDashboard providerName={providerName} providerData={data} />
     </>
   )
 }
