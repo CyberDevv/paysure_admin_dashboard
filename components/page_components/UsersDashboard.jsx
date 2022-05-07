@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React from 'react'
+import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
 import { Button } from '@mui/material'
@@ -8,10 +9,16 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, SearchBar, FilterBox, DatRangePickerAndOthers } from '..'
+import {
+  DataGridViewTemp,
+  HomeDisplayCard,
+  SearchBar,
+  FilterBox,
+  DatRangePickerAndOthers,
+} from '..'
 
-const UserssDashboard = ({ data }) => {
-  const { trxInfo, transStats, userCount } = data
+const UserssDashboard = ({ usersStats }) => {
+  const { usersInfo } = usersStats
 
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -29,6 +36,7 @@ const UserssDashboard = ({ data }) => {
     setIsAddmodalOpened(true),
   )
 
+  // Function to save user data
   const handleSaveUser = React.useCallback(() => {
     const res = axios.post('/api/users/add_user', {
       firstName,
@@ -42,41 +50,177 @@ const UserssDashboard = ({ data }) => {
     })
   })
 
+  // Array of data to be displayed in the cards
   const metricData = [
     {
-      amount: userCount,
+      amount: usersStats.totalSubscribers,
       title: 'Total Number of Users',
       link: '/users/users_list',
     },
     {
-      amount: transStats.succesfulCount,
+      amount: usersStats.userTotalCompleteTransactionsCount,
       title: 'Total Number of Completed Transactions',
     },
     {
-      amount: transStats.countPending,
+      amount: usersStats.userTotalPendingTransactionsCount,
       title: 'Total Number of  Pending Transactions',
     },
     {
-      amount: transStats.countfailed,
+      amount: usersStats.userTotalFailedTransactionsCount,
       title: 'Total Number of  Failed Tranasctions',
     },
   ]
 
-  const rows = trxInfo.map((item, index) => {
-    return {
-      id: item.tid,
-      col1: index + 1,
-      col2: item.fullName,
-      col3: item.none,
-      col4: item.emailAddress,
-      col5: item.phonePri,
-      col6: item.none,
-      col7: item.statusStr,
-      col8: item.none,
-      col9: item.none,
-      col10: '',
-    }
-  })
+  // DataGrid rows
+  let rows
+  // check if providerList is an array
+  if (Array.isArray(usersInfo)) {
+    rows = usersInfo.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.fullName,
+        col3: item.none,
+        col4: item.emailAddress,
+        col5: item.phonePri,
+        col6: item.none,
+        col7: item.statusStr,
+        col8: item.none,
+        col9: item.none,
+        col10: '',
+      }
+    })
+  } else {
+    rows = []
+  }
+
+  // DataGrid columns
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
+    },
+    {
+      field: 'col2',
+      headerName: 'Name',
+      minWidth: 250,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col3',
+      headerName: 'Wallet Balance',
+      minWidth: 220,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col4',
+      headerName: 'Email',
+      minWidth: 220,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col5',
+      headerName: 'Phone Number',
+      minWidth: 180,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col6',
+      headerName: 'Account Number',
+      minWidth: 180,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col7',
+      headerName: 'Status',
+      minWidth: 153,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+      renderCell: params => {
+        return (
+          <span
+            css={[
+              tw`uppercase text-[10px] p-1 rounded`,
+              params.row.col7.toLowerCase() === 'active'
+                ? tw`bg-[#E9FBF9] text-paysure-success-100 `
+                : tw`bg-[#FDF6EF] text-[#EDA95A] `,
+            ]}
+          >
+            {params.row.col7}
+          </span>
+        )
+      },
+    },
+    {
+      field: 'col8',
+      headerName: 'Last Transaction',
+      minWidth: 144,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col9',
+      headerName: 'Date Added',
+      minWidth: 123,
+      flex: 1,
+      headerClassName: 'grid-header',
+      // renderCell: params => {
+      //   return (
+      //     <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
+      //   )
+      // },
+    },
+    {
+      field: 'col10',
+      headerName: 'Action.',
+      minWidth: 100,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        const handleEdit = () => {
+          console.log('edit')
+        }
+
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          Router.push(`/users/${thisRow.col1}`)
+        }
+
+        return (
+          <div tw="space-x-1">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </div>
+        )
+      },
+    },
+  ]
 
   return (
     <Layout title="Users">
@@ -167,15 +311,15 @@ const UserssDashboard = ({ data }) => {
         title="Users list"
         rows={rows}
         columns={columns}
-        hasExportBtn
+        // hasExportBtn
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
-      >
-        <div tw= " space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+      />
+        {/* <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
           <SearchBar />
           <FilterBox label="Showing" dropdownData={dropdownData} />
         </div>
-        <DatRangePickerAndOthers />
-      </DataGridViewTemp>
+        <DatRangePickerAndOthers /> */}
+      {/* </DataGridViewTemp> */}
     </Layout>
   )
 }
@@ -193,125 +337,6 @@ const dropdownData = [
   {
     value: 'admin',
     label: 'Admin',
-  },
-]
-
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Name',
-    minWidth: 250,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Wallet Balance',
-    minWidth: 220,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Email',
-    minWidth: 220,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'Phone Number',
-    minWidth: 180,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Account Number',
-    minWidth: 180,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Status',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    renderCell: params => {
-      return (
-        <span
-          css={[
-            tw`uppercase text-[10px] p-1 rounded`,
-            params.row.col7.toLowerCase() === 'active'
-              ? tw`bg-[#E9FBF9] text-paysure-success-100 `
-              : tw`bg-[#FDF6EF] text-[#EDA95A] `,
-          ]}
-        >
-          {params.row.col7}
-        </span>
-      )
-    },
-  },
-  {
-    field: 'col8',
-    headerName: 'Last Transaction',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Action.',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        Router.push(`/users/${thisRow.col1}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
-
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
-        </div>
-      )
-    },
   },
 ]
 
