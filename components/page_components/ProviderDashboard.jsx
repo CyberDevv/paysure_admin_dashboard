@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import tw from 'twin.macro'
 import OtpInput from 'react-otp-input'
 import CurrencyFormat from 'react-currency-format'
@@ -11,8 +12,8 @@ import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
-const UserDashboard = ({ providerData }) => {
-  const { providerTrxData = [] } = providerData
+const UserDashboard = ({ providerData, providerName }) => {
+  const { providerTrxData = [], tradeSummaries = [] } = providerData
 
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -95,23 +96,45 @@ const UserDashboard = ({ providerData }) => {
       title: 'Total Number of Failed Transactions',
     },
     {
-      amount: numberFormatter(providerData.none),
+      amount: numberFormatter(providerData.pendingTransCount),
       title: 'Total Number of Pending Transactions',
     },
   ]
 
-  // DataGrid rows
-  const rows = providerTrxData.map((item, index) => {
+  // rows
+  let rows
+  // check if providerList is an array
+  if (Array.isArray(providerTrxData)) {
+    rows = providerTrxData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.transType,
+        col3: item.requestId,
+        col4: item.amount,
+        col5: item.fee,
+        col6: item.transtatus,
+        col7: item.transDate,
+        col8: '',
+      }
+    })
+  } else {
+    rows = []
+  }
+
+  // array of trade summaries
+  const trandeSummariesData = tradeSummaries.map(item => {
     return {
-      id: item.tid,
-      col1: index + 1,
-      col2: item.transType,
-      col3: item.none,
-      col4: item.amount,
-      col5: item.fee,
-      col6: item.transtatus,
-      col7: item.transDate,
-      col8: '',
+      amount: (
+        <CurrencyFormat
+          value={item.totalTransSum}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: item.transType,
+      link: `/providers/${providerName}/${item.transType}`,
     }
   })
 
@@ -122,8 +145,16 @@ const UserDashboard = ({ providerData }) => {
           {/* Avatar */}
           <AvatarWrapper>
             <AvatarDetails>
-              <UserName className="font-bold">{userDetails.name}</UserName>
-              <LastSeen>Data | Airtime | Transfer</LastSeen>
+              <UserName className="font-bold">{providerName}</UserName>
+              <LastSeen>
+                {tradeSummaries.map((type, index) => {
+                  return (
+                    <span key={index}>
+                      {type.transType} {index > 1 && <span tw="ml-1">|</span>}
+                    </span>
+                  )
+                })}
+              </LastSeen>
             </AvatarDetails>
           </AvatarWrapper>
 
@@ -172,7 +203,7 @@ const UserDashboard = ({ providerData }) => {
           <P className="font-500">Total Wallet Balance</P>
           <Amount className="font-500">
             <CurrencyFormat
-              value={350034}
+              value={providerData.walletBalance}
               displayType={'text'}
               thousandSeparator={true}
               prefix={'₦'}
@@ -294,11 +325,11 @@ const UserDashboard = ({ providerData }) => {
       </WalletWrapper>
       <HomeDisplayCard data={providerDataArray} />
       {/* Services */}
-      <OverviewCardSection title="Services" data={agencyOveriewData} />
+      <OverviewCardSection title="Services" data={trandeSummariesData} />
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        link="/organizations/1/transaction_list"
+        link={`/providers/${providerName}/transaction_list`}
         title="Transaction Records"
         rows={rows}
         columns={columns}
@@ -307,67 +338,6 @@ const UserDashboard = ({ providerData }) => {
   )
 }
 
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: (
-      <CurrencyFormat
-        value={887655}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Airtime',
-    link: '/providers/1/airtime_transactionRecord',
-  },
-  {
-    amount: (
-      <CurrencyFormat
-        value={7655}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Data',
-    link: '/providers/1/data_transactionRecord',
-  },
-  {
-    amount: (
-      <CurrencyFormat
-        value={89787}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Transfer',
-    link: '/providers/1/transfer_transactionRecord',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const userDetails = {
-  name: 'ETRANSACT',
-}
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-
 const columns = [
   {
     field: 'col1',
@@ -375,6 +345,9 @@ const columns = [
     minWidth: 71,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
   },
   {
     field: 'col2',
@@ -386,7 +359,7 @@ const columns = [
   {
     field: 'col3',
     headerName: 'Transaction ID',
-    minWidth: 186,
+    minWidth: 200,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -450,6 +423,9 @@ const columns = [
     minWidth: 170,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+    },
   },
   {
     field: 'col8',

@@ -7,7 +7,7 @@ import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const Airtime_transactionRecordDashboard = () => {
+const ProviderTradeSumaryDashboard = ({providerName, transType}) => {
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -30,8 +30,8 @@ const Airtime_transactionRecordDashboard = () => {
           {/* Avatar */}
           <AvatarWrapper>
             <AvatarDetails>
-              <UserName className="font-bold">{userDetails.name}</UserName>
-              <LastSeen>Airtime</LastSeen>
+              <UserName className="font-bold">{providerName}</UserName>
+              <LastSeen>{transType}</LastSeen>
             </AvatarDetails>
           </AvatarWrapper>
 
@@ -353,4 +353,4 @@ const MUIButton = tw(
 )`normal-case text-white bg-paysure-100 px-3 py-[13px] rounded-lg hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 const UserGrid = tw.div`mt-5 space-y-4 lg:(mt-10 space-y-6)`
 
-export default Airtime_transactionRecordDashboard
+export default ProviderTradeSumaryDashboard

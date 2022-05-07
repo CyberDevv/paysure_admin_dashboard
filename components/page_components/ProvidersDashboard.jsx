@@ -91,7 +91,6 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
 
   // rows
   let rows
-
   // check if providerList is an array
   if (Array.isArray(providersList)) {
     rows = providersList.map((provider, index) => {
@@ -251,7 +250,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-          Router.push(`/providers/${thisRow.col1}`)
+          Router.push(`/providers/${thisRow.col2}`)
         }
 
         return (
