@@ -5,7 +5,6 @@ import tw from 'twin.macro'
 import ReactToPrint from 'react-to-print'
 import CurrencyFormat from 'react-currency-format'
 import numberFormatter from '../../utils/numberFormatter'
-import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import {
   HomeDisplayCard,
@@ -17,9 +16,8 @@ import {
   Receipt,
 } from '..'
 
-const HomeDashboard = ({ homePageStats, homePageGrid }) => {
+const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
   const { transData = [] } = homePageGrid
-  // console.log(transData)
 
   // array of home page stats
   const homePageData = [
@@ -107,21 +105,27 @@ const HomeDashboard = ({ homePageStats, homePageGrid }) => {
   ]
 
   // DataGrid rows
-  const rows = transData.map((item, index) => {
-    return {
-      id: item.tid,
-      col1: index + 1,
-      col2: item.none,
-      col3: item.transType,
-      col4: item.amount,
-      col5: item.fee,
-      col6: item.paymentRef,
-      col7: item.paymentMethod,
-      col8: item.transtatus,
-      col9: item.transDate,
-      col10: '',
-    }
-  })
+  let rows
+  // check if providerList is an array
+  if (Array.isArray(transData)) {
+    rows = transData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.none,
+        col3: item.transType,
+        col4: item.amount,
+        col5: item.fee,
+        col6: item.paymentRef,
+        col7: item.paymentMethod,
+        col8: item.transtatus,
+        col9: item.transDate,
+        col10: '',
+      }
+    })
+  } else {
+    rows = []
+  }
 
   const columns = [
     {
@@ -295,15 +299,15 @@ const HomeDashboard = ({ homePageStats, homePageGrid }) => {
         title="Recent Transactions"
         rows={rows}
         columns={columns}
-        hasExportBtn
-        className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
-      >
-        <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+        // hasExportBtn
+        // className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
+      />
+        {/* <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
           <SearchBar />
           <FilterBox label="Showing" dropdownData={dropdownData} />
         </div>
         <DatRangePickerAndOthers />
-      </DataGridViewTemp>
+      </DataGridViewTemp> */}
 
       {/* Print */}
       <div>
