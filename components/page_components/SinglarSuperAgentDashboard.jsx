@@ -12,7 +12,10 @@ function a11yProps(index) {
   }
 }
 
-export default function AgentDashboard({ agentData }) {
+export default function AgentDashboard({
+  agentData = [],
+  superAgentData = [],
+}) {
   const [tabValue, setTabValue] = useState(0)
 
   const handleChange = React.useCallback((event, newValue) => {
@@ -55,10 +58,10 @@ export default function AgentDashboard({ agentData }) {
           </MUITabs>
         </Box>
         <TabPanel tabvalue={tabValue} index={0}>
-          <AgentSubDashboard agentData= {agentData} />
+          <AgentSubDashboard agentData={agentData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
-          <SuperAgentSubDashboard />
+          <SuperAgentSubDashboard superAgentData={superAgentData} />
         </TabPanel>
       </Box>
     </Layout>
