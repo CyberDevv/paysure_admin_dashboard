@@ -13,10 +13,17 @@ import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { fetchPartnerClass } from '../../features/partnerClassSlice'
 
-const OrganizationsDashboard = () => {
+const OrganizationsDashboard = ({ organizationList = [] }) => {
+  const { trxInfo } = organizationList
+  console.log(
+    '🚀 ~ file: OrganizationsDashboard.jsx ~ line 18 ~ OrganizationsDashboard ~ trxInfo',
+    trxInfo,
+  )
+
   const dispatch = useDispatch()
 
   React.useEffect(() => {
+    // dispatch fetchPartnerClass
     dispatch(fetchPartnerClass())
   }, [dispatch])
 
@@ -68,6 +75,30 @@ const OrganizationsDashboard = () => {
 
         console.log(err.response)
       })
+  }
+
+  // rows
+  let rows
+  // check if providerList is an array
+  if (Array.isArray(trxInfo)) {
+    rows = trxInfo.map((organization, index) => {
+      console.log('>>>> ' + organization)
+      return {
+        id: index,
+        col1: index + 1,
+        col2: organization.fullName,
+        col3: organization.none,
+        col4: organization.none,
+        col5: organization.none,
+        col6: organization.none,
+        col7: organization.none,
+        col8: organization.none,
+        col9: organization.none,
+        col10: '',
+      }
+    })
+  } else {
+    rows = []
   }
 
   return (
@@ -165,75 +196,6 @@ const dropdownData = [
   {
     value: 'admin',
     label: 'Admin',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
   },
 ]
 
