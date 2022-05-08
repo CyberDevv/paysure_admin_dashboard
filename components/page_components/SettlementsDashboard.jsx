@@ -1,5 +1,6 @@
+import React from 'react'
 import tw from 'twin.macro'
-import React, { useState } from 'react'
+import moment from 'moment'
 import CurrencyFormat from 'react-currency-format'
 
 import numberFormatter from '../../utils/numberFormatter'
@@ -14,9 +15,9 @@ import {
   DatRangePickerAndOthers,
 } from '..'
 
-const SettlementsDashboard = ({ settlementData }) => {
-// console.log("🚀 ~ file: SettlementsDashboard.jsx ~ line 18 ~ SettlementsDashboard ~ settlementData", settlementData)
-  const { transData } = settlementData
+const SettlementsDashboard = ({ settlementData = [] }) => {
+  // console.log("🚀 ~ file: SettlementsDashboard.jsx ~ line 18 ~ SettlementsDashboard ~ settlementData", settlementData)
+  const { transData = [] } = settlementData
 
   // Settlement data metric array
   const settlementDataArray = [
@@ -62,20 +63,26 @@ const SettlementsDashboard = ({ settlementData }) => {
   ]
 
   // DataGrid rows
-  const rows = transData.map((item, index) => {
-    return {
-      id: item.tid,
-      col1: index + 1,
-      col2: item.amount,
-      col3: item.transType,
-      col4: item.none,
-      col5: item.none,
-      col6: item.percentage,
-      col7: item.transtatus,
-      col8: item.transDate,
-      col9: '',
-    }
-  })
+  let rows
+  // check if providerList is an array
+  if (Array.isArray(transData)) {
+    rows = transData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.amount,
+        col3: item.transType,
+        col4: item.none,
+        col5: item.none,
+        col6: item.percentage,
+        col7: item.transtatus,
+        col8: item.transDate,
+        col9: '',
+      }
+    })
+  } else {
+    rows = []
+  }
 
   return (
     <Layout title="Settlements">
@@ -96,17 +103,17 @@ const SettlementsDashboard = ({ settlementData }) => {
         title="Settlement Records"
         rows={rows}
         columns={columns}
-        hasExportBtn
-        className={tw`grid sm:grid-template-columns[auto] gap-4 w-full xl:(grid-cols-2)`}
-      >
-        <div tw="col-span-2 grid sm:grid-cols-2 gap-4 xl:(grid-cols-4)">
+        // hasExportBtn
+        // className={tw`grid sm:grid-template-columns[auto] gap-4 w-full xl:(grid-cols-2)`}
+      />
+      {/* <div tw="col-span-2 grid sm:grid-cols-2 gap-4 xl:(grid-cols-4)">
           <SearchBar />
           <FilterBox label="Type" dropdownData={typedropdownData} />
           <FilterBox label="Status" dropdownData={StatusdropdownData} />
           <FilterBox label="Benefactor" dropdownData={dropdownData} />
         </div>
         <DatRangePickerAndOthers />
-      </DataGridViewTemp>
+      </DataGridViewTemp> */}
     </Layout>
   )
 }
@@ -180,6 +187,9 @@ const columns = [
     minWidth: 71,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
   },
   {
     field: 'col2',
@@ -243,10 +253,13 @@ const columns = [
   {
     field: 'col8',
     headerName: 'Date',
-    minWidth: 153,
+    minWidth: 183,
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
+    renderCell: params => {
+      return <span>{moment(params.row.col8).format('MMM DD, YYYY HH:mm')}</span>
+    },
   },
   {
     field: 'col9',

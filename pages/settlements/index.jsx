@@ -1,30 +1,55 @@
 // imports
 import React from 'react'
+import moment from 'moment'
 import Head from 'next/head'
-import nookies from 'nookies'
 import Router from 'next/router'
 import uid from 'generate-unique-id'
-import { destroyCookie } from 'nookies'
+import useSWR, { SWRConfig } from 'swr'
 import { useDispatch } from 'react-redux'
+import nookies, { destroyCookie } from 'nookies'
 
 import { logout } from '../../features/userSlice'
 import { SettlementsDashboard } from '../../components'
 import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
-// Page init
-const Settlements = ({ status, data }) => {
-  // dispatch
-  const dispatch = useDispatch()
+export async function getServerSideProps(ctx) {
+  const { USER_AUTHORIZATION } = nookies.get(ctx)
 
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
+  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/settlements/settlementStats
+  const settlementStats = await makeEncryptedRequest(
+    {
+      requestId: uid({ length: 20 }),
+      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
+      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      pageId: 1,
+      pageSize: 5,
+    },
+    'paysure/api/processor/admin-settlement-paged-th',
+    'POST',
+    USER_AUTHORIZATION,
+  )
+
+  return {
+    props: {
+      status: settlementStats ? settlementStats.status : 500,
+      fallback: {
+        '/api/settlements/settlementStats': settlementStats
+          ? settlementStats.data
+          : [],
+      },
+    },
+  }
+}
+
+function SettlementPage() {
+  async function fetcher(url) {
+    const res = await fetch(url)
+    return res.json()
+  }
+
+  const { data } = useSWR('/api/settlements/settlementStats', fetcher, {
+    revalidateOnMount: true,
+    revalidateIfStale: true,
   })
 
   return (
@@ -38,30 +63,24 @@ const Settlements = ({ status, data }) => {
   )
 }
 
-// getServerSideProps
-export async function getServerSideProps(ctx) {
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
+export default function Settlements({ fallback, status }) {
+  // dispatch
+  const dispatch = useDispatch()
 
-  const response = await makeEncryptedRequest(
-    {
-      requestId: uid({ length: 20 }),
-      fromDate: '2021-03-31 23:59:59',
-      toDate: '2022-04-30 23:59:59',
-      pageId: 1,
-      pageSize: 2,
-    },
-    'paysure/api/processor/admin-settlement-paged-th',
-    'POST',
-    USER_AUTHORIZATION,
+  // useEffect hook
+  React.useEffect(() => {
+    if (status === 873) {
+      // logout the user and push to login page
+      dispatch(logout())
+      destroyCookie(null, 'USER_AUTHORIZATION')
+      localStorage.removeItem('user')
+      Router.push('/login')
+    }
+  }, [status, fallback, dispatch])
+
+  return (
+    <SWRConfig value={{ fallback }}>
+      <SettlementPage />
+    </SWRConfig>
   )
-
-  return {
-    props: {
-      status: response ? response.status : '500',
-      data: response ? response.data : {},
-    },
-  }
 }
-
-// Page export
-export default Settlements
