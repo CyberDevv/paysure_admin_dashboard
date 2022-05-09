@@ -3,6 +3,7 @@ import React from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
+import { useSWRConfig } from 'swr'
 import { Button } from '@mui/material'
 import { toast } from 'react-toastify'
 import CurrencyFormat from 'react-currency-format'
@@ -20,6 +21,21 @@ import {
 } from '..'
 
 const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
+  // console.log(providersList)
+
+  // useState hook
+  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
+  const [providerName, setProviderName] = React.useState('')
+  const [walletBalance, setWalletBallance] = React.useState('')
+  const [servicesDesc, setServicesDesc] = React.useState('')
+  const [servicesCount, setServicesCount] = React.useState('')
+  const [tid, setTid] = React.useState('')
+  const [btnLabel, setBtnLabel] = React.useState('Add Provider')
+  const [modalLabel, setModalLabel] = React.useState('Add New Provider')
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  const { mutate } = useSWRConfig()
+
   // Array of provider stats data
   const providerStatsData = [
     {
@@ -99,7 +115,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
         col1: index + 1,
         col2: provider.providerName,
         col3: provider.servicesDesc,
-        col4: provider.none,
+        col4: provider.servicesCount,
         col5: provider.noOfTransactions,
         col6: provider.walletBalance,
         col7: provider.transSum,
@@ -268,17 +284,6 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
     },
   ]
 
-  // useState hook
-  const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
-  const [providerName, setProviderName] = React.useState('')
-  const [walletBalance, setWalletBallance] = React.useState('')
-  const [servicesDesc, setServicesDesc] = React.useState('')
-  const [servicesCount, setServicesCount] = React.useState('')
-  const [tid, setTid] = React.useState('')
-  const [btnLabel, setBtnLabel] = React.useState('Add Provider')
-  const [modalLabel, setModalLabel] = React.useState('Add New Provider')
-  const [isLoading, setIsLoading] = React.useState(false)
-
   // functions
   const handSetIsAddmodalOpened = React.useCallback(
     () => (
@@ -321,6 +326,10 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
             setServicesDesc('')
             setServicesCount('')
             setIsAddmodalOpened(false)
+
+            // Fresh information from the server
+            mutate('/api/providers/providerStats')
+            mutate('/api/providers/providerList')
           }
         })
         .catch(err => {
@@ -354,6 +363,10 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
             setServicesDesc('')
             setServicesCount('')
             setIsAddmodalOpened(false)
+
+            // Fresh information from the server
+            mutate('/api/providers/providerStats')
+            mutate('/api/providers/providerList')
           }
         })
         .catch(err => {
@@ -431,11 +444,11 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
         title="Providers"
         rows={rows}
         columns={columns}
-        className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
-      >
-        <SearchBar />
+        // className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
+      />
+      {/* <SearchBar />
         <FilterBox label="Showing" dropdownData={dropdownData} />
-      </DataGridViewTemp>
+      </DataGridViewTemp> */}
     </Layout>
   )
 }
