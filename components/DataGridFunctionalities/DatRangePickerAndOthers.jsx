@@ -16,8 +16,9 @@ const DatRangePickerAndOthers = ({ value, setValue }) => {
 
   const handleDateFilter = () => {
     router.push({
-      pathname: '/providers/Kuda/transaction_list/',
+      pathname: router.pathname,
       query: {
+        ...router.query,
         fromDate: moment(value[0]).format('YYYY-MM-DD hh:mm:ss'),
         toDate: moment(value[1]).format('YYYY-MM-DD hh:mm:ss'),
       },

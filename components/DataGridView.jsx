@@ -1,6 +1,7 @@
 import tw from 'twin.macro'
 import React from 'react'
-import { Button, Menu, MenuItem } from '@mui/material'
+import { useRouter } from 'next/router'
+import { Button, IconButton, Menu, MenuItem } from '@mui/material'
 import {
   DataGrid,
   GridToolbarContainer,
@@ -31,8 +32,11 @@ const DataGridView = ({
   children,
   className,
   pageSize,
-  pagination
+  pagination,
+  pageId,
 }) => {
+  const router = useRouter()
+
   // Datagird Toolbar
   const CustomToolbar = () => {
     // useState hook
@@ -107,6 +111,44 @@ const DataGridView = ({
     )
   }
 
+  const CustomPagination = () => {
+    const handlePrev = () => {
+      router.push({
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          page: Number(pageId) - 1,
+        },
+      })
+    }
+
+    const handleNext = () => {
+      router.push({
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          page: Number(pageId) + 1,
+        },
+      })
+    }
+
+    return (
+      <div tw="space-x-4">
+        <IconButton
+          disabled={Number(pageId) === 1 || pageId === undefined ? true : false}
+          onClick={handlePrev}
+          tw="text-base"
+        >
+          &lt;
+        </IconButton>
+        <span>{pageId}</span>
+        <IconButton onClick={handleNext} tw="text-base">
+          &gt;
+        </IconButton>
+      </div>
+    )
+  }
+
   return (
     <Wrapper>
       <div style={{ display: 'flex' }}>
@@ -124,6 +166,7 @@ const DataGridView = ({
             pagination={pagination}
             components={{
               Toolbar: CustomToolbar,
+              Pagination: CustomPagination,
               // NoRowsOverlay: CustomNoRowsOverlay,
             }}
             sx={{

@@ -2,28 +2,49 @@ import React from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
 import CurrencyFormat from 'react-currency-format'
-import { Button, IconButton, Menu, MenuItem } from '@mui/material'
 
-import numberFormatter from '../../utils/numberFormatter'
+import { Print, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
-import Modal from '../layouts/modal_ayout/index.modal_layout'
-import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, FilterBox, DatRangePickerAndOthers } from '..'
-import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const ProviderTransactionListDashboard = ({
   providerData,
-  providerName,
   toDate,
   fromDate,
+  page,
 }) => {
   const { providerTrxData = [] } = providerData
 
-  // useState hook
+  // ********************************************************************************
+  // ****************************   useState Hooks   ********************************
+
   const [value, setValue] = React.useState([
     fromDate ? fromDate : moment().subtract(30, 'days'),
     toDate ? toDate : new Date(),
   ])
+  const [services, setServices] = React.useState([])
+
+  // ********************************************************************************
+  // ********************************************************************************
+
+  // ********************************************************************************
+  // ****************************   useEffect Hooks   *******************************
+
+  React.useEffect(() => {
+    providerTrxData.map(({ transType }) => {
+      // list all transType to an array
+      if (services.includes(transType)) {
+        return null
+      }
+      setServices([...services, transType])
+    })
+  }, [providerTrxData])
+
+  // ********************************************************************************
+  // ********************************************************************************
+
+  // ********************************************************************************
+  // ****************************   Data Arrays   *************************************
 
   // DataGrid columns
   const columns = [
@@ -178,6 +199,23 @@ const ProviderTransactionListDashboard = ({
     rows = []
   }
 
+  // Array containing all the services
+  const servicesDataArray = [
+    {
+      value: 'all',
+      label: 'All',
+    },
+    ...services.map(item => {
+      return {
+        value: item,
+        label: item,
+      }
+    }),
+  ]
+
+  // ********************************************************************************
+  // ********************************************************************************
+
   return (
     <Layout goBack>
       <DataGridViewTemp
@@ -186,11 +224,14 @@ const ProviderTransactionListDashboard = ({
         columns={columns}
         hasFilter
         hasSort
+        pageSize={10}
+        pagination
+        page={page}
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
         <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
           <FilterBox label="Status" dropdownData={status} />
-          <FilterBox label="Services" dropdownData={dropdownData} />
+          <FilterBox label="Services" dropdownData={servicesDataArray} />
         </div>
         <DatRangePickerAndOthers value={value} setValue={setValue} />
       </DataGridViewTemp>
@@ -199,22 +240,6 @@ const ProviderTransactionListDashboard = ({
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const status = [
