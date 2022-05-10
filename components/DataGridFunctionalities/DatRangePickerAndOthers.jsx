@@ -1,16 +1,28 @@
 import tw from 'twin.macro'
-import React, { useState } from 'react'
-import DateAdapter from '@mui/lab/AdapterMoment'
-import { Box, InputAdornment, TextField } from '@mui/material'
-import { DateRangePicker, LocalizationProvider } from '@mui/lab'
 import moment from 'moment'
+import React from 'react'
+import DateAdapter from '@mui/lab/AdapterMoment'
+import { DateRangePicker, LocalizationProvider } from '@mui/lab'
+import { Box, IconButton, InputAdornment, TextField } from '@mui/material'
+import { useRouter } from 'next/router'
 
-import { Calendar } from '../SVGIcons'
+import { Calendar, Search } from '../SVGIcons'
 
-const DatRangePickerAndOthers = () => {
+const DatRangePickerAndOthers = ({ value, setValue }) => {
+  const router = useRouter()
+
   // UseState hook
-  const [value, setValue] = useState([moment().subtract(30, 'days'), new Date()])
-  console.log(value)
+  // const [value, setValue] = useState([moment().subtract(30, 'days'), new Date()])
+
+  const handleDateFilter = () => {
+    router.push({
+      pathname: '/providers/Kuda/transaction_list/',
+      query: {
+        fromDate: moment(value[0]).format('YYYY-MM-DD hh:mm:ss'),
+        toDate: moment(value[1]).format('YYYY-MM-DD hh:mm:ss'),
+      },
+    })
+  }
 
   // components
   const handleRenderInput = React.useCallback((startProps, endProps) => {
@@ -75,6 +87,9 @@ const DatRangePickerAndOthers = () => {
             ),
           }}
         />
+        <IconButton onClick={handleDateFilter} sx={{ marginLeft: '4px' }}>
+          <Search />
+        </IconButton>
       </>
     )
   })
@@ -92,8 +107,9 @@ const DatRangePickerAndOthers = () => {
     >
       <LocalizationProvider dateAdapter={DateAdapter}>
         <DateRangePicker
+          mask="___ __, ____"
           startText=""
-          inputFormat="DD MMMM"
+          inputFormat="MMM DD, YYYY"
           endText=""
           disableFuture
           value={value}

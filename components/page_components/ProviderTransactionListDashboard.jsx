@@ -8,11 +8,22 @@ import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { DataGridViewTemp, FilterBox, DatRangePickerAndOthers } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
-const ProviderTransactionListDashboard = ({ providerData, providerName }) => {
-  const { providerTrxData = [], tradeSummaries = [] } = providerData
+const ProviderTransactionListDashboard = ({
+  providerData,
+  providerName,
+  toDate,
+  fromDate,
+}) => {
+  const { providerTrxData = [] } = providerData
+
+  // useState hook
+  const [value, setValue] = React.useState([
+    fromDate ? fromDate : moment().subtract(30, 'days'),
+    toDate ? toDate : new Date(),
+  ])
 
   // DataGrid columns
   const columns = [
@@ -84,9 +95,9 @@ const ProviderTransactionListDashboard = ({ providerData, providerName }) => {
         return (
           <span
             css={
-              params.row.col8.toLowerCase() === 'pending'
-                ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded capitalize`
-                : tw`bg-border2 text-paysure-100 p-1 rounded capitalize`
+              params.row.col6.toLowerCase() !== 'accepted'
+                ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded normal-case`
+                : tw`bg-border2 text-paysure-100 p-1 rounded normal-case`
             }
           >
             {params.row.col6}
@@ -173,11 +184,16 @@ const ProviderTransactionListDashboard = ({ providerData, providerName }) => {
         title="Transaction Records"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
         hasFilter
         hasSort
-        // TODO: has additional filter action
-      />
+        className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
+      >
+        <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+          <FilterBox label="Status" dropdownData={status} />
+          <FilterBox label="Services" dropdownData={dropdownData} />
+        </div>
+        <DatRangePickerAndOthers value={value} setValue={setValue} />
+      </DataGridViewTemp>
 
       {/* TODO: add the date range picker */}
     </Layout>
@@ -197,6 +213,22 @@ const dropdownData = [
   {
     value: 'admin',
     label: 'Admin',
+  },
+]
+
+// FIXME: Temp data (should be replaced with real data)
+const status = [
+  {
+    value: 'all',
+    label: 'All',
+  },
+  {
+    value: 'accepted',
+    label: 'Accepted',
+  },
+  {
+    value: 'pending',
+    label: 'Pending',
   },
 ]
 

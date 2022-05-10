@@ -16,7 +16,11 @@ import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const {
-    query: { providerName },
+    query: {
+      providerName,
+      fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
+      toDate = moment().format('YYYY-MM-DD hh:mm:ss'),
+    },
   } = ctx
 
   const { USER_AUTHORIZATION } = nookies.get(ctx)
@@ -25,8 +29,8 @@ export async function getServerSideProps(ctx) {
   const providerStats = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      fromDate: fromDate,
+      toDate: toDate,
       pageId: 1,
       pageSize: 10,
       provider: providerName,
@@ -50,7 +54,7 @@ export async function getServerSideProps(ctx) {
 
 function ProviderListPage() {
   const router = useRouter()
-  const { providerName } = router.query
+  const { providerName, toDate, fromDate } = router.query
 
   async function fetcher(url) {
     const res = await fetch(url)
@@ -68,7 +72,12 @@ function ProviderListPage() {
         <title>{providerName} - Transaction Record | Paysure</title>
       </Head>
 
-      <ProviderTransactionListDashboard providerName={providerName} providerData={data} />
+      <ProviderTransactionListDashboard
+        providerName={providerName}
+        providerData={data}
+        toDate={toDate}
+        fromDate={fromDate}
+      />
     </>
   )
 }
