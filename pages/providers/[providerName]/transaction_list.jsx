@@ -26,7 +26,6 @@ export async function getServerSideProps(ctx) {
 
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
-  // TODO: create api route for paysure/api/processor/each-provider
   const providerStats = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
@@ -45,9 +44,8 @@ export async function getServerSideProps(ctx) {
     props: {
       status: providerStats ? providerStats.status : 500,
       fallback: {
-        '/api/providers/eachProviderStats': providerStats
-          ? providerStats.data
-          : [],
+        [`/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}`]:
+          providerStats ? providerStats.data : [],
       },
     },
   }
@@ -67,12 +65,16 @@ function ProviderListPage() {
     return res.json()
   }
 
-  const { data } = useSWR('/api/providers/eachProviderStats', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data } = useSWR(
+    `/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}`,
+    fetcher,
+    {
+      revalidateOnMount: true,
+      revalidateIfStale: true,
+    },
+  )
 
-  return (
+  http: return (
     <>
       <Head>
         <title>{providerName} - Transaction Record | Paysure</title>
