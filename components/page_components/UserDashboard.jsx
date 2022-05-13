@@ -1,5 +1,7 @@
 import React from 'react'
 import tw from 'twin.macro'
+import moment from 'moment'
+import CurrencyFormat from 'react-currency-format'
 import {
   Button,
   Checkbox,
@@ -10,14 +12,16 @@ import {
   MenuItem,
 } from '@mui/material'
 
-import { EllipsisSVG, Print, UserProfileSVG, ViewActionSVG } from '../SVGIcons'
+import numberFormatter from '../../utils/numberFormatter'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
-import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, OverviewCardSection, SendModal } from '..'
-import CurrencyFormat from 'react-currency-format'
+import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
+import { EllipsisSVG, Print, UserProfileSVG, ViewActionSVG } from '../SVGIcons'
 
-const UserDashboard = () => {
+const UserDashboard = ({ userStats = [] }) => {
+  const { transInfo = [] } = userStats
+
   // useState hook
   const [isSuspendAccoutModalOpened, setIsSuspendAccountModalOpened] =
     React.useState(false)
@@ -28,31 +32,92 @@ const UserDashboard = () => {
   const [reason, setReason] = React.useState('')
   const [anchorEl, setAnchorEl] = React.useState(null)
 
-  // functions
+  // ********************************************************************************
+  // ****************************   Functions   *************************************
+
+  /* function to open suspen user modal. */
   const handSetIsSuspendModalOpened = React.useCallback(() =>
     setIsSuspendAccountModalOpened(true),
   )
 
+  /* function to open send email modal. */
   const handSetIsSendEmailModalOpened = React.useCallback(() =>
     SetIsSendEmailModalOpend(true),
   )
 
+  /* function to open send sms modal. */
   const handSetIsSendSMSModalOpened = React.useCallback(() =>
     SetIsSendSMSModalOpend(true),
   )
 
+  // Function to set Note to target value
   const handleSetNote = React.useCallback(e => {
     setNote(e.target.value)
   })
 
   const open = Boolean(anchorEl)
 
+  // Button to handle btn menu shown
   const handleBtnMenuShown = event => {
     setAnchorEl(event.currentTarget)
   }
+
+  // Function to handle close modal
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  // ********************************************************************************
+  // ********************************************************************************
+
+  // ********************************************************************************
+  // ****************************   Data Arrays   ***********************************
+
+  /* The below code is a JavaScript object that contains the user details. */
+  const userDetails = {
+    name: userStats.none,
+    joined: moment(userStats.createdDate).format('DD MMMM, YYYY'),
+    // city: 'Ikeja',
+    email: userStats.userEmail,
+    // state: 'Lagos',
+    phone: userStats.userMobile,
+    // country: 'Nigeria',
+    walletAddressNumber: userStats.none,
+    address1: userStats.address,
+    gender: userStats.none,
+    address2: userStats.address2,
+    DOB: userStats.none,
+  }
+
+  /* The below code is a JavaScript object that contains the user transaction stats. */
+  const transactionStats = [
+    {
+      amount: (
+        <CurrencyFormat
+          value={transInfo.transactionsSum}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Total Transaction',
+    },
+    {
+      amount: numberFormatter(transInfo.transactionsSum),
+      label: 'Total Number of Completed Transactions',
+    },
+    {
+      amount: numberFormatter(transInfo.failedCount),
+      label: 'Total Number of Failed Transactions',
+    },
+    {
+      amount: numberFormatter(transInfo.pendingCount),
+      label: 'Total Number of Pending Transaction',
+    },
+  ]
+
+  // ********************************************************************************
+  // ********************************************************************************
 
   return (
     <Layout goBack>
@@ -201,7 +266,7 @@ const UserDashboard = () => {
         <P className="font-500">Total Wallet Balance</P>
         <Amount className="font-500">
           <CurrencyFormat
-            value={350034}
+            value={userStats.userBalance}
             displayType={'text'}
             thousandSeparator={true}
             prefix={'₦'}
@@ -214,7 +279,7 @@ const UserDashboard = () => {
         btnLabel="See all activities"
         link="/users/1/transactionDetails"
         title="Transactions"
-        data={agencyOveriewData}
+        data={transactionStats}
       />
 
       {/* User information */}
@@ -253,20 +318,20 @@ const UserDashboard = () => {
             <LabelAns>{userDetails.DOB}</LabelAns>
           </Label>
 
-          <Label>
+          {/* <Label>
             City
             <LabelAns>{userDetails.city}</LabelAns>
-          </Label>
+          </Label> */}
 
-          <Label>
+          {/* <Label>
             State
             <LabelAns>{userDetails.state}</LabelAns>
-          </Label>
+          </Label> */}
 
-          <Label>
+          {/* <Label>
             Country
             <LabelAns>{userDetails.country}</LabelAns>
-          </Label>
+          </Label> */}
 
           <Label>
             Address 1<LabelAns>{userDetails.address1}</LabelAns>
@@ -286,57 +351,10 @@ const UserDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-        hasSearch
-        hasFilter
-        hasExportBtn
-        hasSort
+        // hasExportBtn
       />
     </Layout>
   )
-}
-
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: (
-      <CurrencyFormat
-        value={350034}
-        displayType={'text'}
-        thousandSeparator={true}
-        prefix={'₦'}
-      />
-    ),
-    label: 'Total Transaction',
-  },
-  {
-    amount: 1350,
-    label: 'Total Number of Completed Transactions',
-  },
-  {
-    amount: 10,
-    label: 'Total Number of Failed Transactions',
-  },
-  {
-    amount: 20,
-    label: 'Total Number of Pending Transaction',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const userDetails = {
-  id: 1,
-  name: 'Bolarinwa Bimbola',
-  joined: '10 October, 2021',
-  city: 'Ikeja',
-  email: 'ozenua@gmail.com',
-  state: 'Lagos',
-  Phone: '08012345678',
-  country: 'Nigeria',
-  walletAddressNumber: 32343344,
-  address1: '3517 W. Gray St. Utica, Pennsylvania 57867',
-  gender: 'Male',
-  address2: '3517 W. Gray St. Utica, Pennsylvania 57867',
-  DOB: 'May 5, 1983',
 }
 
 // FIXME: Temp data (should be replaced with real data)
