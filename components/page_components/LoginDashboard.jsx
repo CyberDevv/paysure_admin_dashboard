@@ -64,7 +64,7 @@ const LoginDashboard = () => {
       .catch(err => {
         setLoading(false)
         if (err.response) {
-          toast.error(err.response.data.data.errorDesc)
+          toast.error(err.response.data.data)
         }
       })
   })
