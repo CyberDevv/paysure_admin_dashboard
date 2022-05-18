@@ -40,7 +40,10 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
-  console.log("🚀 ~ file: index.jsx ~ line 43 ~ getServerSideProps ~ providerStats", providerStats)
+  console.log(
+    '🚀 ~ file: index.jsx ~ line 43 ~ getServerSideProps ~ providerStats',
+    providerStats,
+  )
 
   return {
     props: {
@@ -71,7 +74,7 @@ function ProviderPage() {
   const { data } = useSWR(
     `/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
     fetcher,
-    )
+  )
 
   return (
     <>
