@@ -1,10 +1,10 @@
 import React from 'react'
+import moment from 'moment'
 import Head from 'next/head'
-import nookies from 'nookies'
 import Router from 'next/router'
 import useSWR, { SWRConfig } from 'swr'
-import { destroyCookie } from 'nookies'
 import { useDispatch } from 'react-redux'
+import nookies, { destroyCookie } from 'nookies'
 
 import { logout } from '../../features/userSlice'
 import { ProvidersDashboard } from '../../components'
@@ -12,6 +12,7 @@ import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const { USER_AUTHORIZATION } = nookies.get(ctx)
+
   const providerStats = await makeEncryptedRequest(
     {},
     'paysure/api/processor/lookup-provider-stats',
@@ -21,6 +22,10 @@ export async function getServerSideProps(ctx) {
 
   const providersList = await makeEncryptedRequest(
     {
+      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
+      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      pageId: 1,
+      pageSize: 5,
       searchKey: '',
     },
     'paysure/api/processor/list-providers',
@@ -88,15 +93,3 @@ export default function Providers({ fallback, status, status2 }) {
     </SWRConfig>
   )
 }
-
-//   // const providerMetrics = await makeEncryptedRequest(
-//   //   {
-//   //     pageId: 1,
-//   //     pageSize: 5,
-//   //   },
-//   //   'paysure/api/processor/list-providers-summaries',
-//   //   'POST',
-//   //   USER_AUTHORIZATION,
-//   // )
-
-//   // console.log('providerMetrics >>>>>' + JSON.stringify(providerMetrics))

@@ -12,16 +12,11 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import {
-  DataGridViewTemp,
-  HomeDisplayCard,
-  OverviewCardSection,
-  SearchBar,
-  FilterBox,
-} from '..'
+import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
-  // console.log(providersList)
+  // const { providerStats: providerStatsGrid = [], providerInfo = [] } =
+  //   providersList
 
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -285,19 +280,17 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
   ]
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(
-    () => (
-      setBtnLabel('Add Provider'),
-      setIsAddmodalOpened(true),
-      setModalLabel('Add New Provider'),
-      setProviderName(''),
-      setWalletBallance(''),
-      setServicesDesc(''),
-      setServicesCount('')
-    ),
+  const handSetIsAddmodalOpened = () => (
+    setBtnLabel('Add Provider'),
+    setIsAddmodalOpened(true),
+    setModalLabel('Add New Provider'),
+    setProviderName(''),
+    setWalletBallance(''),
+    setServicesDesc(''),
+    setServicesCount('')
   )
 
-  const handleAddProvider = React.useCallback(() => {
+  const handleAddProvider = () => {
     // Validation
     if (!providerName || !walletBalance || !servicesDesc || !servicesCount) {
       toast.error('Please fill all the fields')
@@ -380,7 +373,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
           console.log('err >>>>', err.response.status)
         })
     }
-  })
+  }
 
   return (
     <Layout title="Providers">
@@ -444,30 +437,10 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
         title="Providers"
         rows={rows}
         columns={columns}
-        // className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
       />
-      {/* <SearchBar />
-        <FilterBox label="Showing" dropdownData={dropdownData} />
-      </DataGridViewTemp> */}
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
 
 // Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`

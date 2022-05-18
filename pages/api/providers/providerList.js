@@ -8,6 +8,10 @@ export default async function providerList(req, res) {
   try {
     const response = await makeEncryptedRequest(
       {
+        fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
+        toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+        pageId: 1,
+        pageSize: 5,
         searchKey: '',
       },
       'paysure/api/processor/list-providers',
