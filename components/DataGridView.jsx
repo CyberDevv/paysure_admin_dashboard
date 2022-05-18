@@ -19,8 +19,7 @@ const CustomNoRowsOverlay = () => {
           There&apos;s nothing to show yet
         </h1>
         <p tw="text-[15px] text-[#979797] mt-3.5">
-          We&apos;ll have something to show you once transaction
-          start happening
+          We&apos;ll have something to show you once transaction start happening
         </p>
       </div>
     </div>

@@ -21,7 +21,7 @@ export async function getServerSideProps(ctx) {
       fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
       toDate = moment().format('YYYY-MM-DD 12:00:00'),
       page = 1,
-      pageSize= 10,
+      pageSize = 10,
     },
   } = ctx
 
