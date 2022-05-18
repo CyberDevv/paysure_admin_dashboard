@@ -38,7 +38,7 @@ const ProviderTransactionListDashboard = ({
       }
       setServices([...services, transType])
     })
-  }, [providerTrxData])
+  }, [providerTrxData, services])
 
   // ********************************************************************************
   // ********************************************************************************
@@ -222,11 +222,10 @@ const ProviderTransactionListDashboard = ({
         title="Transaction Records"
         rows={rows}
         columns={columns}
-        hasFilter
-        hasSort
         pageSize={10}
         pagination
         page={page}
+        recordCount={14} // FIXME: this should be dynamic
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
         <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">

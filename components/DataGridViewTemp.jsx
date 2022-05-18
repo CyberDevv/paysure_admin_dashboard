@@ -18,6 +18,7 @@ const DataGridViewTemp = ({
   pageSize,
   pagination,
   page,
+  recordCount,
 }) => {
   return (
     <div css={[(limited || hasMT) && tw`mt-10`]}>
@@ -42,6 +43,7 @@ const DataGridViewTemp = ({
         pageSize={pageSize}
         pagination={pagination}
         pageId={page}
+        recordCount={recordCount}
       >
         {children}
       </DataGridView>

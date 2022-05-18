@@ -15,9 +15,12 @@ const CustomNoRowsOverlay = () => {
     <div tw="flex items-center justify-center w-full h-full">
       <div tw="text-center py-10">
         <EmptyDataRowSVG />
-        <h1 tw="text-2xl text-[#979797] mt-3.5">There's nothing to show yet</h1>
+        <h1 tw="text-2xl text-[#979797] mt-3.5">
+          There&apos;s nothing to show yet
+        </h1>
         <p tw="text-[15px] text-[#979797] mt-3.5">
-          We'll have something to show you once transaction start happening
+          We&apos;ll have something to show you once transaction
+          start happening
         </p>
       </div>
     </div>
@@ -34,6 +37,7 @@ const DataGridView = ({
   pageSize,
   pagination,
   pageId,
+  recordCount,
 }) => {
   const router = useRouter()
 
@@ -142,7 +146,16 @@ const DataGridView = ({
           &lt;
         </IconButton>
         <span>{pageId}</span>
-        <IconButton onClick={handleNext} tw="text-base">
+        <IconButton
+          disabled={
+            Math.ceil(Number(recordCount) / 10) < Number(pageId) ||
+            Math.ceil(Number(recordCount) / 10) === Number(pageId)
+              ? true
+              : false
+          }
+          onClick={handleNext}
+          tw="text-base"
+        >
           &gt;
         </IconButton>
       </div>
