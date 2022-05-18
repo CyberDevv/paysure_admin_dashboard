@@ -2,10 +2,9 @@
 import React from 'react'
 import moment from 'moment'
 import Head from 'next/head'
-import nookies from 'nookies'
 import Router from 'next/router'
 import uid from 'generate-unique-id'
-import { destroyCookie } from 'nookies'
+import nookies, { destroyCookie } from 'nookies'
 import useSWR, { SWRConfig } from 'swr'
 import { useRouter } from 'next/router'
 import { useDispatch } from 'react-redux'
@@ -16,7 +15,13 @@ import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const {
-    query: { providerName },
+    query: {
+      providerName,
+      fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate = moment().format('YYYY-MM-DD 12:00:00'),
+      page = 1,
+      pageSize = 5,
+    },
   } = ctx
 
   const { USER_AUTHORIZATION } = nookies.get(ctx)
@@ -25,24 +30,24 @@ export async function getServerSideProps(ctx) {
   const providerStats = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
-      pageId: 1,
-      pageSize: 10,
+      fromDate: fromDate,
+      toDate: toDate,
+      pageId: page,
       provider: providerName,
+      pageSize: pageSize,
     },
     'paysure/api/processor/each-provider',
     'POST',
     USER_AUTHORIZATION,
   )
+  console.log("🚀 ~ file: index.jsx ~ line 43 ~ getServerSideProps ~ providerStats", providerStats)
 
   return {
     props: {
       status: providerStats ? providerStats.status : 500,
       fallback: {
-        '/api/providers/eachProviderStats': providerStats
-          ? providerStats.data
-          : [],
+        [`/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`]:
+          providerStats ? providerStats.data : [],
       },
     },
   }
@@ -50,17 +55,23 @@ export async function getServerSideProps(ctx) {
 
 function ProviderPage() {
   const router = useRouter()
-  const { providerName } = router.query
+  const {
+    providerName,
+    fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+    toDate = moment().format('YYYY-MM-DD 12:00:00'),
+    page = 1,
+    pageSize = 5,
+  } = router.query
 
   async function fetcher(url) {
     const res = await fetch(url)
     return res.json()
   }
 
-  const { data } = useSWR('/api/providers/eachProviderStats', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data } = useSWR(
+    `/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
+    fetcher,
+    )
 
   return (
     <>
@@ -68,7 +79,7 @@ function ProviderPage() {
         <title>Provider - {providerName} | Paysure</title>
       </Head>
 
-      <ProviderDashboard providerName= {providerName} providerData={data} />
+      <ProviderDashboard providerName={providerName} providerData={data} />
     </>
   )
 }

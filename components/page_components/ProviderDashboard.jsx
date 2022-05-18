@@ -30,7 +30,7 @@ const UserDashboard = ({ providerData, providerName }) => {
   ])
 
   // functions
-  const handleDeactivate = React.useCallback(() => clg('handleDeactivate'))
+  const handleDeactivate = () => clg('handleDeactivate')
 
   const open = Boolean(anchorEl)
 
@@ -42,11 +42,11 @@ const UserDashboard = ({ providerData, providerName }) => {
     setAnchorEl(null)
   }
 
-  const handSetIsModalOpened = React.useCallback(() => setIsModalOpened(true))
+  const handSetIsModalOpened = () => setIsModalOpened(true)
 
-  const handleOTPChange = React.useCallback(otp => setOTP(otp))
+  const handleOTPChange = otp => setOTP(otp)
 
-  const handleModalBtnClick = React.useCallback(() => {
+  const handleModalBtnClick = () => {
     // fund wallet
     if (modalState === 'fundWallet') {
       setModalState('newCard')
@@ -72,7 +72,7 @@ const UserDashboard = ({ providerData, providerName }) => {
       setModalState('fundWallet')
       setModalTitle(['Fund Wallet', 'Continue'])
     }
-  })
+  }
 
   // Array of the provider data
   const providerDataArray = [
@@ -293,7 +293,7 @@ const UserDashboard = ({ providerData, providerName }) => {
               />
 
               <p tw="text-[13px] text-[#454D54] text-center">
-                Didn't receive code?{' '}
+                Didn&apos;t receive code?{' '}
                 <a href="" tw="text-paysure-100 hover:(underline)">
                   Request again
                 </a>

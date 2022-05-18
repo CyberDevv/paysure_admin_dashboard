@@ -2,7 +2,7 @@ import moment from 'moment'
 import uid from 'generate-unique-id'
 import { parseCookies } from 'nookies'
 
-import { makeEncryptedRequest } from '../../../../utils/makeEncryptedRequest'
+import { makeEncryptedRequest } from '../../../../../utils/makeEncryptedRequest'
 
 export default async function providerStats(req, res) {
   const { USER_AUTHORIZATION } = parseCookies({ req })
@@ -12,7 +12,6 @@ export default async function providerStats(req, res) {
     fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
     toDate = moment().format('YYYY-MM-DD 12:00:00'),
     page = 1,
-    pageSize = 5,
   } = req.query
 
   try {
@@ -22,7 +21,7 @@ export default async function providerStats(req, res) {
         fromDate: fromDate,
         toDate: toDate,
         pageId: page,
-        pageSize: pageSize,
+        pageSize: 10,
         provider: providerName,
       },
       'paysure/api/processor/each-provider',
