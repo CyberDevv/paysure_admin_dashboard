@@ -2,12 +2,7 @@ import React from 'react'
 import tw from 'twin.macro'
 import { Button, IconButton, Chip, Menu, MenuItem } from '@mui/material'
 
-import {
-  UserProfileSVG,
-  Print,
-  EllipsisSVG,
-  ViewActionSVG
-} from '../SVGIcons'
+import { UserProfileSVG, Print, EllipsisSVG, ViewActionSVG } from '../SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 
@@ -24,13 +19,11 @@ const TerminalDashboard = () => {
     setAnchorEl(null)
   }
 
-  const handSetIsSuspendModalOpened = React.useCallback(() =>
-    setIsSuspendAccountModalOpened(true),
-  )
+  const handSetIsSuspendModalOpened = () => setIsSuspendAccountModalOpened(true)
 
-  const handleSetNote = React.useCallback(e => {
+  const handleSetNote = e => {
     setNote(e.target.value)
-  })
+  }
 
   return (
     <Layout goBack>

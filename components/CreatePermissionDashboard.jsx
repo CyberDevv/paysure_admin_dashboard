@@ -6,9 +6,9 @@ import { styled } from '@mui/material/styles'
 
 const CreatePermissionDashboard = ({ setShowAddPanel }) => {
   // functions
-  const handleGoBack = React.useCallback(() => {
+  const handleGoBack = () => {
     setShowAddPanel(false)
-  })
+  }
 
   return (
     <div>
@@ -26,17 +26,17 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
         <div css={[tw`flex justify-between items-center w-full space-x-4`]}>
           <CheckboxWrapper>
             <Checkbox color="error" />
-          
+
             <P>Allow all permissions</P>
           </CheckboxWrapper>
-          
+
           {/* Save button */}
           <MUIButton>Save</MUIButton>
         </div>
       </Form>
 
       {/* Grid */}
-      <div tw= "overflow-x-scroll">
+      <div tw="overflow-x-scroll">
         <GridWrapper>
           {/* header */}
           <GridHeader>
@@ -50,7 +50,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
             <HeaderTextOther>Add</HeaderTextOther>
             <HeaderTextOther>Attach</HeaderTextOther>
           </GridHeader>
-        
+
           {/* body */}
           <div>
             {/* Transaction */}
@@ -65,7 +65,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
               <MUICheckbox />
               <MUICheckbox />
             </Grid>
-        
+
             {/* Providers */}
             <Grid>
               <HeaderText>Providers</HeaderText>
@@ -78,7 +78,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
               <MUICheckbox />
               <MUICheckbox />
             </Grid>
-        
+
             {/* Organizations */}
             <Grid>
               <HeaderText>Organizations</HeaderText>
@@ -91,7 +91,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
               <MUICheckbox />
               <MUICheckbox />
             </Grid>
-        
+
             {/* Users */}
             <Grid>
               <HeaderText>Users</HeaderText>
@@ -104,7 +104,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
               <MUICheckbox />
               <MUICheckbox />
             </Grid>
-        
+
             {/* Super Agents */}
             <Grid>
               <HeaderText>Super Agents</HeaderText>
@@ -117,7 +117,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
               <MUICheckbox />
               <MUICheckbox />
             </Grid>
-        
+
             {/* Agents */}
             <Grid>
               <HeaderText>Agents</HeaderText>
@@ -130,7 +130,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
               <MUICheckbox />
               <MUICheckbox />
             </Grid>
-        
+
             {/* Roles */}
             <Grid>
               <HeaderText>Roles</HeaderText>
@@ -143,7 +143,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
               <MUICheckbox />
               <MUICheckbox />
             </Grid>
-        
+
             {/* Settlements */}
             <Grid>
               <HeaderText>Settlements</HeaderText>
@@ -156,7 +156,7 @@ const CreatePermissionDashboard = ({ setShowAddPanel }) => {
               <MUICheckbox />
               <MUICheckbox />
             </Grid>
-        
+
             {/* VAS */}
             <Grid>
               <HeaderText>VAS</HeaderText>

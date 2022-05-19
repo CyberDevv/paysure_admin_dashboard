@@ -36,24 +36,18 @@ const UserDashboard = ({ userStats = [] }) => {
   // ****************************   Functions   *************************************
 
   /* function to open suspen user modal. */
-  const handSetIsSuspendModalOpened = React.useCallback(() =>
-    setIsSuspendAccountModalOpened(true),
-  )
+  const handSetIsSuspendModalOpened = () => setIsSuspendAccountModalOpened(true)
 
   /* function to open send email modal. */
-  const handSetIsSendEmailModalOpened = React.useCallback(() =>
-    SetIsSendEmailModalOpend(true),
-  )
+  const handSetIsSendEmailModalOpened = () => SetIsSendEmailModalOpend(true)
 
   /* function to open send sms modal. */
-  const handSetIsSendSMSModalOpened = React.useCallback(() =>
-    SetIsSendSMSModalOpend(true),
-  )
+  const handSetIsSendSMSModalOpened = () => SetIsSendSMSModalOpend(true)
 
   // Function to set Note to target value
-  const handleSetNote = React.useCallback(e => {
+  const handleSetNote = e => {
     setNote(e.target.value)
-  })
+  }
 
   const open = Boolean(anchorEl)
 

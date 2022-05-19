@@ -34,13 +34,11 @@ const UsersSignupsDashboard = () => {
     setAnchorEl(null)
   }
 
-  const handSetIsSuspendModalOpened = React.useCallback(() =>
-    setIsSuspendAccountModalOpened(true),
-  )
+  const handSetIsSuspendModalOpened = () => setIsSuspendAccountModalOpened(true)
 
-  const handleSetNote = React.useCallback(e => {
+  const handleSetNote = e => {
     setNote(e.target.value)
-  })
+  }
 
   return (
     <Layout goBack>

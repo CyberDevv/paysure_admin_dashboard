@@ -17,13 +17,13 @@ const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   // functions
-  const handleSideBarToggle = React.useCallback(() => {
+  const handleSideBarToggle = () => {
     setIsSideBarOpen(true)
-  })
+  }
 
-  const handleGoBack = React.useCallback(() => {
+  const handleGoBack = () => {
     Router.back()
-  })
+  }
 
   const open = Boolean(anchorEl)
 
@@ -40,14 +40,14 @@ const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
     setAnchorEl(null)
   }
 
-  const handleLogout = React.useCallback(() => {
+  const handleLogout = () => {
     setAnchorEl(null)
 
     dispatch(logout())
     destroyCookie(null, 'USER_AUTHORIZATION')
     localStorage.removeItem('user')
     Router.push('/login')
-  })
+  }
 
   return (
     <Nav>

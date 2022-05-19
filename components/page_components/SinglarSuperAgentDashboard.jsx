@@ -18,9 +18,9 @@ export default function AgentDashboard({
 }) {
   const [tabValue, setTabValue] = useState(0)
 
-  const handleChange = React.useCallback((event, newValue) => {
+  const handleChange = (event, newValue) => {
     setTabValue(newValue)
-  })
+  }
 
   return (
     <Layout title="Agents">

@@ -23,7 +23,7 @@ const Index_main_layout = ({ children, title, goBack }) => {
     if (!user.isLoggedIn && localStorage.getItem('user')) {
       dispatch(login(JSON.parse(localStorage.getItem('user'))))
     }
-  }, [user])
+  }, [dispatch, user])
 
   React.useEffect(() => {
     if (!localStorage.getItem('user')) {

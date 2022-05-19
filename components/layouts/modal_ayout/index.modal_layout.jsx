@@ -15,9 +15,9 @@ const Index_modal_layout = ({
   loading,
 }) => {
   // function
-  const handleClose = React.useCallback(() => {
+  const handleClose = () => {
     setState(false)
-  })
+  }
 
   return (
     <Dialog

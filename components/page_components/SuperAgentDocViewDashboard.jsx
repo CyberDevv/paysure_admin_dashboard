@@ -32,17 +32,15 @@ const SuperAgentDocViewDashboard = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   // functions
-  const handleApprove = React.useCallback(() => {
+  const handleApprove = () => {
     console.log('Approve')
-  }, [])
+  }
 
-  const handleSetNote = React.useCallback(e => {
+  const handleSetNote = e => {
     setNote(e.target.value)
-  })
+  }
 
-  const handleDeny = React.useCallback(e =>
-    setIsSuspendAccountModalOpened(true),
-  )
+  const handleDeny = e => setIsSuspendAccountModalOpened(true)
 
   const open = Boolean(anchorEl)
 

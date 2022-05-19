@@ -20,9 +20,9 @@ const SettingsDashboard = () => {
   const [activeTab, setActiveTab] = useState('Bands')
 
   // Functions
-  const handleSetActiveTab = React.useCallback(label => {
+  const handleSetActiveTab = label => {
     setActiveTab(label)
-  })
+  }
 
   // NavItem component
   const NavItem = ({ label, icon }) => {

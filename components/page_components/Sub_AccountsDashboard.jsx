@@ -18,13 +18,11 @@ const Sub_AccountsDashboard = () => {
   const [role, setRole] = React.useState('')
 
   // functions
-  const handleDropdownSelected = React.useCallback(event => {
+  const handleDropdownSelected = event => {
     setSelectedDrop(event.target.value)
-  })
+  }
 
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
-  )
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   return (
     <Layout title="Sub Admins">
@@ -96,7 +94,7 @@ const Sub_AccountsDashboard = () => {
         StatusDropdownData={dropdownData}
         typeDropdownData={dropdownData}
         hasSearch
-        hasFilter= "Benefactor"
+        hasFilter="Benefactor"
         hasExportBtn
         hasSort
         hasMT

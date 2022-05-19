@@ -25,9 +25,8 @@ const SuperAgentsSubDashboard = ({ superAgentData = [] }) => {
   const [settlementPlan, setSettlementPlan] = React.useState('')
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
-  )
+  const handSetIsAddmodalOpened = () =>
+    setIsAddmodalOpened(true)
 
   // Data array of super agents stats
   const superAgentStats = [

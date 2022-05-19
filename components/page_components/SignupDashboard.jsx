@@ -15,15 +15,15 @@ const Signupashboard = () => {
   const [confirmpassword, setConfirmPassword] = React.useState('')
 
   // Functions
-  const handleContinue = React.useCallback(() => {
+  const handleContinue = () => {
     setEmailEntered(true)
-  })
+  }
 
-  const handleBack = React.useCallback(() => {
+  const handleBack = () => {
     setEmailEntered(false)
-  })
+  }
 
-  const handleSignup = React.useCallback(async () => {
+  const handleSignup = async () => {
     try {
       await axios.post('/api/auth/signup', {
         email,
@@ -32,19 +32,19 @@ const Signupashboard = () => {
     } catch (error) {
       console.log(error)
     }
-  })
+  }
 
-  const handleSetPassword = React.useCallback(e => {
+  const handleSetPassword = e => {
     setPassword(e.target.value)
-  })
+  }
 
-  const handleSetConfirmPassword = React.useCallback(e => {
+  const handleSetConfirmPassword = e => {
     setConfirmPassword(e.target.value)
-  })
+  }
 
-  const handleSetEmail = React.useCallback(e => {
+  const handleSetEmail = e => {
     setEmail(e.target.value)
-  })
+  }
 
   return (
     <>

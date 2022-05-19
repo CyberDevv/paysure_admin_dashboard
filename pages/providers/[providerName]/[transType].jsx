@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { ProviderTradeSumaryDashboard } from '../../../components'
 
 // Page init
-const airtime_transactionRecord = () => {
+const Airtime_transactionRecord = () => {
   const router = useRouter()
   const { transType, providerName } = router.query
 
@@ -26,4 +26,4 @@ const airtime_transactionRecord = () => {
 }
 
 // Page export
-export default airtime_transactionRecord
+export default Airtime_transactionRecord

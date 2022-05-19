@@ -1081,14 +1081,14 @@ export const DeleteDataGridRecord = () => {
         fill="#ED6A5A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M10.3867 15.334C10.3867 15.0578 10.6105 14.834 10.8867 14.834H13.1067C13.3828 14.834 13.6067 15.0578 13.6067 15.334C13.6067 15.6101 13.3828 15.834 13.1067 15.834H10.8867C10.6105 15.834 10.3867 15.6101 10.3867 15.334Z"
         fill="#ED6A5A"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M9.83334 12.666C9.83334 12.3899 10.0572 12.166 10.3333 12.166H13.6667C13.9428 12.166 14.1667 12.3899 14.1667 12.666C14.1667 12.9422 13.9428 13.166 13.6667 13.166H10.3333C10.0572 13.166 9.83334 12.9422 9.83334 12.666Z"
         fill="#ED6A5A"
       />
@@ -1134,7 +1134,7 @@ export const SuccessfulSVG = () => {
         r="62"
         fill="#6500E0"
         stroke="#F1E6FF"
-        stroke-width="20"
+        strokeWidth="20"
       />
       <rect
         width="40"
@@ -1143,8 +1143,8 @@ export const SuccessfulSVG = () => {
         fill="#6500E0"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M86.6339 61.1161C87.122 61.6043 87.122 62.3957 86.6339 62.8839L69.1339 80.3839C68.8995 80.6183 68.5815 80.75 68.25 80.75C67.9185 80.75 67.6005 80.6183 67.3661 80.3839L58.6161 71.6339C58.128 71.1457 58.128 70.3543 58.6161 69.8661C59.1043 69.378 59.8957 69.378 60.3839 69.8661L68.25 77.7322L84.8661 61.1161C85.3543 60.628 86.1457 60.628 86.6339 61.1161Z"
         fill="white"
       />

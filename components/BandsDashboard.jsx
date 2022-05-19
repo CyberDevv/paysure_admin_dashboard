@@ -8,9 +8,9 @@ import { DataGridViewTemp } from '.'
 
 const BandsDashboard = ({ setShowAddBand }) => {
   // functions
-  const handleAddBand = React.useCallback(() => {
+  const handleAddBand = () => {
     setShowAddBand(true)
-  })
+  }
 
   return (
     <>

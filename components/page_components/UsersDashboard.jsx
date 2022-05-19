@@ -32,12 +32,11 @@ const UserssDashboard = ({ usersStats }) => {
   const [city, setCity] = React.useState('')
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
-  )
+  const handSetIsAddmodalOpened = () =>
+    setIsAddmodalOpened(true)
 
   // Function to save user data
-  const handleSaveUser = React.useCallback(() => {
+  const handleSaveUser = () => {
     const res = axios.post('/api/users/add_user', {
       firstName,
       lastName,
@@ -48,7 +47,7 @@ const UserssDashboard = ({ usersStats }) => {
       state,
       city,
     })
-  })
+  }
 
   // Array of data to be displayed in the cards
   const metricData = [

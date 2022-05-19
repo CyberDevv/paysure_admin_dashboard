@@ -8,9 +8,9 @@ import { DataGridViewTemp } from '.'
 
 const PermissionsSettingsDashboard = ({ setShowAddPanel }) => {
   // functions
-  const handleShowAddPanel = React.useCallback(() => {
+  const handleShowAddPanel = () => {
     setShowAddPanel(true)
-  })
+  }
 
   return (
     <>

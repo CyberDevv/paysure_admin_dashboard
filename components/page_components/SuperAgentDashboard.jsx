@@ -42,21 +42,15 @@ const SuperAgentDashboard = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   // functions
-  const handSetIsSuspendModalOpened = React.useCallback(() =>
-    setIsSuspendAccountModalOpened(true),
-  )
+  const handSetIsSuspendModalOpened = () => setIsSuspendAccountModalOpened(true)
 
-  const handSetIsSendEmailModalOpened = React.useCallback(() =>
-    SetIsSendEmailModalOpend(true),
-  )
+  const handSetIsSendEmailModalOpened = () => SetIsSendEmailModalOpend(true)
 
-  const handSetIsSendSMSModalOpened = React.useCallback(() =>
-    SetIsSendSMSModalOpend(true),
-  )
+  const handSetIsSendSMSModalOpened = () => SetIsSendSMSModalOpend(true)
 
-  const handleSetNote = React.useCallback(e => {
+  const handleSetNote = e => {
     setNote(e.target.value)
-  })
+  }
 
   const open = Boolean(anchorEl)
 

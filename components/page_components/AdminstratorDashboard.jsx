@@ -8,9 +8,9 @@ import Layout from '../layouts/main_layout/index.main_layout'
 
 const AdminstratorDashboard = () => {
   // fuction
-  const handleGoback = React.useCallback(() => {
+  const handleGoback = () => {
     Router.back()
-  })
+  }
 
   return (
     <Layout title="Roles & Permissions">
@@ -95,7 +95,7 @@ const AdminstratorDashboard = () => {
             {/* Users */}
             <div tw="mt-4 space-y-4 lg:(mt-8 space-y-8)">
               {userDetails.map(({ name, role, email, dateJoined }, index) => (
-                <UserGrid>
+                <UserGrid key={index}>
                   <div tw="flex items-center space-x-2.5">
                     <UserProfileBlueSVG />
                     <GridRow>{name}</GridRow>

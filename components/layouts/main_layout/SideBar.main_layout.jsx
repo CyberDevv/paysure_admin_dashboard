@@ -56,9 +56,9 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
   }
 
   // fuctions
-  const handleBackdropClose = React.useCallback(() => {
+  const handleBackdropClose = () => {
     setIsSideBarOpen(!isSideBarOpen)
-  })
+  }
 
   return (
     <>

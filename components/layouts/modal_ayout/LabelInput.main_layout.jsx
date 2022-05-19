@@ -12,9 +12,9 @@ const LabelInput_main_layout = ({
   setState,
 }) => {
   // functions
-  const handleChange = React.useCallback(event => {
+  const handleChange = event => {
     setState(event.target.value)
-  })
+  }
 
   return (
     <div>

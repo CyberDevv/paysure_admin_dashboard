@@ -24,9 +24,7 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
   const [settlementPlan, setSettlementPlan] = React.useState('')
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
-  )
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   const agentStats = [
     {

@@ -12,7 +12,7 @@ const ProviderTradeSumaryDashboard = ({providerName, transType}) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   // functions
-  const handleDeactivate = React.useCallback(() => clg('handleDeactivate'))
+  const handleDeactivate = () => clg('handleDeactivate')
 
   const open = Boolean(anchorEl)
 

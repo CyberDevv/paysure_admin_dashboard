@@ -8,9 +8,9 @@ const FilterBox = ({ dropdownData = [], label }) => {
   const [selectedDrop, setSelectedDrop] = React.useState(dropdownData[0].value)
 
   // functions
-  const handleDropdownSelected = React.useCallback(event => {
+  const handleDropdownSelected = event => {
     setSelectedDrop(event.target.value)
-  })
+  }
 
   return (
     <TextField

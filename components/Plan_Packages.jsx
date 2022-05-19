@@ -20,9 +20,7 @@ const Plan_Packages = () => {
   const [superAgentRate, setSuperAgentRate] = React.useState('')
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
-  )
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   return (
     <>

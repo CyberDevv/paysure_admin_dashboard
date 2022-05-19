@@ -23,16 +23,15 @@ const TerminalsDashboard = () => {
   const [terminalSerialNo, setTerminalSerialNo] = React.useState('')
 
   // functions
-  const handleDropdownSelected = React.useCallback(event => {
+  const handleDropdownSelected = event => {
     setSelectedDrop(event.target.value)
-  })
+  }
 
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
-  )
+  const handSetIsAddmodalOpened = () =>
+    setIsAddmodalOpened(true)
 
   // creates termial
-  const handleCreateTerminal = React.useCallback(() => {
+  const handleCreateTerminal = () => {
     axios
       .post('/api/terminals/addTerminal', {
         terminalId: 124,
@@ -47,7 +46,7 @@ const TerminalsDashboard = () => {
         console.log(err)
         toast.error(err.response.data.data)
       })
-  })
+  }
 
   return (
     <Layout title="Terminals">

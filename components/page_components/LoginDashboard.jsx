@@ -21,7 +21,7 @@ const LoginDashboard = () => {
   const dispatch = useDispatch()
 
   // Functions
-  const handleLogin = React.useCallback(async () => {
+  const handleLogin = async () => {
     setLoading(true)
     await axios
       .post('/api/auth/login', {
@@ -67,15 +67,15 @@ const LoginDashboard = () => {
           toast.error(err.response.data.data)
         }
       })
-  })
+  }
 
-  const handleSetPassword = React.useCallback(e => {
+  const handleSetPassword = e => {
     setPassword(e.target.value)
-  })
+  }
 
-  const handleSetEmail = React.useCallback(e => {
+  const handleSetEmail = e => {
     setUserName(e.target.value)
-  })
+  }
 
   return (
     <Layout title="Login to your dashboard" login>

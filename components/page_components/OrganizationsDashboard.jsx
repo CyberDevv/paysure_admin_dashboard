@@ -38,9 +38,7 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
   const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
-  )
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   // handle add organization
   const handleAddOrganization = () => {

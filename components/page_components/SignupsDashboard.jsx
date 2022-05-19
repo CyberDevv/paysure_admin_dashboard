@@ -20,9 +20,9 @@ function a11yProps(index) {
 export default function SignupsDashboard() {
   const [tabValue, setTabValue] = useState(0)
 
-  const handleChange = React.useCallback((event, newValue) => {
+  const handleChange = (event, newValue) => {
     setTabValue(newValue)
-  })
+  }
 
   return (
     <Layout title="Signups">

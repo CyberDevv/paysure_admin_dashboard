@@ -26,7 +26,7 @@ const DatRangePickerAndOthers = ({ value, setValue }) => {
   }
 
   // components
-  const handleRenderInput = React.useCallback((startProps, endProps) => {
+  const handleRenderInput = (startProps, endProps) => {
     return (
       <>
         <TextField
@@ -93,12 +93,12 @@ const DatRangePickerAndOthers = ({ value, setValue }) => {
         </IconButton>
       </>
     )
-  })
+  }
 
   // functions
-  const handleSetValue = React.useCallback(newValue => {
+  const handleSetValue = newValue => {
     setValue(newValue)
-  })
+  }
 
   return (
     <div

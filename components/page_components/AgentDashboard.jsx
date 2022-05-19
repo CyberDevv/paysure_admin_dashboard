@@ -15,6 +15,7 @@ import {
   EllipsisSVG,
   UserProfileSVG,
   UserWithNegative,
+  UserWithPositive,
   Wallet,
 } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
@@ -41,21 +42,15 @@ const AgentDashboard = () => {
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   // functions
-  const handSetIsSuspendModalOpened = React.useCallback(() =>
-    setIsSuspendAccountModalOpened(true),
-  )
+  const handSetIsSuspendModalOpened = () => setIsSuspendAccountModalOpened(true)
 
-  const handSetIsSendEmailModalOpened = React.useCallback(() =>
-    SetIsSendEmailModalOpend(true),
-  )
+  const handSetIsSendEmailModalOpened = () => SetIsSendEmailModalOpend(true)
 
-  const handSetIsSendSMSModalOpened = React.useCallback(() =>
-    SetIsSendSMSModalOpend(true),
-  )
+  const handSetIsSendSMSModalOpened = () => SetIsSendSMSModalOpend(true)
 
-  const handleSetNote = React.useCallback(e => {
+  const handleSetNote = e => {
     setNote(e.target.value)
-  })
+  }
 
   const open = Boolean(anchorEl)
 
@@ -696,7 +691,7 @@ const Settlementcolumns = [
           </button> */}
 
           <Link href="">
-            <a tw= "text-paysure-100 cursor-pointer">View</a>
+            <a tw="text-paysure-100 cursor-pointer">View</a>
           </Link>
         </div>
       )

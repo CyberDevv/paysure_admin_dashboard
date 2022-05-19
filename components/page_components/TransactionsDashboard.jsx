@@ -12,9 +12,9 @@ const TransacitonsDashboard = () => {
   const [selectedDrop, setSelectedDrop] = useState(showingDropdownData[0].value)
 
   // // functions
-  // const handleDropdownSelected = React.useCallback(event => {
+  // const handleDropdownSelected = event => {
   //   setSelectedDrop(event.target.value)
-  // })
+  // }
 
   const transactionStatsData = [
     {

@@ -17,9 +17,9 @@ const AddBandDashboard = ({ setShowAddPanel }) => {
   const [superAgentRate, setSuperAgentRate] = React.useState('')
 
   // functions
-  const handleBandSave = React.useCallback(() => {
+  const handleBandSave = () => {
     setShowAddPanel(false)
-  })
+  }
 
   return (
     <main>

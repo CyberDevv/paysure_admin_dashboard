@@ -23,13 +23,11 @@ const Roles_and_PermissionsDashboard = () => {
   const [accountUser, setAccountUser] = React.useState([false, false, false])
 
   // functions
-  const handSetIsAddmodalOpened = React.useCallback(() =>
-    setIsAddmodalOpened(true),
-  )
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
-  const handleSetDescription = React.useCallback(e => {
+  const handleSetDescription = e => {
     setDescription(e.target.value)
-  })
+  }
 
   // Administrator checboxes function
   const handleAdminstratorChange1 = event => {
@@ -97,9 +95,12 @@ const Roles_and_PermissionsDashboard = () => {
       <Grid>
         {tempData.map(({ role, upperLimit, accounts }, index) => {
           return (
-            <Link href={`/roles_and_permissions/${role.toLocaleLowerCase()}`}>
+            <Link
+              key={index}
+              href={`/roles_and_permissions/${role.toLocaleLowerCase()}`}
+            >
               <a>
-                <Card role="button" key={index}>
+                <Card role="button">
                   <OverviewTitle className="font-500">
                     {`${role} (${upperLimit.toUpperCase()})`}
                   </OverviewTitle>
