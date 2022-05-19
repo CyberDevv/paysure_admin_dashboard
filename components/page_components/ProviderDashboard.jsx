@@ -1,18 +1,44 @@
 import React from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
+import uid from 'generate-unique-id'
 import OtpInput from 'react-otp-input'
 import CurrencyFormat from 'react-currency-format'
+import { usePaystackPayment } from 'react-paystack'
 import { Button, IconButton, Menu, MenuItem } from '@mui/material'
 
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import { onClose, onSuccess } from '../../utils/Paystack'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = ({ providerData, providerName }) => {
+  // console.log(
+  //   '🚀 ~ file: ProviderDashboard.jsx ~ line 18 ~ UserDashboard ~ providerData',
+  //   providerData,
+  // )
+
+  const config = {
+    reference: new Date().getTime().toString(),
+    email: 'email',
+    amount: 500,
+    publicKey: 'pk_live_fcbb491ce3cfb18d0e101a0879b21c9f04f9dad2',
+    metadata: {
+      custom_field: [
+        {
+          'First Name': 'firstName',
+          'Last Name': 'lastName',
+          'Transaction ID': uid({ length: 20 }),
+          'Phone Number': 'phone',
+          'Wallet ID': 2342424,
+        },
+      ],
+    },
+  }
+
   const { providerTrxData = [], tradeSummaries = [] } = providerData
 
   // useState hook
@@ -29,6 +55,8 @@ const UserDashboard = ({ providerData, providerName }) => {
     'Continue',
   ])
 
+  const initializePayment = usePaystackPayment(config)
+
   // functions
   const handleDeactivate = () => clg('handleDeactivate')
 
@@ -43,20 +71,25 @@ const UserDashboard = ({ providerData, providerName }) => {
   }
 
   const handSetIsModalOpened = () => setIsModalOpened(true)
+  // const handSetIsModalOpened = () => initializePayment(onSuccess, onClose)
 
   const handleOTPChange = otp => setOTP(otp)
 
   const handleModalBtnClick = () => {
     // fund wallet
     if (modalState === 'fundWallet') {
-      setModalState('newCard')
-      setModalTitle(['New Card', 'Continue'])
+      initializePayment(onSuccess, onClose)
+
+      // setModalState('newCard')
+      // setModalTitle(['New Card', 'Continue'])
     }
 
     // new card
     if (modalState === 'newCard') {
-      setModalState('otp')
-      setModalTitle(['Enter OTP', 'Complete'])
+      initializePayment(onSuccess, onClose)
+
+      // setModalState('otp')
+      // setModalTitle(['Enter OTP', 'Complete'])
     }
 
     // otp
