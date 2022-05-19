@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { parseCookies } from 'nookies'
 
 import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'

@@ -15,8 +15,7 @@ import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
-  // const { providerStats: providerStatsGrid = [], providerInfo = [] } =
-  //   providersList
+  const { providerInfo = [] } = providersList
 
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -103,8 +102,8 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
   // rows
   let rows
   // check if providerList is an array
-  if (Array.isArray(providersList)) {
-    rows = providersList.map((provider, index) => {
+  if (Array.isArray(providerInfo)) {
+    rows = providerInfo.map((provider, index) => {
       return {
         id: provider.tid,
         col1: index + 1,
@@ -114,7 +113,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
         col5: provider.noOfTransactions,
         col6: provider.walletBalance,
         col7: provider.transSum,
-        col8: provider.feeSum,
+        col8: provider.charges,
         col9: provider.dateCreated,
         col10: '',
       }
