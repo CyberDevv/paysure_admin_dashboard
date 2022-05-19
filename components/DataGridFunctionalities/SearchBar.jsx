@@ -1,15 +1,32 @@
 import tw from 'twin.macro'
 import React from 'react'
+import { useRouter } from 'next/router'
 import { Button, InputAdornment, TextField } from '@mui/material'
 
 import { Search } from '../SVGIcons'
 
 const SearchBar = () => {
+  const router = useRouter()
+  
+  const [searchValue, setSearchValue] = React.useState('')
+
+  const handleSearch = () => {
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        searchKey: searchValue,
+      },
+    })
+  }
+  
   return (
     <TextField
       id="outlined-start-adornment"
       size="small"
       fullWidth
+      value={searchValue}
+      onChange={e => setSearchValue(e.target.value)}
       sx={{
         fontSize: '13px',
         minWidth: {
@@ -33,7 +50,7 @@ const SearchBar = () => {
         ),
         endAdornment: (
           <InputAdornment position="end">
-            <Button sx={{ minWidth: 0 }}>
+            <Button sx={{ minWidth: 0 }} onClick={handleSearch}>
               <Search />
             </Button>
           </InputAdornment>

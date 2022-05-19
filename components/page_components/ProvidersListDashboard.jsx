@@ -3,16 +3,17 @@ import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
+import { toast } from 'react-toastify'
 import CurrencyFormat from 'react-currency-format'
 
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
-import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { toast } from 'react-toastify'
+import { DataGridViewTemp, SearchBar, FilterBox, DatRangePickerAndOthers } from '..'
 
-const ProvidersListDashboard = ({ providersList = [] }) => {
+const ProvidersListDashboard = ({ providersList = [], page }) => {
+  const { providerInfo = [] } = providersList
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [providerName, setProviderName] = React.useState('')
@@ -26,18 +27,18 @@ const ProvidersListDashboard = ({ providersList = [] }) => {
   let rows
 
   // check if providerList is an array
-  if (Array.isArray(providersList)) {
-    rows = providersList.map((provider, index) => {
+  if (Array.isArray(providerInfo)) {
+    rows = providerInfo.map((provider, index) => {
       return {
         id: provider.tid,
         col1: index + 1,
         col2: provider.providerName,
         col3: provider.servicesDesc,
-        col4: provider.none,
+        col4: provider.servicesCount,
         col5: provider.noOfTransactions,
         col6: provider.walletBalance,
         col7: provider.transSum,
-        col8: provider.feeSum,
+        col8: provider.charges,
         col9: provider.dateCreated,
         col10: '',
       }
@@ -47,7 +48,7 @@ const ProvidersListDashboard = ({ providersList = [] }) => {
   }
 
   // Funtion to edit provider
-  const handleEditProvider = React.useCallback(() => {
+  const handleEditProvider = () => {
     // Validation
     if (!providerName || !walletBalance || !servicesDesc || !servicesCount) {
       toast.error('Please fill all the fields')
@@ -88,7 +89,7 @@ const ProvidersListDashboard = ({ providersList = [] }) => {
 
         console.log('err >>>>', err.response.status)
       })
-  })
+  }
 
   // array of columns
   const columns = [
@@ -251,7 +252,8 @@ const ProvidersListDashboard = ({ providersList = [] }) => {
         title="Providers"
         rows={rows}
         columns={columns}
-        pageSize={10}
+        page={page}
+        recordCount={providersList.totalRecords}
         pagination={true}
         className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
       >

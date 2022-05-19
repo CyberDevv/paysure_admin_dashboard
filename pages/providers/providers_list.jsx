@@ -1,22 +1,36 @@
 // imports
 import React from 'react'
+import moment from 'moment'
 import Head from 'next/head'
-import nookies from 'nookies'
-import Router from 'next/router'
 import useSWR, { SWRConfig } from 'swr'
-import { destroyCookie } from 'nookies'
 import { useDispatch } from 'react-redux'
+import Router, { useRouter } from 'next/router'
+import nookies, { destroyCookie } from 'nookies'
 
 import { logout } from '../../features/userSlice'
 import { ProvidersListDashboard } from '../../components'
 import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
+  const {
+    query: {
+      fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate = moment().format('YYYY-MM-DD 12:00:00'),
+      page = 1,
+      pageSize = 10,
+      searchKey = '',
+    },
+  } = ctx
+
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
   const providersList = await makeEncryptedRequest(
     {
-      searchKey: '',
+      fromDate: fromDate,
+      toDate: toDate,
+      pageId: page,
+      pageSize: pageSize,
+      searchKey: searchKey,
     },
     'paysure/api/processor/list-providers',
     'POST',
@@ -27,30 +41,43 @@ export async function getServerSideProps(ctx) {
     props: {
       status: providersList ? providersList.status : 500,
       fallback: {
-        '/api/providers/providerList': providersList ? providersList.data : [],
+        [`/api/providers/providersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}`]:
+          providersList ? providersList.data : [],
       },
     },
   }
 }
 
 function ProvidersListPage() {
+  const router = useRouter()
+  const {
+    fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+    toDate = moment().format('YYYY-MM-DD 12:00:00'),
+    page = 1,
+    pageSize = 10,
+    searchKey = '',
+  } = router.query
+
   async function fetcher(url) {
     const res = await fetch(url)
     return res.json()
   }
 
-  const { data } = useSWR('/api/providers/providerList', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data } = useSWR(
+    `/api/providers/providersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}`,
+    fetcher,
+  )
 
   return (
     <>
       <Head>
-        <title>Providers List | Paysure</title>
+        <title>Providers List| Paysure</title>
       </Head>
 
-      <ProvidersListDashboard providersList={data} />
+      <ProvidersListDashboard
+        providersList={data}
+        page={page}
+      />
     </>
   )
 }
