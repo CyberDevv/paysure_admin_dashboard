@@ -7,7 +7,7 @@ import { Search } from '../SVGIcons'
 
 const SearchBar = () => {
   const router = useRouter()
-  
+
   const [searchValue, setSearchValue] = React.useState('')
 
   const handleSearch = () => {
@@ -19,7 +19,7 @@ const SearchBar = () => {
       },
     })
   }
-  
+
   return (
     <TextField
       id="outlined-start-adornment"

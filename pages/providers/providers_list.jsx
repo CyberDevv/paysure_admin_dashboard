@@ -74,10 +74,7 @@ function ProvidersListPage() {
         <title>Providers List| Paysure</title>
       </Head>
 
-      <ProvidersListDashboard
-        providersList={data}
-        page={page}
-      />
+      <ProvidersListDashboard providersList={data} page={page} />
     </>
   )
 }
