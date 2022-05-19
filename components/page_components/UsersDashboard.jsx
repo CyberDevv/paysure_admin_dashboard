@@ -32,8 +32,7 @@ const UserssDashboard = ({ usersStats }) => {
   const [city, setCity] = React.useState('')
 
   // functions
-  const handSetIsAddmodalOpened = () =>
-    setIsAddmodalOpened(true)
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   // Function to save user data
   const handleSaveUser = () => {
@@ -313,7 +312,7 @@ const UserssDashboard = ({ usersStats }) => {
         // hasExportBtn
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       />
-        {/* <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+      {/* <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
           <SearchBar />
           <FilterBox label="Showing" dropdownData={dropdownData} />
         </div>

@@ -27,8 +27,7 @@ const TerminalsDashboard = () => {
     setSelectedDrop(event.target.value)
   }
 
-  const handSetIsAddmodalOpened = () =>
-    setIsAddmodalOpened(true)
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   // creates termial
   const handleCreateTerminal = () => {

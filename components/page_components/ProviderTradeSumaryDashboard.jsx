@@ -7,7 +7,7 @@ import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const ProviderTradeSumaryDashboard = ({providerName, transType}) => {
+const ProviderTradeSumaryDashboard = ({ providerName, transType }) => {
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
 
