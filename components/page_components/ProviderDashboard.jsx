@@ -23,7 +23,7 @@ const UserDashboard = ({ providerData, providerName }) => {
 
   const config = {
     reference: new Date().getTime().toString(),
-    email: 'email',
+    email: 'email@gmail.com',
     amount: 500,
     publicKey: 'pk_live_fcbb491ce3cfb18d0e101a0879b21c9f04f9dad2',
     metadata: {
