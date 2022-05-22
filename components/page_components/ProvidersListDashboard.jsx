@@ -10,9 +10,14 @@ import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, SearchBar, FilterBox, DatRangePickerAndOthers } from '..'
+import {
+  DataGridViewTemp,
+  SearchBar,
+  FilterBox,
+  DatRangePickerAndOthers,
+} from '..'
 
-const ProvidersListDashboard = ({ providersList = [], page }) => {
+const ProvidersListDashboard = ({ providersList = [], page, searchKey }) => {
   const { providerInfo = [] } = providersList
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -31,7 +36,7 @@ const ProvidersListDashboard = ({ providersList = [], page }) => {
     rows = providerInfo.map((provider, index) => {
       return {
         id: provider.tid,
-        col1: index + 1,
+        col1: (page - 1) * 10 + (index + 1),
         col2: provider.providerName,
         col3: provider.servicesDesc,
         col4: provider.servicesCount,
@@ -257,7 +262,7 @@ const ProvidersListDashboard = ({ providersList = [], page }) => {
         pagination={true}
         className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
       >
-        <SearchBar />
+        <SearchBar value={searchKey} />
         <FilterBox label="Showing" dropdownData={dropdownData} />
       </DataGridViewTemp>
 

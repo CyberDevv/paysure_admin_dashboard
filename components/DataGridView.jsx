@@ -196,7 +196,7 @@ const DataGridView = ({
                 color: '#16192C',
               },
               '& .MuiDataGrid-virtualScrollerContent': {
-                minHeight: '300px !important',
+                minHeight: '60px !important',
               },
               '& .MuiDataGrid-cell': {
                 paddingX: '20px',

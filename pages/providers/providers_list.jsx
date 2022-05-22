@@ -77,6 +77,7 @@ function ProvidersListPage() {
       <ProvidersListDashboard
         providersList={data}
         page={page}
+        searchKey={searchKey}
       />
     </>
   )

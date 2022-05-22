@@ -5,11 +5,18 @@ import { Button, InputAdornment, TextField } from '@mui/material'
 
 import { Search } from '../SVGIcons'
 
-const SearchBar = () => {
+const SearchBar = ({ value }) => {
   const router = useRouter()
-  
+
   const [searchValue, setSearchValue] = React.useState('')
 
+  React.useEffect(() => {
+    if (value) {
+      setSearchValue(value)
+    }
+  }, [value])
+
+  // function to handle search
   const handleSearch = () => {
     router.push({
       pathname: router.pathname,
@@ -19,14 +26,26 @@ const SearchBar = () => {
       },
     })
   }
-  
+
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      handleSearch()
+    }
+  }
+
+  // function to handle onchange
+  const handleChange = e => {
+    setSearchValue(e.target.value)
+  }
+
   return (
     <TextField
       id="outlined-start-adornment"
       size="small"
       fullWidth
       value={searchValue}
-      onChange={e => setSearchValue(e.target.value)}
+      onChange={handleChange}
+      onKeyDown={handleKeyDown}
       sx={{
         fontSize: '13px',
         minWidth: {
