@@ -1,18 +1,15 @@
 import React from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
-
 import ReactToPrint from 'react-to-print'
 import CurrencyFormat from 'react-currency-format'
+
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import {
   HomeDisplayCard,
   DataGridViewTemp,
   OverviewCardSection,
-  SearchBar,
-  FilterBox,
-  DatRangePickerAndOthers,
   Receipt,
 } from '..'
 
@@ -112,7 +109,7 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
       return {
         id: item.tid,
         col1: index + 1,
-        col2: item.none,
+        col2: item.initiator,
         col3: item.transType,
         col4: item.amount,
         col5: item.fee,
@@ -238,31 +235,7 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
       renderCell: params => {
         const handlePrint = () => {}
 
-        // const handlePrint = e => {
-        //   const api = params.api
-        //   const thisRow = {}
-
-        //   api
-        //     .getAllColumns()
-        //     .filter(c => c.field !== '__check__' && !!c)
-        //     .forEach(
-        //       c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-        //     )
-
-        //   // Router.push(`/agents/super_agent/${thisRow.col1}`)
-        // }
-
         return (
-          // <div tw="space-x-1">
-          //   <button onClick={handleEdit}>
-          //     <EditActionSVG />
-          //   </button>
-
-          //   <button onClick={handleView}>
-          //     <ViewActionSVG />
-          //   </button>
-          // </div>
-
           <ReactToPrint
             trigger={() => (
               <button onClick={handlePrint} tw="normal-case text-paysure-100">
@@ -299,15 +272,7 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
         title="Recent Transactions"
         rows={rows}
         columns={columns}
-        // hasExportBtn
-        // className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       />
-        {/* <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
-          <SearchBar />
-          <FilterBox label="Showing" dropdownData={dropdownData} />
-        </div>
-        <DatRangePickerAndOthers />
-      </DataGridViewTemp> */}
 
       {/* Print */}
       <div>
@@ -318,22 +283,6 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
 
 // Tailwind styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`
