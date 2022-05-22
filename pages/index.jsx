@@ -36,7 +36,6 @@ export async function getServerSideProps(ctx) {
     USER_AUTHORIZATION,
   )
 
-  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/home/homeStats and /api/home/homeDataList
   return {
     props: {
       status: homeStats ? homeStats.status : 500,
