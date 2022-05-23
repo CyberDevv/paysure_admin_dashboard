@@ -185,7 +185,7 @@ const ProviderTransactionListDashboard = ({
     rows = providerTrxData.map((item, index) => {
       return {
         id: item.tid,
-        col1: index + 1,
+        col1: (page - 1) * 10 + (index + 1),
         col2: item.transType,
         col3: item.requestId,
         col4: item.amount,
@@ -225,7 +225,7 @@ const ProviderTransactionListDashboard = ({
         pageSize={10}
         pagination
         page={page}
-        recordCount={14} // FIXME: this should be dynamic
+        recordCount={providerData.totalRecords} // FIXME: this should be dynamic
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
         <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">

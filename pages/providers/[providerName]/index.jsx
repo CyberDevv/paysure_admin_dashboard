@@ -40,7 +40,6 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
-  console.log("🚀 ~ file: index.jsx ~ line 43 ~ getServerSideProps ~ providerStats", providerStats)
 
   return {
     props: {

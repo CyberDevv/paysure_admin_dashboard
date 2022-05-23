@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
 import uid from 'generate-unique-id'
@@ -16,11 +17,10 @@ import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = ({ providerData, providerName }) => {
-  // console.log(
-  //   '🚀 ~ file: ProviderDashboard.jsx ~ line 18 ~ UserDashboard ~ providerData',
-  //   providerData,
-  // )
-
+  console.log(
+    '🚀 ~ file: ProviderDashboard.jsx ~ line 20 ~ UserDashboard ~ providerData',
+    providerData,
+  )
   const config = {
     reference: new Date().getTime().toString(),
     email: 'email@gmail.com',
@@ -58,7 +58,17 @@ const UserDashboard = ({ providerData, providerName }) => {
   const initializePayment = usePaystackPayment(config)
 
   // functions
-  const handleDeactivate = () => clg('handleDeactivate')
+  const handleDeactivate = () => {
+    axios
+      .post('/api/providers/disable', {
+        tid: providerData.tid,
+      })
+      .then(res => {
+        console.log(res)
+
+        // Router.push('/providers')
+      })
+  }
 
   const open = Boolean(anchorEl)
 
@@ -366,7 +376,7 @@ const UserDashboard = ({ providerData, providerName }) => {
         title="Transaction Records"
         rows={rows}
         columns={columns}
-      ></DataGridViewTemp>
+      />
     </Layout>
   )
 }
@@ -467,9 +477,7 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
+      const handleEdit = () => {}
 
       const handleView = e => {
         const api = params.api
