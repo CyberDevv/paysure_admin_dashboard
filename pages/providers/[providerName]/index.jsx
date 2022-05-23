@@ -70,7 +70,7 @@ function ProviderPage() {
   const { data } = useSWR(
     `/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
     fetcher,
-    )
+  )
 
   return (
     <>
