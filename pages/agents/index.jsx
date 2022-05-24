@@ -25,7 +25,10 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
-  console.log("🚀 ~ file: index.jsx ~ line 24 ~ getServerSideProps ~ agentsStats", JSON.stringify(agentsStats))
+  console.log(
+    '🚀 ~ file: index.jsx ~ line 24 ~ getServerSideProps ~ agentsStats',
+    JSON.stringify(agentsStats),
+  )
 
   const superAgentsStats = await makeEncryptedRequest(
     {
