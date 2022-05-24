@@ -4,13 +4,14 @@ import Router from 'next/router'
 import { Button } from '@mui/material'
 import CurrencyFormat from 'react-currency-format'
 
+import numberFormatter from '../utils/numberFormatter'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, SearchBar, FilterBox } from '.'
 import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
+import { DataGridViewTemp, HomeDisplayCard, SearchBar, FilterBox } from '.'
 
 const AgentsSubDashboard = ({ agentData = [] }) => {
-  const { transStats = [], trxInfo = [], userCount } = agentData
+  const { transStats = [], trxInfo = [], totalRecords } = agentData
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
@@ -28,20 +29,20 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
 
   const agentStats = [
     {
-      amount: transStats.totalTransactiionsCount,
+      amount: numberFormatter(transStats.totalTransactiionsCount),
       title: 'Total number of transactions',
     },
     {
-      amount: transStats.none,
+      amount: numberFormatter(transStats.allAgentsCount),
       title: 'Total number of agents',
       link: '/agents/agents_list',
     },
     {
-      amount: transStats.none,
+      amount: numberFormatter(transStats.allActiveCount),
       title: 'Total number of active Agents',
     },
     {
-      amount: transStats.none,
+      amount: numberFormatter(transStats.allInactiveCount),
       title: 'Total number of inactive agents',
     },
   ]
@@ -56,12 +57,12 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
         col1: index + 1,
         col2: item.fullName,
         col3: item.none,
-        col4: item.none, //['TD1213', 'TD90232', 'TD3232']
+        col4: item.AgentsTerminal,
         col5: item.none,
         col6: item.none,
-        col7: item.none,
+        col7: item.walletBalance,
         col8: item.none,
-        col9: item.none,
+        col9: item.dateAdded,
         col10: item.statusStr,
         col11: '',
       }
@@ -274,7 +275,7 @@ const columns = [
     renderCell: params => {
       return (
         <CurrencyFormat
-          value={params.row.col6}
+          value={params.row.col7}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}

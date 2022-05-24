@@ -6,36 +6,46 @@ import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 
-const AgentsListDashboard = ({ agentData }) => {
-  const { trxInfo } = agentData
-  
-    const rows = trxInfo.map((item, index) => {
+const AgentsListDashboard = ({ agentsList= [], page, searchKey }) => {
+  const { trxInfo = [], totalRecords } = agentsList
+
+  // DataGrid rows
+  let rows
+  // check if trxInfo is an array
+  if (Array.isArray(trxInfo)) {
+    rows = trxInfo.map((item, index) => {
       return {
         id: item.tid,
         col1: index + 1,
         col2: item.fullName,
         col3: item.none,
-        col4: ['TD1213', 'TD90232', 'TD3232'], //item.none,
+        col4: item.AgentsTerminal,
         col5: item.none,
         col6: item.none,
-        col7: item.none,
+        col7: item.walletBalance,
         col8: item.none,
-        col9: item.none,
+        col9: item.dateAdded,
         col10: item.statusStr,
         col11: '',
       }
     })
-  
+  } else {
+    rows = []
+  }
+
   return (
     <Layout goBack>
       <DataGridViewTemp
         title="Agents"
         rows={rows}
         columns={columns}
+        page={page}
+        recordCount={agentsList.totalRecords}
+        pagination={true}
         className={tw`space-y-4 w-full md:(flex items-center space-x-4 space-y-0) xl:(max-w-2xl)`}
       >
-          <SearchBar />
-          <FilterBox label="Showing" dropdownData={dropdownData} />
+        <SearchBar />
+        <FilterBox label="Showing" dropdownData={dropdownData} />
       </DataGridViewTemp>
     </Layout>
   )
@@ -85,27 +95,27 @@ const columns = [
     minWidth: 203,
     flex: 1,
     headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <div tw="space-x-1">
-          {params.row.col4.slice(0, 2).map((item, index) => {
-            return (
-              <span
-                key={index}
-                css={[
-                  tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
-                ]}
-              >
-                {item}
-              </span>
-            )
-          })}
-          {params.row.col4.length > 2 && (
-            <span tw="ml-4">+{params.row.col4.length - 2}</span>
-          )}
-        </div>
-      )
-    },
+    // renderCell: params => {
+    //   return (
+    //     <div tw="space-x-1">
+    //       {params.row.col4.slice(0, 2).map((item, index) => {
+    //         return (
+    //           <span
+    //             key={index}
+    //             css={[
+    //               tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
+    //             ]}
+    //           >
+    //             {item}
+    //           </span>
+    //         )
+    //       })}
+    //       {params.row.col4.length > 2 && (
+    //         <span tw="ml-4">+{params.row.col4.length - 2}</span>
+    //       )}
+    //     </div>
+    //   )
+    // },
   },
   {
     field: 'col5',
@@ -140,7 +150,7 @@ const columns = [
     renderCell: params => {
       return (
         <CurrencyFormat
-          value={params.row.col6}
+          value={params.row.col7}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
