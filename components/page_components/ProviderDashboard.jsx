@@ -2,25 +2,24 @@ import React from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
+import Router from 'next/router'
 import uid from 'generate-unique-id'
+import { toast } from 'react-toastify'
 import OtpInput from 'react-otp-input'
+import { LoadingButton } from '@mui/lab'
 import CurrencyFormat from 'react-currency-format'
 import { usePaystackPayment } from 'react-paystack'
-import { Button, IconButton, Menu, MenuItem } from '@mui/material'
+import { IconButton, Menu, MenuItem } from '@mui/material'
 
+import { onClose, onSuccess } from '../../utils/Paystack'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { onClose, onSuccess } from '../../utils/Paystack'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = ({ providerData, providerName }) => {
-  console.log(
-    '🚀 ~ file: ProviderDashboard.jsx ~ line 20 ~ UserDashboard ~ providerData',
-    providerData,
-  )
   const config = {
     reference: new Date().getTime().toString(),
     email: 'email@gmail.com',
@@ -54,19 +53,27 @@ const UserDashboard = ({ providerData, providerName }) => {
     'Fund Wallet',
     'Continue',
   ])
+  const [isLoading, setIsLoading] = React.useState(false)
 
   const initializePayment = usePaystackPayment(config)
 
   // functions
   const handleDeactivate = () => {
+    setIsLoading(true)
+    
     axios
       .post('/api/providers/disable', {
-        tid: providerData.tid,
+        providerName,
       })
-      .then(res => {
-        console.log(res)
-
-        // Router.push('/providers')
+      .then(() => {
+        toast.success('Provider deactivated successfully')
+        Router.push('/providers/providers_list')
+        setIsLoading(false)
+      })
+      .catch(err => {
+        setIsLoading(false)
+        console.log('Error =====> ', err)
+        toast.error('Error deactivating provider, please try again.')
       })
   }
 
@@ -233,6 +240,7 @@ const UserDashboard = ({ providerData, providerName }) => {
         {/* Action Buttons */}
         <ButtonWrapper>
           <MUIButton
+            loading={isLoading}
             onClick={handleDeactivate}
             tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
           >
@@ -516,9 +524,8 @@ const UserName = tw.h4`text-xl lg:(text-2xl) tracking-[-0.05em] text-paysure-tex
 const LastSeen = tw.p`text-xs lg:(text-sm) text-[#A6B7D4] tracking-[-0.05em]`
 const ButtonWrapper = tw.div`hidden md:flex items-center space-x-3 lg:(space-x-2.5 hidden) xl:flex`
 const MUIButton = tw(
-  Button,
+  LoadingButton,
 )`normal-case text-white bg-paysure-100 px-3 py-[13px] rounded-lg hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
-const UserGrid = tw.div`mt-5 space-y-4 lg:(mt-10 space-y-6)`
 const WalletWrapper = tw.div`mt-10 p-4 space-y-1 flex items-center justify-between rounded-xl lg:(py-10 px-8 space-y-4 rounded-[28px])`
 const P = tw.p`leading-[19px] text-sm lg:text-base`
 const Amount = tw.h4`text-4xl lg:text-[40px] leading-[48px] tracking-[-0.05em]`
