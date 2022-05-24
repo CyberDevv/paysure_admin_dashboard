@@ -60,7 +60,7 @@ const UserDashboard = ({ providerData, providerName }) => {
   // functions
   const handleDeactivate = () => {
     setIsLoading(true)
-    
+
     axios
       .post('/api/providers/disable', {
         providerName,
