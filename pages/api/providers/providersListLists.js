@@ -8,7 +8,7 @@ export default async function providerList(req, res) {
 
   const {
     fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
-    toDate = moment().format('YYYY-MM-DD 12:00:00'),
+    toDate = moment().format('YYYY-MM-DD 23:59:59'),
     page = 1,
     pageSize = 10,
     searchKey = '',

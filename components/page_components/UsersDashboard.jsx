@@ -4,21 +4,17 @@ import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
 import { Button } from '@mui/material'
+import CurrencyFormat from 'react-currency-format'
 
+import { DataGridViewTemp, HomeDisplayCard } from '..'
+import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import {
-  DataGridViewTemp,
-  HomeDisplayCard,
-  SearchBar,
-  FilterBox,
-  DatRangePickerAndOthers,
-} from '..'
 
-const UserssDashboard = ({ usersStats }) => {
-  const { usersInfo } = usersStats
+const UserssDashboard = ({ usersStats = [] }) => {
+  const { usersInfo = [] } = usersStats
 
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -32,8 +28,7 @@ const UserssDashboard = ({ usersStats }) => {
   const [city, setCity] = React.useState('')
 
   // functions
-  const handSetIsAddmodalOpened = () =>
-    setIsAddmodalOpened(true)
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   // Function to save user data
   const handleSaveUser = () => {
@@ -52,20 +47,20 @@ const UserssDashboard = ({ usersStats }) => {
   // Array of data to be displayed in the cards
   const metricData = [
     {
-      amount: usersStats.totalSubscribers,
+      amount: numberFormatter(usersStats.totalSubscribers),
       title: 'Total Number of Users',
       link: '/users/users_list',
     },
     {
-      amount: usersStats.userTotalCompleteTransactionsCount,
+      amount: numberFormatter(usersStats.userTotalCompleteTransactionsCount),
       title: 'Total Number of Completed Transactions',
     },
     {
-      amount: usersStats.userTotalPendingTransactionsCount,
+      amount: numberFormatter(usersStats.userTotalPendingTransactionsCount),
       title: 'Total Number of  Pending Transactions',
     },
     {
-      amount: usersStats.userTotalFailedTransactionsCount,
+      amount: numberFormatter(usersStats.userTotalFailedTransactionsCount),
       title: 'Total Number of  Failed Tranasctions',
     },
   ]
@@ -79,13 +74,13 @@ const UserssDashboard = ({ usersStats }) => {
         id: item.tid,
         col1: index + 1,
         col2: item.fullName,
-        col3: item.none,
+        col3: item.walletBalance,
         col4: item.emailAddress,
         col5: item.phonePri,
-        col6: item.none,
+        col6: item.accountNumber,
         col7: item.statusStr,
-        col8: item.none,
-        col9: item.none,
+        col8: item.lastTransactionDate,
+        col9: item.dateAdded,
         col10: '',
       }
     })
@@ -118,6 +113,16 @@ const UserssDashboard = ({ usersStats }) => {
       minWidth: 220,
       flex: 1,
       headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col3}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
     {
       field: 'col4',
@@ -168,6 +173,11 @@ const UserssDashboard = ({ usersStats }) => {
       minWidth: 144,
       flex: 1,
       headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col8).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
     },
     {
       field: 'col9',
@@ -175,11 +185,11 @@ const UserssDashboard = ({ usersStats }) => {
       minWidth: 123,
       flex: 1,
       headerClassName: 'grid-header',
-      // renderCell: params => {
-      //   return (
-      //     <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
-      //   )
-      // },
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
     },
     {
       field: 'col10',
@@ -310,35 +320,13 @@ const UserssDashboard = ({ usersStats }) => {
         title="Users list"
         rows={rows}
         columns={columns}
-        // hasExportBtn
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       />
-        {/* <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
-          <SearchBar />
-          <FilterBox label="Showing" dropdownData={dropdownData} />
-        </div>
-        <DatRangePickerAndOthers /> */}
-      {/* </DataGridViewTemp> */}
     </Layout>
   )
 }
 
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-
+// Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`
 const MUIButton = tw(
   Button,

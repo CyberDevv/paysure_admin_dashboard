@@ -10,7 +10,7 @@ export default async function providerStats(req, res) {
   const {
     providerName,
     fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
-    toDate = moment().format('YYYY-MM-DD 12:00:00'),
+    toDate = moment().format('YYYY-MM-DD 23:59:59'),
     page = 1,
     pageSize = 5,
   } = req.query

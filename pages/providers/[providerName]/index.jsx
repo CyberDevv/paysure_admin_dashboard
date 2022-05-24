@@ -18,7 +18,7 @@ export async function getServerSideProps(ctx) {
     query: {
       providerName,
       fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate = moment().format('YYYY-MM-DD 12:00:00'),
+      toDate = moment().format('YYYY-MM-DD 23:59:59'),
       page = 1,
       pageSize = 5,
     },
@@ -57,7 +57,7 @@ function ProviderPage() {
   const {
     providerName,
     fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
-    toDate = moment().format('YYYY-MM-DD 12:00:00'),
+    toDate = moment().format('YYYY-MM-DD 23:59:59'),
     page = 1,
     pageSize = 5,
   } = router.query
@@ -70,7 +70,7 @@ function ProviderPage() {
   const { data } = useSWR(
     `/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
     fetcher,
-    )
+  )
 
   return (
     <>
