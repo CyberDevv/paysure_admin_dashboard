@@ -14,11 +14,7 @@ import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { fetchPartnerClass } from '../../features/partnerClassSlice'
 
 const OrganizationsDashboard = ({ organizationList = [] }) => {
-  const { trxInfo } = organizationList
-  console.log(
-    '🚀 ~ file: OrganizationsDashboard.jsx ~ line 18 ~ OrganizationsDashboard ~ trxInfo',
-    trxInfo,
-  )
+  const { trxInfo = [] } = organizationList
 
   const dispatch = useDispatch()
 
@@ -29,7 +25,8 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
 
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
-  const [name, setName] = React.useState('')
+  const [firstName, setFirstName] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [phone, setPhone] = React.useState('')
   const [address, setAddress] = React.useState('')
@@ -43,10 +40,18 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
   // handle add organization
   const handleAddOrganization = () => {
     // validation if all fields are filled
-    if (!name || !email || !phone || !address || !logoURL || !abbreviation) {
-      toast.error('Please fill all the fields')
-      return
-    }
+    // if (
+    //   !firstName ||
+    //   !lastName ||
+    //   !email ||
+    //   !phone ||
+    //   !address ||
+    //   !logoURL ||
+    //   !abbreviation
+    // ) {
+    //   toast.error('Please fill all the fields')
+    //   return
+    // }
 
     // set loading
     setIsLoading(true)
@@ -54,7 +59,8 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
     // fetching data
     axios
       .post('/api/organizatons/addOrganization', {
-        name,
+        firstName,
+        lastName,
         email,
         phone,
         address,
@@ -69,6 +75,12 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
       .catch(err => {
         // set loading
         setIsLoading(false)
+
+        if (err.response.status === 917) {
+          toast.error('Email not valid')
+          return
+        }
+        
         toast.error('Error adding organization')
 
         console.log(err.response)
@@ -121,11 +133,18 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
           onClick={handleAddOrganization}
         >
           <Label
-            label="Name"
+            label="First Name"
             type="text"
-            placeholder="John Smith"
-            value={name}
-            setState={setName}
+            placeholder="John"
+            value={firstName}
+            setState={setFirstName}
+          />
+          <Label
+            label="Last Name"
+            type="text"
+            placeholder="Smith"
+            value={lastName}
+            setState={setLastName}
           />
           <Label
             label="Abbreviation"
@@ -137,7 +156,7 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
           <Label
             label="Email"
             type="email"
-            placeholder="yourname@example.com"
+            placeholder="yourfirstName@example.com"
             value={email}
             setState={setEmail}
           />
@@ -173,29 +192,10 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
         title="Organizations"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        hasSearch
-        hasFilter
       />
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const columns = [

@@ -1,26 +1,23 @@
 import tw from 'twin.macro'
-import React, { useState } from 'react'
+import React from 'react'
+import moment from 'moment'
 import CurrencyFormat from 'react-currency-format'
 
 import { Print, ViewActionSVG } from '../SVGIcons'
 import { printPartOfPage } from '../../utils/print'
+import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const TransacitonsDashboard = () => {
-  // UseState hook
-  const [selectedDrop, setSelectedDrop] = useState(showingDropdownData[0].value)
+const TransacitonsDashboard = ({ transactionsPageStats = [] }) => {
+  const { transData = [] } = transactionsPageStats
 
-  // // functions
-  // const handleDropdownSelected = event => {
-  //   setSelectedDrop(event.target.value)
-  // }
-
+  /* A data for the transactionStatsData component. */
   const transactionStatsData = [
     {
       amount: (
         <CurrencyFormat
-          value={373732}
+          value={transactionsPageStats.totalSuccessfulTransactions}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
@@ -30,19 +27,60 @@ const TransacitonsDashboard = () => {
       link: '/transactions/transactions_list',
     },
     {
-      amount: 4,
-      // amount: transactionStats.filter(item => item.status === 'Pending').length,
+      amount: numberFormatter(
+        transactionsPageStats.totalNoOfSuccessfulTransactions,
+      ),
       title: 'Total number of successful transactions',
     },
     {
-      amount: '3',
+      amount: numberFormatter(transactionsPageStats.none),
       title: 'Total number of failed transactions',
     },
     {
-      amount: '3',
+      amount: numberFormatter(transactionsPageStats.none),
       title: 'Total number of pending transactions',
     },
   ]
+
+  /* A data for the OverviewCardSection component. */
+  const settlementOveriewData = [
+    {
+      amount: numberFormatter(transactionsPageStats.paysureSettlement),
+      label: 'Paysure Settlement',
+    },
+    {
+      amount: numberFormatter(transactionsPageStats.superAgentSettlements),
+      label: 'Super Agent Settlement',
+    },
+    {
+      amount: numberFormatter(transactionsPageStats.agentsSettlement),
+      label: 'Agent Settlement',
+    },
+  ]
+
+  // DataGrid rows
+  let rows
+  // check if transData is an array
+  if (Array.isArray(transData)) {
+    rows = transData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.none,
+        col3: item.terminalId,
+        col4: item.servicesCount,
+        col5: item.amount,
+        col6: item.fee,
+        col7: item.transSum,
+        col8: item.rrn,
+        col9: item.transType,
+        col10: item.transDate,
+        col11: '',
+      }
+    })
+  } else {
+    rows = []
+  }
 
   return (
     <Layout title="Transactions">
@@ -54,7 +92,7 @@ const TransacitonsDashboard = () => {
 
       <OverviewCardSection
         title="Settlement Overview"
-        data={agencyOveriewData}
+        data={settlementOveriewData}
       />
 
       <DataGridViewTemp
@@ -63,75 +101,12 @@ const TransacitonsDashboard = () => {
         title="Transaction Records"
         rows={rows}
         columns={columns}
-        dropdownData={showingDropdownData}
-        typeDropdownData={typeDropdownData}
-        StatusDropdownData={StatusDropdownData}
-        hasSearch
-        hasFilterShowing
-        hasFilterStatus
-        hasFilterType
-        hasSort
-        hasExportBtn
-        // TODO: has additional two filtering options
       />
 
       <div tw="hidden" id="printData"></div>
     </Layout>
   )
 }
-
-const showingDropdownData = [
-  {
-    value: 'superAgents',
-    label: 'Super Agents',
-  },
-  {
-    value: 'agents',
-    label: 'Agents',
-  },
-  {
-    value: 'users',
-    label: 'Users',
-  },
-  {
-    value: 'settlements',
-    label: 'Settlements',
-  },
-  {
-    value: 'providers',
-    label: 'Providers',
-  },
-]
-
-const StatusDropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-
-const typeDropdownData = [
-  {
-    value: 'withdrawal',
-    label: 'Withdrawal',
-  },
-  {
-    value: 'fundWallet',
-    label: 'Fund Wallet',
-  },
-  {
-    value: 'settlement',
-    label: 'Settlement',
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const rows = [
@@ -210,6 +185,9 @@ const columns = [
     minWidth: 71,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
   },
   {
     field: 'col2',
@@ -284,12 +262,24 @@ const columns = [
   {
     field: 'col9',
     headerName: 'Type',
-    minWidth: 123,
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col14',
+    field: 'col10',
+    headerName: 'Date',
+    minWidth: 173,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span>{moment(params.row.col10).format('MMM DD, YYYY HH:mm')}</span>
+      )
+    },
+  },
+  {
+    field: 'col11',
     headerName: 'Actions',
     minWidth: 100,
     flex: 1,
@@ -379,22 +369,7 @@ const columns = [
   },
 ]
 
-// FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
-  {
-    amount: 55102430,
-    label: 'Paysure Settlement',
-  },
-  {
-    amount: 1350,
-    label: 'Super Agent Settlement',
-  },
-  {
-    amount: 10,
-    label: 'Agent Settlement',
-  },
-]
-
+// Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:(text-[32px])`
 
 export default TransacitonsDashboard
