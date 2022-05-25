@@ -80,7 +80,7 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
           toast.error('Email not valid')
           return
         }
-        
+
         toast.error('Error adding organization')
 
         console.log(err.response)
