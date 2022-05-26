@@ -9,17 +9,17 @@ export default async function providerList(req, res) {
   try {
     const response = await makeEncryptedRequest(
       {
-        fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-        toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+        fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+        toDate: moment().format('YYYY-MM-DD 23:59:59'),
         pageId: 1,
         pageSize: 5,
         searchKey: '',
+        status: 1,
       },
       'paysure/api/processor/list-providers',
       'POST',
       USER_AUTHORIZATION,
     )
-    // console.log("🚀 ~ file: providerList.js ~ line 17 ~ providerList ~ response", response)
 
     res.status(response.status).json(response.data)
   } catch (error) {

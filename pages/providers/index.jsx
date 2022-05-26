@@ -22,16 +22,18 @@ export async function getServerSideProps(ctx) {
 
   const providersList = await makeEncryptedRequest(
     {
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate: moment().format('YYYY-MM-DD 23:59:59'),
       pageId: 1,
       pageSize: 5,
       searchKey: '',
+      status: 1,
     },
     'paysure/api/processor/list-providers',
     'POST',
     USER_AUTHORIZATION,
   )
+  console.log("🚀 ~ file: index.jsx ~ line 36 ~ getServerSideProps ~ providersList", JSON.stringify(providersList))
 
   return {
     props: {
@@ -51,15 +53,9 @@ function ProviderPage() {
     return res.json()
   }
 
-  const { data } = useSWR('/api/providers/providerStats', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data } = useSWR('/api/providers/providerStats', fetcher)
 
-  const { data: data2 } = useSWR('/api/providers/providerList', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data: data2 } = useSWR('/api/providers/providerList', fetcher)
 
   return (
     <>
