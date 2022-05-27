@@ -225,7 +225,7 @@ const ProviderTransactionListDashboard = ({
         pageSize={10}
         pagination
         page={page}
-        recordCount={providerData.totalRecords} // FIXME: this should be dynamic
+        recordCount={providerData.recordCount}
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
         <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
