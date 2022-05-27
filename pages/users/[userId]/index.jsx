@@ -13,7 +13,7 @@ import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const { email, phone } = ctx.query
-  
+
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/users/user/userStats
