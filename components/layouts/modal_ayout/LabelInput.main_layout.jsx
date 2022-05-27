@@ -10,6 +10,7 @@ const LabelInput_main_layout = ({
   combo,
   menuItems,
   setState,
+  partnerClass
 }) => {
   // functions
   const handleChange = event => {
@@ -48,11 +49,19 @@ const LabelInput_main_layout = ({
                 },
               }}
             >
-              {menuItems.map((item, index) => (
-                <MenuItem key={index} value={index}>
-                  {item}
-                </MenuItem>
-              ))}
+              {!partnerClass &&
+                menuItems.map((item, index) => (
+                  <MenuItem key={index} value={index}>
+                    {item}
+                  </MenuItem>
+                ))}
+
+              {partnerClass &&
+                menuItems.map((item, index) => (
+                  <MenuItem key={item.id} value={item.code}>
+                    {item.title}
+                  </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </Label>

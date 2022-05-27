@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 import Router from 'next/router'
 import { toast } from 'react-toastify'
 import { Button } from '@mui/material'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { DataGridViewTemp, HomeDisplayCard } from '..'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
@@ -23,15 +23,30 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
     dispatch(fetchPartnerClass())
   }, [dispatch])
 
+  // useSelector
+  const { partnerClass: partnerClassList = [] } = useSelector(
+    state => state.partnerClass,
+  )
+
+  // array of partner class
+  const partnerClassArray = partnerClassList.data?.map(item => {
+    return {
+      id: item.tid,
+      code: item.code,
+      title: item.description,
+    }
+  })
+
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
-  const [firstName, setFirstName] = React.useState('')
-  const [lastName, setLastName] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [phone, setPhone] = React.useState('')
-  const [address, setAddress] = React.useState('')
-  const [logoURL, setLogoURL] = React.useState('')
-  const [abbreviation, setAbbreviation] = React.useState('')
+  const [firstName, setFirstName] = React.useState('Sapa')
+  const [lastName, setLastName] = React.useState('United')
+  const [email, setEmail] = React.useState('sapaunited@gmail.com')
+  const [phone, setPhone] = React.useState('+2348072534657')
+  const [domainName, setDomainName] = React.useState('https://sapa.com')
+  const [partnerClass, setPartnerClass] = React.useState('')
+  const [businessName, setBusinessName] = React.useState('Sapa and co.')
+  const [contactemailaddress, setContactemailaddress] = React.useState('sapa@gmail.com')
   const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
@@ -40,18 +55,19 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
   // handle add organization
   const handleAddOrganization = () => {
     // validation if all fields are filled
-    // if (
-    //   !firstName ||
-    //   !lastName ||
-    //   !email ||
-    //   !phone ||
-    //   !address ||
-    //   !logoURL ||
-    //   !abbreviation
-    // ) {
-    //   toast.error('Please fill all the fields')
-    //   return
-    // }
+    if (
+      firstName === '' ||
+      lastName === '' ||
+      email === '' ||
+      phone === '' ||
+      domainName === '' ||
+      partnerClass === '' ||
+      businessName === '' ||
+      contactemailaddress === ''
+    ) {
+      toast.error('Please fill all fields')
+      return
+    }
 
     // set loading
     setIsLoading(true)
@@ -63,9 +79,10 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
         lastName,
         email,
         phone,
-        address,
-        logoURL,
-        abbreviation,
+        domainName,
+        partnerClass,
+        businessName,
+        contactemailaddress,
       })
       .then(res => {
         // set loading
@@ -80,7 +97,12 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
           toast.error('Email not valid')
           return
         }
-        
+
+        if (err.response.status === 914) {
+          toast.error('Phone number not valid')
+          return
+        }
+
         toast.error('Error adding organization')
 
         console.log(err.response)
@@ -133,53 +155,61 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
           onClick={handleAddOrganization}
         >
           <Label
-            label="First Name"
+            label="Business Name"
+            type="text"
+            placeholder="Business Name"
+            value={businessName}
+            setState={setBusinessName}
+          />
+          <Label
+            label="Email Address"
+            type="email"
+            placeholder="yourBusinessName@example.com"
+            value={email}
+            setState={setEmail}
+          />
+          <Label
+            label="Contact Person First Name"
             type="text"
             placeholder="John"
             value={firstName}
             setState={setFirstName}
           />
           <Label
-            label="Last Name"
+            label="Contact Person Last Name"
             type="text"
             placeholder="Smith"
             value={lastName}
             setState={setLastName}
           />
           <Label
-            label="Abbreviation"
+            label="Contact Person Email Address"
             type="text"
-            placeholder="Abbreviation"
-            value={abbreviation}
-            setState={setAbbreviation}
+            placeholder="johnSmith@example.com"
+            value={contactemailaddress}
+            setState={setContactemailaddress}
           />
           <Label
-            label="Email"
-            type="email"
-            placeholder="yourfirstName@example.com"
-            value={email}
-            setState={setEmail}
-          />
-          <Label
-            label="Phone"
-            type="tel"
-            placeholder="08012345678"
+            label="Contact Person Phone Number"
+            type="text"
+            placeholder="+2348012123456"
             value={phone}
             setState={setPhone}
           />
           <Label
-            label="Address"
-            type="text"
-            placeholder="Address"
-            value={address}
-            setState={setAddress}
+            label="Domain Name"
+            type="tel"
+            placeholder="https://yourBusinessName.com"
+            value={domainName}
+            setState={setDomainName}
           />
           <Label
-            label="Logo URL"
-            type="text"
-            placeholder="https://"
-            value={logoURL}
-            setState={setLogoURL}
+            label="Partner Class"
+            value={partnerClass}
+            setState={setPartnerClass}
+            combo
+            partnerClass
+            menuItems={partnerClassArray}
           />
         </Modal>
       </div>

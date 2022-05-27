@@ -16,6 +16,6 @@ export default async function addOrganizaion(req, res) {
     res.status(response.status).json(response)
   } catch (error) {
     console.log(error)
-    res.json(error)
+    error && res.json(error)
   }
 }

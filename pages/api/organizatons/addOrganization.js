@@ -7,18 +7,27 @@ export default async function addOrganizaion(req, res) {
   const { USER_AUTHORIZATION } = parseCookies({ req })
 
   try {
-    const { name, email, phone, address, logoURL, abbreviation } = req.body
+    const {
+      firstName,
+      lastName,
+      email,
+      businessName,
+      contactemailaddress,
+      phone,
+      domainName,
+      partnerClass,
+    } = req.body
 
     const response = await makeEncryptedRequest(
       {
-        fullName: name,
+        partnerClass: partnerClass,
+        domainName: domainName,
         emailAddress: email,
-        phonePri: phone,
-        address1: address,
-        logoUrl: logoURL,
-        abbrv: abbreviation,
-        partnerCode: uid({ length: 20 }),
-        partnerClass: 'AGGREGATOR',
+        contactEmailAddress: contactemailaddress,
+        contactFirstName: firstName,
+        contactLastName: lastName,
+        fullName: businessName,
+        contactPhonePri: phone,
       },
       'paysure/api/processor/create-partner',
       'POST',
