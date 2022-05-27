@@ -46,7 +46,8 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
   const [domainName, setDomainName] = React.useState('https://sapa.com')
   const [partnerClass, setPartnerClass] = React.useState('')
   const [businessName, setBusinessName] = React.useState('Sapa and co.')
-  const [contactemailaddress, setContactemailaddress] = React.useState('sapa@gmail.com')
+  const [contactemailaddress, setContactemailaddress] =
+    React.useState('sapa@gmail.com')
   const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
