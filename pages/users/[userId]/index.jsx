@@ -7,28 +7,31 @@ import useSWR, { SWRConfig } from 'swr'
 import { useDispatch } from 'react-redux'
 import nookies, { destroyCookie } from 'nookies'
 
-import { logout } from '../../../features/userSlice'
 import { UserDashboard } from '../../../components'
+import { logout } from '../../../features/userSlice'
 import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
+  const { email, phone } = ctx.query
+  
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/users/user/userStats
   const userStats = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate: moment().format('YYYY-MM-DD 23:59:59'),
       pageId: 1,
       pageSize: 5,
-      phoneNumberPri: '+2348022534558',
-      emailAddress: 'adeojo@gmail.com',
+      phoneNumberPri: phone,
+      emailAddress: email,
     },
     'paysure/api/processor/each-user-info',
     'POST',
     USER_AUTHORIZATION,
   )
+  // console.log("🚀 ~ file: index.jsx ~ line 32 ~ getServerSideProps ~ userStats", userStats)
 
   return {
     props: {
@@ -46,10 +49,7 @@ function UserPage() {
     return res.json()
   }
 
-  const { data } = useSWR('/api/users/user/userStats', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data } = useSWR('/api/users/user/userStats', fetcher)
 
   return (
     <>
