@@ -229,7 +229,6 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-
           Router.push({
             pathname: `/agents/agent/${thisRow.col1}`,
             query: { email: thisRow.email, phone: thisRow.phone },
