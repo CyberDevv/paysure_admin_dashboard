@@ -34,8 +34,6 @@ export default async function addOrganizaion(req, res) {
       USER_AUTHORIZATION,
     )
 
-    console.log(response)
-
     res.status(response.status).json(response)
   } catch (error) {
     console.log(error)
