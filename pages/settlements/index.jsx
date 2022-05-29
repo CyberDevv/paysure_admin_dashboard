@@ -19,8 +19,8 @@ export async function getServerSideProps(ctx) {
   const settlementStats = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate: moment().format('YYYY-MM-DD 23:59:59'),
       pageId: 1,
       pageSize: 5,
     },
