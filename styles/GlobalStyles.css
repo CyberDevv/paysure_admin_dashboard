@@ -32,6 +32,10 @@
   display: none;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Editor */
 .ql-editor {
   padding: 24px !important;

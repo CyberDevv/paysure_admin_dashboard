@@ -4,14 +4,14 @@ import Router from 'next/router'
 import { Button } from '@mui/material'
 import CurrencyFormat from 'react-currency-format'
 
+import { DataGridViewTemp, HomeDisplayCard } from '.'
 import numberFormatter from '../utils/numberFormatter'
 import Modal from './layouts/modal_ayout/index.modal_layout'
-import Label from './layouts/modal_ayout/LabelInput.main_layout'
 import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
-import { DataGridViewTemp, HomeDisplayCard, SearchBar, FilterBox } from '.'
+import Label from './layouts/modal_ayout/LabelInput.main_layout'
 
 const AgentsSubDashboard = ({ agentData = [] }) => {
-  const { transStats = [], trxInfo = [], totalRecords } = agentData
+  const { transStats = [], trxInfo = [] } = agentData
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('')
@@ -65,11 +65,207 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
         col9: item.dateAdded,
         col10: item.statusStr,
         col11: '',
+        email: item.emailAddress,
+        phone: item.phonePri,
       }
     })
   } else {
     rows = []
   }
+
+  // dataGrid column
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col2',
+      headerName: 'Agent Name',
+      minWidth: 227,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col3',
+      headerName: 'Parent',
+      minWidth: 236,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col4',
+      headerName: 'Terminals',
+      minWidth: 203,
+      flex: 1,
+      headerClassName: 'grid-header',
+      // renderCell: params => {
+      //   return (
+      //     <div tw="space-x-1">
+      //       {params.row.col4.slice(0, 2).map((item, index) => {
+      //         return (
+      //           <span
+      //             key={index}
+      //             css={[
+      //               tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
+      //             ]}
+      //           >
+      //             {item}
+      //           </span>
+      //         )
+      //       })}
+      //       {params.row.col4.length > 2 && (
+      //         <span tw="ml-4">+{params.row.col4.length - 2}</span>
+      //       )}
+      //     </div>
+      //   )
+      // },
+    },
+    {
+      field: 'col5',
+      headerName: 'No. of Transactions',
+      minWidth: 166,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col6',
+      headerName: 'Transactions{N}',
+      minWidth: 150,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col6}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col7',
+      headerName: 'Wallet Balance',
+      minWidth: 144,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col7}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col8',
+      headerName: 'Current Plan',
+      minWidth: 153,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+    },
+    {
+      field: 'col9',
+      headerName: 'Date Added',
+      minWidth: 123,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'email',
+      minWidth: 123,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col10',
+      headerName: 'Status',
+      minWidth: 100,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span
+            css={[
+              tw`uppercase text-[10px] p-1 rounded`,
+              params.row.col10.toLowerCase() === 'active'
+                ? tw`bg-[#E9FBF9] text-paysure-success-100 `
+                : tw`bg-[#FDF6EF] text-[#EDA95A] `,
+            ]}
+          >
+            {params.row.col10}
+          </span>
+        )
+      },
+    },
+    {
+      field: 'col11',
+      headerName: 'Actions',
+      minWidth: 100,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        const handleEdit = () => {
+          console.log('edit')
+        }
+
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+
+          Router.push({
+            pathname: `/agents/agent/${thisRow.col1}`,
+            query: { email: thisRow.email, phone: thisRow.phone },
+          })
+        }
+
+        return (
+          <div tw="space-x-1">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+
+            {/* <button onClick={handleView}>
+            <UserWithPositive />
+          </button> */}
+
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </div>
+        )
+      },
+    },
+    {
+      field: 'email',
+      minWidth: 123,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'phone',
+      minWidth: 123,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+  ]
 
   return (
     <>
@@ -165,203 +361,11 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
         title="Agents list"
         rows={rows}
         columns={columns}
-        // hasExportBtn
-        // className={tw`space-y-4 w-full md:(flex justify-between space-y-0)`}
+        columnVisibilityModel={{ email: false, phone: false }}
       />
-      {/* <div tw="space-y-4 w-full md:(flex items-center space-y-0 space-x-4)">
-          <SearchBar />
-          <FilterBox label="Showing" dropdownData={dropdownData} />
-        </div>
-      </DataGridViewTemp> */}
     </>
   )
 }
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Agent Name',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Parent',
-    minWidth: 236,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Terminals',
-    minWidth: 203,
-    flex: 1,
-    headerClassName: 'grid-header',
-    // renderCell: params => {
-    //   return (
-    //     <div tw="space-x-1">
-    //       {params.row.col4.slice(0, 2).map((item, index) => {
-    //         return (
-    //           <span
-    //             key={index}
-    //             css={[
-    //               tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
-    //             ]}
-    //           >
-    //             {item}
-    //           </span>
-    //         )
-    //       })}
-    //       {params.row.col4.length > 2 && (
-    //         <span tw="ml-4">+{params.row.col4.length - 2}</span>
-    //       )}
-    //     </div>
-    //   )
-    // },
-  },
-  {
-    field: 'col5',
-    headerName: 'No. of Transactions',
-    minWidth: 166,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Transactions{N}',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col6}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col7',
-    headerName: 'Wallet Balance',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col7}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col8',
-    headerName: 'Current Plan',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Status',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <span
-          css={[
-            tw`uppercase text-[10px] p-1 rounded`,
-            params.row.col10.toLowerCase() === 'active'
-              ? tw`bg-[#E9FBF9] text-paysure-success-100 `
-              : tw`bg-[#FDF6EF] text-[#EDA95A] `,
-          ]}
-        >
-          {params.row.col10}
-        </span>
-      )
-    },
-  },
-  {
-    field: 'col11',
-    headerName: 'Actions',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        Router.push(`/agents/agent/${thisRow.col1}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
-
-          {/* <button onClick={handleView}>
-            <UserWithPositive />
-          </button> */}
-
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
-        </div>
-      )
-    },
-  },
-]
 
 const menuItems = ['All', 'Active', 'Inactive']
 

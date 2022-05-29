@@ -18,6 +18,7 @@ const DataGridViewTemp = ({
   pageSize,
   pagination,
   page,
+  columnVisibilityModel,
   recordCount,
 }) => {
   return (
@@ -44,6 +45,7 @@ const DataGridViewTemp = ({
         pagination={pagination}
         pageId={page}
         recordCount={recordCount}
+        columnVisibilityModel= {columnVisibilityModel}
       >
         {children}
       </DataGridView>

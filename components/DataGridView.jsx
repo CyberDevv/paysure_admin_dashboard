@@ -38,6 +38,7 @@ const DataGridView = ({
   pagination,
   pageId,
   recordCount,
+  columnVisibilityModel
 }) => {
   const router = useRouter()
 
@@ -177,6 +178,7 @@ const DataGridView = ({
             rowHeight={70}
             pageSize={pageSize}
             pagination={pagination}
+            columnVisibilityModel = {columnVisibilityModel}
             components={{
               Toolbar: CustomToolbar,
               Pagination: CustomPagination,

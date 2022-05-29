@@ -16,8 +16,8 @@ export async function getServerSideProps(ctx) {
 
   const agentsStats = await makeEncryptedRequest(
     {
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate: moment().format('YYYY-MM-DD 23:59:59'),
       pageId: 1,
       pageSize: 5,
     },
@@ -25,7 +25,6 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
-  console.log("🚀 ~ file: index.jsx ~ line 24 ~ getServerSideProps ~ agentsStats", JSON.stringify(agentsStats))
 
   const superAgentsStats = await makeEncryptedRequest(
     {
