@@ -19,8 +19,7 @@ const CustomNoRowsOverlay = () => {
           There&apos;s nothing to show yet
         </h1>
         <p tw="text-[15px] text-[#979797] mt-3.5">
-          We&apos;ll have something to show you once transaction
-          start happening
+          We&apos;ll have something to show you once transaction start happening
         </p>
       </div>
     </div>
@@ -38,7 +37,7 @@ const DataGridView = ({
   pagination,
   pageId,
   recordCount,
-  columnVisibilityModel
+  columnVisibilityModel,
 }) => {
   const router = useRouter()
 
@@ -178,7 +177,7 @@ const DataGridView = ({
             rowHeight={70}
             pageSize={pageSize}
             pagination={pagination}
-            columnVisibilityModel = {columnVisibilityModel}
+            columnVisibilityModel={columnVisibilityModel}
             components={{
               Toolbar: CustomToolbar,
               Pagination: CustomPagination,
