@@ -33,11 +33,11 @@ const TransacitonsDashboard = ({ transactionsPageStats = [] }) => {
       title: 'Total number of successful transactions',
     },
     {
-      amount: numberFormatter(transactionsPageStats.none),
+      amount: numberFormatter(transactionsPageStats.totalFailedCount),
       title: 'Total number of failed transactions',
     },
     {
-      amount: numberFormatter(transactionsPageStats.none),
+      amount: numberFormatter(transactionsPageStats.totalPendingCount),
       title: 'Total number of pending transactions',
     },
   ]
@@ -108,76 +108,6 @@ const TransacitonsDashboard = ({ transactionsPageStats = [] }) => {
   )
 }
 
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -253,7 +183,7 @@ const columns = [
   },
   {
     field: 'col8',
-    headerName: 'RRR',
+    headerName: 'RRN',
     minWidth: 143,
     flex: 1,
     headerClassName: 'grid-header',
