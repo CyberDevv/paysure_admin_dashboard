@@ -17,7 +17,7 @@ function a11yProps(index) {
   }
 }
 
-export default function SignupsDashboard() {
+export default function SignupsDashboard({signupsList = []}) {
   const [tabValue, setTabValue] = useState(0)
 
   const handleChange = (event, newValue) => {
@@ -65,7 +65,7 @@ export default function SignupsDashboard() {
           </MUITabs>
         </Box>
         <TabPanel tabvalue={tabValue} index={0}>
-          <SuperAgentSignupsDashboard />
+          <SuperAgentSignupsDashboard signupsList={signupsList} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
           <AgentSignupsDashboard />
