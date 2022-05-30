@@ -19,6 +19,7 @@ export async function getServerSideProps(ctx) {
       page = 1,
       pageSize = 10,
       searchKey = '',
+      status = 0,
     },
   } = ctx
 
@@ -31,6 +32,7 @@ export async function getServerSideProps(ctx) {
       pageId: page,
       pageSize: pageSize,
       searchKey: searchKey,
+      status: status,
     },
     'paysure/api/processor/list-providers',
     'POST',
@@ -41,7 +43,7 @@ export async function getServerSideProps(ctx) {
     props: {
       status: providersList ? providersList.status : 500,
       fallback: {
-        [`/api/providers/providersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}`]:
+        [`/api/providers/providersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`]:
           providersList ? providersList.data : [],
       },
     },
@@ -56,6 +58,7 @@ function ProvidersListPage() {
     page = 1,
     pageSize = 10,
     searchKey = '',
+    status = 0,
   } = router.query
 
   async function fetcher(url) {
@@ -64,7 +67,7 @@ function ProvidersListPage() {
   }
 
   const { data } = useSWR(
-    `/api/providers/providersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}`,
+    `/api/providers/providersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`,
     fetcher,
   )
 
@@ -78,6 +81,7 @@ function ProvidersListPage() {
         providersList={data}
         page={page}
         searchKey={searchKey}
+        status={status}
       />
     </>
   )

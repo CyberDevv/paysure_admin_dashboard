@@ -12,10 +12,6 @@ export default async function providerStats(req, res) {
       'POST',
       USER_AUTHORIZATION,
     )
-    // console.log(
-    //   '🚀 ~ file: providerStats.js ~ line 15 ~ providerStats ~ response',
-    //   response,
-    // )
 
     res.status(response.status).json(response.data)
   } catch (error) {

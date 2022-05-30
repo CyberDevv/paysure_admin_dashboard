@@ -7,17 +7,17 @@ import { toast } from 'react-toastify'
 import CurrencyFormat from 'react-currency-format'
 
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
+import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import {
-  DataGridViewTemp,
-  SearchBar,
-  FilterBox,
-  DatRangePickerAndOthers,
-} from '..'
 
-const ProvidersListDashboard = ({ providersList = [], page, searchKey }) => {
+const ProvidersListDashboard = ({
+  providersList = [],
+  page,
+  searchKey,
+  status,
+}) => {
   const { providerInfo = [] } = providersList
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -51,6 +51,21 @@ const ProvidersListDashboard = ({ providersList = [], page, searchKey }) => {
   } else {
     rows = []
   }
+
+  const statusDataArray = [
+    {
+      value: '0',
+      label: 'All',
+    },
+    {
+      value: '1',
+      label: 'Active',
+    },
+    {
+      value: '2',
+      label: 'Inactive',
+    },
+  ]
 
   // Funtion to edit provider
   const handleEditProvider = () => {
@@ -263,7 +278,11 @@ const ProvidersListDashboard = ({ providersList = [], page, searchKey }) => {
         className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
       >
         <SearchBar value={searchKey} />
-        <FilterBox label="Showing" dropdownData={dropdownData} />
+        <FilterBox
+          label="Showing"
+          dropdownData={statusDataArray}
+          statusValue={status}
+        />
       </DataGridViewTemp>
 
       {/* Edit Provider modal */}
@@ -307,21 +326,5 @@ const ProvidersListDashboard = ({ providersList = [], page, searchKey }) => {
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
 
 export default ProvidersListDashboard

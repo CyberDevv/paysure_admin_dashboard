@@ -12,6 +12,7 @@ export default async function providerList(req, res) {
     page = 1,
     pageSize = 10,
     searchKey = '',
+    status = 0,
   } = req.query
 
   try {
@@ -22,6 +23,7 @@ export default async function providerList(req, res) {
         pageId: page,
         pageSize: pageSize,
         searchKey: searchKey,
+        status: status,
       },
       'paysure/api/processor/list-providers',
       'POST',

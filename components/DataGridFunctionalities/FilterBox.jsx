@@ -1,22 +1,44 @@
 import React from 'react'
 import tw from 'twin.macro'
 import PropTypes from 'prop-types'
+import { useRouter } from 'next/router'
 import { InputAdornment, MenuItem, TextField } from '@mui/material'
 
-const FilterBox = ({ dropdownData = [], label }) => {
+const FilterBox = ({ dropdownData = [], label, statusValue = '' }) => {
+  const router = useRouter()
+  
   // UseState hook
-  const [selectedDrop, setSelectedDrop] = React.useState(dropdownData[0].value)
+  const [selectedDrop, setSelectedDrop] = React.useState('')
+
+  // select dropdown value that has same value as statusValue
+  React.useEffect(() => {
+    const selectedDropdown = dropdownData.find(
+      item => Number(item.value) === Number(statusValue),
+    )
+
+    if (selectedDropdown) {
+      setSelectedDrop(selectedDropdown.value)
+    }
+  }, [dropdownData, statusValue])
 
   // functions
   const handleDropdownSelected = event => {
     setSelectedDrop(event.target.value)
+
+    router.push({
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        status: event.target.value,
+      },
+    })
   }
 
   return (
     <TextField
       select
       value={selectedDrop}
-      defaultValue={dropdownData[0].value}
+      defaultValue={selectedDrop}
       onChange={handleDropdownSelected}
       size="small"
       fullWidth
