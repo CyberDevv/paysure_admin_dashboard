@@ -6,7 +6,7 @@ import { InputAdornment, MenuItem, TextField } from '@mui/material'
 
 const FilterBox = ({ dropdownData = [], label, statusValue = '' }) => {
   const router = useRouter()
-  
+
   // UseState hook
   const [selectedDrop, setSelectedDrop] = React.useState('')
 
