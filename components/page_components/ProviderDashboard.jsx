@@ -60,7 +60,7 @@ const UserDashboard = ({ providerData, providerName }) => {
   // functions
   const handleDeactivate = () => {
     setIsLoading(true)
-    
+
     axios
       .post('/api/providers/disable', {
         providerName,
@@ -374,9 +374,14 @@ const UserDashboard = ({ providerData, providerName }) => {
           )}
         </Modal>
       </WalletWrapper>
+
       <HomeDisplayCard data={providerDataArray} />
+
       {/* Services */}
-      <OverviewCardSection title="Services" data={trandeSummariesData} />
+      {trandeSummariesData.length !== 0 && (
+        <OverviewCardSection title="Services" data={trandeSummariesData} />
+      )}
+
       {/* DataGrid */}
       <DataGridViewTemp
         limited
@@ -458,7 +463,7 @@ const columns = [
       return (
         <span
           css={
-            params.row.col8.toLowerCase() === 'pending'
+            params.row.col6.toLowerCase() !== 'accepted'
               ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded capitalize`
               : tw`bg-border2 text-paysure-100 p-1 rounded capitalize`
           }

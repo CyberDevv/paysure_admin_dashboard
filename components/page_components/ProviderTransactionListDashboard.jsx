@@ -117,8 +117,8 @@ const ProviderTransactionListDashboard = ({
           <span
             css={
               params.row.col6.toLowerCase() !== 'accepted'
-                ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded normal-case`
-                : tw`bg-border2 text-paysure-100 p-1 rounded normal-case`
+                ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded capitalize`
+                : tw`bg-border2 text-paysure-100 p-1 rounded capitalize`
             }
           >
             {params.row.col6}
@@ -145,9 +145,7 @@ const ProviderTransactionListDashboard = ({
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
-        const handleEdit = () => {
-          console.log('edit')
-        }
+        const handleEdit = () => {}
 
         const handleView = e => {
           const api = params.api
@@ -213,6 +211,21 @@ const ProviderTransactionListDashboard = ({
     }),
   ]
 
+  const status = [
+    {
+      value: 'all',
+      label: 'All',
+    },
+    {
+      value: 'accepted',
+      label: 'Accepted',
+    },
+    {
+      value: 'pending',
+      label: 'Pending',
+    },
+  ]
+
   // ********************************************************************************
   // ********************************************************************************
 
@@ -239,21 +252,5 @@ const ProviderTransactionListDashboard = ({
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const status = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'accepted',
-    label: 'Accepted',
-  },
-  {
-    value: 'pending',
-    label: 'Pending',
-  },
-]
 
 export default ProviderTransactionListDashboard
