@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
 import { Button } from '@mui/material'
@@ -25,8 +26,7 @@ const SuperAgentsSubDashboard = ({ superAgentData = [] }) => {
   const [settlementPlan, setSettlementPlan] = React.useState('')
 
   // functions
-  const handSetIsAddmodalOpened = () =>
-    setIsAddmodalOpened(true)
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   // Data array of super agents stats
   const superAgentStats = [
@@ -50,16 +50,18 @@ const SuperAgentsSubDashboard = ({ superAgentData = [] }) => {
   // check if trxInfo is an array
   if (Array.isArray(trxInfo)) {
     rows = trxInfo.map((superAgent, index) => {
+      console.log(superAgent.dateAdded)
+
       return {
         id: superAgent.tid,
         col1: index + 1,
         col2: superAgent.fullName,
-        col3: superAgent.none,
-        col4: superAgent.none,
-        col5: superAgent.none,
-        col6: superAgent.none,
-        col7: superAgent.none,
-        col8: superAgent.none,
+        col3: superAgent.noOfAgents,
+        col4: superAgent.AgentsTerminal,
+        col5: superAgent.transCount,
+        col6: superAgent.transSum,
+        col7: superAgent.walletBalance,
+        col8: superAgent.dateAdded,
         col9: superAgent.statusStr,
         col10: '',
       }
@@ -161,28 +163,11 @@ const SuperAgentsSubDashboard = ({ superAgentData = [] }) => {
         title="Super Agents list"
         rows={rows}
         columns={columns}
-        // hasExportBtn
       />
     </>
   )
 }
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
 
-// FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
     field: 'col1',
@@ -190,6 +175,9 @@ const columns = [
     minWidth: 71,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
   },
   {
     field: 'col2',
@@ -211,27 +199,27 @@ const columns = [
     minWidth: 193,
     flex: 1,
     headerClassName: 'grid-header',
-    // renderCell: params => {
-    //   return (
-    //     <div tw="space-x-1">
-    //       {params.row.col4.slice(0, 2).map((item, index) => {
-    //         return (
-    //           <span
-    //             key={index}
-    //             css={[
-    //               tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
-    //             ]}
-    //           >
-    //             {item}
-    //           </span>
-    //         )
-    //       })}
-    //       {params.row.col4.length > 2 && (
-    //         <span tw="ml-4">+{params.row.col4.length - 2}</span>
-    //       )}
-    //     </div>
-    //   )
-    // },
+    renderCell: params => {
+      return (
+        <div tw="space-x-1">
+          {params.row.col4.slice(0, 2).map((item, index) => {
+            return (
+              <span
+                key={index}
+                css={[
+                  tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
+                ]}
+              >
+                {item}
+              </span>
+            )
+          })}
+          {params.row.col4.length > 2 && (
+            <span tw="ml-4">+{params.row.col4.length - 2}</span>
+          )}
+        </div>
+      )
+    },
   },
   {
     field: 'col5',
@@ -280,6 +268,9 @@ const columns = [
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{moment(params.row.col8).format('MMM DD, YYYY HH:mm')}</span>
+    },
   },
   {
     field: 'col9',
