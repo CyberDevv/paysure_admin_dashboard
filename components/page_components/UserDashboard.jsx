@@ -1,6 +1,9 @@
 import React from 'react'
+import axios from 'axios'
 import tw from 'twin.macro'
 import moment from 'moment'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 import CurrencyFormat from 'react-currency-format'
 import {
   Button,
@@ -21,6 +24,9 @@ import { EllipsisSVG, Print, UserProfileSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = ({ userStats = [] }) => {
   const { transInfo = [] } = userStats
+
+  const router = useRouter()
+  const { userName, phone, email } = router.query
 
   // useState hook
   const [isSuspendAccoutModalOpened, setIsSuspendAccountModalOpened] =
@@ -61,6 +67,22 @@ const UserDashboard = ({ userStats = [] }) => {
     setAnchorEl(null)
   }
 
+  // function to suspend user account
+  const handleSuspenAccount = () => {
+    axios
+      .post('/api/users/suspendUser', {
+        phone,
+        email,
+      })
+      .then(() => {
+        setIsSuspendAccountModalOpened(false)
+        toast.success('User account suspended successfully')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   // ********************************************************************************
   // ********************************************************************************
 
@@ -69,14 +91,14 @@ const UserDashboard = ({ userStats = [] }) => {
 
   /* The below code is a JavaScript object that contains the user details. */
   const userDetails = {
-    name: userStats.none,
+    name: userName,
     joined: moment(userStats.createdDate).format('DD MMMM, YYYY'),
     // city: 'Ikeja',
     email: userStats.userEmail,
     // state: 'Lagos',
     phone: userStats.userMobile,
     // country: 'Nigeria',
-    walletAddressNumber: userStats.none,
+    walletAddressNumber: userStats.userAccountNumber,
     address1: userStats.address,
     gender: userStats.none,
     address2: userStats.address2,
@@ -109,6 +131,31 @@ const UserDashboard = ({ userStats = [] }) => {
       label: 'Total Number of Pending Transaction',
     },
   ]
+
+  // dataGrid rows
+  let rows
+
+  // check if transInfo.transData is an array
+  if (Array.isArray(transInfo.transData)) {
+    rows = transInfo.transData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.nene,
+        col3: item.transType,
+        col4: item.none,
+        col5: item.amount,
+        col6: item.fee,
+        col7: item.none,
+        col8: item.none,
+        col9: item.none,
+        col10: item.none,
+        col11: '',
+      }
+    })
+  } else {
+    rows = []
+  }
 
   // ********************************************************************************
   // ********************************************************************************
@@ -208,6 +255,7 @@ const UserDashboard = ({ userStats = [] }) => {
           state={isSuspendAccoutModalOpened}
           setState={setIsSuspendAccountModalOpened}
           buttonLabel="Confirm"
+          onClick={handleSuspenAccount}
         >
           <div>
             <CusLabel>
@@ -344,97 +392,10 @@ const UserDashboard = ({ userStats = [] }) => {
         title={`${userDetails.name}'s Transaction Records`}
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        // hasExportBtn
       />
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const columns = [
@@ -529,29 +490,27 @@ const columns = [
     },
   },
   {
-    field: 'col11',
+    field: 'col9',
     headerName: 'Meter Number',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col9',
+    field: 'col10',
     headerName: 'Date',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col10',
+    field: 'col11',
     headerName: 'Action.',
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
     renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
+      const handleEdit = () => {}
 
       const handleView = e => {
         const api = params.api
@@ -591,16 +550,13 @@ const Avatar = tw.div``
 const AvatarDetails = tw.div`space-y-1 lg:space-y-2.5`
 const UserName = tw.h4`text-xl lg:(text-2xl) tracking-[-0.05em] text-paysure-text-100 leading-7`
 const LastSeen = tw.p`text-xs lg:(text-sm) text-[#A6B7D4] tracking-[-0.05em]`
-const AgentsTerminalAmount = tw.p`text-xs lg:(text-sm) text-[#A6B7D4] tracking-[-0.05em]`
 const ButtonWrapper = tw.div`hidden md:flex items-center space-x-3 lg:(space-x-2.5 hidden) xl:flex`
 const MUIButton = tw(
   Button,
 )`normal-case text-white bg-paysure-100 px-3 py-[13px] rounded-lg hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
 const UserInfoWrapper = tw.div`border-border mt-10 p-6 border rounded-lg`
-// const UserInfoWrapper = tw.div`border-border mt-5 p-6 border rounded-lg w-full lg:(w-1/2 mt-10)`
 const UserGrid = tw.div`grid mt-5 gap-4 lg:(grid-cols-2 mt-10 gap-8)`
-// const UserGrid = tw.div`mt-5 space-y-4 lg:(mt-10 space-y-6)`
 const Label = tw.label`text-light-dark flex items-center tracking-[-0.02em]`
 const LabelAns = tw.p`ml-2.5 text-paysure-text-100`
 const WalletWrapper = tw.div`mt-10 p-4 space-y-1 rounded-xl lg:(py-10 px-8 space-y-4 rounded-[28px])`

@@ -214,7 +214,7 @@ const UserssDashboard = ({ usersStats = [] }) => {
             )
 
           Router.push({
-            pathname: `/users/${thisRow.col1}`,
+            pathname: `/users/${thisRow.col2}`,
             query: { email: thisRow.col4, phone: thisRow.col5 },
           })
         }
