@@ -64,6 +64,8 @@ const SuperAgentsSubDashboard = ({ superAgentData = [] }) => {
         col8: superAgent.dateAdded,
         col9: superAgent.statusStr,
         col10: '',
+        email: superAgent.emailAddress,
+        phone: superAgent.phonePri,
       }
     })
   } else {
@@ -163,6 +165,7 @@ const SuperAgentsSubDashboard = ({ superAgentData = [] }) => {
         title="Super Agents list"
         rows={rows}
         columns={columns}
+        columnVisibilityModel={{ email: false, phone: false }}
       />
     </>
   )
@@ -314,7 +317,10 @@ const columns = [
             c => (thisRow[c.field] = params.getValue(params.id, c.field)),
           )
 
-        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+        Router.push({
+          pathname: `/agents/super_agent/${thisRow.col2}`,
+          query: { email: thisRow.email, phone: thisRow.phone },
+        })
       }
 
       return (
@@ -329,6 +335,18 @@ const columns = [
         </div>
       )
     },
+  },
+  {
+    field: 'email',
+    minWidth: 123,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'phone',
+    minWidth: 123,
+    flex: 1,
+    headerClassName: 'grid-header',
   },
 ]
 
