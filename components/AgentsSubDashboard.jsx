@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
 import { Button } from '@mui/material'
@@ -179,12 +180,11 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
       minWidth: 123,
       flex: 1,
       headerClassName: 'grid-header',
-    },
-    {
-      field: 'email',
-      minWidth: 123,
-      flex: 1,
-      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
     },
     {
       field: 'col10',
@@ -229,9 +229,8 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-
           Router.push({
-            pathname: `/agents/agent/${thisRow.col1}`,
+            pathname: `/agents/agent/${thisRow.col2}`,
             query: { email: thisRow.email, phone: thisRow.phone },
           })
         }
