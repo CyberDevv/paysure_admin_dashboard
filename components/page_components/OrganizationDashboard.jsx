@@ -1,12 +1,14 @@
 import React from 'react'
 import tw from 'twin.macro'
+import CurrencyFormat from 'react-currency-format'
 import { Button, IconButton, Menu, MenuItem } from '@mui/material'
 
 import { EllipsisSVG } from '../SVGIcons'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const UserDashboard = () => {
+const UserDashboard = ({ organizationStats = [] }) => {
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -21,6 +23,33 @@ const UserDashboard = () => {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  // overview data
+  const organizationData = [
+    {
+      amount: (
+        <CurrencyFormat
+          value={organizationStats.transSum}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      title: 'Total Transactions (N)',
+    },
+    {
+      amount: numberFormatter('120'),
+      title: 'Total Completed Transactions',
+    },
+    {
+      amount: numberFormatter('30'),
+      title: 'Total Failed Transactions',
+    },
+    {
+      amount: numberFormatter('72'),
+      title: 'Total Pending Transactions',
+    },
+  ]
 
   return (
     <Layout goBack>
@@ -77,13 +106,24 @@ const UserDashboard = () => {
       {/* Wallet balance */}
       <WalletWrapper className="bgSVG">
         <P className="font-500">Total Wallet Balance</P>
-        <Amount className="font-500">350034</Amount>
+        <Amount className="font-500">
+          <CurrencyFormat
+            value={organizationStats.walletBalance}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        </Amount>
       </WalletWrapper>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={organizationData} />
 
       {/* Services */}
-      <OverviewCardSection title="Services" data={agencyOveriewData} onClick= "/organizations/1/service/1" />
+      <OverviewCardSection
+        title="Services"
+        data={servicesData}
+        onClick="/organizations/1/service/1"
+      />
 
       {/* DataGrid */}
       <DataGridViewTemp
@@ -92,27 +132,23 @@ const UserDashboard = () => {
         title="Transaction Records"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        hasFilter
-        hasSort
-        // TODO: has additional filter action
       />
     </Layout>
   )
 }
 
 // FIXME: Temp data (should be replaced with real data)
-const agencyOveriewData = [
+const servicesData = [
   {
-    amount: 55102430,
+    amount: numberFormatter(55102430),
     label: 'POS Withdrawal',
   },
   {
-    amount: 1350,
+    amount: numberFormatter(1350),
     label: 'Transfer',
   },
   {
-    amount: 10,
+    amount: numberFormatter(10),
     label: 'BVN',
   },
 ]
@@ -121,22 +157,6 @@ const agencyOveriewData = [
 const userDetails = {
   name: 'Apple',
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const rows = [
@@ -286,26 +306,6 @@ const columns = [
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '240',
-    title: 'Total Transactions (N)',
-  },
-  {
-    amount: '120',
-    title: 'Total Completed Transactions',
-  },
-  {
-    amount: '30',
-    title: 'Total Failed Transactions',
-  },
-  {
-    amount: '72',
-    title: 'Total Pending Transactions',
   },
 ]
 

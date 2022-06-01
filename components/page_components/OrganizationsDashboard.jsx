@@ -1,20 +1,23 @@
 import React from 'react'
 import axios from 'axios'
+import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
 import { toast } from 'react-toastify'
 import { Button } from '@mui/material'
+import CurrencyFormat from 'react-currency-format'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { DataGridViewTemp, HomeDisplayCard } from '..'
+import numberFormatter from '../../utils/numberFormatter'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { fetchPartnerClass } from '../../features/partnerClassSlice'
 
-const OrganizationsDashboard = ({ organizationList = [] }) => {
-  const { trxInfo = [] } = organizationList
+const OrganizationsDashboard = ({ organizaionStats = [] }) => {
+  const { partnerData = [] } = organizaionStats
 
   const dispatch = useDispatch()
 
@@ -39,15 +42,15 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
 
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
-  const [firstName, setFirstName] = React.useState('Sapa')
-  const [lastName, setLastName] = React.useState('United')
-  const [email, setEmail] = React.useState('sapaunited@gmail.com')
-  const [phone, setPhone] = React.useState('+2348072534657')
-  const [domainName, setDomainName] = React.useState('https://sapa.com')
+  const [firstName, setFirstName] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
+  const [email, setEmail] = React.useState('')
+  const [phone, setPhone] = React.useState('')
+  const [domainName, setDomainName] = React.useState('')
   const [partnerClass, setPartnerClass] = React.useState('')
-  const [businessName, setBusinessName] = React.useState('Sapa and co.')
+  const [businessName, setBusinessName] = React.useState('')
   const [contactemailaddress, setContactemailaddress] =
-    React.useState('sapa@gmail.com')
+    React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
@@ -112,12 +115,11 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
 
   // rows
   let rows
-  // check if providerList is an array
-  if (Array.isArray(trxInfo)) {
-    rows = trxInfo.map((organization, index) => {
-      console.log('>>>> ' + organization)
+  // check if partnerData is an array
+  if (Array.isArray(partnerData)) {
+    rows = partnerData.map((organization, index) => {
       return {
-        id: index,
+        id: organization.tid,
         col1: index + 1,
         col2: organization.fullName,
         col3: organization.none,
@@ -126,7 +128,7 @@ const OrganizationsDashboard = ({ organizationList = [] }) => {
         col6: organization.none,
         col7: organization.none,
         col8: organization.none,
-        col9: organization.none,
+        col9: organization.createdDate,
         col10: '',
       }
     })
@@ -236,6 +238,9 @@ const columns = [
     minWidth: 71,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
   },
   {
     field: 'col2',
@@ -250,11 +255,14 @@ const columns = [
     minWidth: 236,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span tw="truncate">{params.row.col3}</span>
+    },
   },
   {
     field: 'col4',
-    headerName: 'Services',
-    minWidth: 103,
+    headerName: 'No. of Services',
+    minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
@@ -271,13 +279,33 @@ const columns = [
     minWidth: 150,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col7',
-    headerName: 'Transactions{N}',
+    headerName: 'Transactions(N)',
     minWidth: 144,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col7}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col8',
@@ -286,20 +314,26 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
     disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col8}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
   },
   {
     field: 'col9',
     headerName: 'Date Added',
-    minWidth: 123,
+    minWidth: 183,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
+    },
   },
   {
     field: 'col10',
@@ -323,7 +357,7 @@ const columns = [
             c => (thisRow[c.field] = params.getValue(params.id, c.field)),
           )
 
-        Router.push(`/organizations/${thisRow.col1}`)
+        Router.push(`/organizations/${thisRow.col2}`)
       }
 
       return (
@@ -344,20 +378,20 @@ const columns = [
 // FIXME: Temp data (should be replaced with real data)
 const temporalData = [
   {
-    amount: '194',
+    amount: numberFormatter(194),
     title: 'Organizations',
     link: '/organizations/organizations_list',
   },
   {
-    amount: '143843938',
+    amount: numberFormatter('143843938'),
     title: 'Total Transactions',
   },
   {
-    amount: '109313',
+    amount: numberFormatter('109313'),
     title: 'Completed Transactions',
   },
   {
-    amount: '132',
+    amount: numberFormatter('132'),
     title: 'Pending Transactions',
   },
 ]

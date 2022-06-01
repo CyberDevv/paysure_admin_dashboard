@@ -19,6 +19,7 @@ import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = ({ providerData, providerName }) => {
+
   const config = {
     reference: new Date().getTime().toString(),
     email: 'email@gmail.com',

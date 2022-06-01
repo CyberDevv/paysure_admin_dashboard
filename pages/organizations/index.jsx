@@ -1,11 +1,10 @@
 import React from 'react'
 import moment from 'moment'
 import Head from 'next/head'
-import nookies from 'nookies'
 import Router from 'next/router'
 import useSWR, { SWRConfig } from 'swr'
-import { destroyCookie } from 'nookies'
 import { useDispatch } from 'react-redux'
+import nookies, { destroyCookie } from 'nookies'
 
 import { logout } from '../../features/userSlice'
 import { OrganizationsDashboard } from '../../components'
@@ -14,26 +13,27 @@ import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 export async function getServerSideProps(ctx) {
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
-  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/organizations/organizationList
-  const organizationList = await makeEncryptedRequest(
+  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/organizations/organizaionStats
+  const organizaionStats = await makeEncryptedRequest(
     {
-      // fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      // toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
-      // status: '0',
+      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate: moment().format('YYYY-MM-DD 23:59:59'),
+      status: 0,
+      searchKey: 'ABU',
       pageId: 1,
       pageSize: 5,
     },
-    'paysure/api/processor/list-partners',
+    'paysure/api/processor/list-partner-stats',
     'POST',
     USER_AUTHORIZATION,
   )
 
   return {
     props: {
-      status: organizationList ? organizationList.status : 500,
+      status: organizaionStats ? organizaionStats.status : 500,
       fallback: {
-        '/api/organizations/organizationList': organizationList
-          ? organizationList.data
+        '/api/organizations/organizaionStats': organizaionStats
+          ? organizaionStats.data
           : [],
       },
     },
@@ -46,10 +46,7 @@ function OrganizationPage() {
     return res.json()
   }
 
-  const { data } = useSWR('/api/organizations/organizationList', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data } = useSWR('/api/organizations/organizaionStats', fetcher)
 
   return (
     <>
@@ -57,7 +54,7 @@ function OrganizationPage() {
         <title>Organizations | Paysure</title>
       </Head>
 
-      <OrganizationsDashboard organizationList={data} />
+      <OrganizationsDashboard organizaionStats={data} />
     </>
   )
 }
