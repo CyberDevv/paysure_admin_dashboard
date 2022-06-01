@@ -82,7 +82,7 @@ const UserDashboard = ({ providerData, providerName }) => {
       .post('/api/providers/activate', {
         providerName,
       })
-      .then((res) => {
+      .then(res => {
         console.log('>>>>>>>>>', res)
         toast.success('Provider activated successfully')
         setIsLoading(false)
