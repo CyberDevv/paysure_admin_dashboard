@@ -49,8 +49,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
   const [domainName, setDomainName] = React.useState('')
   const [partnerClass, setPartnerClass] = React.useState('')
   const [businessName, setBusinessName] = React.useState('')
-  const [contactemailaddress, setContactemailaddress] =
-    React.useState('')
+  const [contactemailaddress, setContactemailaddress] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
