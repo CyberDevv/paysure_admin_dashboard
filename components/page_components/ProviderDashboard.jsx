@@ -2,7 +2,6 @@ import React from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
-import Router from 'next/router'
 import uid from 'generate-unique-id'
 import { toast } from 'react-toastify'
 import OtpInput from 'react-otp-input'
@@ -67,13 +66,31 @@ const UserDashboard = ({ providerData, providerName }) => {
       })
       .then(() => {
         toast.success('Provider deactivated successfully')
-        Router.push('/providers/providers_list')
         setIsLoading(false)
       })
       .catch(err => {
         setIsLoading(false)
         console.log('Error =====> ', err)
         toast.error('Error deactivating provider, please try again.')
+      })
+  }
+
+  const handleActivate = () => {
+    setIsLoading(true)
+
+    axios
+      .post('/api/providers/activate', {
+        providerName,
+      })
+      .then((res) => {
+        console.log('>>>>>>>>>', res)
+        toast.success('Provider activated successfully')
+        setIsLoading(false)
+      })
+      .catch(err => {
+        setIsLoading(false)
+        console.log('Error =====> ', err)
+        toast.error('Error activating provider, please try again.')
       })
   }
 
@@ -231,7 +248,13 @@ const UserDashboard = ({ providerData, providerName }) => {
               }}
             >
               <MenuItem onClick={handleClose}>
-                <button onClick={handleDeactivate}>Deactivate</button>
+                {providerData.providerStatus.toLowerCase() === 'active' && (
+                  <button onClick={handleDeactivate}>Deactivate</button>
+                )}
+
+                {providerData.providerStatus.toLowerCase() !== 'active' && (
+                  <button onClick={handleActivate}>Activate</button>
+                )}
               </MenuItem>
             </Menu>
           </div>
@@ -239,13 +262,27 @@ const UserDashboard = ({ providerData, providerName }) => {
 
         {/* Action Buttons */}
         <ButtonWrapper>
-          <MUIButton
-            loading={isLoading}
-            onClick={handleDeactivate}
-            tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
-          >
-            Deactivate
-          </MUIButton>
+          {/* Button to deactivate provider */}
+          {providerData.providerStatus.toLowerCase() === 'active' && (
+            <MUIButton
+              loading={isLoading}
+              onClick={handleDeactivate}
+              tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
+            >
+              Deactivate
+            </MUIButton>
+          )}
+
+          {/* Button to activate provider */}
+          {providerData.providerStatus.toLowerCase() !== 'active' && (
+            <MUIButton
+              loading={isLoading}
+              onClick={handleActivate}
+              tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)"
+            >
+              Activate
+            </MUIButton>
+          )}
         </ButtonWrapper>
       </Header>
       {/* Wallet balance */}

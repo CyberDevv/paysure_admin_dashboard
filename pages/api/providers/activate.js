@@ -12,7 +12,7 @@ export default async function providerStats(req, res) {
       {
         providerName,
       },
-      'paysure/api/processor/disable-provider',
+      'paysure/api/processor/enable-provider',
       'POST',
       USER_AUTHORIZATION,
     )
