@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
+import { useSWRConfig } from 'swr'
 import uid from 'generate-unique-id'
 import { toast } from 'react-toastify'
 import OtpInput from 'react-otp-input'
@@ -19,6 +20,7 @@ import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = ({ providerData, providerName }) => {
+  const { mutate } = useSWRConfig()
 
   const config = {
     reference: new Date().getTime().toString(),
@@ -66,6 +68,7 @@ const UserDashboard = ({ providerData, providerName }) => {
         providerName,
       })
       .then(() => {
+        mutate(`/api/providers/${providerName}`)
         toast.success('Provider deactivated successfully')
         setIsLoading(false)
       })
@@ -83,8 +86,8 @@ const UserDashboard = ({ providerData, providerName }) => {
       .post('/api/providers/activate', {
         providerName,
       })
-      .then((res) => {
-        console.log('>>>>>>>>>', res)
+      .then(() => {
+        mutate(`/api/providers/${providerName}`)
         toast.success('Provider activated successfully')
         setIsLoading(false)
       })

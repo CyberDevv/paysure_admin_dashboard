@@ -26,8 +26,7 @@ export async function getServerSideProps(ctx) {
 
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
-  // TODO: create api route for paysure/api/processor/each-provider
-  const providerStats = await makeEncryptedRequest(
+   const providerStats = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
       fromDate: fromDate,
