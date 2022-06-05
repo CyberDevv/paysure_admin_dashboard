@@ -9,7 +9,7 @@ export default async function providerList(req, res) {
   try {
     const response = await makeEncryptedRequest(
       {
-        fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+        fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
         toDate: moment().format('YYYY-MM-DD 23:59:59'),
         pageId: 1,
         pageSize: 5,

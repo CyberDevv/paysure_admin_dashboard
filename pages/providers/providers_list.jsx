@@ -82,6 +82,8 @@ function ProvidersListPage() {
         page={page}
         searchKey={searchKey}
         status={status}
+        toDate={toDate}
+        fromDate={fromDate}
       />
     </>
   )

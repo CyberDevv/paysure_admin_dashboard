@@ -7,16 +7,18 @@ import { toast } from 'react-toastify'
 import CurrencyFormat from 'react-currency-format'
 
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
-import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import { DataGridViewTemp, SearchBar, FilterBox, DatRangePickerAndOthers } from '..'
 
 const ProvidersListDashboard = ({
   providersList = [],
   page,
   searchKey,
   status,
+  fromDate,
+  toDate
 }) => {
   const { providerInfo = [] } = providersList
   // useState hook
@@ -27,6 +29,10 @@ const ProvidersListDashboard = ({
   const [servicesCount, setServicesCount] = React.useState('')
   const [tid, setTid] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
+  const [value, setValue] = React.useState([
+    fromDate ? fromDate : moment().subtract(30, 'days'),
+    toDate ? toDate : new Date(),
+  ])
 
   // rows
   let rows
@@ -275,14 +281,17 @@ const ProvidersListDashboard = ({
         page={page}
         recordCount={providersList.totalRecords}
         pagination={true}
-        className={tw`space-y-4 md:(flex space-y-0 space-x-4) xl:max-w-xl`}
+        className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
-        <SearchBar value={searchKey} />
-        <FilterBox
-          label="Showing"
-          dropdownData={statusDataArray}
-          statusValue={status}
-        />
+        <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+          <SearchBar value={searchKey} />
+          <FilterBox
+            label="Showing"
+            dropdownData={statusDataArray}
+            statusValue={status}
+          />
+        </div>
+        <DatRangePickerAndOthers value={value} setValue={setValue} />
       </DataGridViewTemp>
 
       {/* Edit Provider modal */}
