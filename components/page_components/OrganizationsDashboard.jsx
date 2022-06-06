@@ -249,23 +249,23 @@ const columns = [
     flex: 1,
     headerClassName: 'grid-header',
   },
-  {
-    field: 'col3',
-    headerName: 'Services',
-    minWidth: 236,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return <span tw="truncate">{params.row.col3}</span>
-    },
-  },
-  {
-    field: 'col4',
-    headerName: 'No. of Services',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
+  // {
+  //   field: 'col3',
+  //   headerName: 'Services',
+  //   minWidth: 236,
+  //   flex: 1,
+  //   headerClassName: 'grid-header',
+  //   renderCell: params => {
+  //     return <span tw="truncate">{params.row.col3}</span>
+  //   },
+  // },
+  // {
+  //   field: 'col4',
+  //   headerName: 'No. of Services',
+  //   minWidth: 153,
+  //   flex: 1,
+  //   headerClassName: 'grid-header',
+  // },
   {
     field: 'col5',
     headerName: 'No. of Transactions',
