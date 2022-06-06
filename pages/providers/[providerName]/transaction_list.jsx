@@ -22,6 +22,8 @@ export async function getServerSideProps(ctx) {
       toDate = moment().format('YYYY-MM-DD 23:59:59'),
       page = 1,
       pageSize = 10,
+      status = 0,
+      searchKey = '',
     },
   } = ctx
 
@@ -35,6 +37,8 @@ export async function getServerSideProps(ctx) {
       pageId: page,
       pageSize: pageSize,
       provider: providerName,
+      status: status,
+      searchKey: searchKey,
     },
     'paysure/api/processor/each-provider',
     'POST',
@@ -45,7 +49,7 @@ export async function getServerSideProps(ctx) {
     props: {
       status: providerStats ? providerStats.status : 500,
       fallback: {
-        [`/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`]:
+        [`/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&status=${status}&search=${searchKey}`]:
           providerStats ? providerStats.data : [],
       },
     },
@@ -60,6 +64,8 @@ function ProviderListPage() {
     toDate = moment().format('YYYY-MM-DD 23:59:59'),
     page = 1,
     pageSize = 10,
+    status = 0,
+    searchKey = '',
   } = router.query
 
   async function fetcher(url) {
@@ -68,7 +74,7 @@ function ProviderListPage() {
   }
 
   const { data } = useSWR(
-    `/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
+    `/api/providers/${providerName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&status=${status}&search=${searchKey}`,
     fetcher,
   )
 
@@ -84,6 +90,8 @@ function ProviderListPage() {
         toDate={toDate}
         fromDate={fromDate}
         page={page}
+        searchKey={searchKey}
+        status={status}
       />
     </>
   )

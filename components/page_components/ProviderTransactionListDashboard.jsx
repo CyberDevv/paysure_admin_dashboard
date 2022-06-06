@@ -12,6 +12,8 @@ const ProviderTransactionListDashboard = ({
   toDate,
   fromDate,
   page,
+  status,
+  searchKey,
 }) => {
   const { providerTrxData = [] } = providerData
 
@@ -198,12 +200,35 @@ const ProviderTransactionListDashboard = ({
   }
 
   // Array containing all the services
+  const servicesList = [
+    'W2W',
+    'WTP',
+    'BTW',
+    'DOW',
+    'DATA',
+    'WTB',
+    'FEE',
+    'POS_NTX',
+    'AIRTIME',
+    'POS_DR',
+    'POS_CR',
+    'BILL_PAY',
+    'COMM',
+    'WTPROVIDUS',
+    'SA_CREDIT',
+    'SA_DEBIT',
+    'CWAA',
+    'FTAA',
+    'BILL_PAY_CARD',
+    'SETTLEMENT',
+  ]
+
   const servicesDataArray = [
     {
       value: 'all',
       label: 'All',
     },
-    ...services.map(item => {
+    ...servicesList.map(item => {
       return {
         value: item,
         label: item,
@@ -211,18 +236,18 @@ const ProviderTransactionListDashboard = ({
     }),
   ]
 
-  const status = [
+  const statusDataArray = [
     {
-      value: 'all',
+      value: '0',
       label: 'All',
     },
     {
-      value: 'accepted',
-      label: 'Accepted',
+      value: '1',
+      label: 'Successful',
     },
     {
-      value: 'pending',
-      label: 'Pending',
+      value: '-1',
+      label: 'Failed',
     },
   ]
 
@@ -242,8 +267,12 @@ const ProviderTransactionListDashboard = ({
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
         <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
-          <FilterBox label="Status" dropdownData={status} />
-          <FilterBox label="Services" dropdownData={servicesDataArray} />
+          <FilterBox
+            label="Status"
+            dropdownData={statusDataArray}
+            statusValue={status}
+          />
+          <FilterBox label="Services" dropdownData={servicesDataArray} statusValue={searchKey} />
         </div>
         <DatRangePickerAndOthers value={value} setValue={setValue} />
       </DataGridViewTemp>

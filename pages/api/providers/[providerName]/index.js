@@ -13,6 +13,8 @@ export default async function providerStats(req, res) {
     toDate = moment().format('YYYY-MM-DD 23:59:59'),
     page = 1,
     pageSize = 5,
+    status = 0,
+    search = '',
   } = req.query
 
   try {
@@ -24,6 +26,8 @@ export default async function providerStats(req, res) {
         pageId: page,
         pageSize: pageSize,
         provider: providerName,
+        status: status,
+        searchKey: search,
       },
       'paysure/api/processor/each-provider',
       'POST',

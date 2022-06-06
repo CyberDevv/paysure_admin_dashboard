@@ -6,15 +6,19 @@ import { InputAdornment, MenuItem, TextField } from '@mui/material'
 
 const FilterBox = ({ dropdownData = [], label, statusValue = '' }) => {
   const router = useRouter()
-  
+
   // UseState hook
   const [selectedDrop, setSelectedDrop] = React.useState('')
 
   // select dropdown value that has same value as statusValue
   React.useEffect(() => {
-    const selectedDropdown = dropdownData.find(
-      item => Number(item.value) === Number(statusValue),
-    )
+    const selectedDropdown = dropdownData.find(item => {
+      if (statusValue === '') {
+        return dropdownData[0]
+      } else {
+        return item.value === statusValue
+      }
+    })
 
     if (selectedDropdown) {
       setSelectedDrop(selectedDropdown.value)
@@ -25,13 +29,23 @@ const FilterBox = ({ dropdownData = [], label, statusValue = '' }) => {
   const handleDropdownSelected = event => {
     setSelectedDrop(event.target.value)
 
-    router.push({
-      pathname: router.pathname,
-      query: {
-        ...router.query,
-        status: event.target.value,
-      },
-    })
+    label === 'Status' &&
+      router.push({
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          status: event.target.value,
+        },
+      })
+
+    label === 'Services' &&
+      router.push({
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          searchKey: event.target.value === 'all' ? '' : event.target.value,
+        },
+      })
   }
 
   return (
