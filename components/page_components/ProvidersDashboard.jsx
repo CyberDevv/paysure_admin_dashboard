@@ -64,39 +64,39 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
       ),
       label: 'Total Transactions',
     },
-    {
-      amount: (
-        <CurrencyFormat
-          value={providerStats.sumTotalData}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      ),
-      label: 'Data',
-    },
-    {
-      amount: (
-        <CurrencyFormat
-          value={70000}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      ),
-      label: 'Transfer',
-    },
-    {
-      amount: (
-        <CurrencyFormat
-          value={70000}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      ),
-      label: 'Airtime',
-    },
+    // {
+    //   amount: (
+    //     <CurrencyFormat
+    //       value={providerStats.sumTotalData}
+    //       displayType={'text'}
+    //       thousandSeparator={true}
+    //       prefix={'₦'}
+    //     />
+    //   ),
+    //   label: 'Data',
+    // },
+    // {
+    //   amount: (
+    //     <CurrencyFormat
+    //       value={70000}
+    //       displayType={'text'}
+    //       thousandSeparator={true}
+    //       prefix={'₦'}
+    //     />
+    //   ),
+    //   label: 'Transfer',
+    // },
+    // {
+    //   amount: (
+    //     <CurrencyFormat
+    //       value={70000}
+    //       displayType={'text'}
+    //       thousandSeparator={true}
+    //       prefix={'₦'}
+    //     />
+    //   ),
+    //   label: 'Airtime',
+    // },
   ]
 
   // rows
