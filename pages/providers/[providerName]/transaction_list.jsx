@@ -78,7 +78,7 @@ function ProviderListPage() {
     fetcher,
   )
 
-  http: return (
+  return (
     <>
       <Head>
         <title>{providerName} - Transaction Record | Paysure</title>
