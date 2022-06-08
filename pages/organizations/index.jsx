@@ -16,10 +16,10 @@ export async function getServerSideProps(ctx) {
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/organizations/organizaionStats
   const organizaionStats = await makeEncryptedRequest(
     {
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
       toDate: moment().format('YYYY-MM-DD 23:59:59'),
-      status: 0,
-      searchKey: 'ABU',
+      status: 1,
+      searchKey: '',
       pageId: 1,
       pageSize: 5,
     },

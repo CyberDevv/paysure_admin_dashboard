@@ -49,8 +49,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
   const [domainName, setDomainName] = React.useState('')
   const [partnerClass, setPartnerClass] = React.useState('')
   const [businessName, setBusinessName] = React.useState('')
-  const [contactemailaddress, setContactemailaddress] =
-    React.useState('')
+  const [contactemailaddress, setContactemailaddress] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
@@ -122,20 +121,146 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
         id: organization.tid,
         col1: index + 1,
         col2: organization.fullName,
-        col3: organization.none,
+        col3: organization.transCount,
         col4: organization.none,
-        col5: organization.none,
-        col6: organization.none,
-        col7: organization.none,
-        col8: organization.none,
-        col9: organization.createdDate,
-        col10: '',
+        col5: organization.transSum,
+        col6: organization.charges,
+        col7: organization.createdDate,
+        col8: '',
       }
     })
   } else {
     rows = []
   }
 
+
+const columns = [
+  {
+    field: 'col1',
+    headerName: 'S/N',
+    minWidth: 71,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
+  },
+  {
+    field: 'col2',
+    headerName: 'Name of Organisation',
+    minWidth: 227,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'col3',
+    headerName: 'No. of Transactions',
+    minWidth: 176,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'col4',
+    headerName: 'Wallet Balance',
+    minWidth: 150,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col4}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
+  },
+  {
+    field: 'col5',
+    headerName: 'Transactions(N)',
+    minWidth: 144,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col5}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
+  },
+  {
+    field: 'col6',
+    headerName: 'Charges',
+    minWidth: 153,
+    flex: 1,
+    headerClassName: 'grid-header',
+    disableClickEventBubbling: true,
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.col6}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
+  },
+  {
+    field: 'col7',
+    headerName: 'Date Added',
+    minWidth: 183,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+    },
+  },
+  {
+    field: 'col8',
+    headerName: 'Action.',
+    minWidth: 100,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/organizations/${thisRow.col2}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <button onClick={handleEdit}>
+            <EditActionSVG />
+          </button>
+
+          <button onClick={handleView}>
+            <ViewActionSVG />
+          </button>
+        </div>
+      )
+    },
+  },
+]
+  
   return (
     <Layout title="Organizations">
       <div css={[tw`flex justify-between items-center w-full`]}>
@@ -229,151 +354,6 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return <span>{params.row.col1}.</span>
-    },
-  },
-  {
-    field: 'col2',
-    headerName: 'Name of Organisation',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  // {
-  //   field: 'col3',
-  //   headerName: 'Services',
-  //   minWidth: 236,
-  //   flex: 1,
-  //   headerClassName: 'grid-header',
-  //   renderCell: params => {
-  //     return <span tw="truncate">{params.row.col3}</span>
-  //   },
-  // },
-  // {
-  //   field: 'col4',
-  //   headerName: 'No. of Services',
-  //   minWidth: 153,
-  //   flex: 1,
-  //   headerClassName: 'grid-header',
-  // },
-  {
-    field: 'col5',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col6}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col7',
-    headerName: 'Transactions(N)',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col7}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col8',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col8}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 183,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
-    },
-  },
-  {
-    field: 'col10',
-    headerName: 'Action.',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        Router.push(`/organizations/${thisRow.col2}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
-
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
-        </div>
-      )
-    },
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const temporalData = [
