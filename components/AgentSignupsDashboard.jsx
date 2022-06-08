@@ -2,116 +2,48 @@ import React from 'react'
 import tw from 'twin.macro'
 import Router from 'next/router'
 
-import { DataGridViewTemp, HomeDisplayCard, DatRangePickerAndOthers } from '.'
 import { Print, ViewActionSVG } from './SVGIcons'
+import { DataGridViewTemp, HomeDisplayCard } from '.'
+import numberFormatter from '../utils/numberFormatter'
 
-const SuperAgentSignupsDashboard = () => {
+const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
+  // data overview array
+  const overviewData = [
+    {
+      amount: numberFormatter(signupsList.newAgents),
+      title: 'New',
+    },
+    {
+      amount: numberFormatter(signupsList.approvedAgents),
+      title: 'Approved',
+    },
+    {
+      amount: numberFormatter(signupsList.rejectedAgents),
+      title: 'Rejected',
+    },
+    {
+      amount: numberFormatter(signupsList.pendingAgents),
+      title: 'Pending',
+    },
+  ]
+
   return (
     <>
       <Ttile className="font-bold">Agents</Ttile>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={overviewData} />
+
       <DataGridViewTemp
         limited
         link="/agents/agents_list"
         title="Agents list"
-        rows={rows}
+        rows={[]}
         columns={columns}
-        dropdownData={dropdownData}
-        hasSearch
-        hasFilter
-        hasSort
-        hasExportBtn
-        // TODO: has another filtering button
-      >
-        <DatRangePickerAndOthers />
-      </DataGridViewTemp>
+      />
     </>
   )
 }
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'ETRANSACT',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'KUDA',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
+
 // FIXME: Temp data (should be replaced with real data)
 const columns = [
   {
@@ -120,6 +52,9 @@ const columns = [
     minWidth: 71,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
   },
   {
     field: 'col2',
@@ -137,7 +72,7 @@ const columns = [
   },
   {
     field: 'col4',
-    headerName: '(219) 555-0114',
+    headerName: 'Phone Number',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
@@ -164,14 +99,17 @@ const columns = [
     headerClassName: 'grid-header',
   },
   {
-    field: 'col9',
+    field: 'col8',
     headerName: 'Date Added',
     minWidth: 160,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{moment(params.row.col8).format('MMM DD, YYYY HH:mm')}</span>
+    },
   },
   {
-    field: 'col10',
+    field: 'col9',
     headerName: 'Status',
     minWidth: 120,
     flex: 1,
@@ -180,16 +118,19 @@ const columns = [
       return (
         <span
           css={[
-            tw`bg-[#F1F1F5] text-[#A6B7D4] uppercase text-[10px] p-1 rounded`,
+            tw`uppercase text-[10px] p-1 rounded`,
+            params.row.col9.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 `
+              : tw`bg-[#FDF6EF] text-[#EDA95A] `,
           ]}
         >
-          {params.row.col8}
+          {params.row.col9}
         </span>
       )
     },
   },
   {
-    field: 'col11',
+    field: 'col10',
     headerName: 'Actions',
     minWidth: 120,
     flex: 1,
@@ -225,25 +166,6 @@ const columns = [
         </div>
       )
     },
-  },
-]
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '32213',
-    title: 'New',
-  },
-  {
-    amount: '1324',
-    title: 'Approved',
-  },
-  {
-    amount: '10',
-    title: 'Rejected',
-  },
-  {
-    amount: '3',
-    title: 'Pending',
   },
 ]
 

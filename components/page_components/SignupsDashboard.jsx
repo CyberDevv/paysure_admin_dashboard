@@ -68,10 +68,10 @@ export default function SignupsDashboard({signupsList = []}) {
           <SuperAgentSignupsDashboard signupsList={signupsList} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
-          <AgentSignupsDashboard />
+          <AgentSignupsDashboard signupsList={signupsList} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={2}>
-          <UsersSignupsDashboard />
+          <UsersSignupsDashboard signupsList={signupsList} />
         </TabPanel>
       </Box>
     </Layout>
