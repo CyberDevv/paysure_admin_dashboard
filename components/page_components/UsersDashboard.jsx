@@ -176,7 +176,9 @@ const UserssDashboard = ({ usersStats = [] }) => {
       renderCell: params => {
         return (
           <span>
-            {params.row.col8 ? moment(params.row.col8).format('MMM DD, YYYY HH:mm') : '-'}
+            {params.row.col8
+              ? moment(params.row.col8).format('MMM DD, YYYY HH:mm')
+              : '-'}
           </span>
         )
       },
