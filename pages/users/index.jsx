@@ -44,10 +44,7 @@ function UsersPage() {
   }
 
   // TODO: create url in api route for /api/users/usersStats
-  const { data } = useSWR('/api/users/usersStats', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data } = useSWR('/api/users/usersStats', fetcher)
 
   return (
     <>

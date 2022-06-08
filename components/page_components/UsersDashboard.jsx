@@ -175,7 +175,9 @@ const UserssDashboard = ({ usersStats = [] }) => {
       headerClassName: 'grid-header',
       renderCell: params => {
         return (
-          <span>{moment(params.row.col8).format('MMM DD, YYYY HH:mm')}</span>
+          <span>
+            {params.row.col8 ? moment(params.row.col8).format('MMM DD, YYYY HH:mm') : '-'}
+          </span>
         )
       },
     },
