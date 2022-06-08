@@ -197,7 +197,7 @@ const OrganizationsListDashboard = ({
       label: 'Inactive',
     },
   ]
-  
+
   return (
     <Layout goBack>
       <DataGridViewTemp
