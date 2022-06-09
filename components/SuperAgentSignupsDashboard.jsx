@@ -37,12 +37,12 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
       return {
         id: item.tid,
         col1: index + 1,
-        col2: item.fullName,
+        col2: [item.lastName, item.firstName],
         col3: item.emailAddress,
         col4: item.phonePri,
-        col5: item.none,
-        col6: item.none,
-        col7: item.none,
+        col5: item.bvn,
+        col6: item.fullName,
+        col7: item.address1,
         col8: item.dateAdded,
         col9: item.statusStr,
         col10: '',
@@ -87,6 +87,15 @@ const columns = [
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <div tw="space-x-1">
+          {params.row.col2.map((item, index) => {
+            return <span key={index}>{item}</span>
+          })}
+        </div>
+      )
+    },
   },
   {
     field: 'col3',
