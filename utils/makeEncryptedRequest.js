@@ -10,6 +10,8 @@ export async function makeEncryptedRequest(data, url, method, token) {
         toJibrish: JSON.stringify(data),
       }
 
+      console.log(toBeProcessedData)
+
       // request header
       const REQ_HEADER = {
         headers: {

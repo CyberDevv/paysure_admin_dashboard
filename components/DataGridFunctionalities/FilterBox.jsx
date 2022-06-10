@@ -29,14 +29,15 @@ const FilterBox = ({ dropdownData = [], label, statusValue = '' }) => {
   const handleDropdownSelected = event => {
     setSelectedDrop(event.target.value)
 
-    label === 'Status' &&
-      router.push({
-        pathname: router.pathname,
-        query: {
-          ...router.query,
-          status: event.target.value,
-        },
-      })
+    label === 'Status' ||
+      (label === 'Showing' &&
+        router.push({
+          pathname: router.pathname,
+          query: {
+            ...router.query,
+            status: event.target.value,
+          },
+        }))
 
     label === 'Services' &&
       router.push({

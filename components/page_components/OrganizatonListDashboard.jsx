@@ -40,7 +40,7 @@ const OrganizationsListDashboard = ({
     rows = partnerData.map((organization, index) => {
       return {
         id: organization.tid,
-        col1: index + 1,
+        col1: (page - 1) * 10 + (index + 1),
         col2: organization.fullName,
         col3: organization.transCount,
         col4: organization.none,
