@@ -29,10 +29,6 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
-  console.log(
-    '🚀 ~ file: index.jsx ~ line 31 ~ getServerSideProps ~ terminalStats',
-    terminalStats,
-  )
 
   return {
     props: {
@@ -51,6 +47,7 @@ function TerminalPage() {
   }
 
   const { data } = useSWR('/api/terminals/terminalStats', fetcher)
+  console.log("🚀 ~ file: index.jsx ~ line 54 ~ TerminalPage ~ data", data)
 
   return (
     <>
