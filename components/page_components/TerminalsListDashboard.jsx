@@ -18,7 +18,7 @@ import {
 } from '..'
 
 const TerminalsListDashboard = ({
-  terminalsList =[],
+  terminalsList = [],
   page,
   searchKey,
   status,
