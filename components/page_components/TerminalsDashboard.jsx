@@ -224,7 +224,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
       title: 'Total Number of Active Terminals',
     },
     {
-      amount: numberFormatter(terminalStats.inactiveTerminals),
+      amount: numberFormatter(terminalStats.inActiveTerminals),
       title: 'Total Number of Inactive Terminals',
     },
   ]

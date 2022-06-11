@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
+import CurrencyFormat from 'react-currency-format'
 import { Button, IconButton, Chip, Menu, MenuItem } from '@mui/material'
 
 import { DataGridViewTemp, HomeDisplayCard } from '..'
@@ -8,8 +9,8 @@ import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { UserProfileSVG, Print, EllipsisSVG, ViewActionSVG } from '../SVGIcons'
 
-const TerminalDashboard = ({ terminalStats = [] }) => {
-  const { TerminalTransactionsStats = [] } = terminalStats
+const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
+  const { TerminalTransactionsStats = [], transData = [] } = terminalStats
 
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -25,17 +26,13 @@ const TerminalDashboard = ({ terminalStats = [] }) => {
 
   const handSetIsSuspendModalOpened = () => setIsSuspendAccountModalOpened(true)
 
-  const handleSetNote = e => {
-    setNote(e.target.value)
-  }
-
   /* A constant that holds the user details. */
   const userDetails = {
     agent: terminalStats.agentName,
     superAgent: terminalStats.none,
     serialNumber: terminalStats.serialNumber,
     plan: terminalStats.plan,
-    bank: terminalStats.none,
+    bank: terminalStats.bank,
     merchant: terminalStats.merchantName,
     nibbsRank: `${terminalStats.nibssRate}%`,
     lastTransaction: terminalStats.lastTransaction
@@ -63,6 +60,152 @@ const TerminalDashboard = ({ terminalStats = [] }) => {
     },
   ]
 
+  // rows
+  let rows
+  // check if transData is an array
+  if (Array.isArray(transData)) {
+    rows = transData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.transType,
+        col3: item.none,
+        col4: item.amount,
+        col5: item.rrn,
+        col6: item.none,
+        col7: item.transDate,
+        col8: item.status,
+        col9: '',
+      }
+    })
+  } else {
+    rows = []
+  }
+
+  // columns
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
+    },
+    {
+      field: 'col2',
+      headerName: 'Type',
+      minWidth: 227,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col3',
+      headerName: 'Transaction Ref.',
+      minWidth: 236,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col4',
+      headerName: 'Amount',
+      minWidth: 103,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col4}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col5',
+      headerName: 'RRN',
+      minWidth: 176,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col6',
+      headerName: 'Status Code',
+      minWidth: 150,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col7',
+      headerName: 'Notification Time',
+      minWidth: 144,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
+    },
+    {
+      field: 'col8',
+      headerName: 'Status',
+      minWidth: 153,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+      renderCell: params => {
+        return (
+          <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+            {params.row.col8}
+          </span>
+        )
+      },
+    },
+    {
+      field: 'col9',
+      headerName: 'Action.',
+      minWidth: 130,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        const handleEdit = () => {
+          console.log('edit')
+        }
+
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          // Router.push(`/terminals/${thisRow.col1}`)
+        }
+
+        return (
+          <div tw="space-x-1">
+            <button onClick={handleEdit}>
+              <ViewActionSVG />
+            </button>
+
+            <button onClick={handleView}>
+              <Print />
+            </button>
+          </div>
+        )
+      },
+    },
+  ]
+
   return (
     <Layout goBack>
       <Header>
@@ -74,7 +217,7 @@ const TerminalDashboard = ({ terminalStats = [] }) => {
             </Avatar>
 
             <AvatarDetails>
-              <UserName className="font-bold">TID - U8329</UserName>
+              <UserName className="font-bold">{terminalId}</UserName>
               <LastSeen>
                 Jaja Wakachu
                 <Chip
@@ -179,210 +322,10 @@ const TerminalDashboard = ({ terminalStats = [] }) => {
         title={`Transaction History`}
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        // hasExportBtn
       />
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Type',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Transaction Ref.',
-    minWidth: 236,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Amount',
-    minWidth: 103,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'RRR',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Status Code',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Notification Time',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Status',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    renderCell: params => {
-      return (
-        <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-          {params.row.col8}
-        </span>
-      )
-    },
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 163,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Action.',
-    minWidth: 130,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        // Router.push(`/terminals/${thisRow.col1}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <ViewActionSVG />
-          </button>
-
-          <button onClick={handleView}>
-            <Print />
-          </button>
-        </div>
-      )
-    },
-  },
-]
 
 // Tailwind styles
 const Header = tw.div`flex flex-col space-y-4 lg:(flex-row items-center justify-between space-y-0)`

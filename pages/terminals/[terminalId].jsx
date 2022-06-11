@@ -2,10 +2,10 @@ import React from 'react'
 import moment from 'moment'
 import Head from 'next/head'
 import nookies from 'nookies'
-import Router from 'next/router'
 import useSWR, { SWRConfig } from 'swr'
 import { destroyCookie } from 'nookies'
 import { useDispatch } from 'react-redux'
+import Router, { useRouter } from 'next/router'
 
 import { logout } from '../../features/userSlice'
 import { TerminalDashboard } from '../../components'
@@ -27,9 +27,9 @@ export async function getServerSideProps(ctx) {
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/terminals/terminal/terminalStats
   const terminalStats = await makeEncryptedRequest(
     {
-      // fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      // toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
-      // status: '0',
+      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
+      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      status: '0',
       pageId: 1,
       pageSize: 5,
       terminalId: terminalId,
@@ -52,12 +52,25 @@ export async function getServerSideProps(ctx) {
 }
 
 function TerminalPage() {
+  const router = useRouter()
+  const {
+    terminalId,
+    fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+    toDate = moment().format('YYYY-MM-DD 23:59:59'),
+    page = 1,
+    pageSize = 5,
+  } = router.query
+
   async function fetcher(url) {
     const res = await fetch(url)
     return res.json()
   }
 
   const { data } = useSWR('/api/terminals/terminal/terminalStats', fetcher)
+  console.log(
+    '🚀 ~ file: [terminalId].jsx ~ line 61 ~ TerminalPage ~ data',
+    data,
+  )
 
   return (
     <>
@@ -65,7 +78,7 @@ function TerminalPage() {
         <title>Terminal | Paysure</title>
       </Head>
 
-      <TerminalDashboard terminalStats={data} />
+      <TerminalDashboard terminalStats={data} terminalId={terminalId} />
     </>
   )
 }
