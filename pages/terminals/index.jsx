@@ -1,43 +1,86 @@
 // imports
 import React from 'react'
+import moment from 'moment'
 import Head from 'next/head'
-// import nookies from 'nookies'
+import Router from 'next/router'
+import uid from 'generate-unique-id'
+import useSWR, { SWRConfig } from 'swr'
+import { useDispatch } from 'react-redux'
+import nookies, { destroyCookie } from 'nookies'
 
+import { logout } from '../../features/userSlice'
 import { TerminalsDashboard } from '../../components'
-// import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
+import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
-// Page init
-const Terminals = () => {
+export async function getServerSideProps(ctx) {
+  const { USER_AUTHORIZATION } = nookies.get(ctx)
+
+  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/terminals/terminalStats
+  const terminalStats = await makeEncryptedRequest(
+    {
+      requestId: uid({ length: 20 }),
+      fromDate: moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate: moment().format('YYYY-MM-DD 23:59:59'),
+      pageId: 1,
+      pageSize: 5,
+      status: 0,
+    },
+    'paysure/api/processor/list-mapped-terminal-info',
+    'POST',
+    USER_AUTHORIZATION,
+  )
+  console.log(
+    '🚀 ~ file: index.jsx ~ line 31 ~ getServerSideProps ~ terminalStats',
+    terminalStats,
+  )
+
+  return {
+    props: {
+      status: terminalStats ? terminalStats.status : 500,
+      fallback: {
+        '/api/terminals/terminalStats': terminalStats ? terminalStats.data : [],
+      },
+    },
+  }
+}
+
+function TerminalPage() {
+  async function fetcher(url) {
+    const res = await fetch(url)
+    return res.json()
+  }
+
+  const { data } = useSWR('/api/terminals/terminalStats', fetcher)
+
   return (
     <>
       <Head>
         <title>Terminals | Paysure</title>
       </Head>
 
-      <TerminalsDashboard />
+      <TerminalsDashboard terminalStats={data} />
     </>
   )
 }
 
-// getStaticProps
-// export async function getServerSideProps(ctx) {
-//   const { USER_AUTHORIZATION } = nookies.get(ctx)
+export default function Terminals({ fallback, status }) {
+  // dispatch
+  const dispatch = useDispatch()
 
-//   const response = await makeEncryptedRequest(
-//     { status: 0, fromDate: '2021-01-01 00:00:00', page: '2022-03-31 23:59:59' },
-//     '3geepay/api/processor/list-terminal-info',
-//     'POST',
-//     USER_AUTHORIZATION,
-//   )
+  // useEffect hook
+  React.useEffect(() => {
+    if (status === 873) {
+      // logout the user and push to login page
+      dispatch(logout())
+      destroyCookie(null, 'USER_AUTHORIZATION')
+      localStorage.removeItem('user')
+      Router.push('/login')
+    }
+  }, [status, fallback, dispatch])
 
-//   console.log(response)
-
-//   return {
-//     props: {
-//       // data: response ? response.data : {},
-//     },
-//   }
-// }
-
-// Page export
-export default Terminals
+  return (
+    <SWRConfig value={{ fallback }}>
+      <TerminalPage />
+    </SWRConfig>
+  )
+}

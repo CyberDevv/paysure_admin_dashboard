@@ -1,19 +1,22 @@
+import React from 'react'
 import axios from 'axios'
+import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
+import { Button } from '@mui/material'
 import { toast } from 'react-toastify'
-import React, { useState } from 'react'
-import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
 
-import { Add, EditActionSVG, UserWithNegative, Wallet } from '../SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '..'
+import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import { Add, EditActionSVG, UserWithNegative, Wallet } from '../SVGIcons'
 
-const TerminalsDashboard = () => {
+const TerminalsDashboard = ({ terminalStats = [] }) => {
+  const { TerminalData = [] } = terminalStats
+
   // UseState hook
-  const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
@@ -23,12 +26,7 @@ const TerminalsDashboard = () => {
   const [terminalSerialNo, setTerminalSerialNo] = React.useState('')
 
   // functions
-  const handleDropdownSelected = event => {
-    setSelectedDrop(event.target.value)
-  }
-
-  const handSetIsAddmodalOpened = () =>
-    setIsAddmodalOpened(true)
+  const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
   // creates termial
   const handleCreateTerminal = () => {
@@ -48,6 +46,189 @@ const TerminalsDashboard = () => {
       })
   }
 
+  // rows
+  let rows
+  // check if TerminalData is an array
+  if (Array.isArray(TerminalData)) {
+    rows = TerminalData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.terminalId,
+        col3: item.terminalSerialNo,
+        col4: item.none,
+        col5: item.transCount,
+        col6: item.nibssRate,
+        col7: item.none,
+        col8: item.merchantName,
+        col9: item.statusStr,
+        col10: item.lastTransactionDate,
+        col11: '',
+      }
+    })
+  } else {
+    rows = []
+  }
+
+  // dataGrid columns
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
+    },
+    {
+      field: 'col2',
+      headerName: 'Terminal ID',
+      minWidth: 157,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col3',
+      headerName: 'Serial No.',
+      minWidth: 156,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col4',
+      headerName: 'Bank',
+      minWidth: 193,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col5',
+      headerName: 'Transactions',
+      minWidth: 156,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col6',
+      headerName: 'Nibble Rate (%)',
+      minWidth: 150,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col7',
+      headerName: 'Super Agent',
+      minWidth: 194,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col8',
+      headerName: 'Merchant',
+      minWidth: 180,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+    },
+    {
+      field: 'col9',
+      headerName: 'Status',
+      minWidth: 123,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span
+            css={
+              params.row.col9.toLowerCase() === 'active'
+                ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
+                : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
+            }
+          >
+            {params.row.col9}
+          </span>
+        )
+      },
+    },
+    {
+      field: 'col10',
+      headerName: 'Last Transaction',
+      minWidth: 193,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>
+            {params.row.col10
+              ? moment(params.row.col10).format('MMM DD, YYYY HH:mm')
+              : '-'}
+          </span>
+        )
+      },
+    },
+    {
+      field: 'col11',
+      headerName: 'Action',
+      minWidth: 100,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        const handleEdit = () => {
+          console.log('edit')
+        }
+
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          // Router.push(`/terminals/${thisRow.col1}`)
+        }
+
+        return (
+          <div tw="space-x-1">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+
+            <button onClick={handleView}>
+              <UserWithNegative />
+            </button>
+
+            <button onClick={handleView}>
+              <Wallet />
+            </button>
+          </div>
+        )
+      },
+    },
+  ]
+
+  /* An array of objects that is passed to the HomeDisplayCard component as a prop. */
+  const overviewDataArray = [
+    {
+      amount: numberFormatter(terminalStats.terminalsCount),
+      title: 'Total Number of Terminals',
+      link: '/terminals/terminals_list',
+    },
+    {
+      amount: numberFormatter(terminalStats.activeTerminals),
+      title: 'Total Number of Active Terminals',
+    },
+    {
+      amount: numberFormatter(terminalStats.inactiveTerminals),
+      title: 'Total Number of Inactive Terminals',
+    },
+  ]
+
   return (
     <Layout title="Terminals">
       <div>
@@ -58,7 +239,7 @@ const TerminalsDashboard = () => {
             Add Terminal
           </MUIButton>
 
-          {/* Add organization modal */}
+          {/* Add terminal modal */}
           <Modal
             onClick={handleCreateTerminal}
             setState={setIsAddmodalOpened}
@@ -112,7 +293,7 @@ const TerminalsDashboard = () => {
         </div>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={overviewDataArray} />
 
       <DataGridViewTemp
         limited
@@ -120,248 +301,10 @@ const TerminalsDashboard = () => {
         title="Terminals"
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        hasFilter
-        hasSearch
-        hasExportBtn
-        // TODO: has additional filter
       />
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Terminal ID',
-    minWidth: 157,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Serial No.',
-    minWidth: 156,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Bank',
-    minWidth: 193,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'Transactions',
-    minWidth: 156,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Nibble Rate (%)',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Super Agent',
-    minWidth: 194,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Merchant',
-    minWidth: 180,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-  },
-  {
-    field: 'col9',
-    headerName: 'Status',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <span
-          css={
-            params.row.col8.toLowerCase() === 'active'
-              ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
-              : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
-          }
-        >
-          {params.row.col8}
-        </span>
-      )
-    },
-  },
-
-  {
-    field: 'col10',
-    headerName: 'Last Transaction',
-    minWidth: 193,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col11',
-    headerName: 'Action',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        Router.push(`/terminals/${thisRow.col1}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
-
-          <button onClick={handleView}>
-            <UserWithNegative />
-          </button>
-
-          <button onClick={handleView}>
-            <Wallet />
-          </button>
-        </div>
-      )
-    },
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '14',
-    title: 'Total Number of Terminals',
-    link: '/terminals/terminals_list',
-  },
-  {
-    amount: '24',
-    title: 'Total Number of Active Terminals',
-  },
-  {
-    amount: '3',
-    title: 'Total Number of Inactive Terminals',
-  },
-]
 
 const menuItems = ['All', 'Active', 'Inactive']
 
@@ -371,8 +314,5 @@ const MUIButton = tw(
   Button,
 )`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
 const Span = tw.span`text-[13px] text-[#10101266]`
-const MUIButton2 = tw(
-  Button,
-)`normal-case text-paysure-100 bg-paysure-10 px-5 py-3 text-sm tracking-[-0.025em]`
 
 export default TerminalsDashboard
