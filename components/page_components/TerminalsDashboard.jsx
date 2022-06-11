@@ -190,7 +190,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-          // Router.push(`/terminals/${thisRow.col1}`)
+          Router.push(`/terminals/${thisRow.col2}`)
         }
 
         return (
@@ -199,7 +199,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
               <EditActionSVG />
             </button>
 
-            <button onClick={handleView}>
+            <button onClick={handleEdit}>
               <UserWithNegative />
             </button>
 

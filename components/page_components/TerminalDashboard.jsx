@@ -1,12 +1,16 @@
 import React from 'react'
+import moment from 'moment'
 import tw from 'twin.macro'
 import { Button, IconButton, Chip, Menu, MenuItem } from '@mui/material'
 
-import { UserProfileSVG, Print, EllipsisSVG, ViewActionSVG } from '../SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '..'
+import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { UserProfileSVG, Print, EllipsisSVG, ViewActionSVG } from '../SVGIcons'
 
-const TerminalDashboard = () => {
+const TerminalDashboard = ({ terminalStats = [] }) => {
+  const { TerminalTransactionsStats = [] } = terminalStats
+
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   // functions
@@ -24,6 +28,40 @@ const TerminalDashboard = () => {
   const handleSetNote = e => {
     setNote(e.target.value)
   }
+
+  /* A constant that holds the user details. */
+  const userDetails = {
+    agent: terminalStats.agentName,
+    superAgent: terminalStats.none,
+    serialNumber: terminalStats.serialNumber,
+    plan: terminalStats.plan,
+    bank: terminalStats.none,
+    merchant: terminalStats.merchantName,
+    nibbsRank: `${terminalStats.nibssRate}%`,
+    lastTransaction: terminalStats.lastTransaction
+      ? moment(terminalStats.lastTransaction).format('MMM DD, YYYY HH:mm')
+      : '-',
+  }
+
+  /* A constant that holds the data for the overview card. */
+  const overviewDataArray = [
+    {
+      amount: numberFormatter(TerminalTransactionsStats.transCount),
+      title: 'Total Number of Transactions',
+    },
+    {
+      amount: numberFormatter(TerminalTransactionsStats.successfulCount),
+      title: 'Total Number of Successful Transactions',
+    },
+    {
+      amount: numberFormatter(TerminalTransactionsStats.failedCount),
+      title: 'Total Number of Failed Transactions',
+    },
+    {
+      amount: numberFormatter(TerminalTransactionsStats.reversedCount),
+      title: 'Total Number of Reversed Transactions',
+    },
+  ]
 
   return (
     <Layout goBack>
@@ -132,7 +170,7 @@ const TerminalDashboard = () => {
         </UserGrid>
       </UserInfoWrapper>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={overviewDataArray} />
 
       {/* DataGrid */}
       <DataGridViewTemp
@@ -142,25 +180,10 @@ const TerminalDashboard = () => {
         rows={rows}
         columns={columns}
         dropdownData={dropdownData}
-        hasFilter
-        hasSort
-        hasExportBtn
-        // TODO: has additional filter
+        // hasExportBtn
       />
     </Layout>
   )
-}
-
-// FIXME: Temp data (should be replaced with real data)
-const userDetails = {
-  agent: 'Bolarinwa Bimbola',
-  superAgent: 'Jerome Bell',
-  serialNumber: 'BA93493434',
-  plan: 'Percentage plan 0.4',
-  bank: 'Standard Chartered',
-  merchant: 'Omosade Olugbale',
-  nibbsRank: '32%',
-  lastTransaction: 'Dec 31, 2019 06:33',
 }
 
 // FIXME: Temp data (should be replaced with real data)
@@ -358,26 +381,6 @@ const columns = [
         </div>
       )
     },
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '240',
-    title: 'Total Number of Transactions',
-  },
-  {
-    amount: '120',
-    title: 'Total Number of Successful Transactions',
-  },
-  {
-    amount: '30',
-    title: 'Total Number of Failed Transactions',
-  },
-  {
-    amount: '72',
-    title: 'Total Number of Reversed Transactions',
   },
 ]
 
