@@ -14,6 +14,7 @@ import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 export async function getServerSideProps(ctx) {
   const {
     query: {
+      // TODO: change this to the correct amount of days
       fromDate = moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
       toDate = moment().format('YYYY-MM-DD 23:59:59'),
       page = 1,
@@ -71,7 +72,8 @@ function TerminalsListPage() {
     `/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`,
     fetcher,
   )
-
+  
+  console.log("🚀 ~ file: terminals_list.jsx ~ line 72 ~ TerminalsListPage ~ data", data)
   return (
     <>
       <Head>

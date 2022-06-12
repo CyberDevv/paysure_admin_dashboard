@@ -6,10 +6,10 @@ import Router from 'next/router'
 import { toast } from 'react-toastify'
 import CurrencyFormat from 'react-currency-format'
 
-import { Add, EditActionSVG, UserWithNegative, Wallet } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import { EditActionSVG, UserWithNegative, Wallet } from '../SVGIcons'
 import {
   DataGridViewTemp,
   SearchBar,
@@ -18,7 +18,7 @@ import {
 } from '..'
 
 const TerminalsListDashboard = ({
-  terminalsList =[],
+  terminalsList = [],
   page,
   searchKey,
   status,
@@ -29,6 +29,7 @@ const TerminalsListDashboard = ({
 
   // useState hook
   const [value, setValue] = React.useState([
+    // TODO: change this to the correct amount of days
     fromDate ? fromDate : moment().subtract(400, 'days'),
     toDate ? toDate : new Date(),
   ])
@@ -40,10 +41,10 @@ const TerminalsListDashboard = ({
     rows = TerminalData.map((item, index) => {
       return {
         id: item.tid,
-        col1: index + 1,
+        col1: (page - 1) * 10 + (index + 1),
         col2: item.terminalId,
         col3: item.terminalSerialNo,
-        col4: item.none,
+        col4: item.bankStr,
         col5: item.transCount,
         col6: item.nibssRate,
         col7: item.none,
@@ -177,7 +178,7 @@ const TerminalsListDashboard = ({
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-          // Router.push(`/terminals/${thisRow.col1}`)
+          Router.push(`/terminals/${thisRow.col2}`)
         }
 
         return (
@@ -186,7 +187,7 @@ const TerminalsListDashboard = ({
               <EditActionSVG />
             </button>
 
-            <button onClick={handleView}>
+            <button onClick={handleEdit}>
               <UserWithNegative />
             </button>
 
@@ -221,11 +222,12 @@ const TerminalsListDashboard = ({
         rows={rows}
         columns={columns}
         page={page}
-        recordCount={terminalsList.recordCount}
+        recordCount={terminalsList.recordCount ? terminalsList.recordCount : 0}
         pagination={true}
-        className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
+        className={tw`grid grid-auto-columns[auto] gap-4 w-full xl:(flex items-center space-y-0 space-x-4)`}
+        hasExportBtn
       >
-        <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+        <div tw="space-y-4 sm:(flex space-x-4 space-y-0) w-full col-span-2">
           <SearchBar value={searchKey} />
           <FilterBox
             label="Showing"

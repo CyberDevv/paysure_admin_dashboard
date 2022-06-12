@@ -56,7 +56,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
         col1: index + 1,
         col2: item.terminalId,
         col3: item.terminalSerialNo,
-        col4: item.none,
+        col4: item.bankStr,
         col5: item.transCount,
         col6: item.nibssRate,
         col7: item.none,
