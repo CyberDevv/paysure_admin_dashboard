@@ -6,7 +6,12 @@ const InputLabel = ({ label, type, placeholder, value, onChange }) => {
     <div>
       <Label>
         {label}
-        <Input type={type} placeholder={placeholder} value={value} onChange={onChange} />
+        <Input
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+        />
       </Label>
     </div>
   )

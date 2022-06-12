@@ -10,7 +10,7 @@ const LabelInput_main_layout = ({
   combo,
   menuItems,
   setState,
-  partnerClass
+  partnerClass,
 }) => {
   // functions
   const handleChange = event => {

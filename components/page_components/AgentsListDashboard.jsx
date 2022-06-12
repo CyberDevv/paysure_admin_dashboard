@@ -6,7 +6,7 @@ import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 
-const AgentsListDashboard = ({ agentsList= [], page, searchKey }) => {
+const AgentsListDashboard = ({ agentsList = [], page, searchKey }) => {
   const { trxInfo = [], totalRecords } = agentsList
 
   // DataGrid rows

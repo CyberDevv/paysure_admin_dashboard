@@ -1,13 +1,6 @@
 import uid from 'generate-unique-id'
 
-export const config = (
-  email,
-  amount,
-  firstName,
-  lastName,
-  phone,
-  walletID,
-) => {
+export const config = (email, amount, firstName, lastName, phone, walletID) => {
   return {
     reference: new Date().getTime().toString(),
     email: email,

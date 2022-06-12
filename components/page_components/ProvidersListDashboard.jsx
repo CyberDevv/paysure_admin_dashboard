@@ -10,7 +10,12 @@ import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, SearchBar, FilterBox, DatRangePickerAndOthers } from '..'
+import {
+  DataGridViewTemp,
+  SearchBar,
+  FilterBox,
+  DatRangePickerAndOthers,
+} from '..'
 
 const ProvidersListDashboard = ({
   providersList = [],
@@ -18,7 +23,7 @@ const ProvidersListDashboard = ({
   searchKey,
   status,
   fromDate,
-  toDate
+  toDate,
 }) => {
   const { providerInfo = [] } = providersList
   // useState hook

@@ -14,7 +14,7 @@ import { makeEncryptedRequest } from '../../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const { email, phone } = ctx.query
-  
+
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/agents/agentStats
@@ -32,7 +32,7 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
-  
+
   console.log('>>>>>> ' + JSON.stringify(agentStats))
   return {
     props: {
@@ -43,7 +43,6 @@ export async function getServerSideProps(ctx) {
     },
   }
 }
-
 
 function AgentPage() {
   async function fetcher(url) {
