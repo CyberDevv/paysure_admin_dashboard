@@ -1,15 +1,10 @@
-import React from 'react'
-import axios from 'axios'
-import moment from 'moment'
 import tw from 'twin.macro'
-import Router from 'next/router'
-import { toast } from 'react-toastify'
+import React from 'react'
+import moment from 'moment'
 import CurrencyFormat from 'react-currency-format'
 
-import Modal from '../layouts/modal_ayout/index.modal_layout'
+import { Print, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
-import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { EditActionSVG, UserWithNegative, Wallet } from '../SVGIcons'
 import {
   DataGridViewTemp,
   SearchBar,
@@ -17,15 +12,15 @@ import {
   DatRangePickerAndOthers,
 } from '..'
 
-const TerminalsListDashboard = ({
-  terminalsList = [],
+const TerminalTransactionListDashboard = ({
+  terminalList = [],
   page,
   searchKey,
   status,
   toDate,
   fromDate,
 }) => {
-  const { TerminalData = [] } = terminalsList
+  const { transData = [] } = terminalList
 
   // useState hook
   const [value, setValue] = React.useState([
@@ -36,29 +31,42 @@ const TerminalsListDashboard = ({
 
   // rows
   let rows
-  // check if TerminalData is an array
-  if (Array.isArray(TerminalData)) {
-    rows = TerminalData.map((item, index) => {
+  // check if transData is an array
+  if (Array.isArray(transData)) {
+    rows = transData.map((item, index) => {
       return {
         id: item.tid,
-        col1: (page - 1) * 10 + (index + 1),
-        col2: item.terminalId,
-        col3: item.terminalSerialNo,
-        col4: item.bankStr,
-        col5: item.transCount,
-        col6: item.nibssRate,
-        col7: item.partnerName,
-        col8: item.merchantName,
-        col9: item.statusStr,
-        col10: item.lastTransactionDate,
-        col11: '',
+        col1: index + 1,
+        col2: item.transType,
+        col3: item.paymentRef,
+        col4: item.amount,
+        col5: item.rrn,
+        col6: item.none,
+        col7: item.transDate,
+        col8: item.status,
+        col9: '',
       }
     })
   } else {
     rows = []
   }
 
-  // dataGrid columns
+  const statusDataArray = [
+    {
+      value: '0',
+      label: 'All',
+    },
+    {
+      value: '1',
+      label: 'Active',
+    },
+    {
+      value: '2',
+      label: 'Inactive',
+    },
+  ]
+
+  // columns
   const columns = [
     {
       field: 'col1',
@@ -72,94 +80,80 @@ const TerminalsListDashboard = ({
     },
     {
       field: 'col2',
-      headerName: 'Terminal ID',
-      minWidth: 157,
+      headerName: 'Type',
+      minWidth: 227,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
       field: 'col3',
-      headerName: 'Serial No.',
-      minWidth: 156,
+      headerName: 'Transaction Ref.',
+      minWidth: 236,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
       field: 'col4',
-      headerName: 'Bank',
-      minWidth: 193,
+      headerName: 'Amount',
+      minWidth: 103,
       flex: 1,
       headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col4}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
     {
       field: 'col5',
-      headerName: 'Transactions',
-      minWidth: 156,
+      headerName: 'RRN',
+      minWidth: 176,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
       field: 'col6',
-      headerName: 'Nibble Rate (%)',
+      headerName: 'Status Code',
       minWidth: 150,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
       field: 'col7',
-      headerName: 'Super Agent',
-      minWidth: 194,
+      headerName: 'Notification Time',
+      minWidth: 144,
       flex: 1,
       headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
     },
     {
       field: 'col8',
-      headerName: 'Merchant',
-      minWidth: 180,
+      headerName: 'Status',
+      minWidth: 153,
       flex: 1,
       headerClassName: 'grid-header',
       disableClickEventBubbling: true,
+      renderCell: params => {
+        return (
+          <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+            {params.row.col8}
+          </span>
+        )
+      },
     },
     {
       field: 'col9',
-      headerName: 'Status',
-      minWidth: 123,
-      flex: 1,
-      headerClassName: 'grid-header',
-      renderCell: params => {
-        return (
-          <span
-            css={
-              params.row.col9.toLowerCase() === 'active'
-                ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
-                : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
-            }
-          >
-            {params.row.col9}
-          </span>
-        )
-      },
-    },
-    {
-      field: 'col10',
-      headerName: 'Last Transaction',
-      minWidth: 193,
-      flex: 1,
-      headerClassName: 'grid-header',
-      renderCell: params => {
-        return (
-          <span>
-            {params.row.col10
-              ? moment(params.row.col10).format('MMM DD, YYYY HH:mm')
-              : '-'}
-          </span>
-        )
-      },
-    },
-    {
-      field: 'col11',
-      headerName: 'Action',
-      minWidth: 100,
+      headerName: 'Action.',
+      minWidth: 130,
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
@@ -178,21 +172,17 @@ const TerminalsListDashboard = ({
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-          Router.push(`/terminals/${thisRow.col2}`)
+          // Router.push(`/terminals/${thisRow.col1}`)
         }
 
         return (
           <div tw="space-x-1">
             <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
-
-            <button onClick={handleEdit}>
-              <UserWithNegative />
+              <ViewActionSVG />
             </button>
 
             <button onClick={handleView}>
-              <Wallet />
+              <Print />
             </button>
           </div>
         )
@@ -200,29 +190,14 @@ const TerminalsListDashboard = ({
     },
   ]
 
-  const statusDataArray = [
-    {
-      value: '0',
-      label: 'All',
-    },
-    {
-      value: '1',
-      label: 'Active',
-    },
-    {
-      value: '2',
-      label: 'Inactive',
-    },
-  ]
-
   return (
     <Layout goBack>
       <DataGridViewTemp
-        title="Terminals"
+        title="Transaction History"
         rows={rows}
         columns={columns}
         page={page}
-        recordCount={terminalsList.recordCount ? terminalsList.recordCount : 0}
+        recordCount={terminalList.recordCount ? terminalList.recordCount : 0}
         pagination={true}
         className={tw`grid grid-auto-columns[auto] gap-4 w-full xl:(flex items-center space-y-0 space-x-4)`}
         hasExportBtn
@@ -241,4 +216,4 @@ const TerminalsListDashboard = ({
   )
 }
 
-export default TerminalsListDashboard
+export default TerminalTransactionListDashboard

@@ -15,6 +15,7 @@ import { Add, EditActionSVG, UserWithNegative, Wallet } from '../SVGIcons'
 
 const TerminalsDashboard = ({ terminalStats = [] }) => {
   const { TerminalData = [] } = terminalStats
+  console.log("🚀 ~ file: TerminalsDashboard.jsx ~ line 18 ~ TerminalsDashboard ~ TerminalData", TerminalData)
 
   // UseState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -59,7 +60,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
         col4: item.bankStr,
         col5: item.transCount,
         col6: item.nibssRate,
-        col7: item.none,
+        col7: item.partnerName,
         col8: item.merchantName,
         col9: item.statusStr,
         col10: item.lastTransactionDate,

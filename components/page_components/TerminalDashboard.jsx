@@ -69,7 +69,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
         id: item.tid,
         col1: index + 1,
         col2: item.transType,
-        col3: item.none,
+        col3: item.paymentRef,
         col4: item.amount,
         col5: item.rrn,
         col6: item.none,
@@ -318,7 +318,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        link="/users/1/transaction_list"
+        link={`/terminals/${terminalId}/transaction_list`}
         title={`Transaction History`}
         rows={rows}
         columns={columns}

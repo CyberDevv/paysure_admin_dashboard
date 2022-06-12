@@ -63,4 +63,5 @@ export { default as OrganizationServicesDashboard } from './page_components/Orga
 export { default as AgentTransactionListDashboard } from './page_components/AgentTransactionListDashboard'
 export { default as Roles_and_PermissionsDashboard } from './page_components/Roles_and_PermissionsDashboard'
 export { default as ProviderTransactionListDashboard } from './page_components/ProviderTransactionListDashboard'
+export { default as TerminalTransactionListDashboard } from './page_components/TerminalTransactionListDashboard'
 export { default as OrganizationTransactionListDashboard } from './page_components/OrganizationTransactionListDashboard'

@@ -7,31 +7,34 @@ import { destroyCookie } from 'nookies'
 import { useDispatch } from 'react-redux'
 import Router, { useRouter } from 'next/router'
 
-import { logout } from '../../features/userSlice'
-import { TerminalDashboard } from '../../components'
-import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
+import { logout } from '../../../features/userSlice'
+import { TerminalTransactionListDashboard } from '../../../components'
+import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const {
     query: {
       terminalId,
+      // TODO: change this to the correct amount of days
       fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
       toDate = moment().format('YYYY-MM-DD 23:59:59'),
       page = 1,
-      pageSize = 5,
+      pageSize = 10,
+      searchKey = '',
+      status = 0,
     },
   } = ctx
 
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
-  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/terminals/terminal/terminalStats
-  const terminalStats = await makeEncryptedRequest(
+  const terminalList = await makeEncryptedRequest(
     {
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
-      status: '0',
-      pageId: 1,
-      pageSize: 5,
+      fromDate: fromDate,
+      toDate: toDate,
+      pageId: page,
+      pageSize: pageSize,
+      searchKey: searchKey,
+      status: status,
       terminalId: terminalId,
     },
     'paysure/api/processor/lookup-mappedterminal-stats',
@@ -39,26 +42,27 @@ export async function getServerSideProps(ctx) {
     USER_AUTHORIZATION,
   )
 
+  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/terminal/terminalListLists
   return {
     props: {
-      status: terminalStats ? terminalStats.status : 500,
+      status: terminalList ? terminalList.status : 500,
       fallback: {
-        '/api/terminals/terminal/terminalStats': terminalStats
-          ? terminalStats.data
-          : [],
+        [`/api/terminal/terminalListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`]:
+          terminalList ? terminalList.data : [],
       },
     },
   }
 }
 
-function TerminalPage() {
+function TerminalListPage() {
   const router = useRouter()
   const {
-    terminalId,
     fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
     toDate = moment().format('YYYY-MM-DD 23:59:59'),
     page = 1,
-    pageSize = 5,
+    pageSize = 10,
+    searchKey = '',
+    status = 0,
   } = router.query
 
   async function fetcher(url) {
@@ -66,24 +70,34 @@ function TerminalPage() {
     return res.json()
   }
 
-  const { data } = useSWR('/api/terminals/terminal/terminalStats', fetcher)
-  console.log(
-    '🚀 ~ file: [terminalId].jsx ~ line 61 ~ TerminalPage ~ data',
-    data,
+  const { data } = useSWR(
+    `/api/terminal/terminalListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`,
+    fetcher,
   )
 
+  console.log(
+    '🚀 ~ file: terminal_list.jsx ~ line 72 ~ TerminalListPage ~ data',
+    data,
+  )
   return (
     <>
       <Head>
-        <title>Terminal | Paysure</title>
+        <title>Terminal History| Paysure</title>
       </Head>
 
-      <TerminalDashboard terminalStats={data} terminalId={terminalId} />
+      <TerminalTransactionListDashboard
+        terminalList={data}
+        page={page}
+        searchKey={searchKey}
+        status={status}
+        toDate={toDate}
+        fromDate={fromDate}
+      />
     </>
   )
 }
 
-export default function Terminal({ fallback, status }) {
+export default function TerminalList({ fallback, status }) {
   // dispatch
   const dispatch = useDispatch()
 
@@ -100,7 +114,7 @@ export default function Terminal({ fallback, status }) {
 
   return (
     <SWRConfig value={{ fallback }}>
-      <TerminalPage />
+      <TerminalListPage />
     </SWRConfig>
   )
 }
