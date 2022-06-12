@@ -72,8 +72,11 @@ function TerminalsListPage() {
     `/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`,
     fetcher,
   )
-  
-  console.log("🚀 ~ file: terminals_list.jsx ~ line 72 ~ TerminalsListPage ~ data", data)
+
+  console.log(
+    '🚀 ~ file: terminals_list.jsx ~ line 72 ~ TerminalsListPage ~ data',
+    data,
+  )
   return (
     <>
       <Head>
