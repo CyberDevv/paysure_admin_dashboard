@@ -13,8 +13,6 @@ import { logout } from '../../../../features/userSlice'
 import { SuperAgentDashboard } from '../../../../components'
 import { makeEncryptedRequest } from '../../../../utils/makeEncryptedRequest'
 
-
-
 export async function getServerSideProps(ctx) {
   const { email, phone } = ctx.query
 
@@ -35,18 +33,19 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
-  
+
   console.log('>>>>>> ' + JSON.stringify(superAgentStats))
   return {
     props: {
       status: superAgentStats ? superAgentStats.status : 500,
       fallback: {
-        '/api/agents/superAgentStats': superAgentStats ? superAgentStats.data : [],
+        '/api/agents/superAgentStats': superAgentStats
+          ? superAgentStats.data
+          : [],
       },
     },
   }
 }
-
 
 function SuperAgentPage() {
   async function fetcher(url) {
