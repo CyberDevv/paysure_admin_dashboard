@@ -11,11 +11,16 @@ import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { Add, EditActionSVG, UserWithNegative, Wallet } from '../SVGIcons'
+import {
+  Add,
+  EditActionSVG,
+  UserWithNegative,
+  Wallet,
+  UserWithPositive,
+} from '../SVGIcons'
 
 const TerminalsDashboard = ({ terminalStats = [] }) => {
   const { TerminalData = [] } = terminalStats
-  console.log("🚀 ~ file: TerminalsDashboard.jsx ~ line 18 ~ TerminalsDashboard ~ TerminalData", TerminalData)
 
   // UseState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -176,10 +181,10 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
-        const handleEdit = () => {
-          console.log('edit')
-        }
+        // handle edit terminal
+        const handleEdit = () => {}
 
+        // handle view terminal
         const handleView = e => {
           const api = params.api
           const thisRow = {}
@@ -194,15 +199,49 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
           Router.push(`/terminals/${thisRow.col2}`)
         }
 
+        // handle deactivate terminal
+        const handleDeactivateTerminl = () => {
+          axios
+            .post('/api/terminals/deactivateTerminal', {
+              terminalId : params.row.col2,
+            })
+            .then(res => {
+              console.log(res)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+
+        // handle activate terminal
+        const handleActivateTerminl = () => {
+          axios
+            .post('/api/terminals/activateTerminal', {
+              terminalId: params.row.col2,
+            })
+            .then(res => {
+              console.log(res)
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+
         return (
           <div tw="space-x-1">
             <button onClick={handleEdit}>
               <EditActionSVG />
             </button>
 
-            <button onClick={handleEdit}>
-              <UserWithNegative />
-            </button>
+            {params.row.col9.toLowerCase() === 'active' ? (
+              <button onClick={handleDeactivateTerminl}>
+                <UserWithNegative />
+              </button>
+            ) : (
+              <button onClick={handleActivateTerminl}>
+                <UserWithPositive />
+              </button>
+            )}
 
             <button onClick={handleView}>
               <Wallet />
