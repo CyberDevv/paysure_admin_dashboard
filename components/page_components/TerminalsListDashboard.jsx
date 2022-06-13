@@ -190,7 +190,7 @@ const TerminalsListDashboard = ({
         const handleDeactivateTerminl = () => {
           axios
             .post('/api/terminals/deactivateTerminal', {
-              terminalId : params.row.col2,
+              terminalId: params.row.col2,
             })
             .then(res => {
               console.log(res)
@@ -204,7 +204,7 @@ const TerminalsListDashboard = ({
         const handleActivateTerminl = () => {
           axios
             .post('/api/terminals/activateTerminal', {
-              terminalId : params.row.col2,
+              terminalId: params.row.col2,
             })
             .then(res => {
               console.log(res)

@@ -203,7 +203,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
         const handleDeactivateTerminl = () => {
           axios
             .post('/api/terminals/deactivateTerminal', {
-              terminalId : params.row.col2,
+              terminalId: params.row.col2,
             })
             .then(res => {
               console.log(res)
