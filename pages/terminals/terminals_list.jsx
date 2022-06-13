@@ -73,7 +73,6 @@ function TerminalsListPage() {
     fetcher,
   )
   
-  console.log("🚀 ~ file: terminals_list.jsx ~ line 72 ~ TerminalsListPage ~ data", data)
   return (
     <>
       <Head>

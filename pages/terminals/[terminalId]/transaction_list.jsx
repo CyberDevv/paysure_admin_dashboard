@@ -75,10 +75,6 @@ function TerminalListPage() {
     fetcher,
   )
 
-  console.log(
-    '🚀 ~ file: terminal_list.jsx ~ line 72 ~ TerminalListPage ~ data',
-    data,
-  )
   return (
     <>
       <Head>

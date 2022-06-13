@@ -8,6 +8,7 @@ import { DataGridViewTemp, HomeDisplayCard } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { UserProfileSVG, Print, EllipsisSVG, ViewActionSVG } from '../SVGIcons'
+import axios from 'axios'
 
 const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
   const { TerminalTransactionsStats = [], transData = [] } = terminalStats
@@ -24,7 +25,31 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
     setAnchorEl(null)
   }
 
-  const handSetIsSuspendModalOpened = () => setIsSuspendAccountModalOpened(true)
+  const handleDeactivateTerminal = () => {
+    axios
+      .post('/api/terminals/deactivateTerminal', {
+        terminalId,
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+  
+  const handleActivateTerminal = () => {
+    axios
+      .post('/api/terminals/activateTerminal', {
+        terminalId,
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   /* A constant that holds the user details. */
   const userDetails = {
@@ -174,7 +199,6 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
       headerClassName: 'grid-header',
       renderCell: params => {
         const handleEdit = () => {
-          console.log('edit')
         }
 
         const handleView = e => {
@@ -221,8 +245,17 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
               <LastSeen>
                 Jaja Wakachu
                 <Chip
-                  sx={tw`text-paysure-success-100 uppercase ml-2.5 bg-[#E9FBF9] h-auto p-1 rounded text-[10px] leading-[12px]`}
-                  label="Active"
+                  sx={[
+                    tw`uppercase ml-2.5 h-auto p-1 rounded text-[10px] leading-[12px]`,
+                    terminalStats.terminalStatus.toLowerCase() === 'active'
+                      ? tw`text-paysure-success-100 bg-[#E9FBF9]`
+                      : tw`bg-[#FDF6EF] text-[#EDA95A]`,
+                  ]}
+                  label={
+                    terminalStats.terminalStatus.toLowerCase() === 'active'
+                      ? 'Active'
+                      : 'Inactive'
+                  }
                 />{' '}
               </LastSeen>
             </AvatarDetails>
@@ -250,18 +283,37 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              <MenuItem onClick={handleClose}>
-                <button onClick={handSetIsSuspendModalOpened}>
-                  Suspend Terminal
-                </button>
-              </MenuItem>
+              {terminalStats.terminalStatus.toLowerCase() === 'active' ? (
+                <MenuItem onClick={handleClose}>
+                  <button onClick={handleDeactivateTerminal}>
+                    Suspend Terminal
+                  </button>
+                </MenuItem>
+              ) : (
+                <MenuItem onClick={handleClose}>
+                  <button onClick={handleActivateTerminal}>
+                    Activate Terminal
+                  </button>
+                </MenuItem>
+              )}
             </Menu>
           </div>
         </div>
 
         {/* Action Buttons */}
         <ButtonWrapper>
-          <MUIButton>Suspend Terminal</MUIButton>
+          {terminalStats.terminalStatus.toLowerCase() === 'active' ? (
+            <MUIButton onClick={handleDeactivateTerminal}>
+              Suspend Terminal
+            </MUIButton>
+          ) : (
+            <MUIButton
+              onClick={handleActivateTerminal}
+              tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)"
+            >
+              Activate Terminal
+            </MUIButton>
+          )}
         </ButtonWrapper>
       </Header>
 

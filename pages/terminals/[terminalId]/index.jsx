@@ -55,10 +55,6 @@ function TerminalPage() {
   }
 
   const { data } = useSWR('/api/terminals/terminal/terminalStats', fetcher)
-  console.log(
-    '🚀 ~ file: [terminalId].jsx ~ line 61 ~ TerminalPage ~ data',
-    data,
-  )
 
   return (
     <>
