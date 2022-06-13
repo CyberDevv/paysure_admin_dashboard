@@ -21,8 +21,8 @@ export async function getServerSideProps(ctx) {
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/terminals/terminal/terminalStats
   const terminalStats = await makeEncryptedRequest(
     {
-      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+      fromDate: moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate: moment().format('YYYY-MM-DD 23:59:59'),
       status: 0,
       pageId: 1,
       pageSize: 5,
@@ -55,6 +55,7 @@ function TerminalPage() {
   }
 
   const { data } = useSWR('/api/terminals/terminal/terminalStats', fetcher)
+  console.log("🚀 ~ file: index.jsx ~ line 58 ~ TerminalPage ~ data", data)
 
   return (
     <>

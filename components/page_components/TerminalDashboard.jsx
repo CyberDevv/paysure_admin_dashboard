@@ -37,7 +37,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
         console.log(err)
       })
   }
-  
+
   const handleActivateTerminal = () => {
     axios
       .post('/api/terminals/activateTerminal', {
@@ -198,8 +198,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
-        const handleEdit = () => {
-        }
+        const handleEdit = () => {}
 
         const handleView = e => {
           const api = params.api
@@ -283,7 +282,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
                 'aria-labelledby': 'basic-button',
               }}
             >
-              {terminalStats.terminalStatus.toLowerCase() === 'active' ? (
+              {terminalStats?.terminalStatus.toLowerCase() === 'active' ? (
                 <MenuItem onClick={handleClose}>
                   <button onClick={handleDeactivateTerminal}>
                     Suspend Terminal
@@ -302,7 +301,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
 
         {/* Action Buttons */}
         <ButtonWrapper>
-          {terminalStats.terminalStatus.toLowerCase() === 'active' ? (
+          {terminalStats?.terminalStatus.toLowerCase() === 'active' ? (
             <MUIButton onClick={handleDeactivateTerminal}>
               Suspend Terminal
             </MUIButton>
