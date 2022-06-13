@@ -37,7 +37,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
         console.log(err)
       })
   }
-  
+
   const handleActivateTerminal = () => {
     axios
       .post('/api/terminals/activateTerminal', {
@@ -198,8 +198,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
-        const handleEdit = () => {
-        }
+        const handleEdit = () => {}
 
         const handleView = e => {
           const api = params.api
