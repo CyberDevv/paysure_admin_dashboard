@@ -20,7 +20,7 @@ import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = ({ providerData, providerName }) => {
-  const { mutate } = useSWRConfig()
+  ;`/api/terminals/${terminalId}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`
 
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)

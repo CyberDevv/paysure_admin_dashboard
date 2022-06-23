@@ -1,11 +1,12 @@
 import React from 'react'
 import moment from 'moment'
 import Head from 'next/head'
-import nookies from 'nookies'
+import Router from 'next/router'
+import uid from 'generate-unique-id'
+import { useRouter } from 'next/router'
 import useSWR, { SWRConfig } from 'swr'
-import { destroyCookie } from 'nookies'
 import { useDispatch } from 'react-redux'
-import Router, { useRouter } from 'next/router'
+import nookies, { destroyCookie } from 'nookies'
 
 import { logout } from '../../../features/userSlice'
 import { TerminalDashboard } from '../../../components'
@@ -13,7 +14,13 @@ import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const {
-    query: { terminalId },
+    query: {
+      terminalId,
+      fromDate = moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
+      toDate = moment().format('YYYY-MM-DD 23:59:59'),
+      page = 1,
+      pageSize = 5,
+    },
   } = ctx
 
   const { USER_AUTHORIZATION } = nookies.get(ctx)
@@ -21,11 +28,10 @@ export async function getServerSideProps(ctx) {
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/terminals/terminal/terminalStats
   const terminalStats = await makeEncryptedRequest(
     {
-      fromDate: moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate: moment().format('YYYY-MM-DD 23:59:59'),
-      status: 0,
-      pageId: 1,
-      pageSize: 5,
+      fromDate: fromDate,
+      toDate: toDate,
+      pageId: page,
+      pageSize: pageSize,
       terminalId: terminalId,
     },
     'paysure/api/processor/lookup-mappedterminal-stats',
@@ -37,9 +43,8 @@ export async function getServerSideProps(ctx) {
     props: {
       status: terminalStats ? terminalStats.status : 500,
       fallback: {
-        '/api/terminals/terminal/terminalStats': terminalStats
-          ? terminalStats.data
-          : [],
+        [`/api/terminals/${terminalId}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`]:
+          terminalStats ? terminalStats.data : [],
       },
     },
   }
@@ -47,15 +52,23 @@ export async function getServerSideProps(ctx) {
 
 function TerminalPage() {
   const router = useRouter()
-  const { terminalId } = router.query
+  const {
+    terminalId,
+    fromDate = moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
+    toDate = moment().format('YYYY-MM-DD 23:59:59'),
+    page = 1,
+    pageSize = 5,
+  } = router.query
 
   async function fetcher(url) {
     const res = await fetch(url)
     return res.json()
   }
 
-  const { data } = useSWR('/api/terminals/terminal/terminalStats', fetcher)
-  // console.log("🚀 ~ file: index.jsx ~ line 58 ~ TerminalPage ~ data", data)
+  const { data } = useSWR(
+    `/api/terminals/${terminalId}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
+    fetcher,
+  )
 
   return (
     <>

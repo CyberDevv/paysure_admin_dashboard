@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
-import { mutate } from 'swr'
+import { useSWRConfig } from 'swr'
 import { toast } from 'react-toastify'
 import { LoadingButton } from '@mui/lab'
 import CurrencyFormat from 'react-currency-format'
@@ -14,6 +14,8 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import { UserProfileSVG, Print, EllipsisSVG, ViewActionSVG } from '../SVGIcons'
 
 const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
+  const { mutate } = useSWRConfig()
+  
   const { TerminalTransactionsStats = [], transData = [] } = terminalStats
 
   const [anchorEl, setAnchorEl] = React.useState(null)
