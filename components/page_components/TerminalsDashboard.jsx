@@ -3,8 +3,10 @@ import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
-import { Button } from '@mui/material'
+import { useSWRConfig } from 'swr'
 import { toast } from 'react-toastify'
+import { LoadingButton } from '@mui/lab'
+import { Button, Tooltip } from '@mui/material'
 
 import { DataGridViewTemp, HomeDisplayCard } from '..'
 import numberFormatter from '../../utils/numberFormatter'
@@ -20,6 +22,8 @@ import {
 } from '../SVGIcons'
 
 const TerminalsDashboard = ({ terminalStats = [] }) => {
+  const { mutate } = useSWRConfig()
+
   const { TerminalData = [] } = terminalStats
 
   // UseState hook
@@ -30,6 +34,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
   const [bankId, setBankId] = React.useState('')
   const [terminalBrand, setTerminalBrand] = React.useState('')
   const [terminalSerialNo, setTerminalSerialNo] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
   const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
@@ -201,51 +206,79 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
 
         // handle deactivate terminal
         const handleDeactivateTerminl = () => {
+          setIsLoading(true)
+
           axios
             .post('/api/terminals/deactivateTerminal', {
-              terminalId : params.row.col2,
+              terminalId: params.row.col2,
             })
-            .then(res => {
-              console.log(res)
+            .then(() => {
+              mutate(`/api/terminals/terminalStats`)
+              setIsLoading(false)
+              toast.success('Terminal deactivated successfully')
             })
             .catch(err => {
-              console.log(err)
+              setIsLoading(false)
+              console.log('Error =====> ', err)
+              toast.error('Error deactivating terminal, please try again.')
             })
         }
 
         // handle activate terminal
         const handleActivateTerminl = () => {
+          setIsLoading(true)
+
           axios
             .post('/api/terminals/activateTerminal', {
               terminalId: params.row.col2,
             })
-            .then(res => {
-              console.log(res)
+            .then(() => {
+              mutate(`/api/terminals/terminalStats`)
+              setIsLoading(false)
+              toast.success('Terminal activated successfully')
             })
             .catch(err => {
-              console.log(err)
+              setIsLoading(false)
+              console.log('Error =====> ', err)
+              toast.error('Error activating terminal')
             })
         }
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
+            <Tooltip title="Edit Terminal">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
 
             {params.row.col9.toLowerCase() === 'active' ? (
-              <button onClick={handleDeactivateTerminl}>
-                <UserWithNegative />
-              </button>
+              <Tooltip title="Deactivate Terminal">
+                <LoadingButton
+                  loading={isLoading}
+                  onClick={handleDeactivateTerminl}
+                  tw="p-0 m-0 min-w-[initial]"
+                >
+                  <UserWithNegative />
+                </LoadingButton>
+              </Tooltip>
             ) : (
-              <button onClick={handleActivateTerminl}>
-                <UserWithPositive />
-              </button>
+              <Tooltip title="Activate Terminal">
+                <LoadingButton
+                  loading={isLoading}
+                  onClick={handleActivateTerminl}
+                  tw="p-0 m-0 min-w-[initial]"
+                >
+                  <UserWithPositive />
+                </LoadingButton>
+              </Tooltip>
             )}
 
-            <button onClick={handleView}>
-              <Wallet />
-            </button>
+            <Tooltip title="View Terminal">
+              <button onClick={handleView}>
+                <Wallet />
+              </button>
+            </Tooltip>
           </div>
         )
       },
