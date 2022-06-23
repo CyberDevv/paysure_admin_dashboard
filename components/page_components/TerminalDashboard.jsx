@@ -50,7 +50,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
 
   const handleActivateTerminal = () => {
     setIsLoading(true)
-    
+
     axios
       .post('/api/terminals/activateTerminal', {
         terminalId,
