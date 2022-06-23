@@ -15,6 +15,7 @@ import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
+console.log("🚀 ~ file: ProvidersDashboard.jsx ~ line 18 ~ ProvidersDashboard ~ providersList", providersList)
   const { providerInfo = [] } = providersList
 
   // useState hook

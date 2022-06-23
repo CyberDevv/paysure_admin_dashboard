@@ -1,19 +1,23 @@
 import React from 'react'
+import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
+import { mutate } from 'swr'
+import { toast } from 'react-toastify'
+import { LoadingButton } from '@mui/lab'
 import CurrencyFormat from 'react-currency-format'
-import { Button, IconButton, Chip, Menu, MenuItem } from '@mui/material'
+import { IconButton, Chip, Menu, MenuItem } from '@mui/material'
 
 import { DataGridViewTemp, HomeDisplayCard } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { UserProfileSVG, Print, EllipsisSVG, ViewActionSVG } from '../SVGIcons'
-import axios from 'axios'
 
 const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
   const { TerminalTransactionsStats = [], transData = [] } = terminalStats
 
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
   const open = Boolean(anchorEl)
@@ -26,28 +30,40 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
   }
 
   const handleDeactivateTerminal = () => {
+    setIsLoading(true)
+
     axios
       .post('/api/terminals/deactivateTerminal', {
         terminalId,
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
+        mutate(`/api/terminals/${terminalId}`)
+        setIsLoading(false)
+        toast.success('Terminal deactivated successfully')
       })
       .catch(err => {
-        console.log(err)
+        setIsLoading(false)
+        console.log('Error =====> ', err)
+        toast.error('Error deactivating terminal, please try again.')
       })
   }
 
   const handleActivateTerminal = () => {
+    setIsLoading(true)
+    
     axios
       .post('/api/terminals/activateTerminal', {
         terminalId,
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
+        mutate(`/api/terminals/${terminalId}`)
+        setIsLoading(false)
+        toast.success('Terminal activated successfully')
       })
       .catch(err => {
-        console.log(err)
+        setIsLoading(false)
+        console.log('Error =====> ', err)
+        toast.error('Error activating terminal')
       })
   }
 
@@ -302,11 +318,12 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
         {/* Action Buttons */}
         <ButtonWrapper>
           {terminalStats?.terminalStatus.toLowerCase() === 'active' ? (
-            <MUIButton onClick={handleDeactivateTerminal}>
+            <MUIButton loading={isLoading} onClick={handleDeactivateTerminal}>
               Suspend Terminal
             </MUIButton>
           ) : (
             <MUIButton
+              loading={isLoading}
               onClick={handleActivateTerminal}
               tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)"
             >
@@ -387,7 +404,7 @@ const UserName = tw.h4`text-xl lg:(text-2xl) tracking-[-0.05em] text-paysure-tex
 const LastSeen = tw.p`text-xs lg:(text-sm) text-[#A6B7D4] tracking-[-0.05em]`
 const ButtonWrapper = tw.div`hidden md:flex items-center space-x-3 lg:(space-x-2.5 hidden) xl:flex`
 const MUIButton = tw(
-  Button,
+  LoadingButton,
 )`normal-case text-white bg-paysure-danger-100 px-3 py-[13px] rounded-lg hover:(bg-paysure-danger-100 ring-paysure-danger-100 ring-2 ring-offset-2)`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
 const UserInfoWrapper = tw.div`border-border mt-10 p-6 border rounded-lg`

@@ -22,26 +22,6 @@ import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 const UserDashboard = ({ providerData, providerName }) => {
   const { mutate } = useSWRConfig()
 
-  const config = {
-    reference: new Date().getTime().toString(),
-    email: 'email@gmail.com',
-    amount: 500,
-    publicKey: 'pk_live_fcbb491ce3cfb18d0e101a0879b21c9f04f9dad2',
-    metadata: {
-      custom_field: [
-        {
-          'First Name': 'firstName',
-          'Last Name': 'lastName',
-          'Transaction ID': uid({ length: 20 }),
-          'Phone Number': 'phone',
-          'Wallet ID': 2342424,
-        },
-      ],
-    },
-  }
-
-  const { providerTrxData = [], tradeSummaries = [] } = providerData
-
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [isModalOpened, setIsModalOpened] = React.useState(false)
@@ -57,9 +37,32 @@ const UserDashboard = ({ providerData, providerName }) => {
   ])
   const [isLoading, setIsLoading] = React.useState(false)
 
+  // Configuration for payStack
+  const config = {
+    reference: new Date().getTime().toString(),
+    email: 'email@gmail.com',
+    amount: fundAmount * 100,
+    // publicKey: 'pk_live_fcbb491ce3cfb18d0e101a0879b21c9f04f9dad2',
+    publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+    metadata: {
+      custom_field: [
+        {
+          'First Name': 'firstName',
+          'Last Name': 'lastName',
+          'Transaction ID': uid({ length: 20 }),
+          'Phone Number': 'phone',
+          'Wallet ID': 2342424,
+        },
+      ],
+    },
+  }
+
+  const { providerTrxData = [], tradeSummaries = [] } = providerData
+
   const initializePayment = usePaystackPayment(config)
 
   // functions
+  /* @dev: funciton to deactivate provider */
   const handleDeactivate = () => {
     setIsLoading(true)
 
@@ -79,6 +82,7 @@ const UserDashboard = ({ providerData, providerName }) => {
       })
   }
 
+  /* @dev: funciton to activate provider */
   const handleActivate = () => {
     setIsLoading(true)
 
@@ -109,10 +113,10 @@ const UserDashboard = ({ providerData, providerName }) => {
   }
 
   const handSetIsModalOpened = () => setIsModalOpened(true)
-  // const handSetIsModalOpened = () => initializePayment(onSuccess, onClose)
 
   const handleOTPChange = otp => setOTP(otp)
 
+  /* @dev: funciton to handle button click in modal */
   const handleModalBtnClick = () => {
     // fund wallet
     if (modalState === 'fundWallet') {
@@ -122,27 +126,27 @@ const UserDashboard = ({ providerData, providerName }) => {
       // setModalTitle(['New Card', 'Continue'])
     }
 
-    // new card
-    if (modalState === 'newCard') {
-      initializePayment(onSuccess, onClose)
+    // // new card
+    // if (modalState === 'newCard') {
+    //   initializePayment(onSuccess, onClose)
 
-      // setModalState('otp')
-      // setModalTitle(['Enter OTP', 'Complete'])
-    }
+    //   // setModalState('otp')
+    //   // setModalTitle(['Enter OTP', 'Complete'])
+    // }
 
-    // otp
-    if (modalState === 'otp') {
-      setModalState('selectCard')
-      setModalTitle(['Select Card', 'Proceed'])
-    }
+    // // otp
+    // if (modalState === 'otp') {
+    //   setModalState('selectCard')
+    //   setModalTitle(['Select Card', 'Proceed'])
+    // }
 
-    // selectCard
-    if (modalState === 'selectCard') {
-      setIsModalOpened(false)
+    // // selectCard
+    // if (modalState === 'selectCard') {
+    //   setIsModalOpened(false)
 
-      setModalState('fundWallet')
-      setModalTitle(['Fund Wallet', 'Continue'])
-    }
+    //   setModalState('fundWallet')
+    //   setModalTitle(['Fund Wallet', 'Continue'])
+    // }
   }
 
   // Array of the provider data
@@ -252,11 +256,11 @@ const UserDashboard = ({ providerData, providerName }) => {
               }}
             >
               <MenuItem onClick={handleClose}>
-                {providerData.providerStatus.toLowerCase() === 'active' && (
+                {providerData.providerStatus?.toLowerCase() === 'active' && (
                   <button onClick={handleDeactivate}>Deactivate</button>
                 )}
 
-                {providerData.providerStatus.toLowerCase() !== 'active' && (
+                {providerData.providerStatus?.toLowerCase() !== 'active' && (
                   <button onClick={handleActivate}>Activate</button>
                 )}
               </MenuItem>
@@ -267,7 +271,7 @@ const UserDashboard = ({ providerData, providerName }) => {
         {/* Action Buttons */}
         <ButtonWrapper>
           {/* Button to deactivate provider */}
-          {providerData.providerStatus.toLowerCase() === 'active' && (
+          {providerData.providerStatus?.toLowerCase() === 'active' && (
             <MUIButton
               loading={isLoading}
               onClick={handleDeactivate}
@@ -278,7 +282,7 @@ const UserDashboard = ({ providerData, providerName }) => {
           )}
 
           {/* Button to activate provider */}
-          {providerData.providerStatus.toLowerCase() !== 'active' && (
+          {providerData.providerStatus?.toLowerCase() !== 'active' && (
             <MUIButton
               loading={isLoading}
               onClick={handleActivate}
