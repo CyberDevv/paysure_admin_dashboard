@@ -72,7 +72,7 @@ function TerminalsListPage() {
     `/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`,
     fetcher,
   )
-  
+
   return (
     <>
       <Head>
@@ -85,6 +85,7 @@ function TerminalsListPage() {
         searchKey={searchKey}
         status={status}
         toDate={toDate}
+        pageSize={pageSize}
         fromDate={fromDate}
       />
     </>

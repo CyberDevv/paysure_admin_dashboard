@@ -3,7 +3,10 @@ import axios from 'axios'
 import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
+import { useSWRConfig } from 'swr'
 import { toast } from 'react-toastify'
+import { Tooltip } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import CurrencyFormat from 'react-currency-format'
 
 import Modal from '../layouts/modal_ayout/index.modal_layout'
@@ -27,9 +30,12 @@ const TerminalsListDashboard = ({
   page,
   searchKey,
   status,
+  pageSize,
   toDate,
   fromDate,
 }) => {
+  const { mutate } = useSWRConfig()
+  
   const { TerminalData = [] } = terminalsList
 
   // useState hook
@@ -38,6 +44,7 @@ const TerminalsListDashboard = ({
     fromDate ? fromDate : moment().subtract(400, 'days'),
     toDate ? toDate : new Date(),
   ])
+  const [isLoading, setIsLoading] = React.useState(false)
 
   // rows
   let rows
@@ -188,51 +195,79 @@ const TerminalsListDashboard = ({
 
         // handle deactivate terminal
         const handleDeactivateTerminl = () => {
+          setIsLoading(true)
+
           axios
             .post('/api/terminals/deactivateTerminal', {
-              terminalId : params.row.col2,
+              terminalId: params.row.col2,
             })
-            .then(res => {
-              console.log(res)
+            .then(() => {
+              mutate(`/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`)
+              setIsLoading(false)
+              toast.success('Terminal deactivated successfully')
             })
             .catch(err => {
-              console.log(err)
+              setIsLoading(false)
+              console.log('Error =====> ', err)
+              toast.error('Error deactivating terminal, please try again.')
             })
         }
 
         // handle activate terminal
         const handleActivateTerminl = () => {
+          setIsLoading(true)
+
           axios
             .post('/api/terminals/activateTerminal', {
-              terminalId : params.row.col2,
+              terminalId: params.row.col2,
             })
-            .then(res => {
-              console.log(res)
+            .then(() => {
+              mutate(`/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`)
+              setIsLoading(false)
+              toast.success('Terminal activated successfully')
             })
             .catch(err => {
-              console.log(err)
+              setIsLoading(false)
+              console.log('Error =====> ', err)
+              toast.error('Error activating terminal')
             })
         }
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
+            <Tooltip title="Edit Terminal">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
 
             {params.row.col9.toLowerCase() === 'active' ? (
-              <button onClick={handleDeactivateTerminl}>
-                <UserWithNegative />
-              </button>
+              <Tooltip title="Deactivate Terminal">
+                <LoadingButton
+                  loading={isLoading}
+                  onClick={handleDeactivateTerminl}
+                  tw="p-0 m-0 min-w-[initial]"
+                >
+                  <UserWithNegative />
+                </LoadingButton>
+              </Tooltip>
             ) : (
-              <button onClick={handleActivateTerminl}>
-                <UserWithPositive />
-              </button>
+              <Tooltip title="Activate Terminal">
+                <LoadingButton
+                  loading={isLoading}
+                  onClick={handleActivateTerminl}
+                  tw="p-0 m-0 min-w-[initial]"
+                >
+                  <UserWithPositive />
+                </LoadingButton>
+              </Tooltip>
             )}
 
-            <button onClick={handleView}>
-              <Wallet />
-            </button>
+            <Tooltip title="View Terminal">
+              <button onClick={handleView}>
+                <Wallet />
+              </button>
+            </Tooltip>
           </div>
         )
       },
