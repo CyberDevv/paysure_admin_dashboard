@@ -35,7 +35,7 @@ const TerminalsListDashboard = ({
   fromDate,
 }) => {
   const { mutate } = useSWRConfig()
-  
+
   const { TerminalData = [] } = terminalsList
 
   // useState hook
@@ -202,7 +202,9 @@ const TerminalsListDashboard = ({
               terminalId: params.row.col2,
             })
             .then(() => {
-              mutate(`/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`)
+              mutate(
+                `/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`,
+              )
               setIsLoading(false)
               toast.success('Terminal deactivated successfully')
             })
@@ -222,7 +224,9 @@ const TerminalsListDashboard = ({
               terminalId: params.row.col2,
             })
             .then(() => {
-              mutate(`/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`)
+              mutate(
+                `/api/terminals/terminalsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`,
+              )
               setIsLoading(false)
               toast.success('Terminal activated successfully')
             })
