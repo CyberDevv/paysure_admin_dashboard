@@ -15,7 +15,7 @@ import { UserProfileSVG, Print, EllipsisSVG, ViewActionSVG } from '../SVGIcons'
 
 const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
   const { mutate } = useSWRConfig()
-  
+
   const { TerminalTransactionsStats = [], transData = [] } = terminalStats
 
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -52,7 +52,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
 
   const handleActivateTerminal = () => {
     setIsLoading(true)
-    
+
     axios
       .post('/api/terminals/activateTerminal', {
         terminalId,
