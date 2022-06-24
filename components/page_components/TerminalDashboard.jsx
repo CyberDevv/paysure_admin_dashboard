@@ -6,7 +6,7 @@ import { useSWRConfig } from 'swr'
 import { toast } from 'react-toastify'
 import { LoadingButton } from '@mui/lab'
 import CurrencyFormat from 'react-currency-format'
-import { IconButton, Chip, Menu, MenuItem } from '@mui/material'
+import { IconButton, Chip, Menu, MenuItem, Tooltip } from '@mui/material'
 
 import { DataGridViewTemp, HomeDisplayCard } from '..'
 import numberFormatter from '../../utils/numberFormatter'
@@ -234,13 +234,17 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <ViewActionSVG />
-            </button>
+            <Tooltip title= "View Transaction">
+              <button onClick={handleEdit}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
 
-            <button onClick={handleView}>
-              <Print />
-            </button>
+            <Tooltip title="Print Transaction">
+              <button onClick={handleView}>
+                <Print />
+              </button>
+            </Tooltip>
           </div>
         )
       },

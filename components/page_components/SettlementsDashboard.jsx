@@ -7,6 +7,7 @@ import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { Tooltip } from '@mui/material'
 
 const SettlementsDashboard = ({ settlementData = [] }) => {
   const { transData = [] } = settlementData
@@ -215,9 +216,11 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleView}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Settlement">
+            <button onClick={handleView}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           <button onClick={handleEdit}>
             <UserWithPositive />

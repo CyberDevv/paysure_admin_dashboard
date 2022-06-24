@@ -8,6 +8,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material'
 
 import { DataGridViewTemp, OverviewCardSection } from '..'
@@ -381,13 +382,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Document">
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handleEdit}>
-            <Print />
-          </button>
+          <Tooltip title="Print Document">
+            <button onClick={handleEdit}>
+              <Print />
+            </button>
+          </Tooltip>
         </div>
       )
     },

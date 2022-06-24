@@ -12,6 +12,7 @@ import {
 } from '..'
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { Tooltip } from '@mui/material'
 
 const UsersListDashboard = ({
   usersList = [],
@@ -185,13 +186,17 @@ const UsersListDashboard = ({
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
+            <Tooltip title="Edit User">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
 
-            <button onClick={handleView}>
-              <ViewActionSVG />
-            </button>
+            <Tooltip title= "View User">
+              <button onClick={handleView}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
           </div>
         )
       },

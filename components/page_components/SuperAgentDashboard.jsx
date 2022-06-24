@@ -8,6 +8,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material'
 
 import {
@@ -606,17 +607,21 @@ const Agentscolumns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Super Agent">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           <button onClick={handleView}>
             <UserWithPositive />
           </button>
 
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Super Agent">
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
         </div>
       )
     },
@@ -722,9 +727,11 @@ const Terminalcolumns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Terminal">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           {params.row.col8.toLowerCase() === 'active' && (
             <button onClick={handleView}>
@@ -825,9 +832,11 @@ const Settlementcolumns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Settlement">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           <button onClick={handleView}>
             <UserWithPositive />

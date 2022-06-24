@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
-import { Button } from '@mui/material'
+import { Button, Tooltip } from '@mui/material'
 
 import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
@@ -325,13 +325,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Super Agent">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Super Agent">
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
         </div>
       )
     },

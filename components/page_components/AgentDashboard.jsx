@@ -8,6 +8,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material'
 
 import {
@@ -560,9 +561,11 @@ const Terminalcolumns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Terminal">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           {params.row.col8.toLowerCase() === 'active' && (
             <button onClick={handleView}>
@@ -571,9 +574,11 @@ const Terminalcolumns = [
           )}
 
           {params.row.col8.toLowerCase() === 'inactive' && (
-            <button onClick={handleView}>
-              <UserWithPositive />
-            </button>
+            <Tooltip title="Activate Agent">
+              <button onClick={handleView}>
+                <UserWithPositive />
+              </button>
+            </Tooltip>
           )}
 
           <button onClick={handleView}>
@@ -696,101 +701,6 @@ const Settlementcolumns = [
         </div>
       )
     },
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Name of Organisation',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Services',
-    minWidth: 236,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Services',
-    minWidth: 103,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Transactions{N}',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Action.',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: '240',
-    title: 'Agents',
-  },
-  {
-    amount: '120',
-    title: 'Terminals',
-  },
-  {
-    amount: '30',
-    title: 'Active',
-  },
-  {
-    amount: '72',
-    title: 'Inactive',
   },
 ]
 

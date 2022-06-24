@@ -2,7 +2,7 @@ import tw from 'twin.macro'
 import React, { useState } from 'react'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { Button, InputAdornment, MenuItem, TextField } from '@mui/material'
+import { Button, InputAdornment, MenuItem, TextField, Tooltip } from '@mui/material'
 
 import { Add, EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
 import { DataGridViewTemp } from '..'
@@ -246,9 +246,11 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleView}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Account">
+            <button onClick={handleView}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           <button onClick={handleEdit}>
             <UserWithPositive />

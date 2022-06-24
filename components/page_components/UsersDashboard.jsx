@@ -3,7 +3,7 @@ import React from 'react'
 import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
-import { Button } from '@mui/material'
+import { Button, Tooltip } from '@mui/material'
 import CurrencyFormat from 'react-currency-format'
 
 import { DataGridViewTemp, HomeDisplayCard } from '..'
@@ -223,13 +223,17 @@ const UserssDashboard = ({ usersStats = [] }) => {
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
+            <Tooltip title="Edit User">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
 
-            <button onClick={handleView}>
-              <ViewActionSVG />
-            </button>
+            <Tooltip title= "View User">
+              <button onClick={handleView}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
           </div>
         )
       },

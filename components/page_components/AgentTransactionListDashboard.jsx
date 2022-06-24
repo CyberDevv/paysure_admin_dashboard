@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import tw from 'twin.macro'
@@ -198,13 +199,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Transaction">
+            <button onClick={handleEdit}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handleView}>
-            <Print />
-          </button>
+          <Tooltip title="Print Transaction">
+            <button onClick={handleView}>
+              <Print />
+            </button>
+          </Tooltip>
         </div>
       )
     },

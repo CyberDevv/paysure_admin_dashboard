@@ -10,6 +10,7 @@ import {
 } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
+import { Tooltip } from '@mui/material'
 
 const SettlementListDashboard = ({ settlementListData }) => {
 // console.log("🚀 ~ file: SettlementsListDashboard.jsx ~ line 15 ~ SettlementListDashboard ~ settlementListData", settlementListData)
@@ -216,9 +217,11 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleView}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Settlement">
+            <button onClick={handleView}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           <button onClick={handleEdit}>
             <UserWithPositive />

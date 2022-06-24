@@ -16,6 +16,7 @@ import {
   FilterBox,
   DatRangePickerAndOthers,
 } from '..'
+import { Tooltip } from '@mui/material'
 
 const OrganizationsListDashboard = ({
   organizationsList,
@@ -170,13 +171,17 @@ const OrganizationsListDashboard = ({
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
+            <Tooltip title="Edit Organization">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
 
-            <button onClick={handleView}>
-              <ViewActionSVG />
-            </button>
+            <Tooltip title= "View Organization">
+              <button onClick={handleView}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
           </div>
         )
       },

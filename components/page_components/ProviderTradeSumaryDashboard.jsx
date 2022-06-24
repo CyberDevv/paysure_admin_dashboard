@@ -1,13 +1,13 @@
 import React from 'react'
 import tw from 'twin.macro'
 import CurrencyFormat from 'react-currency-format'
-import { Button, IconButton, Menu, MenuItem } from '@mui/material'
+import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
 
 import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const ProviderTradeSumaryDashboard = ({providerName, transType}) => {
+const ProviderTradeSumaryDashboard = ({ providerName, transType }) => {
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -301,13 +301,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title="View Transaction">
+            <button onClick={handleEdit}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handleView}>
-            <Print />
-          </button>
+          <Tooltip title="Print Transaction">
+            <button onClick={handleView}>
+              <Print />
+            </button>
+          </Tooltip>
         </div>
       )
     },

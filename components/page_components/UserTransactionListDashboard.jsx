@@ -5,6 +5,7 @@ import CurrencyFormat from 'react-currency-format'
 import { DataGridViewTemp } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { Print, ViewActionSVG } from '../SVGIcons'
+import { Tooltip } from '@mui/material'
 
 const UserTransactionListDashboard = () => {
   return (
@@ -243,13 +244,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Transaction">
+            <button onClick={handleEdit}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handleView}>
-            <Print />
-          </button>
+          <Tooltip title="Print Transaction">
+            <button onClick={handleView}>
+              <Print />
+            </button>
+          </Tooltip>
         </div>
       )
     },

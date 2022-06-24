@@ -8,6 +8,7 @@ import { printPartOfPage } from '../../utils/print'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { Tooltip } from '@mui/material'
 
 const TransacitonsDashboard = ({ transactionsPageStats = [] }) => {
   const { transData = [] } = transactionsPageStats
@@ -286,13 +287,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Transaction">
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handlePrint}>
-            <Print />
-          </button>
+          <Tooltip title="Print Transaction">
+            <button onClick={handlePrint}>
+              <Print />
+            </button>
+          </Tooltip>
         </div>
       )
     },

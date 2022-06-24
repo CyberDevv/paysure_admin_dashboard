@@ -5,6 +5,7 @@ import CurrencyFormat from 'react-currency-format'
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { Tooltip } from '@mui/material'
 
 const AgentsListDashboard = ({ agentsList= [], page, searchKey }) => {
   const { trxInfo = [], totalRecords } = agentsList
@@ -221,17 +222,21 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Agent">
+            <button onClick={handleEdit}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           {/* <button onClick={handleView}>
             <UserWithPositive />
           </button> */}
 
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Agent">
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
         </div>
       )
     },

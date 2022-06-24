@@ -13,6 +13,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material'
 
 import numberFormatter from '../../utils/numberFormatter'
@@ -528,13 +529,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Transaction">
+            <button onClick={handleEdit}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handleView}>
-            <Print />
-          </button>
+          <Tooltip title="Print Transaction">
+            <button onClick={handleView}>
+              <Print />
+            </button>
+          </Tooltip>
         </div>
       )
     },

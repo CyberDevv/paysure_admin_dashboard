@@ -1,6 +1,6 @@
 import tw from 'twin.macro'
 import React from 'react'
-import { Button } from '@mui/material'
+import { Button, Tooltip } from '@mui/material'
 import { PropTypes } from 'prop-types'
 
 import { Add, DeleteDataGridRecord, EditActionSVG } from './SVGIcons'
@@ -186,9 +186,11 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleView}>
-            <EditActionSVG />
-          </button>
+          <Tooltip title="Edit Band">
+            <button onClick={handleView}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
 
           <button onClick={handleEdit}>
             <DeleteDataGridRecord />

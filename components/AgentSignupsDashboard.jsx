@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { Print, ViewActionSVG } from './SVGIcons'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
 import numberFormatter from '../utils/numberFormatter'
+import { Tooltip } from '@mui/material'
 
 const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
   // data overview array
@@ -156,13 +157,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleView}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Agent">
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handleEdit}>
-            <Print />
-          </button>
+          <Tooltip title="Print Document">
+            <button onClick={handleEdit}>
+              <Print />
+            </button>
+          </Tooltip>
         </div>
       )
     },
