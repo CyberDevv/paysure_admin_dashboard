@@ -277,7 +277,11 @@ const ProviderTransactionListDashboard = ({
             dropdownData={statusDataArray}
             statusValue={status}
           />
-          <FilterBox label="Services" dropdownData={servicesDataArray} statusValue={searchKey} />
+          <FilterBox
+            label="Services"
+            dropdownData={servicesDataArray}
+            statusValue={searchKey}
+          />
         </div>
         <DatRangePickerAndOthers value={value} setValue={setValue} />
       </DataGridViewTemp>

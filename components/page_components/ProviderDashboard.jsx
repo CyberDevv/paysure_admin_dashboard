@@ -550,13 +550,13 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Transaction">
+          <Tooltip title="View Transaction">
             <button onClick={handleEdit}>
               <ViewActionSVG />
             </button>
           </Tooltip>
 
-          <Tooltip title= "Print Transaction">
+          <Tooltip title="Print Transaction">
             <button onClick={handleView}>
               <Print />
             </button>
