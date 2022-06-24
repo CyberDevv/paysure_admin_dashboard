@@ -1,12 +1,12 @@
-import tw from 'twin.macro'
-import React from 'react'
-import { useRouter } from 'next/router'
-import { Button, IconButton, Menu, MenuItem } from '@mui/material'
+import { Button, Menu, MenuItem, Pagination } from '@mui/material'
 import {
   DataGrid,
   GridToolbarContainer,
   useGridApiContext,
 } from '@mui/x-data-grid'
+import { useRouter } from 'next/router'
+import React from 'react'
+import tw from 'twin.macro'
 
 import { EmptyDataRowSVG } from './SVGIcons'
 
@@ -19,8 +19,7 @@ const CustomNoRowsOverlay = () => {
           There&apos;s nothing to show yet
         </h1>
         <p tw="text-[15px] text-[#979797] mt-3.5">
-          We&apos;ll have something to show you once transaction
-          start happening
+          We&apos;ll have something to show you once transaction start happening
         </p>
       </div>
     </div>
@@ -38,7 +37,7 @@ const DataGridView = ({
   pagination,
   pageId,
   recordCount,
-  columnVisibilityModel
+  columnVisibilityModel,
 }) => {
   const router = useRouter()
 
@@ -117,48 +116,27 @@ const DataGridView = ({
   }
 
   const CustomPagination = () => {
-    const handlePrev = () => {
+    const handlePaginationChange = (e, value) => {
       router.push({
         pathname: router.pathname,
         query: {
           ...router.query,
-          page: Number(pageId) - 1,
-        },
-      })
-    }
-
-    const handleNext = () => {
-      router.push({
-        pathname: router.pathname,
-        query: {
-          ...router.query,
-          page: Number(pageId) + 1,
+          page: value,
         },
       })
     }
 
     return (
       <div tw="space-x-4">
-        <IconButton
-          disabled={Number(pageId) === 1 || pageId === undefined ? true : false}
-          onClick={handlePrev}
-          tw="text-base"
-        >
-          &lt;
-        </IconButton>
-        <span>{pageId}</span>
-        <IconButton
-          disabled={
-            Math.ceil(Number(recordCount) / 10) < Number(pageId) ||
-            Math.ceil(Number(recordCount) / 10) === Number(pageId)
-              ? true
-              : false
-          }
-          onClick={handleNext}
-          tw="text-base"
-        >
-          &gt;
-        </IconButton>
+        <Pagination
+          page={Number(pageId)}
+          count={Math.ceil(Number(recordCount) / 10)}
+          shape="rounded"
+          onChange={handlePaginationChange}
+          siblingCount={1}
+          boundaryCount={1}
+          size="small"
+        />
       </div>
     )
   }
@@ -178,7 +156,7 @@ const DataGridView = ({
             rowHeight={70}
             pageSize={pageSize}
             pagination={pagination}
-            columnVisibilityModel = {columnVisibilityModel}
+            columnVisibilityModel={columnVisibilityModel}
             components={{
               Toolbar: CustomToolbar,
               Pagination: CustomPagination,
