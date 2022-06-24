@@ -11,6 +11,7 @@ import {
   FilterBox,
   DatRangePickerAndOthers,
 } from '..'
+import { Tooltip } from '@mui/material'
 
 const TerminalTransactionListDashboard = ({
   terminalList = [],
@@ -36,7 +37,7 @@ const TerminalTransactionListDashboard = ({
     rows = transData.map((item, index) => {
       return {
         id: item.tid,
-        col1: index + 1,
+        col1: (page - 1) * 10 + (index + 1),
         col2: item.transType,
         col3: item.paymentRef,
         col4: item.amount,
@@ -177,13 +178,17 @@ const TerminalTransactionListDashboard = ({
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <ViewActionSVG />
-            </button>
+            <Tooltip title= "view Transaction">
+              <button onClick={handleEdit}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
 
-            <button onClick={handleView}>
-              <Print />
-            </button>
+            <Tooltip title= "Print Transaction">
+              <button onClick={handleView}>
+                <Print />
+              </button>
+            </Tooltip>
           </div>
         )
       },
@@ -197,7 +202,7 @@ const TerminalTransactionListDashboard = ({
         rows={rows}
         columns={columns}
         page={page}
-        recordCount={terminalList.recordCount ? terminalList.recordCount : 0}
+        recordCount={terminalList.recordsCount ? terminalList.recordsCount : 0}
         pagination={true}
         className={tw`grid grid-auto-columns[auto] gap-4 w-full xl:(flex items-center space-y-0 space-x-4)`}
         hasExportBtn
