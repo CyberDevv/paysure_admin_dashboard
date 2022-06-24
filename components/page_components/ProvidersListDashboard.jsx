@@ -1,16 +1,17 @@
-import React from 'react'
+import { Tooltip } from '@mui/material'
 import axios from 'axios'
 import moment from 'moment'
-import tw from 'twin.macro'
 import Router from 'next/router'
-import { toast } from 'react-toastify'
+import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import { toast } from 'react-toastify'
+import tw from 'twin.macro'
 
-import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
-import Modal from '../layouts/modal_ayout/index.modal_layout'
+import { DataGridViewTemp, DatRangePickerAndOthers, FilterBox, SearchBar } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, SearchBar, FilterBox, DatRangePickerAndOthers } from '..'
+import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 
 const ProvidersListDashboard = ({
   providersList = [],
@@ -259,13 +260,17 @@ const ProvidersListDashboard = ({
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
+            <Tooltip title= "Edit Provider">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
 
-            <button onClick={handleView}>
-              <ViewActionSVG />
-            </button>
+            <Tooltip title= "View Provider">
+              <button onClick={handleView}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
           </div>
         )
       },

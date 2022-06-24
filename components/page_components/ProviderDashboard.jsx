@@ -1,27 +1,24 @@
-import React from 'react'
-import axios from 'axios'
-import moment from 'moment'
-import tw from 'twin.macro'
-import { useSWRConfig } from 'swr'
-import uid from 'generate-unique-id'
-import { toast } from 'react-toastify'
-import OtpInput from 'react-otp-input'
 import { LoadingButton } from '@mui/lab'
+import { IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
+import axios from 'axios'
+import uid from 'generate-unique-id'
+import moment from 'moment'
+import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import OtpInput from 'react-otp-input'
 import { usePaystackPayment } from 'react-paystack'
-import { IconButton, Menu, MenuItem } from '@mui/material'
+import { toast } from 'react-toastify'
+import tw from 'twin.macro'
 
-import { onClose, onSuccess } from '../../utils/Paystack'
+import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import numberFormatter from '../../utils/numberFormatter'
+import { onClose, onSuccess } from '../../utils/Paystack'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { EllipsisSVG, Print, SuccessfulSVG, ViewActionSVG } from '../SVGIcons'
 
 const UserDashboard = ({ providerData, providerName }) => {
-  ;`/api/terminals/${terminalId}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`
-
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [isModalOpened, setIsModalOpened] = React.useState(false)
@@ -553,13 +550,17 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <button onClick={handleEdit}>
-            <ViewActionSVG />
-          </button>
+          <Tooltip title= "View Transaction">
+            <button onClick={handleEdit}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
 
-          <button onClick={handleView}>
-            <Print />
-          </button>
+          <Tooltip title= "Print Transaction">
+            <button onClick={handleView}>
+              <Print />
+            </button>
+          </Tooltip>
         </div>
       )
     },

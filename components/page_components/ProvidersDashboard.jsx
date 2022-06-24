@@ -4,8 +4,8 @@ import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
 import { useSWRConfig } from 'swr'
-import { Button } from '@mui/material'
 import { toast } from 'react-toastify'
+import { Button, Tooltip } from '@mui/material'
 import CurrencyFormat from 'react-currency-format'
 
 import Layout from '../layouts/main_layout/index.main_layout'
@@ -15,7 +15,6 @@ import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
-console.log("🚀 ~ file: ProvidersDashboard.jsx ~ line 18 ~ ProvidersDashboard ~ providersList", providersList)
   const { providerInfo = [] } = providersList
 
   // useState hook
@@ -266,13 +265,17 @@ console.log("🚀 ~ file: ProvidersDashboard.jsx ~ line 18 ~ ProvidersDashboard 
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
+            <Tooltip title= "Edit Provider">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
 
-            <button onClick={handleView}>
-              <ViewActionSVG />
-            </button>
+            <Tooltip title= "View Provider">
+              <button onClick={handleView}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
           </div>
         )
       },

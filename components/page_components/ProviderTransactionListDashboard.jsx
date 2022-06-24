@@ -1,11 +1,12 @@
-import React from 'react'
 import moment from 'moment'
-import tw from 'twin.macro'
+import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import tw from 'twin.macro'
 
-import { Print, ViewActionSVG } from '../SVGIcons'
+import { Tooltip } from '@mui/material'
+import { DataGridViewTemp, DatRangePickerAndOthers, FilterBox } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, FilterBox, DatRangePickerAndOthers } from '..'
+import { Print, ViewActionSVG } from '../SVGIcons'
 
 const ProviderTransactionListDashboard = ({
   providerData,
@@ -165,13 +166,17 @@ const ProviderTransactionListDashboard = ({
 
         return (
           <div tw="space-x-1">
-            <button onClick={handleEdit}>
-              <ViewActionSVG />
-            </button>
+            <Tooltip title="View Transaction">
+              <button onClick={handleEdit}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
 
-            <button onClick={handleView}>
-              <Print />
-            </button>
+            <Tooltip title="Print Transaction">
+              <button onClick={handleView}>
+                <Print />
+              </button>
+            </Tooltip>
           </div>
         )
       },
