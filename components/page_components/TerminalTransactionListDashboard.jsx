@@ -21,6 +21,7 @@ const TerminalTransactionListDashboard = ({
   toDate,
   fromDate,
 }) => {
+  console.log("🚀 ~ file: TerminalTransactionListDashboard.jsx ~ line 24 ~ terminalList", terminalList)
   const { transData = [] } = terminalList
 
   // useState hook
@@ -42,7 +43,7 @@ const TerminalTransactionListDashboard = ({
         col3: item.paymentRef,
         col4: item.amount,
         col5: item.rrn,
-        col6: item.none,
+        // col6: item.none,
         col7: item.transDate,
         col8: item.status,
         col9: '',
@@ -117,13 +118,13 @@ const TerminalTransactionListDashboard = ({
       flex: 1,
       headerClassName: 'grid-header',
     },
-    {
-      field: 'col6',
-      headerName: 'Status Code',
-      minWidth: 150,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
+    // {
+    //   field: 'col6',
+    //   headerName: 'Status Code',
+    //   minWidth: 150,
+    //   flex: 1,
+    //   headerClassName: 'grid-header',
+    // },
     {
       field: 'col7',
       headerName: 'Notification Time',
