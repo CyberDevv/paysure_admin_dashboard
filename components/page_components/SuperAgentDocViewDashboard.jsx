@@ -382,7 +382,7 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Document">
+          <Tooltip title="View Document">
             <button onClick={handleView}>
               <ViewActionSVG />
             </button>

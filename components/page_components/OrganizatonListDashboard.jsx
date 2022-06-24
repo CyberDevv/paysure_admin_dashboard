@@ -177,7 +177,7 @@ const OrganizationsListDashboard = ({
               </button>
             </Tooltip>
 
-            <Tooltip title= "View Organization">
+            <Tooltip title="View Organization">
               <button onClick={handleView}>
                 <ViewActionSVG />
               </button>
@@ -202,7 +202,7 @@ const OrganizationsListDashboard = ({
       label: 'Inactive',
     },
   ]
-  
+
   return (
     <Layout goBack>
       <DataGridViewTemp
