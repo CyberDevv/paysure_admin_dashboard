@@ -13,7 +13,7 @@ import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
 import { Tooltip } from '@mui/material'
 
 const SettlementListDashboard = ({ settlementListData }) => {
-// console.log("🚀 ~ file: SettlementsListDashboard.jsx ~ line 15 ~ SettlementListDashboard ~ settlementListData", settlementListData)
+  // console.log("🚀 ~ file: SettlementsListDashboard.jsx ~ line 15 ~ SettlementListDashboard ~ settlementListData", settlementListData)
   const { transData } = settlementListData
 
   // DataGrid rows
