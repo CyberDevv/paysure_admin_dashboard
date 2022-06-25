@@ -287,7 +287,7 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Transaction">
+          <Tooltip title="View Transaction">
             <button onClick={handleView}>
               <ViewActionSVG />
             </button>

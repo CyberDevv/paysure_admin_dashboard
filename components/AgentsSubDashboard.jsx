@@ -247,7 +247,7 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
             <UserWithPositive />
           </button> */}
 
-            <Tooltip title= "View Agent">
+            <Tooltip title="View Agent">
               <button onClick={handleView}>
                 <ViewActionSVG />
               </button>

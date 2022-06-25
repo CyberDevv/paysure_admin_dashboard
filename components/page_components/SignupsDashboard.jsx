@@ -17,7 +17,7 @@ function a11yProps(index) {
   }
 }
 
-export default function SignupsDashboard({signupsList = []}) {
+export default function SignupsDashboard({ signupsList = [] }) {
   const [tabValue, setTabValue] = useState(0)
 
   const handleChange = (event, newValue) => {

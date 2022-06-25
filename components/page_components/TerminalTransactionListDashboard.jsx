@@ -21,7 +21,10 @@ const TerminalTransactionListDashboard = ({
   toDate,
   fromDate,
 }) => {
-  console.log("🚀 ~ file: TerminalTransactionListDashboard.jsx ~ line 24 ~ terminalList", terminalList)
+  console.log(
+    '🚀 ~ file: TerminalTransactionListDashboard.jsx ~ line 24 ~ terminalList',
+    terminalList,
+  )
   const { transData = [] } = terminalList
 
   // useState hook
@@ -179,13 +182,13 @@ const TerminalTransactionListDashboard = ({
 
         return (
           <div tw="space-x-1">
-            <Tooltip title= "view Transaction">
+            <Tooltip title="view Transaction">
               <button onClick={handleEdit}>
                 <ViewActionSVG />
               </button>
             </Tooltip>
 
-            <Tooltip title= "Print Transaction">
+            <Tooltip title="Print Transaction">
               <button onClick={handleView}>
                 <Print />
               </button>

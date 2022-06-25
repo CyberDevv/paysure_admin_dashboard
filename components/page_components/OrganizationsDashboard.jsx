@@ -133,138 +133,139 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
     rows = []
   }
 
-
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return <span>{params.row.col1}.</span>
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
     },
-  },
-  {
-    field: 'col2',
-    headerName: 'Name of Organisation',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col4}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
+    {
+      field: 'col2',
+      headerName: 'Name of Organisation',
+      minWidth: 227,
+      flex: 1,
+      headerClassName: 'grid-header',
     },
-  },
-  {
-    field: 'col5',
-    headerName: 'Transactions(N)',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col5}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
+    {
+      field: 'col3',
+      headerName: 'No. of Transactions',
+      minWidth: 176,
+      flex: 1,
+      headerClassName: 'grid-header',
     },
-  },
-  {
-    field: 'col6',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col6}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
+    {
+      field: 'col4',
+      headerName: 'Wallet Balance',
+      minWidth: 150,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col4}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
-  },
-  {
-    field: 'col7',
-    headerName: 'Date Added',
-    minWidth: 183,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+    {
+      field: 'col5',
+      headerName: 'Transactions(N)',
+      minWidth: 144,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col5}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
-  },
-  {
-    field: 'col8',
-    headerName: 'Action.',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        Router.push(`/organizations/${thisRow.col2}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <Tooltip title="Edit Organization">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
-          </Tooltip>
-
-          <Tooltip title= "View Organization">
-            <button onClick={handleView}>
-              <ViewActionSVG />
-            </button>
-          </Tooltip>
-        </div>
-      )
+    {
+      field: 'col6',
+      headerName: 'Charges',
+      minWidth: 153,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col6}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
-  },
-]
-  
+    {
+      field: 'col7',
+      headerName: 'Date Added',
+      minWidth: 183,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
+    },
+    {
+      field: 'col8',
+      headerName: 'Action.',
+      minWidth: 100,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        const handleEdit = () => {
+          console.log('edit')
+        }
+
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          Router.push(`/organizations/${thisRow.col2}`)
+        }
+
+        return (
+          <div tw="space-x-1">
+            <Tooltip title="Edit Organization">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
+
+            <Tooltip title="View Organization">
+              <button onClick={handleView}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
+          </div>
+        )
+      },
+    },
+  ]
+
   return (
     <Layout title="Organizations">
       <div css={[tw`flex justify-between items-center w-full`]}>

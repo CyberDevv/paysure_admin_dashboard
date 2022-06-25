@@ -192,7 +192,7 @@ const UsersListDashboard = ({
               </button>
             </Tooltip>
 
-            <Tooltip title= "View User">
+            <Tooltip title="View User">
               <button onClick={handleView}>
                 <ViewActionSVG />
               </button>
