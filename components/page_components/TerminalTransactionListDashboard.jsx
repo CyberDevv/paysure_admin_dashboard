@@ -5,7 +5,10 @@ import tw from 'twin.macro'
 
 import { Tooltip } from '@mui/material'
 import {
-  DataGridViewTemp, DatRangePickerAndOthers, FilterBox, SearchBar
+  DataGridViewTemp,
+  DatRangePickerAndOthers,
+  FilterBox,
+  SearchBar,
 } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { Print, ViewActionSVG } from '../SVGIcons'
@@ -175,13 +178,13 @@ const TerminalTransactionListDashboard = ({
 
         return (
           <div tw="space-x-1">
-            <Tooltip title= "view Transaction">
+            <Tooltip title="view Transaction">
               <button onClick={handleEdit}>
                 <ViewActionSVG />
               </button>
             </Tooltip>
 
-            <Tooltip title= "Print Transaction">
+            <Tooltip title="Print Transaction">
               <button onClick={handleView}>
                 <Print />
               </button>
