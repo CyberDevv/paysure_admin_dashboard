@@ -265,13 +265,13 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
 
         return (
           <div tw="space-x-1">
-            <Tooltip title= "Edit Provider">
+            <Tooltip title="Edit Provider">
               <button onClick={handleEdit}>
                 <EditActionSVG />
               </button>
             </Tooltip>
 
-            <Tooltip title= "View Provider">
+            <Tooltip title="View Provider">
               <button onClick={handleView}>
                 <ViewActionSVG />
               </button>

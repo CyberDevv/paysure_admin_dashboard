@@ -617,7 +617,7 @@ const Agentscolumns = [
             <UserWithPositive />
           </button>
 
-          <Tooltip title= "View Super Agent">
+          <Tooltip title="View Super Agent">
             <button onClick={handleView}>
               <ViewActionSVG />
             </button>
