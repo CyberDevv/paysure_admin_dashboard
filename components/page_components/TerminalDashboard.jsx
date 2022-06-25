@@ -72,7 +72,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
   /* A constant that holds the user details. */
   const userDetails = {
     agent: terminalStats.agentName,
-    superAgent: terminalStats.none,
+    superAgent: terminalStats.partnerName,
     serialNumber: terminalStats.serialNumber,
     plan: terminalStats.plan,
     bank: terminalStats.bank,
@@ -115,7 +115,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
         col3: item.paymentRef,
         col4: item.amount,
         col5: item.rrn,
-        col6: item.none,
+        // col6: item.none,
         col7: item.transDate,
         col8: item.status,
         col9: '',
@@ -175,13 +175,13 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
       flex: 1,
       headerClassName: 'grid-header',
     },
-    {
-      field: 'col6',
-      headerName: 'Status Code',
-      minWidth: 150,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
+    // {
+    //   field: 'col6',
+    //   headerName: 'Status Code',
+    //   minWidth: 150,
+    //   flex: 1,
+    //   headerClassName: 'grid-header',
+    // },
     {
       field: 'col7',
       headerName: 'Notification Time',
@@ -264,6 +264,7 @@ const TerminalDashboard = ({ terminalStats = [], terminalId }) => {
             <AvatarDetails>
               <UserName className="font-bold">{terminalId}</UserName>
               <LastSeen>
+                {/* TODO: Ask the PM what this is */}
                 Jaja Wakachu
                 <Chip
                   sx={[

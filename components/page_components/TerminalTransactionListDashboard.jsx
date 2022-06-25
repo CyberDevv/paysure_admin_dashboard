@@ -1,17 +1,14 @@
-import tw from 'twin.macro'
-import React from 'react'
 import moment from 'moment'
+import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import tw from 'twin.macro'
 
-import { Print, ViewActionSVG } from '../SVGIcons'
-import Layout from '../layouts/main_layout/index.main_layout'
-import {
-  DataGridViewTemp,
-  SearchBar,
-  FilterBox,
-  DatRangePickerAndOthers,
-} from '..'
 import { Tooltip } from '@mui/material'
+import {
+  DataGridViewTemp, DatRangePickerAndOthers, FilterBox, SearchBar
+} from '..'
+import Layout from '../layouts/main_layout/index.main_layout'
+import { Print, ViewActionSVG } from '../SVGIcons'
 
 const TerminalTransactionListDashboard = ({
   terminalList = [],
@@ -21,7 +18,6 @@ const TerminalTransactionListDashboard = ({
   toDate,
   fromDate,
 }) => {
-  console.log("🚀 ~ file: TerminalTransactionListDashboard.jsx ~ line 24 ~ terminalList", terminalList)
   const { transData = [] } = terminalList
 
   // useState hook
