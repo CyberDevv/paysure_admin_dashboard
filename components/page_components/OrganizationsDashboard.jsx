@@ -1,20 +1,20 @@
-import React from 'react'
+import { Button, Tooltip } from '@mui/material'
 import axios from 'axios'
 import moment from 'moment'
-import tw from 'twin.macro'
 import Router from 'next/router'
-import { toast } from 'react-toastify'
-import { Button, Tooltip } from '@mui/material'
+import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import tw from 'twin.macro'
 
 import { DataGridViewTemp, HomeDisplayCard } from '..'
-import numberFormatter from '../../utils/numberFormatter'
-import Modal from '../layouts/modal_ayout/index.modal_layout'
-import Layout from '../layouts/main_layout/index.main_layout'
-import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
-import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import { fetchPartnerClass } from '../../features/partnerClassSlice'
+import numberFormatter from '../../utils/numberFormatter'
+import Layout from '../layouts/main_layout/index.main_layout'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
+import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 
 const OrganizationsDashboard = ({ organizaionStats = [] }) => {
   const { partnerData = [] } = organizaionStats
@@ -31,6 +31,26 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
     state => state.partnerClass,
   )
 
+  const temporalData = [
+    {
+      amount: numberFormatter(organizaionStats.partnersCount),
+      title: 'Organizations',
+      link: '/organizations/organizations_list',
+    },
+    {
+      amount: numberFormatter('143843938'),
+      title: 'Total Transactions',
+    },
+    {
+      amount: numberFormatter('109313'),
+      title: 'Completed Transactions',
+    },
+    {
+      amount: numberFormatter('132'),
+      title: 'Pending Transactions',
+    },
+  ]
+  
   // array of partner class
   const partnerClassArray = partnerClassList.data?.map(item => {
     return {
@@ -122,7 +142,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
         col1: index + 1,
         col2: organization.fullName,
         col3: organization.transCount,
-        col4: organization.none,
+        col4: organization.walletBalance,
         col5: organization.transSum,
         col6: organization.charges,
         col7: organization.createdDate,
@@ -133,138 +153,139 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
     rows = []
   }
 
-
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return <span>{params.row.col1}.</span>
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
     },
-  },
-  {
-    field: 'col2',
-    headerName: 'Name of Organisation',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col4}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
+    {
+      field: 'col2',
+      headerName: 'Name of Organisation',
+      minWidth: 227,
+      flex: 1,
+      headerClassName: 'grid-header',
     },
-  },
-  {
-    field: 'col5',
-    headerName: 'Transactions(N)',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col5}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
+    {
+      field: 'col3',
+      headerName: 'No. of Transactions',
+      minWidth: 176,
+      flex: 1,
+      headerClassName: 'grid-header',
     },
-  },
-  {
-    field: 'col6',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col6}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
+    {
+      field: 'col4',
+      headerName: 'Wallet Balance',
+      minWidth: 150,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col4}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
-  },
-  {
-    field: 'col7',
-    headerName: 'Date Added',
-    minWidth: 183,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+    {
+      field: 'col5',
+      headerName: 'Transactions(N)',
+      minWidth: 144,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col5}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
-  },
-  {
-    field: 'col8',
-    headerName: 'Action.',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        Router.push(`/organizations/${thisRow.col2}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <Tooltip title="Edit Organization">
-            <button onClick={handleEdit}>
-              <EditActionSVG />
-            </button>
-          </Tooltip>
-
-          <Tooltip title= "View Organization">
-            <button onClick={handleView}>
-              <ViewActionSVG />
-            </button>
-          </Tooltip>
-        </div>
-      )
+    {
+      field: 'col6',
+      headerName: 'Charges',
+      minWidth: 153,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col6}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
-  },
-]
-  
+    {
+      field: 'col7',
+      headerName: 'Date Added',
+      minWidth: 183,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
+    },
+    {
+      field: 'col8',
+      headerName: 'Action.',
+      minWidth: 100,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        const handleEdit = () => {
+          console.log('edit')
+        }
+
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          Router.push(`/organizations/${thisRow.col2}`)
+        }
+
+        return (
+          <div tw="space-x-1">
+            <Tooltip title="Edit Organization">
+              <button onClick={handleEdit}>
+                <EditActionSVG />
+              </button>
+            </Tooltip>
+
+            <Tooltip title="View Organization">
+              <button onClick={handleView}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
+          </div>
+        )
+      },
+    },
+  ]
+
   return (
     <Layout title="Organizations">
       <div css={[tw`flex justify-between items-center w-full`]}>
@@ -349,7 +370,7 @@ const columns = [
       <HomeDisplayCard data={temporalData} />
 
       <DataGridViewTemp
-        limited
+        limiteddata
         link="/organizations/organizations_list"
         title="Organizations"
         rows={rows}
@@ -358,27 +379,6 @@ const columns = [
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const temporalData = [
-  {
-    amount: numberFormatter(194),
-    title: 'Organizations',
-    link: '/organizations/organizations_list',
-  },
-  {
-    amount: numberFormatter('143843938'),
-    title: 'Total Transactions',
-  },
-  {
-    amount: numberFormatter('109313'),
-    title: 'Completed Transactions',
-  },
-  {
-    amount: numberFormatter('132'),
-    title: 'Pending Transactions',
-  },
-]
 
 // Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`

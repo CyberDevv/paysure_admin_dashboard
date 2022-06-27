@@ -8,7 +8,8 @@ import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
-const UserDashboard = ({ organizationStats = [] }) => {
+const UserDashboard = ({ organizationStats = [], organizationName }) => {
+console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ organizationStats", organizationStats)
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -58,7 +59,7 @@ const UserDashboard = ({ organizationStats = [] }) => {
           {/* Avatar */}
           <AvatarWrapper>
             <AvatarDetails>
-              <UserName className="font-bold">{userDetails.name}</UserName>
+              <UserName className="font-bold">{organizationName}</UserName>
               <LastSeen>POS Withdrawal | Transfer | BVN</LastSeen>
             </AvatarDetails>
           </AvatarWrapper>
@@ -152,11 +153,6 @@ const servicesData = [
     label: 'BVN',
   },
 ]
-
-// FIXME: Temp data (should be replaced with real data)
-const userDetails = {
-  name: 'Apple',
-}
 
 // FIXME: Temp data (should be replaced with real data)
 const rows = [

@@ -20,7 +20,7 @@ export async function getServerSideProps(ctx) {
     {
       requestId: uid({ length: 20 }),
       // TODO: change this to the correct amount of days
-      fromDate: moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
+      fromDate: moment().subtract(40, 'days').format('YYYY-MM-DD 12:00:00'),
       toDate: moment().format('YYYY-MM-DD 23:59:59'),
       pageId: 1,
       pageSize: 5,

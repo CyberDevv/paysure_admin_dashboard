@@ -1,22 +1,18 @@
-import React from 'react'
-import axios from 'axios'
 import moment from 'moment'
-import tw from 'twin.macro'
 import Router from 'next/router'
-import { toast } from 'react-toastify'
+import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import tw from 'twin.macro'
 
-import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
-import Modal from '../layouts/modal_ayout/index.modal_layout'
-import Layout from '../layouts/main_layout/index.main_layout'
-import Label from '../layouts/modal_ayout/LabelInput.main_layout'
+import { Tooltip } from '@mui/material'
 import {
   DataGridViewTemp,
-  SearchBar,
-  FilterBox,
   DatRangePickerAndOthers,
+  FilterBox,
+  SearchBar,
 } from '..'
-import { Tooltip } from '@mui/material'
+import Layout from '../layouts/main_layout/index.main_layout'
+import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 
 const OrganizationsListDashboard = ({
   organizationsList,
@@ -44,7 +40,7 @@ const OrganizationsListDashboard = ({
         col1: (page - 1) * 10 + (index + 1),
         col2: organization.fullName,
         col3: organization.transCount,
-        col4: organization.none,
+        col4: organization.walletBalance,
         col5: organization.transSum,
         col6: organization.charges,
         col7: organization.createdDate,
@@ -177,7 +173,7 @@ const OrganizationsListDashboard = ({
               </button>
             </Tooltip>
 
-            <Tooltip title= "View Organization">
+            <Tooltip title="View Organization">
               <button onClick={handleView}>
                 <ViewActionSVG />
               </button>
@@ -202,7 +198,7 @@ const OrganizationsListDashboard = ({
       label: 'Inactive',
     },
   ]
-  
+
   return (
     <Layout goBack>
       <DataGridViewTemp

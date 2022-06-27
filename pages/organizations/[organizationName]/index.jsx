@@ -23,6 +23,7 @@ export async function getServerSideProps(ctx) {
       pageSize = 5,
     },
   } = ctx
+  console.log("🚀 ~ file: index.jsx ~ line 25 ~ getServerSideProps ~ organizationName", organizationName)
 
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
@@ -40,7 +41,6 @@ export async function getServerSideProps(ctx) {
     'POST',
     USER_AUTHORIZATION,
   )
-  console.log("🚀 ~ file: index.jsx ~ line 43 ~ getServerSideProps ~ organizationStats", organizationStats)
 
   return {
     props: {
@@ -71,8 +71,9 @@ function OrganizationPage() {
   const { data } = useSWR(
     `/api/organizations/${organizationName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
     fetcher,
-  )
-
+    )
+    console.log("🚀 ~ file: index.jsx ~ line 71 ~ OrganizationPage ~ data", data)
+    
   return (
     <>
       <Head>

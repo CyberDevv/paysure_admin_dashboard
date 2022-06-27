@@ -1,13 +1,13 @@
-import React from 'react'
 import moment from 'moment'
 import Head from 'next/head'
 import Router from 'next/router'
-import useSWR, { SWRConfig } from 'swr'
-import { useDispatch } from 'react-redux'
 import nookies, { destroyCookie } from 'nookies'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import useSWR, { SWRConfig } from 'swr'
 
-import { logout } from '../../features/userSlice'
 import { OrganizationsDashboard } from '../../components'
+import { logout } from '../../features/userSlice'
 import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
@@ -16,7 +16,7 @@ export async function getServerSideProps(ctx) {
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/organizations/organizaionStats
   const organizaionStats = await makeEncryptedRequest(
     {
-      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
+      fromDate: moment().subtract(600, 'days').format('YYYY-MM-DD 12:00:00'),
       toDate: moment().format('YYYY-MM-DD 23:59:59'),
       status: 1,
       searchKey: '',
