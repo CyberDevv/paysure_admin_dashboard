@@ -9,7 +9,10 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 
 const UserDashboard = ({ organizationStats = [], organizationName }) => {
-console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ organizationStats", organizationStats)
+  console.log(
+    '🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ organizationStats',
+    organizationStats,
+  )
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
 

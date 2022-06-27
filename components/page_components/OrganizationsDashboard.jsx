@@ -50,7 +50,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
       title: 'Pending Transactions',
     },
   ]
-  
+
   // array of partner class
   const partnerClassArray = partnerClassList.data?.map(item => {
     return {
