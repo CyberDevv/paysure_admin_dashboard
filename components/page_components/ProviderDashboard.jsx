@@ -37,15 +37,13 @@ const UserDashboard = ({ providerData, providerName }) => {
   // Configuration for payStack
   const config = {
     reference: new Date().getTime().toString(),
-    email: 'email@gmail.com',
+    email: providerData.providerEmail,
     amount: fundAmount * 100,
-    // publicKey: 'pk_live_fcbb491ce3cfb18d0e101a0879b21c9f04f9dad2',
     publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
     metadata: {
       custom_field: [
         {
-          'First Name': 'firstName',
-          'Last Name': 'lastName',
+          'Provider Name': providerName,
           'Transaction ID': uid({ length: 20 }),
           'Phone Number': 'phone',
           'Wallet ID': 2342424,
@@ -117,7 +115,17 @@ const UserDashboard = ({ providerData, providerName }) => {
   const handleModalBtnClick = () => {
     // fund wallet
     if (modalState === 'fundWallet') {
-      initializePayment(onSuccess, onClose)
+      // confirm if email is valid and proceed to fund wallet
+      if (
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+          providerData.providerEmail,
+        )
+      ) {
+        initializePayment(onSuccess, onClose)
+      } else {
+        toast.error('Email is not valid')
+        return
+      }
 
       // setModalState('newCard')
       // setModalTitle(['New Card', 'Continue'])
@@ -550,13 +558,13 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Transaction">
+          <Tooltip title="View Transaction">
             <button onClick={handleEdit}>
               <ViewActionSVG />
             </button>
           </Tooltip>
 
-          <Tooltip title= "Print Transaction">
+          <Tooltip title="Print Transaction">
             <button onClick={handleView}>
               <Print />
             </button>

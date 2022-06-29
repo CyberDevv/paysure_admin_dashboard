@@ -27,6 +27,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
   const [btnLabel, setBtnLabel] = React.useState('Add Provider')
   const [modalLabel, setModalLabel] = React.useState('Add New Provider')
   const [isLoading, setIsLoading] = React.useState(false)
+  const [emailAddress, setEmailAddress] = React.useState('')
 
   const { mutate } = useSWRConfig()
 
@@ -64,39 +65,6 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
       ),
       label: 'Total Transactions',
     },
-    // {
-    //   amount: (
-    //     <CurrencyFormat
-    //       value={providerStats.sumTotalData}
-    //       displayType={'text'}
-    //       thousandSeparator={true}
-    //       prefix={'₦'}
-    //     />
-    //   ),
-    //   label: 'Data',
-    // },
-    // {
-    //   amount: (
-    //     <CurrencyFormat
-    //       value={70000}
-    //       displayType={'text'}
-    //       thousandSeparator={true}
-    //       prefix={'₦'}
-    //     />
-    //   ),
-    //   label: 'Transfer',
-    // },
-    // {
-    //   amount: (
-    //     <CurrencyFormat
-    //       value={70000}
-    //       displayType={'text'}
-    //       thousandSeparator={true}
-    //       prefix={'₦'}
-    //     />
-    //   ),
-    //   label: 'Airtime',
-    // },
   ]
 
   // rows
@@ -290,12 +258,13 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
     setProviderName(''),
     setWalletBallance(''),
     setServicesDesc(''),
-    setServicesCount('')
+    setServicesCount(''),
+    setEmailAddress('')
   )
 
   const handleAddProvider = () => {
     // Validation
-    if (!providerName || !walletBalance || !servicesDesc || !servicesCount) {
+    if (!providerName || !walletBalance || !servicesDesc || !servicesCount || !emailAddress) {
       toast.error('Please fill all the fields')
       return
     }
@@ -310,6 +279,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
           walletBalanceRefined,
           servicesCount,
           servicesDesc,
+          emailAddress,
         })
         .then(res => {
           if (res.status === 200) {
@@ -346,6 +316,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
           walletBalanceRefined,
           servicesCount,
           servicesDesc,
+          emailAddress,
           tid,
         })
         .then(res => {
@@ -405,6 +376,13 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
             placeholder="Provider"
             value={providerName}
             setState={setProviderName}
+          />
+          <Label
+            label="Email Address"
+            type="email"
+            placeholder="provider@example.com"
+            value={emailAddress}
+            setState={setEmailAddress}
           />
           <Label
             label="Wallet Ballance"
