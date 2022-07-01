@@ -1,20 +1,25 @@
+import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
 import React from 'react'
-import tw from 'twin.macro'
 import CurrencyFormat from 'react-currency-format'
-import { Button, IconButton, Menu, MenuItem } from '@mui/material'
+import tw from 'twin.macro'
+import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 
-import { EllipsisSVG } from '../SVGIcons'
+import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import moment from 'moment'
 
-const UserDashboard = ({ organizationStats = [], organizationName }) => {
-console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ organizationStats", organizationStats)
+const UserDashboard = ({ organizationStats = [] }) => {
+  const { partnerTrx = {} } = organizationStats
+
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [isLoading, setIsLOading] = React.useState(false)
 
   // functions
   const handleDeactivate = () => clg('handleDeactivate')
+
+  const handleActivate = () => clg('handleActivate')
 
   const open = Boolean(anchorEl)
 
@@ -24,6 +29,42 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ 
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  // rows
+  let rows
+  // check if partnerTrx.transData is an array
+  if (Array.isArray(partnerTrx.transData)) {
+    rows = partnerTrx.transData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.transType,
+        col3: item.requestId,
+        col4: item.amount,
+        col5: item.fee,
+        col6: item.status,
+        col7: item.transDate,
+        col8: '',
+      }
+    })
+  } else {
+    rows = []
+  }
+
+  const servicesData = [
+    {
+      amount: numberFormatter(55102430),
+      label: 'POS Withdrawal',
+    },
+    {
+      amount: numberFormatter(1350),
+      label: 'Transfer',
+    },
+    {
+      amount: numberFormatter(10),
+      label: 'BVN',
+    },
+  ]
 
   // overview data
   const organizationData = [
@@ -39,16 +80,149 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ 
       title: 'Total Transactions (N)',
     },
     {
-      amount: numberFormatter('120'),
+      amount: numberFormatter(partnerTrx.approvedTransactions),
       title: 'Total Completed Transactions',
     },
     {
-      amount: numberFormatter('30'),
+      amount: numberFormatter(partnerTrx.failedTransactions),
       title: 'Total Failed Transactions',
     },
     {
-      amount: numberFormatter('72'),
+      amount: numberFormatter(partnerTrx.none),
       title: 'Total Pending Transactions',
+    },
+  ]
+
+  // dataGrid columns
+  const columns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
+    },
+    {
+      field: 'col2',
+      headerName: 'Service Type',
+      minWidth: 157,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col3',
+      headerName: 'Transaction ID',
+      minWidth: 200,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'col4',
+      headerName: 'Amount',
+      minWidth: 143,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col4}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col5',
+      headerName: 'Charge',
+      minWidth: 126,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col5}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
+    },
+    {
+      field: 'col6',
+      headerName: 'Status',
+      minWidth: 150,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span
+            css={
+              params.row.col6?.toLowerCase() !== 'accepted'
+                ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded capitalize`
+                : tw`bg-border2 text-paysure-100 p-1 rounded capitalize`
+            }
+          >
+            {params.row.col6}
+          </span>
+        )
+      },
+    },
+    {
+      field: 'col7',
+      headerName: 'Date',
+      minWidth: 170,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return (
+          <span>{moment(params.row.col7).format('MMM DD, YYYY HH:mm')}</span>
+        )
+      },
+    },
+    {
+      field: 'col8',
+      headerName: 'Action.',
+      minWidth: 100,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        const handleEdit = () => {}
+
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          // Router.push(`/users/${thisRow.col1}`)
+        }
+
+        return (
+          <div tw="space-x-1">
+            <Tooltip title="View Transaction">
+              <button onClick={handleEdit}>
+                <ViewActionSVG />
+              </button>
+            </Tooltip>
+
+            <Tooltip title="Print Transaction">
+              <button onClick={handleView}>
+                <Print />
+              </button>
+            </Tooltip>
+          </div>
+        )
+      },
     },
   ]
 
@@ -59,7 +233,9 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ 
           {/* Avatar */}
           <AvatarWrapper>
             <AvatarDetails>
-              <UserName className="font-bold">{organizationName}</UserName>
+              <UserName className="font-bold">
+                {organizationStats.partnerName}
+              </UserName>
               <LastSeen>POS Withdrawal | Transfer | BVN</LastSeen>
             </AvatarDetails>
           </AvatarWrapper>
@@ -87,7 +263,15 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ 
               }}
             >
               <MenuItem onClick={handleClose}>
-                <button onClick={handleDeactivate}>Deactivate</button>
+                {organizationStats.partnerStatus?.toLowerCase() ===
+                  'active' && (
+                  <button onClick={handleDeactivate}>Deactivate</button>
+                )}
+
+                {organizationStats.partnerStatus?.toLowerCase() !==
+                  'active' && (
+                  <button onClick={handleActivate}>Activate</button>
+                )}
               </MenuItem>
             </Menu>
           </div>
@@ -95,12 +279,27 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ 
 
         {/* Action Buttons */}
         <ButtonWrapper>
-          <MUIButton
-            onClick={handleDeactivate}
-            tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
-          >
-            Deactivate
-          </MUIButton>
+          {/* Button to deactivate provider */}
+          {organizationStats.partnerStatus?.toLowerCase() === 'active' && (
+            <MUIButton
+              loading={isLoading}
+              onClick={handleDeactivate}
+              tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
+            >
+              Deactivate
+            </MUIButton>
+          )}
+
+          {/* Button to activate provider */}
+          {organizationStats.partnerStatus?.toLowerCase() !== 'active' && (
+            <MUIButton
+              loading={isLoading}
+              onClick={handleActivate}
+              tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)"
+            >
+              Activate
+            </MUIButton>
+          )}
         </ButtonWrapper>
       </Header>
 
@@ -137,173 +336,6 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 12 ~ UserDashboard ~ 
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const servicesData = [
-  {
-    amount: numberFormatter(55102430),
-    label: 'POS Withdrawal',
-  },
-  {
-    amount: numberFormatter(1350),
-    label: 'Transfer',
-  },
-  {
-    amount: numberFormatter(10),
-    label: 'BVN',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Name of Organisation',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Services',
-    minWidth: 236,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Services',
-    minWidth: 103,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'No. of Transactions',
-    minWidth: 176,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Wallet Balance',
-    minWidth: 150,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col7',
-    headerName: 'Transactions{N}',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Charges',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    // renderCell: params => {
-    //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
-    //       {params.row.col8}
-    //     </span>
-    //   )
-    // },
-  },
-  {
-    field: 'col9',
-    headerName: 'Date Added',
-    minWidth: 123,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Action.',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-]
 
 // Tailwind styles
 const Header = tw.div`flex flex-col space-y-4 lg:(flex-row items-center justify-between space-y-0)`

@@ -45,6 +45,7 @@ const OrganizationsListDashboard = ({
         col6: organization.charges,
         col7: organization.createdDate,
         col8: '',
+        partnerCode: organization.partnerCode,
       }
     })
   } else {
@@ -52,6 +53,9 @@ const OrganizationsListDashboard = ({
   }
 
   const columns = [
+    {
+      field: 'partnerCode',
+    },
     {
       field: 'col1',
       headerName: 'S/N',
@@ -162,7 +166,7 @@ const OrganizationsListDashboard = ({
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-          Router.push(`/organizations/${thisRow.col2}`)
+          Router.push(`/organizations/${thisRow.partnerCode}`)
         }
 
         return (
@@ -208,6 +212,7 @@ const OrganizationsListDashboard = ({
         page={page}
         recordCount={organizationsList.recordCount}
         pagination={true}
+        columnVisibilityModel={{ partnerCode: false }}
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
         <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">

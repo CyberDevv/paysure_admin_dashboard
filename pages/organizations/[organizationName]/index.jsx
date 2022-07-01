@@ -1,16 +1,15 @@
 // imports
-import React from 'react'
+import uid from 'generate-unique-id'
 import moment from 'moment'
 import Head from 'next/head'
-import Router from 'next/router'
-import uid from 'generate-unique-id'
+import Router, { useRouter } from 'next/router'
 import nookies, { destroyCookie } from 'nookies'
-import useSWR, { SWRConfig } from 'swr'
-import { useRouter } from 'next/router'
+import React from 'react'
 import { useDispatch } from 'react-redux'
+import useSWR, { SWRConfig } from 'swr'
 
-import { logout } from '../../../features/userSlice'
 import { OrganizationDashboard } from '../../../components'
+import { logout } from '../../../features/userSlice'
 import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
@@ -23,7 +22,6 @@ export async function getServerSideProps(ctx) {
       pageSize = 5,
     },
   } = ctx
-  console.log("🚀 ~ file: index.jsx ~ line 25 ~ getServerSideProps ~ organizationName", organizationName)
 
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
@@ -34,7 +32,7 @@ export async function getServerSideProps(ctx) {
       fromDate: fromDate,
       toDate: toDate,
       pageId: page,
-      partner: organizationName,
+      partnerId: organizationName,
       pageSize: pageSize,
     },
     'paysure/api/processor/each-partner',
@@ -73,15 +71,14 @@ function OrganizationPage() {
     fetcher,
     )
     console.log("🚀 ~ file: index.jsx ~ line 71 ~ OrganizationPage ~ data", data)
-    
+
   return (
     <>
       <Head>
-        <title>Organization - {organizationName} | Paysure</title>
+        <title>Organization - {data.partnerName} | Paysure</title>
       </Head>
 
       <OrganizationDashboard
-        organizationName={organizationName}
         organizationStats={data}
       />
     </>

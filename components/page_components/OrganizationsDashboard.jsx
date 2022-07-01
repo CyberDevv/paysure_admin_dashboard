@@ -38,19 +38,19 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
       link: '/organizations/organizations_list',
     },
     {
-      amount: numberFormatter('143843938'),
+      amount: numberFormatter(organizaionStats.totalCount),
       title: 'Total Transactions',
     },
     {
-      amount: numberFormatter('109313'),
+      amount: numberFormatter(organizaionStats.countsuccessful),
       title: 'Completed Transactions',
     },
     {
-      amount: numberFormatter('132'),
+      amount: numberFormatter(organizaionStats.none),
       title: 'Pending Transactions',
     },
   ]
-  
+
   // array of partner class
   const partnerClassArray = partnerClassList.data?.map(item => {
     return {
@@ -147,6 +147,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
         col6: organization.charges,
         col7: organization.createdDate,
         col8: '',
+        partnerCode: organization.partnerCode,
       }
     })
   } else {
@@ -154,6 +155,9 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
   }
 
   const columns = [
+    {
+      field: 'partnerCode',
+    },
     {
       field: 'col1',
       headerName: 'S/N',
@@ -264,7 +268,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-          Router.push(`/organizations/${thisRow.col2}`)
+          Router.push(`/organizations/${thisRow.partnerCode}`)
         }
 
         return (
@@ -375,6 +379,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
         title="Organizations"
         rows={rows}
         columns={columns}
+        columnVisibilityModel={{ partnerCode: false }}
       />
     </Layout>
   )

@@ -1,14 +1,14 @@
-import React from 'react'
-import tw from 'twin.macro'
-import Link from 'next/link'
-import Image from 'next/image'
-import Router from 'next/router'
-import { destroyCookie } from 'nookies'
-import { useDispatch } from 'react-redux'
 import { IconButton, Menu, MenuItem } from '@mui/material'
+import Image from 'next/image'
+import Link from 'next/link'
+import Router from 'next/router'
+import { destroyCookie, setCookie } from 'nookies'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import tw from 'twin.macro'
 
-import { SettingsOUtline, CircledUser, MenuHamburger } from '../../SVGIcons'
 import { logout } from '../../../features/userSlice'
+import { CircledUser, MenuHamburger, SettingsOUtline } from '../../SVGIcons'
 
 const NavBar_main_layout = ({ setIsSideBarOpen, title, goBack }) => {
   const dispatch = useDispatch()
