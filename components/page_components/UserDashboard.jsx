@@ -1,10 +1,3 @@
-import React from 'react'
-import axios from 'axios'
-import tw from 'twin.macro'
-import moment from 'moment'
-import { toast } from 'react-toastify'
-import { useRouter } from 'next/router'
-import CurrencyFormat from 'react-currency-format'
 import {
   Button,
   Checkbox,
@@ -13,13 +6,20 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Tooltip,
+  Tooltip
 } from '@mui/material'
+import axios from 'axios'
+import moment from 'moment'
+import { useRouter } from 'next/router'
+import React from 'react'
+import CurrencyFormat from 'react-currency-format'
+import { toast } from 'react-toastify'
+import tw from 'twin.macro'
 
-import numberFormatter from '../../utils/numberFormatter'
-import Modal from '../layouts/modal_ayout/index.modal_layout'
-import Layout from '../layouts/main_layout/index.main_layout'
 import { DataGridViewTemp, OverviewCardSection, SendModal } from '..'
+import numberFormatter from '../../utils/numberFormatter'
+import Layout from '../layouts/main_layout/index.main_layout'
+import Modal from '../layouts/modal_ayout/index.modal_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
 import { EllipsisSVG, Print, UserProfileSVG, ViewActionSVG } from '../SVGIcons'
 
@@ -38,6 +38,7 @@ const UserDashboard = ({ userStats = [] }) => {
   const [note, setNote] = React.useState('')
   const [reason, setReason] = React.useState('')
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   // ********************************************************************************
   // ****************************   Functions   *************************************
@@ -101,9 +102,9 @@ const UserDashboard = ({ userStats = [] }) => {
     // country: 'Nigeria',
     walletAddressNumber: userStats.userAccountNumber,
     address1: userStats.address,
-    gender: userStats.none,
+    gender: userStats.gender,
     address2: userStats.address2,
-    DOB: userStats.none,
+    DOB: moment(userStats.dob).format('MMM DD, YYYY'),
   }
 
   /* The below code is a JavaScript object that contains the user transaction stats. */
@@ -132,6 +133,8 @@ const UserDashboard = ({ userStats = [] }) => {
       label: 'Total Number of Pending Transaction',
     },
   ]
+
+  const handleActivate = () => {}
 
   // dataGrid rows
   let rows
@@ -173,7 +176,10 @@ const UserDashboard = ({ userStats = [] }) => {
 
             <AvatarDetails>
               <UserName className="font-bold">{userDetails.name}</UserName>
-              <LastSeen>Last Active: 10 Aug, 2022</LastSeen>
+              <LastSeen>
+                Last Active:{' '}
+                {moment(userStats.lastLoginDate).format('DD MMM, YYYY')}
+              </LastSeen>
             </AvatarDetails>
           </AvatarWrapper>
 
@@ -211,9 +217,15 @@ const UserDashboard = ({ userStats = [] }) => {
                 <button onClick="">Call</button>
               </MenuItem>
               <MenuItem onClick={handleClose}>
-                <button onClick={handSetIsSuspendModalOpened}>
-                  Suspend Account
-                </button>
+                {userStats.userStatus?.toLowerCase() === 'active' && (
+                  <button onClick={handSetIsSuspendModalOpened}>
+                    Suspend Account
+                  </button>
+                )}
+
+                {userStats.userStatus?.toLowerCase() !== 'active' && (
+                  <button onClick={handleActivate}>Activate Account</button>
+                )}
               </MenuItem>
             </Menu>
           </div>
@@ -228,12 +240,26 @@ const UserDashboard = ({ userStats = [] }) => {
           <MUIButton tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)">
             Call
           </MUIButton>
-          <MUIButton
-            onClick={handSetIsSuspendModalOpened}
-            tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
-          >
-            Suspend Account
-          </MUIButton>
+          {userStats.userStatus?.toLowerCase() === 'active' && (
+            <MUIButton
+              loading={isLoading}
+              onClick={handSetIsSuspendModalOpened}
+              tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
+            >
+              Suspend Account
+            </MUIButton>
+          )}
+
+          {/* Button to activate provider */}
+          {userStats.userStatus?.toLowerCase() !== 'active' && (
+            <MUIButton
+              loading={isLoading}
+              onClick={handleActivate}
+              tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)"
+            >
+              Activate Account
+            </MUIButton>
+          )}
         </ButtonWrapper>
 
         {/* Send Email modal */}

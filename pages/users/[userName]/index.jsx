@@ -1,7 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import Head from 'next/head'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import uid from 'generate-unique-id'
 import useSWR, { SWRConfig } from 'swr'
 import { useDispatch } from 'react-redux'
@@ -43,17 +43,28 @@ export async function getServerSideProps(ctx) {
 }
 
 function UserPage() {
+  const router = useRouter()
+  
   async function fetcher(url) {
     const res = await fetch(url)
     return res.json()
   }
 
+  const {
+    userName,
+    fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+    toDate = moment().format('YYYY-MM-DD 23:59:59'),
+    page = 1,
+    pageSize = 5,
+  } = router.query
+
   const { data } = useSWR('/api/users/user/userStats', fetcher)
+  console.log("🚀 ~ file: index.jsx ~ line 61 ~ UserPage ~ data", data)
 
   return (
     <>
       <Head>
-        <title>User | Paysure</title>
+        <title>User - {userName} | Paysure</title>
       </Head>
 
       <UserDashboard userStats={data} />

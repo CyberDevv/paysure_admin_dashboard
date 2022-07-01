@@ -181,7 +181,10 @@ const UsersListDashboard = ({
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-          Router.push(`/users/${thisRow.col1}`)
+          Router.push({
+            pathname: `/users/${thisRow.col2}`,
+            query: { email: thisRow.col4, phone: thisRow.col5 },
+          })
         }
 
         return (
