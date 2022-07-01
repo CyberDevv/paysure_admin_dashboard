@@ -13,7 +13,7 @@ import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
   const { email, phone } = ctx.query
-  
+
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/users/user/userStats
@@ -44,7 +44,7 @@ export async function getServerSideProps(ctx) {
 
 function UserPage() {
   const router = useRouter()
-  
+
   async function fetcher(url) {
     const res = await fetch(url)
     return res.json()
@@ -59,7 +59,7 @@ function UserPage() {
   } = router.query
 
   const { data } = useSWR('/api/users/user/userStats', fetcher)
-  console.log("🚀 ~ file: index.jsx ~ line 61 ~ UserPage ~ data", data)
+  console.log('🚀 ~ file: index.jsx ~ line 61 ~ UserPage ~ data', data)
 
   return (
     <>
