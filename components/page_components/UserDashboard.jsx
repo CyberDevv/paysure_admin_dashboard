@@ -6,7 +6,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Tooltip
+  Tooltip,
 } from '@mui/material'
 import axios from 'axios'
 import moment from 'moment'
@@ -555,7 +555,7 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Transaction">
+          <Tooltip title="View Transaction">
             <button onClick={handleEdit}>
               <ViewActionSVG />
             </button>
