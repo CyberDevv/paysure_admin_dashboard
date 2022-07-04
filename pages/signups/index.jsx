@@ -4,8 +4,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 import useSWR, { SWRConfig } from 'swr'
 import { useDispatch } from 'react-redux'
-import nookies,{ destroyCookie } from 'nookies'
-
+import nookies, { destroyCookie } from 'nookies'
 
 import { logout } from '../../features/userSlice'
 import { SignupsDashboard } from '../../components'
@@ -45,7 +44,7 @@ function SignupsPage() {
   }
 
   const { data } = useSWR('/api/signups/signupsList', fetcher)
-  console.log("🚀 ~ file: index.jsx ~ line 48 ~ SignupsPage ~ data", data)
+  console.log('🚀 ~ file: index.jsx ~ line 48 ~ SignupsPage ~ data', data)
 
   return (
     <>
