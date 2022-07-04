@@ -45,6 +45,7 @@ function SignupsPage() {
   }
 
   const { data } = useSWR('/api/signups/signupsList', fetcher)
+  console.log("🚀 ~ file: index.jsx ~ line 48 ~ SignupsPage ~ data", data)
 
   return (
     <>
