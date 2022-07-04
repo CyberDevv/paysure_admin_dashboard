@@ -69,8 +69,7 @@ function OrganizationPage() {
   const { data } = useSWR(
     `/api/organizations/${organizationName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
     fetcher,
-    )
-    console.log("🚀 ~ file: index.jsx ~ line 71 ~ OrganizationPage ~ data", data)
+  )
 
   return (
     <>
@@ -80,6 +79,7 @@ function OrganizationPage() {
 
       <OrganizationDashboard
         organizationStats={data}
+        organizationId={organizationName}
       />
     </>
   )

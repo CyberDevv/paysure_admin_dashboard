@@ -379,6 +379,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
         title="Organizations"
         rows={rows}
         columns={columns}
+        hasMT
         columnVisibilityModel={{ partnerCode: false }}
       />
     </Layout>

@@ -1,25 +1,63 @@
 import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import { toast } from 'react-toastify'
 import tw from 'twin.macro'
 import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 
+import axios from 'axios'
+import moment from 'moment'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
-import moment from 'moment'
 
-const UserDashboard = ({ organizationStats = [] }) => {
+const OrganizationDashboard = ({ organizationStats = [], organizationId }) => {
   const { partnerTrx = {} } = organizationStats
 
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const [isLoading, setIsLOading] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   // functions
-  const handleDeactivate = () => clg('handleDeactivate')
+  const handleDeactivate = () => {
+    setIsLoading(true)
 
-  const handleActivate = () => clg('handleActivate')
+    axios
+      .post('/api/organizatons/deactivate', {
+        organizationId,
+      })
+      .then(() => {
+        mutate(`/api/organizatons/${organizationId}`)
+        toast.success('Organization deactivated successfully')
+        setIsLoading(false)
+      })
+      .catch(err => {
+        setIsLoading(false)
+        console.log('Error =====> ', err)
+        toast.error('Error deactivating organization, please try again.')
+      })
+  }
+
+  const handleActivate = () => {
+    // disable-partner   tid in json body  /  enable-partner  tid in json body
+
+    setIsLoading(true)
+
+    axios
+      .post('/api/organizatons/activate', {
+        organizationId,
+      })
+      .then(() => {
+        mutate(`/api/organizatons/${organizationId}`)
+        toast.success('Organization activated successfully')
+        setIsLoading(false)
+      })
+      .catch(err => {
+        setIsLoading(false)
+        console.log('Error =====> ', err)
+        toast.error('Error activating organization, please try again.')
+      })
+  }
 
   const open = Boolean(anchorEl)
 
@@ -279,7 +317,7 @@ const UserDashboard = ({ organizationStats = [] }) => {
 
         {/* Action Buttons */}
         <ButtonWrapper>
-          {/* Button to deactivate provider */}
+          {/* Button to deactivate organization */}
           {organizationStats.partnerStatus?.toLowerCase() === 'active' && (
             <MUIButton
               loading={isLoading}
@@ -290,7 +328,7 @@ const UserDashboard = ({ organizationStats = [] }) => {
             </MUIButton>
           )}
 
-          {/* Button to activate provider */}
+          {/* Button to activate organization */}
           {organizationStats.partnerStatus?.toLowerCase() !== 'active' && (
             <MUIButton
               loading={isLoading}
@@ -353,4 +391,4 @@ const P = tw.p`leading-[19px] text-sm lg:text-base`
 const Amount = tw.h4`text-4xl lg:text-[40px] leading-[48px] tracking-[-0.05em]`
 UserGrid
 
-export default UserDashboard
+export default OrganizationDashboard
