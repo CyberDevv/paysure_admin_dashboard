@@ -46,7 +46,7 @@ export default function SignupsDashboard({signupsList = []}) {
                 minWidth: 'unset',
                 paddingY: '0',
               },
-              '& .css-1aquho2-MuiTabs-indicator ': {
+              '& .MuiTabs-indicator ': {
                 backgroundColor: '#6500E0',
               },
             }}

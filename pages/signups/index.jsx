@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import Head from 'next/head'
 import Router from 'next/router'
 import useSWR, { SWRConfig } from 'swr'
@@ -17,8 +16,6 @@ export async function getServerSideProps(ctx) {
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/signups/signupsList
   const signupsList = await makeEncryptedRequest(
     {
-      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate: moment().format('YYYY-MM-DD 23:59:59'),
       // status: '0',
       pageId: 1,
       pageSize: 5,
@@ -39,13 +36,12 @@ export async function getServerSideProps(ctx) {
 }
 
 function SignupsPage() {
-  async function fetcher(url) {
+  async function fetcher(url) {signup
     const res = await fetch(url)
     return res.json()
   }
 
   const { data } = useSWR('/api/signups/signupsList', fetcher)
-  console.log("🚀 ~ file: index.jsx ~ line 48 ~ SignupsPage ~ data", data)
 
   return (
     <>

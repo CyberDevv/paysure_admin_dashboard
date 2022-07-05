@@ -1,13 +1,15 @@
+import moment from 'moment'
 import Router from 'next/router'
-import React from 'react'
 import tw from 'twin.macro'
 
-import { Print, ViewActionSVG } from './SVGIcons'
+import { Tooltip } from '@mui/material'
 import { DataGridViewTemp, HomeDisplayCard } from '.'
 import numberFormatter from '../utils/numberFormatter'
-import { Tooltip } from '@mui/material'
+import { Print, ViewActionSVG } from './SVGIcons'
 
 const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
+  const { userData = [] } = signupsList
+  
   const overviewDataArray = [
     {
       amount: numberFormatter(signupsList.newUsers),
@@ -27,6 +29,29 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
     },
   ]
 
+  // DataGrid rows
+  let rows
+  // check if userData is an array
+  if (Array.isArray(userData.usersInfo)) {
+    rows = userData.usersInfo.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: [item.lastName, item.firstName],
+        col3: item.emailAddress,
+        col4: item.phonePri,
+        col5: item.bvn,
+        col6: item.fullName,
+        col7: item.address1,
+        col8: item.dateAdded,
+        col9: item.statusStr,
+        col10: '',
+      }
+    })
+  } else {
+    rows = []
+  }
+
   return (
     <>
       <Ttile className="font-bold">Users</Ttile>
@@ -37,7 +62,7 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
         limited
         link="/users/users_list"
         title="Users list"
-        rows={[]}
+        rows={rows}
         columns={columns}
       />
     </>
@@ -62,6 +87,15 @@ const columns = [
     minWidth: 227,
     flex: 1,
     headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <div tw="space-x-1">
+          {params.row.col2.map((item, index) => {
+            return <span key={index}>{item}</span>
+          })}
+        </div>
+      )
+    },
   },
   {
     field: 'col3',
@@ -156,7 +190,7 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Users">
+          <Tooltip title="View Super Agent">
             <button onClick={handleView}>
               <ViewActionSVG />
             </button>
