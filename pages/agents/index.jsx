@@ -60,15 +60,9 @@ function AgentsPage() {
     return res.json()
   }
 
-  const { data } = useSWR('/api/agents/agentsStats', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data } = useSWR('/api/agents/agentsStats', fetcher)
 
-  const { data: data2 } = useSWR('/api/agents/superAgentsStats', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
+  const { data: data2 } = useSWR('/api/agents/superAgentsStats', fetcher)
 
   return (
     <>
