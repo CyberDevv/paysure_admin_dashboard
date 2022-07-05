@@ -31,7 +31,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
     state => state.partnerClass,
   )
 
-  const temporalData = [
+  const dataArrayStats = [
     {
       amount: numberFormatter(organizaionStats.partnersCount),
       title: 'Organizations',
@@ -46,7 +46,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
       title: 'Completed Transactions',
     },
     {
-      amount: numberFormatter(organizaionStats.none),
+      amount: numberFormatter(organizaionStats.countpending),
       title: 'Pending Transactions',
     },
   ]
@@ -371,7 +371,7 @@ const OrganizationsDashboard = ({ organizaionStats = [] }) => {
         </Modal>
       </div>
 
-      <HomeDisplayCard data={temporalData} />
+      <HomeDisplayCard data={dataArrayStats} />
 
       <DataGridViewTemp
         limiteddata
