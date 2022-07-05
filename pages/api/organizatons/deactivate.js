@@ -12,7 +12,7 @@ export default async function providerStats(req, res) {
       {
         tid: organizationId,
       },
-      'paysure/api/processor/disable-provider',
+      'paysure/api/processor/disable-partner',
       'POST',
       USER_AUTHORIZATION,
     )

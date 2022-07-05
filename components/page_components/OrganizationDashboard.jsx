@@ -1,4 +1,5 @@
-import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
+import { LoadingButton as Button } from '@mui/lab'
+import { IconButton, Menu, MenuItem, Tooltip } from '@mui/material'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import { toast } from 'react-toastify'
@@ -7,16 +8,20 @@ import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 
 import axios from 'axios'
 import moment from 'moment'
+import { useSWRConfig } from 'swr'
 import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 
 const OrganizationDashboard = ({ organizationStats = [], organizationId }) => {
+console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 16 ~ OrganizationDashboard ~ organizationStats", organizationStats)
   const { partnerTrx = {} } = organizationStats
 
   // useState hook
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
+
+  const { mutate } = useSWRConfig()
 
   // functions
   const handleDeactivate = () => {
@@ -24,10 +29,10 @@ const OrganizationDashboard = ({ organizationStats = [], organizationId }) => {
 
     axios
       .post('/api/organizatons/deactivate', {
-        organizationId,
+        organizationId: organizationStats.tid,
       })
       .then(() => {
-        mutate(`/api/organizatons/${organizationId}`)
+        mutate(`/api/organizatons/${organizationStats.tid}`)
         toast.success('Organization deactivated successfully')
         setIsLoading(false)
       })
@@ -45,10 +50,10 @@ const OrganizationDashboard = ({ organizationStats = [], organizationId }) => {
 
     axios
       .post('/api/organizatons/activate', {
-        organizationId,
+        organizationId: organizationStats.tid,
       })
       .then(() => {
-        mutate(`/api/organizatons/${organizationId}`)
+        mutate(`/api/organizatons/${organizationStats.tid}`)
         toast.success('Organization activated successfully')
         setIsLoading(false)
       })

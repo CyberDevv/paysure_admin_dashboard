@@ -8,7 +8,7 @@ export default async function providerStats(req, res) {
   const { USER_AUTHORIZATION } = parseCookies({ req })
 
   const {
-    providerName,
+    organizationId,
     fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
     toDate = moment().format('YYYY-MM-DD 23:59:59'),
     page = 1,
@@ -25,7 +25,7 @@ export default async function providerStats(req, res) {
         toDate: toDate,
         pageId: page,
         pageSize: pageSize,
-        provider: providerName,
+        partnerId: organizationId,
         status: status,
         searchKey: search,
       },
@@ -35,6 +35,8 @@ export default async function providerStats(req, res) {
     )
 
     res.status(response.status).json(response.data)
+
+    console.log('Nice')
   } catch (error) {
     error && res.json(error)
   }

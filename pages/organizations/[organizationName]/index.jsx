@@ -44,7 +44,7 @@ export async function getServerSideProps(ctx) {
     props: {
       status: organizationStats ? organizationStats.status : 500,
       fallback: {
-        [`/api/organizations/${organizationName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`]:
+        [`/api/organizatons/${organizationName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`]:
           organizationStats ? organizationStats.data : [],
       },
     },
@@ -67,7 +67,7 @@ function OrganizationPage() {
   }
 
   const { data } = useSWR(
-    `/api/organizations/${organizationName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
+    `/api/organizatons/${organizationName}?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}`,
     fetcher,
   )
 
