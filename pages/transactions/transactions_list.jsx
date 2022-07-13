@@ -11,7 +11,6 @@ import { TransactionsListDashboard } from '../../components'
 import { logout } from '../../features/userSlice'
 import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
-
 export async function getServerSideProps(ctx) {
   const {
     query: {
@@ -72,7 +71,10 @@ function TransactionsListPage() {
     `/api/transactions/transactionsListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}&status=${status}`,
     fetcher,
   )
-    console.log("🚀 ~ file: transactions_list.jsx ~ line 70 ~ TransactionsListPage ~ data", data)
+  console.log(
+    '🚀 ~ file: transactions_list.jsx ~ line 70 ~ TransactionsListPage ~ data',
+    data,
+  )
 
   return (
     <>
