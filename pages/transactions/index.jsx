@@ -18,7 +18,7 @@ export async function getServerSideProps(ctx) {
   const transactionStats = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
+      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
       toDate: moment().format('YYYY-MM-DD 23:59:59'),
       pageId: 1,
       pageSize: 5,
@@ -26,10 +26,6 @@ export async function getServerSideProps(ctx) {
     'paysure/api/processor/admin-summary-and-paged-th',
     'POST',
     USER_AUTHORIZATION,
-  )
-  console.log(
-    '🚀 ~ file: index.jsx ~ line 30 ~ getServerSideProps ~ transactionStats',
-    JSON.stringify(transactionStats),
   )
 
   return {
