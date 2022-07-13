@@ -213,7 +213,7 @@ const UsersListDashboard = ({
         rows={rows}
         columns={columns}
         page={page}
-        recordCount={usersList.totalRecords}
+        recordCount={usersList.recordCount}
         pagination={true}
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
       >
