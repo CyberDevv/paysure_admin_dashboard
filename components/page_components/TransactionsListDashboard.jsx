@@ -8,7 +8,7 @@ import {
   DataGridViewTemp,
   DatRangePickerAndOthers,
   FilterBox,
-  SearchBar
+  SearchBar,
 } from '..'
 import { printPartOfPage } from '../../utils/print'
 import Layout from '../layouts/main_layout/index.main_layout'
