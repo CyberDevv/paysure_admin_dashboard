@@ -2,114 +2,110 @@ import tw from 'twin.macro'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 
-import { DataGridViewTemp } from '..'
+import {
+  DataGridViewTemp,
+  DatRangePickerAndOthers,
+  FilterBox,
+  SearchBar,
+} from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { fetchPlanTypes } from '../../features/transTypes'
+import { useDispatch, useSelector } from 'react-redux'
 import { Print, ViewActionSVG } from '../SVGIcons'
 import { Tooltip } from '@mui/material'
 
-const UserTransactionListDashboard = () => {
+const UserTransactionListDashboard = ({
+  transactionData,
+  userName,
+  toDate,
+  fromDate,
+  page,
+  status,
+  searchKey,
+}) => {
+  const { transInfo = [] } = transactionData
+
+  const [value, setValue] = React.useState([
+    fromDate ? fromDate : moment().subtract(30, 'days'),
+    toDate ? toDate : new Date(),
+  ])
+
+  // useSelector
+  const { transTypes: transTypesList = [] } = useSelector(
+    state => state.transTypes,
+  )
+
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    // dispatch fetchPlanTypes
+    dispatch(fetchPlanTypes())
+  }, [dispatch])
+
+  // dataGrid rows
+  let rows
+
+  // check if transInfo.transData is an array
+  if (Array.isArray(transInfo.transData)) {
+    rows = transInfo.transData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: index + 1,
+        col2: item.initiator,
+        col3: item.transType,
+        col4: item.contractType,
+        col5: item.amount,
+        col6: item.fee,
+        col7: item.benefBank,
+        col8: item.status,
+        col9: item.benefNO,
+        col10: item.transDate,
+        col11: '',
+      }
+    })
+  } else {
+    rows = []
+  }
+
+  const showingDataArray = [
+    {
+      value: 'all',
+      label: 'All',
+    },
+    ...transTypesList.data.map(item => {
+      return {
+        value: item,
+        label: item,
+      }
+    }),
+  ]
+
   return (
     <Layout goBack>
       <DataGridViewTemp
-        title="Anne's Transaction Records"
+        title={`${userName}'s Transaction Records`}
         rows={rows}
         columns={columns}
-        dropdownData={dropdownData}
-        hasFilter
-        hasSort 
-        hasSearch 
-        hasExportBtn
-      />
-
+        pageSize={10}
+        pagination
+        page={page}
+        // recordCount={providerData.recordCount}
+        className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
+      >
+        <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+          <SearchBar value={searchKey} />
+          <FilterBox
+            label="Showing"
+            dropdownData={showingDataArray}
+            statusValue={status}
+          />
+        </div>
+        <DatRangePickerAndOthers value={value} setValue={setValue} />
+      </DataGridViewTemp>
       {/* TODO: add the date range picker */}
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 4243,
-    col6: '443943043',
-    col7: '443943043',
-    col8: '7013',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
 
 // FIXME: Temp data (should be replaced with real data)
 const columns = [
@@ -204,29 +200,27 @@ const columns = [
     },
   },
   {
-    field: 'col11',
+    field: 'col9',
     headerName: 'Meter Number',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col9',
+    field: 'col10',
     headerName: 'Date',
     minWidth: 153,
     flex: 1,
     headerClassName: 'grid-header',
   },
   {
-    field: 'col10',
+    field: 'col11',
     headerName: 'Action.',
     minWidth: 100,
     flex: 1,
     headerClassName: 'grid-header',
     renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
+      const handleEdit = () => {}
 
       const handleView = e => {
         const api = params.api
@@ -244,7 +238,7 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Transaction">
+          <Tooltip title="View Transaction">
             <button onClick={handleEdit}>
               <ViewActionSVG />
             </button>

@@ -147,7 +147,7 @@ const UserDashboard = ({ userStats = [] }) => {
         col1: index + 1,
         col2: item.initiator,
         col3: item.transType,
-        col4: item.none,
+        col4: item.contractType,
         col5: item.amount,
         col6: item.fee,
         col7: item.benefBank,
@@ -415,7 +415,7 @@ const UserDashboard = ({ userStats = [] }) => {
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        link="/users/1/transaction_list"
+        link={`/users/${userName}/transaction_list?email=${email}&phone=${phone}`}
         title={`${userDetails.name}'s Transaction Records`}
         rows={rows}
         columns={columns}
