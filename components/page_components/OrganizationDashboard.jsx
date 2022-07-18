@@ -9,11 +9,11 @@ import { EllipsisSVG, Print, ViewActionSVG } from '../SVGIcons'
 import axios from 'axios'
 import moment from 'moment'
 import { useSWRConfig } from 'swr'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import { DataGridViewTemp, HomeDisplayCard } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 
-const OrganizationDashboard = ({ organizationStats = [], organizationId }) => {
+const OrganizationDashboard = ({ organizationStats = [] }) => {
 console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 16 ~ OrganizationDashboard ~ organizationStats", organizationStats)
   const { partnerTrx = {} } = organizationStats
 
@@ -94,20 +94,20 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 16 ~ OrganizationDash
     rows = []
   }
 
-  const servicesData = [
-    {
-      amount: numberFormatter(55102430),
-      label: 'POS Withdrawal',
-    },
-    {
-      amount: numberFormatter(1350),
-      label: 'Transfer',
-    },
-    {
-      amount: numberFormatter(10),
-      label: 'BVN',
-    },
-  ]
+  // const servicesDatka = [
+  //   {
+  //     amount: numberFormatter(55102430),
+  //     label: 'POS Withdrawal',
+  //   },
+  //   {
+  //     amount: numberFormatter(1350),
+  //     label: 'Transfer',
+  //   },
+  //   {
+  //     amount: numberFormatter(10),
+  //     label: 'BVN',
+  //   },
+  // ]
 
   // overview data
   const organizationData = [
@@ -131,7 +131,7 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 16 ~ OrganizationDash
       title: 'Total Failed Transactions',
     },
     {
-      amount: numberFormatter(partnerTrx.none),
+      amount: numberFormatter(partnerTrx.pendingTransactionsCount),
       title: 'Total Pending Transactions',
     },
   ]
@@ -362,11 +362,11 @@ console.log("🚀 ~ file: OrganizationDashboard.jsx ~ line 16 ~ OrganizationDash
       <HomeDisplayCard data={organizationData} />
 
       {/* Services */}
-      <OverviewCardSection
+      {/* <OverviewCardSection
         title="Services"
         data={servicesData}
         onClick="/organizations/1/service/1"
-      />
+      /> */}
 
       {/* DataGrid */}
       <DataGridViewTemp
