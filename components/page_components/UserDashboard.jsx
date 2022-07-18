@@ -145,15 +145,15 @@ const UserDashboard = ({ userStats = [] }) => {
       return {
         id: item.tid,
         col1: index + 1,
-        col2: item.nene,
+        col2: item.initiator,
         col3: item.transType,
         col4: item.none,
         col5: item.amount,
         col6: item.fee,
-        col7: item.none,
-        col8: item.none,
-        col9: item.none,
-        col10: item.none,
+        col7: item.benefBank,
+        col8: item.status,
+        col9: item.benefNO,
+        col10: item.transDate,
         col11: '',
       }
     })
