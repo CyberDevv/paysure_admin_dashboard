@@ -48,7 +48,7 @@ function SettlementPage() {
   }
 
   const { data } = useSWR('/api/settlements/settlementStats', fetcher)
-  
+
   return (
     <>
       <Head>
