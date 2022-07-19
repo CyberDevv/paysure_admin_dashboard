@@ -9,7 +9,7 @@ import {
   SearchBar,
 } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
-import { fetchPlanTypes } from '../../features/transTypes'
+import { fetchtransTypes } from '../../features/transTypes'
 import { useDispatch, useSelector } from 'react-redux'
 import { Print, ViewActionSVG } from '../SVGIcons'
 import { Tooltip } from '@mui/material'
@@ -38,8 +38,8 @@ const UserTransactionListDashboard = ({
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    // dispatch fetchPlanTypes
-    dispatch(fetchPlanTypes())
+    // dispatch fetchtransTypes
+    dispatch(fetchtransTypes())
   }, [dispatch])
 
   // dataGrid rows

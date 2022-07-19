@@ -8,7 +8,7 @@ export default async function addOrganizaion(req, res) {
   try {
     const response = await makeEncryptedRequest(
       {},
-      'paysure/api/processor/list-plan-types',
+      'paysure/api/processor/list-trans-types',
       'POST',
       USER_AUTHORIZATION,
     )

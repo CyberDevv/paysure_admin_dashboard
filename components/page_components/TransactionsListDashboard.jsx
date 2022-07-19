@@ -8,11 +8,13 @@ import {
   DataGridViewTemp,
   DatRangePickerAndOthers,
   FilterBox,
-  SearchBar
+  SearchBar,
 } from '..'
 import { printPartOfPage } from '../../utils/print'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { Print, ViewActionSVG } from '../SVGIcons'
+import { fetchtransTypes } from '../../features/transTypes'
+import { useDispatch, useSelector } from 'react-redux'
 
 const TransactionsListDashboard = ({
   transactionsList = [],
@@ -45,6 +47,30 @@ const TransactionsListDashboard = ({
     },
   ]
 
+  // useSelector
+  const { transTypes: transTypesList = [] } = useSelector(
+    state => state.transTypes,
+  )
+
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    // dispatch fetchtransTypes
+    dispatch(fetchtransTypes())
+  }, [dispatch])
+
+  /* A ternary operator that checks if the transTypesList is empty. If it is empty, it returns an empty
+  array. If it is not empty, it returns an array of objects with the value and label properties. */
+  let typeDataArray
+  transTypesList.length === 0
+    ? (typeDataArray = [])
+    : (typeDataArray = transTypesList.data.map(item => {
+        return {
+          value: item,
+          label: item,
+        }
+      }))
+
   // DataGrid rows
   let rows
   // check if transData is an array
@@ -52,7 +78,7 @@ const TransactionsListDashboard = ({
     rows = transData.map((item, index) => {
       return {
         id: item.tid,
-        col1: index + 1,
+        col1: (page - 1) * 10 + (index + 1),
         col2: item.none,
         col3: item.terminalId,
         col4: item.servicesCount,
@@ -264,6 +290,21 @@ const TransactionsListDashboard = ({
     },
   ]
 
+  const showingDataArray = [
+    {
+      value: 'Super Agent',
+      label: 'Super Agent',
+    },
+    {
+      value: 'Agent',
+      label: 'Agent',
+    },
+    {
+      value: 'Users',
+      label: 'Users',
+    }
+  ]
+  
   return (
     <Layout goBack>
       <DataGridViewTemp
@@ -271,14 +312,27 @@ const TransactionsListDashboard = ({
         rows={rows}
         columns={columns}
         page={page}
-        // recordCount={providersList.totalRecords}
+        hasExportBtn
+        recordCount={transactionsList.recordCount}
         pagination={true}
-        className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
+        className={tw`grid sm:grid-template-columns[auto] gap-4 w-full xl:(grid-cols-2)`}
       >
-        <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
+        <div tw="col-span-2 grid sm:grid-cols-2 gap-4 xl:(grid-cols-4)">
           <SearchBar value={searchKey} />
           <FilterBox
             label="Showing"
+            dropdownData={showingDataArray}
+            statusValue={status}
+          />
+
+          <FilterBox
+            label="Type"
+            dropdownData={typeDataArray}
+            statusValue={status}
+          />
+
+          <FilterBox
+            label="Status"
             dropdownData={statusDataArray}
             statusValue={status}
           />

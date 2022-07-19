@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const initialStateValue = { transTypes: [], loading: false, error: false }
 
-export const fetchPlanTypes = createAsyncThunk('/transTypes', async () => {
+export const fetchtransTypes = createAsyncThunk('/transTypes', async () => {
   const url = `/api/users/transList`
   const data = await (await axios(url)).data
 
@@ -15,13 +15,13 @@ const transTypesSlice = createSlice({
   initialState: initialStateValue,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchPlanTypes.pending, state => {
+    builder.addCase(fetchtransTypes.pending, state => {
       state.loading = true
     })
-    builder.addCase(fetchPlanTypes.fulfilled, (state, action) => {
+    builder.addCase(fetchtransTypes.fulfilled, (state, action) => {
       ;(state.transTypes = action.payload), (state.loading = false)
     })
-    builder.addCase(fetchPlanTypes.rejected, state => {
+    builder.addCase(fetchtransTypes.rejected, state => {
       state.error = true
     })
   },
