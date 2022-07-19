@@ -67,18 +67,17 @@ const UserTransactionListDashboard = ({
     rows = []
   }
 
-  const showingDataArray = [
-    {
-      value: 'all',
-      label: 'All',
-    },
-    ...transTypesList.data.map(item => {
-      return {
-        value: item,
-        label: item,
-      }
-    }),
-  ]
+  /* A ternary operator that checks if the transTypesList is empty. If it is empty, it returns an empty
+  array. If it is not empty, it returns an array of objects with the value and label properties. */
+  let showingDataArray
+  transTypesList.length === 0
+    ? (showingDataArray = [])
+    : (showingDataArray = transTypesList.data.map(item => {
+        return {
+          value: item,
+          label: item,
+        }
+      }))
 
   return (
     <Layout goBack>
