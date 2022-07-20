@@ -65,7 +65,7 @@ const SettlementsDashboard = ({ settlementData = [] }) => {
         col1: index + 1,
         col2: item.amount,
         col3: item.transType,
-        col4: item.none,
+        col4: item.requestId,
         col5: item.initiator,
         col6: item.percentage,
         col7: item.transtatus,

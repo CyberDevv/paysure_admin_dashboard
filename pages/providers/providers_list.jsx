@@ -14,7 +14,7 @@ import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 export async function getServerSideProps(ctx) {
   const {
     query: {
-      fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD '),
+      fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
       toDate = moment().format('YYYY-MM-DD 23:59:59'),
       page = 1,
       pageSize = 10,

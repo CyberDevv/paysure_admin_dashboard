@@ -1,6 +1,8 @@
 import React from 'react'
 import tw from 'twin.macro'
 import CurrencyFormat from 'react-currency-format'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchtransTypes } from '../../features/transTypes'
 
 import {
   DataGridViewTemp,
@@ -12,25 +14,97 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
 import { Tooltip } from '@mui/material'
 
-const SettlementListDashboard = ({ settlementListData }) => {
-// console.log("🚀 ~ file: SettlementsListDashboard.jsx ~ line 15 ~ SettlementListDashboard ~ settlementListData", settlementListData)
-  const { transData } = settlementListData
+const SettlementListDashboard = ({
+  settlementsList = [],
+  page,
+  searchKey,
+  status,
+  fromDate,
+  toDate,
+}) => {
+  const { transData } = settlementsList
 
-  // DataGrid rows
-  const rows = transData.map((item, index) => {
-    return {
-      id: item.tid,
-      col1: index + 1,
-      col2: item.amount,
-      col3: item.transType,
-      col4: item.none,
-      col5: item.none,
-      col6: item.percentage,
-      col7: item.transtatus,
-      col8: item.transDate,
-      col9: '',
-    }
-  })
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [value, setValue] = React.useState([
+    fromDate ? fromDate : moment().subtract(30, 'days'),
+    toDate ? toDate : new Date(),
+  ])
+
+  // rows
+  let rows
+
+  // check if transData is an array
+  if (Array.isArray(transData)) {
+    rows = transData.map((item, index) => {
+      return {
+        id: item.tid,
+        col1: (page - 1) * 10 + (index + 1),
+        col2: item.amount,
+        col3: item.transType,
+        col4: item.requestId,
+        col5: item.initiator,
+        col6: item.percentage,
+        col7: item.transtatus,
+        col8: item.transDate,
+        col9: '',
+      }
+    })
+  } else {
+    rows = []
+  }
+
+  // useSelector
+  const { transTypes: transTypesList = [] } = useSelector(
+    state => state.transTypes,
+  )
+
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    // dispatch fetchtransTypes
+    dispatch(fetchtransTypes())
+  }, [dispatch])
+
+  /* A ternary operator that checks if the transTypesList is empty. If it is empty, it returns an empty
+  array. If it is not empty, it returns an array of objects with the value and label properties. */
+  let typeDataArray
+  transTypesList.length === 0
+    ? (typeDataArray = [])
+    : (typeDataArray = transTypesList.data.map(item => {
+        return {
+          value: item,
+          label: item,
+        }
+      }))
+
+  const statusDataArray = [
+    {
+      value: '0',
+      label: 'All',
+    },
+    {
+      value: '1',
+      label: 'Active',
+    },
+    {
+      value: '2',
+      label: 'Inactive',
+    },
+  ]
+  const benefactorDataArray = [
+    {
+      value: 'Super Agent',
+      label: 'Super Agent',
+    },
+    {
+      value: 'Agent',
+      label: 'Agent',
+    },
+    {
+      value: 'Users',
+      label: 'Users',
+    },
+  ]
 
   return (
     <Layout goBack>
@@ -43,77 +117,28 @@ const SettlementListDashboard = ({ settlementListData }) => {
       >
         <div tw="col-span-2 grid sm:grid-cols-2 gap-4 xl:(grid-cols-4)">
           <SearchBar />
-          <FilterBox label="Type" dropdownData={typedropdownData} />
-          <FilterBox label="Status" dropdownData={StatusdropdownData} />
-          <FilterBox label="Benefactor" dropdownData={dropdownData} />
+          <FilterBox
+            label="Type"
+            dropdownData={typeDataArray}
+            statusValue={status}
+          />
+
+          <FilterBox
+            label="Status"
+            dropdownData={statusDataArray}
+            statusValue={status}
+          />
+          <FilterBox
+            label="Benefactor"
+            dropdownData={benefactorDataArray}
+            statusValue={status}
+          />
         </div>
-        <DatRangePickerAndOthers />
+        <DatRangePickerAndOthers value={value} setValue={setValue} />
       </DataGridViewTemp>
     </Layout>
   )
 }
-
-const typedropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'pending',
-    label: 'Pending',
-  },
-  {
-    value: 'failed',
-    label: 'Failed',
-  },
-  {
-    value: 'deposit transfer',
-    label: 'Deposit Transfer',
-  },
-  {
-    value: 'unknown/pending',
-    label: 'Unknown/Pending',
-  },
-  {
-    value: 'income settlements',
-    label: 'Income Settlements',
-  },
-]
-
-const StatusdropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'failed',
-    label: 'Failed',
-  },
-  {
-    value: 'pending',
-    label: 'Pending',
-  },
-  {
-    value: 'successful',
-    label: 'Successful',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const dropdownData = [
-  {
-    value: 'all',
-    label: 'All',
-  },
-  {
-    value: 'user',
-    label: 'User',
-  },
-  {
-    value: 'admin',
-    label: 'Admin',
-  },
-]
 
 const columns = [
   {
