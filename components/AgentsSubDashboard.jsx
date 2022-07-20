@@ -30,7 +30,7 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
 
   const agentStats = [
     {
-      amount: numberFormatter(transStats.totalTransactiionsCount),
+      amount: numberFormatter(transStats.totalTransactionsCount),
       title: 'Total number of transactions',
     },
     {
@@ -57,12 +57,12 @@ const AgentsSubDashboard = ({ agentData = [] }) => {
         id: item.tid,
         col1: index + 1,
         col2: item.fullName,
-        col3: item.none,
+        col3: item.parent,
         col4: item.AgentsTerminal,
-        col5: item.none,
-        col6: item.none,
+        col5: item.totalTransactionsCount,
+        col6: item.sumTotalSuccessful,
         col7: item.walletBalance,
-        col8: item.none,
+        col8: item.contractType,
         col9: item.dateAdded,
         col10: item.statusStr,
         col11: '',
