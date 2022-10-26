@@ -21,52 +21,68 @@ const LoginDashboard = () => {
   const dispatch = useDispatch()
 
   // Functions
-  const handleLogin = async () => {
+  const handleLogin = () => {
     setLoading(true)
-    await axios
+
+    axios
       .post('/api/auth/login', {
         userName,
         password,
       })
       .then(res => {
-        if (!res.data.data) {
-          console.log(res)
-          console.log(res.data)
-          
-          toast.error('Please refresh the page and try again.')
-          setLoading(false)
-          return
-        }
-
-        // checks if the user is an admin
-        if (res.data.data.userRole !== 1) {
-          toast.error('You are not an admin')
-          setLoading(false)
-          return
-        }
-
-        dispatch(login(res.data.data))
-
-        // save user data to localStorage
-        localStorage.setItem('user', JSON.stringify(res.data.data))
-
-        // save user jwt to cookie
-        setCookie(null, 'USER_AUTHORIZATION', res.data.data.jwt, {
-          maxAge: 30 * 24 * 60 * 60,
-          path: '/',
-        })
+        console.log('Response from client >>>>', res)
 
         setLoading(false)
 
-        toast.success('Login Successful')
-        Router.push('/')
+        toast.success('Login Successful') // should be removed
       })
       .catch(err => {
+        console.log('Error from client >>>>', err.response.data.message)
+
         setLoading(false)
-        if (err.response) {
-          toast.error(err.response.data.data)
-        }
+
+        toast.error(err.response.data.message)
       })
+
+    // .then(res => {
+    //   if (!res.data.data) {
+    //     console.log(res)
+    //     console.log(res.data)
+
+    //     toast.error('Please refresh the page and try again.')
+    //     setLoading(false)
+    //     return
+    //   }
+
+    //   // checks if the user is an admin
+    //   if (res.data.data.userRole !== 1) {
+    //     toast.error('You are not an admin')
+    //     setLoading(false)
+    //     return
+    //   }
+
+    //   dispatch(login(res.data.data))
+
+    //   // save user data to localStorage
+    //   localStorage.setItem('user', JSON.stringify(res.data.data))
+
+    //   // save user jwt to cookie
+    //   setCookie(null, 'USER_AUTHORIZATION', res.data.data.jwt, {
+    //     maxAge: 30 * 24 * 60 * 60,
+    //     path: '/',
+    //   })
+
+    //   setLoading(false)
+
+    //   toast.success('Login Successful')
+    //   Router.push('/')
+    // })
+    // .catch(err => {
+    //   setLoading(false)
+    //   if (err.response) {
+    //     toast.error(err.response.data.data)
+    //   }
+    // })
   }
 
   const handleSetPassword = e => {
