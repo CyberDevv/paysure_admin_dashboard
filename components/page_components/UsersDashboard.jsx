@@ -178,7 +178,9 @@ const UserssDashboard = ({ usersStats = [] }) => {
       renderCell: params => {
         return (
           <span>
-            {params.row.col8 ? moment(params.row.col8).format('MMM DD, YYYY HH:mm') : '-'}
+            {params.row.col8
+              ? moment(params.row.col8).format('MMM DD, YYYY HH:mm')
+              : '-'}
           </span>
         )
       },
@@ -231,7 +233,7 @@ const UserssDashboard = ({ usersStats = [] }) => {
               </button>
             </Tooltip>
 
-            <Tooltip title= "View User">
+            <Tooltip title="View User">
               <button onClick={handleView}>
                 <ViewActionSVG />
               </button>
