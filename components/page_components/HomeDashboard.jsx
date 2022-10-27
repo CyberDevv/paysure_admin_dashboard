@@ -270,8 +270,8 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
 
       {/* Chart */}
       <div tw="grid mt-10 gap-5 lg:(grid-cols-2)">
-        <Chart title= "Income for Agency Banking" />
-        <Chart title= "Income for Users" />
+        <Chart title="Income for Agency Banking" />
+        <Chart title="Income for Users" />
       </div>
 
       <DataGridViewTemp
