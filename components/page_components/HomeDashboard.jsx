@@ -1,17 +1,18 @@
-import React from 'react'
 import moment from 'moment'
-import tw from 'twin.macro'
-import ReactToPrint from 'react-to-print'
+import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import ReactToPrint from 'react-to-print'
+import tw from 'twin.macro'
 
-import numberFormatter from '../../utils/numberFormatter'
-import Layout from '../layouts/main_layout/index.main_layout'
 import {
-  HomeDisplayCard,
   DataGridViewTemp,
+  HomeDisplayCard,
   OverviewCardSection,
   Receipt,
 } from '..'
+import numberFormatter from '../../utils/numberFormatter'
+import Chart from '../Chart'
+import Layout from '../layouts/main_layout/index.main_layout'
 
 const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
   const { transData = [] } = homePageGrid
@@ -19,38 +20,39 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
   // array of home page stats
   const homePageData = [
     {
-      amount: homePageStats.totalProviders,
+      amount: '240',
       title: 'Total Number of Providers',
       link: '/providers',
     },
     {
-      amount: homePageStats.totalProviderServices,
-      title: 'Total Services Provided',
+      amount: '240',
+      title: 'Total Number of Cluster Manager',
     },
     {
-      amount: homePageStats.totalSuperAgents,
-      title: 'Total Number of Super Agent',
+      amount: '240',
+      title: 'Total Number of Aggregators',
       link: '/agents',
     },
     {
-      amount: homePageStats.totalAgents,
-      title: 'Total Number of Agents',
-      link: '/agents',
-    },
-    {
-      amount: homePageStats.totalSubscribers,
+      amount: '240',
       title: 'Total Number of Users',
+      link: '/agents',
+      active: '121',
+      inactive: '200',
+    },
+    {
+      amount: '240',
+      title: 'Total Number of Terminals',
       link: '/users',
+      active: '121',
+      inactive: '200',
     },
     {
-      amount: homePageStats.totalBusinesses,
-      title: 'Total Number of Businesses',
+      amount: '240',
+      title: 'Total Number of Agents',
       link: '/organizations',
-    },
-    {
-      amount: homePageStats.totalAdmins,
-      title: 'Total Number of Admins',
-      link: '/sub_accounts',
+      active: '121',
+      inactive: '200',
     },
   ]
 
@@ -206,7 +208,7 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
       disableClickEventBubbling: true,
       renderCell: params => {
         return (
-          <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+          <span css={[tw`p-1 rounded bg-border2 text-paysure-100`]}>
             {params.row.col8}
           </span>
         )
@@ -265,6 +267,12 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
       <OverviewCardSection title="Agency Overview" data={agencyOveriewData} />
 
       <OverviewCardSection title="User Overview" data={agencyOveriewData2} />
+
+      {/* Chart */}
+      <div tw="grid mt-10 gap-5 lg:(grid-cols-2)">
+        <Chart title= "Income for Agency Banking" />
+        <Chart title= "Income for Users" />
+      </div>
 
       <DataGridViewTemp
         link="/transactions/transactions_list"

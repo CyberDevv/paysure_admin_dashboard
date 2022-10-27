@@ -1,7 +1,7 @@
+import { Avatar } from '@mui/material'
+import Link from 'next/link'
 import React from 'react'
 import tw from 'twin.macro'
-import Link from 'next/link'
-import { Avatar } from '@mui/material'
 
 import { HomeCardAvatar } from './SVGIcons'
 
@@ -11,11 +11,40 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
       {title && <Title className="font-500">{title}</Title>}
       <div>
         <MainWrapper tw="mt-5">
-          {data.map(({ amount, title, link }, index) => {
+          {data.map(({ amount, title, link, active, inactive }, index) => {
             // children component
             const Children = () => {
               return (
-                <>
+                <div tw="flex ">
+                  <div
+                    tw="w-full truncate mt-4"
+                    css={[!hasIcon && tw`space-y-3`]}
+                  >
+                    <P tw="truncate">{title}</P>
+                    <H1
+                      css={[active ? tw`mt-3` : tw`mt-8`]}
+                      className="font-bold"
+                    >
+                      {amount}
+                    </H1>
+                    {(active || inactive) && (
+                      <div tw="flex space-x-4 mt-5 lg:(space-x-6 mt-7)">
+                        <h6 tw="font-semibold text-2xl tracking-[-0.05em]">
+                          {active}{' '}
+                          <span tw="text-paysure-success-100 text-sm tracking-normal leading-[24px]">
+                            Active
+                          </span>
+                        </h6>
+                        <h6 tw="font-semibold text-2xl tracking-[-0.05em]">
+                          {inactive}{' '}
+                          <span tw="text-paysure-danger-100 text-sm tracking-normal leading-[24px]">
+                            Active
+                          </span>
+                        </h6>
+                      </div>
+                    )}
+                  </div>
+
                   {hasIcon && (
                     <AvatarWrapper>
                       <Avatar
@@ -36,12 +65,7 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
                       </Avatar>
                     </AvatarWrapper>
                   )}
-
-                  <div css={[!hasIcon && tw`space-y-3`]}>
-                    <H1 className="font-bold">{amount}</H1>
-                    <P>{title}</P>
-                  </div>
-                </>
+                </div>
               )
             }
 
@@ -72,9 +96,9 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
 }
 
 // Tailwind style
-const MainWrapper = tw.div`grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 xl:(gap-5)`
-const Wrapper = tw.div`bg-blue-light min-w-[130px] border border-border rounded-lg transition-colors lg:(min-w-[235px])`
-const AvatarWrapper = tw.div`flex justify-end`
+const MainWrapper = tw.div`grid grid-cols-2 md:grid-cols-3 gap-3 xl:(gap-5)`
+const Wrapper = tw.div`bg-blue-light min-w-[130px] border border-border rounded-lg transition-colors lg:(min-w-[235px] min-h-[203px]) `
+const AvatarWrapper = tw.div``
 const H1 = tw.h1`text-2xl sm:text-3xl lg:text-3xl xl:text-[33px] text-[#191716]`
 const P = tw.p`text-sm text-paysure-50 mt-1 mb-2 lg:(text-base mb-3)`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
