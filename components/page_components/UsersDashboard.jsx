@@ -47,20 +47,22 @@ const UserssDashboard = ({ usersStats = [] }) => {
   // Array of data to be displayed in the cards
   const metricData = [
     {
-      amount: numberFormatter(usersStats.totalSubscribers),
+      amount: numberFormatter(2123),
       title: 'Total Number of Users',
       link: '/users/users_list',
+      active: '121',
+      inactive: '200',
     },
     {
-      amount: numberFormatter(usersStats.userTotalCompleteTransactionsCount),
+      amount: numberFormatter(2123),
       title: 'Total Number of Completed Transactions',
     },
     {
-      amount: numberFormatter(usersStats.userTotalPendingTransactionsCount),
+      amount: numberFormatter(2123),
       title: 'Total Number of  Pending Transactions',
     },
     {
-      amount: numberFormatter(usersStats.userTotalFailedTransactionsCount),
+      amount: numberFormatter(2123),
       title: 'Total Number of  Failed Tranasctions',
     },
   ]
@@ -242,7 +244,7 @@ const UserssDashboard = ({ usersStats = [] }) => {
 
   return (
     <Layout title="Users">
-      <div css={[tw`flex justify-between items-center`]}>
+      <div css={[tw`flex items-center justify-between`]}>
         <Ttile className="font-bold">Users</Ttile>
 
         <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>

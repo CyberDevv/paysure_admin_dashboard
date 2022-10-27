@@ -16,10 +16,7 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
             const Children = () => {
               return (
                 <div tw="flex ">
-                  <div
-                    tw="w-full truncate mt-4"
-                    css={[!hasIcon && tw`space-y-3`]}
-                  >
+                  <div tw="w-full truncate mt-4">
                     <P tw="truncate">{title}</P>
                     <H1
                       css={[active ? tw`mt-3` : tw`mt-8`]}

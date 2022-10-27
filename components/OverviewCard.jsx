@@ -13,7 +13,7 @@ const OverviewCardSection = ({ title, data, btnLabel, link }) => {
 
         {link && (
           <Link href={link}>
-            <a css={[tw`text-paysure-100 hover:underline cursor-pointer`]}>
+            <a css={[tw`cursor-pointer text-paysure-100 hover:underline`]}>
               {btnLabel}
             </a>
           </Link>
@@ -21,7 +21,7 @@ const OverviewCardSection = ({ title, data, btnLabel, link }) => {
       </div>
 
       <div>
-        <Div>
+        <Div css={data.length <= 3 ? tw`xl:grid-cols-3` : tw`xl:grid-cols-4`}>
           {data.map(({ amount, label, link }, index) => {
             return (
               <OverViewCard
@@ -47,6 +47,6 @@ OverviewCardSection.prototype = {
 // Tailwind Styles
 const Wrapper = tw.div`mt-10`
 const Title = tw.h3`tracking-[-0.02em] text-gray-dark`
-const Div = tw.div`grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3 rounded-lg xl:(gap-5 grid-cols-4 mt-5)`
+const Div = tw.div`grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3 rounded-lg xl:(gap-5 mt-5)`
 
 export default OverviewCardSection

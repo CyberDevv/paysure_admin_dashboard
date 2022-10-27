@@ -112,7 +112,7 @@ const UserDashboard = ({ userStats = [] }) => {
     {
       amount: (
         <CurrencyFormat
-          value={transInfo.transactionsSum}
+          value={5520103}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
@@ -121,16 +121,12 @@ const UserDashboard = ({ userStats = [] }) => {
       label: 'Total Transaction',
     },
     {
-      amount: numberFormatter(transInfo.transactionsSum),
+      amount: numberFormatter(5520103),
       label: 'Total Number of Completed Transactions',
     },
     {
-      amount: numberFormatter(transInfo.failedCount),
-      label: 'Total Number of Failed Transactions',
-    },
-    {
-      amount: numberFormatter(transInfo.pendingCount),
-      label: 'Total Number of Pending Transaction',
+      amount: numberFormatter(5520103),
+      label: 'Total Number of Declined Transactions',
     },
   ]
 
@@ -508,7 +504,7 @@ const columns = [
           css={
             params.row.col8.toLowerCase() === 'pending'
               ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded capitalize`
-              : tw`bg-border2 text-paysure-100 p-1 rounded capitalize`
+              : tw`p-1 capitalize rounded bg-border2 text-paysure-100`
           }
         >
           {params.row.col8}
