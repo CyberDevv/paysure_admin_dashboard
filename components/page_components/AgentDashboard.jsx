@@ -30,6 +30,7 @@ import {
 } from '..'
 import CurrencyFormat from 'react-currency-format'
 import Link from 'next/link'
+import WideOverViewCard from '../WideOverViewCard'
 
 const AgentDashboard = () => {
   // useState hook
@@ -219,13 +220,35 @@ const AgentDashboard = () => {
         </Amount>
       </WalletWrapper>
 
-      {/* Transactions */}
+      {/* Transac{title}tions */}
       <OverviewCardSection
         btnLabel="See all activities"
         link="/agents/agent/1/transaction_list"
         title="Transactions"
         data={agencyOveriewData}
       />
+
+      {/* Overview section */}
+      <section>
+        <h5 tw="tracking-[-0.02em] text-gray-dark mt-10" className="font-500">
+          Overview
+        </h5>
+
+        <div tw="grid gap-5 pt-5 lg:(grid-cols-2)">
+          <WideOverViewCard
+            label={'Agents'}
+            amount={23}
+            active={121}
+            inactive={200}
+          />
+          <WideOverViewCard
+            label={'Terminal'}
+            amount={40}
+            active={121}
+            inactive={200}
+          />
+        </div>
+      </section>
 
       {/* User information */}
       <div tw="flex flex-col justify-between lg:(flex-row space-x-5)">
@@ -296,7 +319,7 @@ const AgentDashboard = () => {
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        title="Terminals"
+        title="Bolarinwa Bimbola Aggregators list"
         rows={rows}
         columns={Terminalcolumns}
         dropdownData={dropdownData}
@@ -308,7 +331,7 @@ const AgentDashboard = () => {
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        title="Settlements"
+        title="Bolarinwa Bimbola Agents list"
         rows={rows}
         columns={Settlementcolumns}
         dropdownData={dropdownData}
@@ -658,7 +681,7 @@ const Settlementcolumns = [
     disableClickEventBubbling: true,
     // renderCell: params => {
     //   return (
-    //     <span css={[tw`bg-border2 text-paysure-100 p-1 rounded`]}>
+    //     <span css={[tw`p-1 rounded bg-border2 text-paysure-100`]}>
     //       {params.row.col8}
     //     </span>
     //   )

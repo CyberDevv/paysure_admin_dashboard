@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Box, Tabs, Tab } from '@mui/material'
 
 import Layout from '../layouts/main_layout/index.main_layout'
-import { AgentSubDashboard, SuperAgentSubDashboard, TabPanel } from '..'
+import { CMDashboard, SuperAgentSubDashboard, TabPanel } from '..'
 
 function a11yProps(index) {
   return {
@@ -49,18 +49,26 @@ export default function AgentDashboard({
               },
             }}
           >
-            <MUITab label="Agents" {...a11yProps(0)} />
+            <MUITab label="Cluster Managers" {...a11yProps(0)} />
             <MUITab
               sx={{ marginLeft: '32px' }}
-              label="Super Agents"
+              label="Aggregators"
               {...a11yProps(1)}
+            />
+            <MUITab
+              sx={{ marginLeft: '32px' }}
+              label="Agents"
+              {...a11yProps(2)}
             />
           </MUITabs>
         </Box>
         <TabPanel tabvalue={tabValue} index={0}>
-          <AgentSubDashboard agentData={agentData} />
+          <CMDashboard agentData={agentData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
+          <SuperAgentSubDashboard superAgentData={superAgentData} />
+        </TabPanel>
+        <TabPanel tabvalue={tabValue} index={2}>
           <SuperAgentSubDashboard superAgentData={superAgentData} />
         </TabPanel>
       </Box>
