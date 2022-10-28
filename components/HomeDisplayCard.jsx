@@ -12,7 +12,11 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
       <div>
         <MainWrapper
           tw="mt-5"
-          css={data.length <= 3 ? tw`md:grid-cols-3` : tw`md:grid-cols-3 xl:grid-cols-4`}
+          css={
+            data.length <= 3
+              ? tw`md:grid-cols-3`
+              : tw`md:grid-cols-3 xl:grid-cols-4`
+          }
         >
           {data.map(({ amount, title, link, active, inactive }, index) => {
             // children component
