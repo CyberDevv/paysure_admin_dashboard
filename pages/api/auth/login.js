@@ -5,15 +5,17 @@ export default async function loginAPI(req, res) {
 
   axios
     .post(`${process.env.BASE_URL}/authenticate`, {
-      password,
       username: userName,
+      password,
     })
     .then(response => {
-      console.log('Response from server >>>>', response)
-      res.status(response.status).json(response)
+      // console.log('Response from server >>>>', response.data)
+      res.status(response.status).json(response.data)
     })
-    .catch(error => {
-      console.log('Error from server >>>>', error.response.data)
-      res.status(error.response.status).json(error.response.data)
+    .catch(err => {
+      if (err) {
+        // console.log('Error from server >>>>', err.response.data)
+        res.status(err.response.data.status).send(err.response.data)
+      }
     })
 }
