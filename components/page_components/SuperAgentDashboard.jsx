@@ -30,6 +30,7 @@ import {
   SendModal,
 } from '..'
 import CurrencyFormat from 'react-currency-format'
+import WideOverViewCard from '../WideOverViewCard'
 
 const SuperAgentDashboard = () => {
   // useState hook
@@ -227,38 +228,66 @@ const SuperAgentDashboard = () => {
         data={agencyOveriewData}
       />
 
-      {/* Overview */}
-      {/* TODO: Reduce font */}
-      <HomeDisplayCard data={temporalData} title="Overview" />
+      {/* Overview section */}
+      <section>
+        <h5 tw="tracking-[-0.02em] text-gray-dark mt-10" className="font-500">
+          Overview
+        </h5>
+
+        <div tw="grid gap-5 pt-5 lg:(grid-cols-2)">
+          <WideOverViewCard
+            label={'Agents'}
+            amount={23}
+            active={121}
+            inactive={200}
+          />
+          <WideOverViewCard
+            label={'Terminal'}
+            amount={40}
+            active={121}
+            inactive={200}
+          />
+        </div>
+      </section>
 
       {/* User information */}
       <div tw="flex flex-col justify-between lg:(flex-row space-x-5)">
         <UserInfoWrapper>
-          <Title className="font-500">Super Agent Information</Title>
+          <Title className="font-500">Aggregator Information</Title>
 
           {/* User details */}
           <UserGrid>
             <Label>
-              Email
+              Email:
               <LabelAns>{userDetails.email}</LabelAns>
             </Label>
 
             <Label>
-              Account Number
+              Account Number:
               <LabelAns>{userDetails.AcctNumber}</LabelAns>
             </Label>
 
             <Label>
-              Address<LabelAns>{userDetails.address}</LabelAns>
+              Address:<LabelAns>{userDetails.address}</LabelAns>
             </Label>
 
             <Label>
-              BVN<LabelAns>{userDetails.BVN}</LabelAns>
+              BVN:<LabelAns>{userDetails.BVN}</LabelAns>
             </Label>
 
             <Label>
-              Phone
+              Phone number:
               <LabelAns>{userDetails.phone}</LabelAns>
+            </Label>
+
+            <Label>
+              Settlement plans:
+              <LabelAns>0.05</LabelAns>
+            </Label>
+
+            <Label>
+              Charge type plan:
+              <LabelAns>0.05</LabelAns>
             </Label>
           </UserGrid>
         </UserInfoWrapper>

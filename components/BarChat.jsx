@@ -4,7 +4,7 @@ import tw from 'twin.macro'
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
-const BarChat = ({ title }) => {
+const BarChat = ({ title, categories }) => {
   const [data, setData] = React.useState({
     series: [
       {
@@ -34,16 +34,7 @@ const BarChat = ({ title }) => {
         show: false,
       },
       xaxis: {
-        categories: [
-          'Cluster Managers 1',
-          'Cluster Managers 2',
-          'Cluster Managers 3',
-          'Cluster Managers 4',
-          'Cluster Managers 5',
-          'Cluster Managers 6',
-          'Cluster Managers 7',
-          'Cluster Managers 8',
-        ],
+        categories: categories,
       },
       yaxis: {
         title: {

@@ -253,7 +253,7 @@ const AgentDashboard = () => {
       {/* User information */}
       <div tw="flex flex-col justify-between lg:(flex-row space-x-5)">
         <UserInfoWrapper>
-          <Title className="font-500">Agent Information</Title>
+          <Title className="font-500">Cluster Manager Information</Title>
 
           {/* User details */}
           <UserGrid>
@@ -283,6 +283,16 @@ const AgentDashboard = () => {
             <Label>
               Phone
               <LabelAns>{userDetails.phone}</LabelAns>
+            </Label>
+
+            <Label>
+              Settlement plans:
+              <LabelAns>0.05</LabelAns>
+            </Label>
+
+            <Label>
+              Charge type plan:
+              <LabelAns>0.05</LabelAns>
             </Label>
           </UserGrid>
         </UserInfoWrapper>

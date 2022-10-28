@@ -59,7 +59,7 @@ function AgentPage() {
   return (
     <>
       <Head>
-        <title>Agent | Paysure</title>
+        <title>Cluster Manager | Paysure</title>
       </Head>
 
       <AgentDashboard agentStats={data} />

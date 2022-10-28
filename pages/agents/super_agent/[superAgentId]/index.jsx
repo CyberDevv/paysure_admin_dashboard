@@ -62,7 +62,7 @@ function SuperAgentPage() {
   return (
     <>
       <Head>
-        <title>Super Agent | Paysure</title>
+        <title>Aggregator | Paysure</title>
       </Head>
 
       <SuperAgentDashboard superAgentStats={data} />

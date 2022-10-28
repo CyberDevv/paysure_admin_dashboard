@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Box, Tabs, Tab } from '@mui/material'
 
 import Layout from '../layouts/main_layout/index.main_layout'
-import { CMDashboard, SuperAgentSubDashboard, TabPanel } from '..'
+import { CMDashboard, Aggregators, TabPanel } from '..'
 
 function a11yProps(index) {
   return {
@@ -66,10 +66,10 @@ export default function AgentDashboard({
           <CMDashboard agentData={agentData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
-          <SuperAgentSubDashboard superAgentData={superAgentData} />
+          <Aggregators superAgentData={superAgentData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={2}>
-          <SuperAgentSubDashboard superAgentData={superAgentData} />
+          <Aggregators superAgentData={superAgentData} />
         </TabPanel>
       </Box>
     </Layout>
