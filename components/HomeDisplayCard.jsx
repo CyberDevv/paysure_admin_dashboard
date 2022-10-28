@@ -10,7 +10,10 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
     <div tw="mt-10">
       {title && <Title className="font-500">{title}</Title>}
       <div>
-        <MainWrapper tw="mt-5">
+        <MainWrapper
+          tw="mt-5"
+          css={data.length <= 3 ? tw`md:grid-cols-3` : tw`md:grid-cols-3 xl:grid-cols-4`}
+        >
           {data.map(({ amount, title, link, active, inactive }, index) => {
             // children component
             const Children = () => {
@@ -93,7 +96,7 @@ const HomeDisplayCard = ({ data = [], hasIcon, title }) => {
 }
 
 // Tailwind style
-const MainWrapper = tw.div`grid grid-cols-2 md:grid-cols-3 gap-3 xl:(gap-5)`
+const MainWrapper = tw.div`grid grid-cols-2 gap-3 xl:(gap-5)`
 const Wrapper = tw.div`bg-blue-light min-w-[130px] border border-border rounded-lg transition-colors lg:(min-w-[235px] min-h-[203px]) `
 const AvatarWrapper = tw.div``
 const H1 = tw.h1`text-2xl sm:text-3xl lg:text-3xl xl:text-[33px] text-[#191716]`
