@@ -14,45 +14,52 @@ import numberFormatter from '../../utils/numberFormatter'
 import Chart from '../Chart'
 import Layout from '../layouts/main_layout/index.main_layout'
 
-const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
-  const { transData = [] } = homePageGrid
-
+const HomeDashboard = ({ homePageStats = [] }) => {
   // array of home page stats
   const homePageData = [
     {
-      amount: '240',
+      amount: numberFormatter(homePageStats.numberFormatter || 0),
       title: 'Total Number of Providers',
       link: '/providers',
     },
     {
-      amount: '240',
+      amount: numberFormatter(homePageStats.clusterManagerAnalytics.totalCLM),
       title: 'Total Number of Cluster Manager',
+      link: '/agents',
     },
     {
-      amount: '240',
+      amount: numberFormatter(
+        homePageStats.aggregatorAnalytics.totalAggregator,
+      ),
       title: 'Total Number of Aggregators',
       link: '/agents',
     },
     {
-      amount: '240',
+      amount: numberFormatter(homePageStats.userAnalytics.totalUsers),
       title: 'Total Number of Users',
-      link: '/agents',
-      active: '121',
-      inactive: '200',
-    },
-    {
-      amount: '240',
-      title: 'Total Number of Terminals',
       link: '/users',
-      active: '121',
-      inactive: '200',
+      active: numberFormatter(homePageStats.userAnalytics.totalActiveUsers),
+      inactive: numberFormatter(homePageStats.userAnalytics.totalInactiveUsers),
     },
     {
-      amount: '240',
+      amount: numberFormatter(homePageStats.terminalAnalytics.totalTerminals),
+      title: 'Total Number of Terminals',
+      link: '/terminals',
+      active: numberFormatter(
+        homePageStats.terminalAnalytics.totalActiveTerminals,
+      ),
+      inactive: numberFormatter(
+        homePageStats.terminalAnalytics.totalInactiveTerminals,
+      ),
+    },
+    {
+      amount: numberFormatter(homePageStats.agentAnalytics.totalAgents),
       title: 'Total Number of Agents',
-      link: '/organizations',
-      active: '121',
-      inactive: '200',
+      link: '/agents',
+      active: numberFormatter(homePageStats.agentAnalytics.totalActiveAgents),
+      inactive: numberFormatter(
+        homePageStats.agentAnalytics.totalInactiveAgents,
+      ),
     },
   ]
 
@@ -61,7 +68,7 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
     {
       amount: (
         <CurrencyFormat
-          value={homePageGrid.agentTotalCompletedTransactionsSum}
+          value={homePageStats.agencyOverview.totalTransactions}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
@@ -70,15 +77,21 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
       label: 'Total Transactions',
     },
     {
-      amount: numberFormatter(homePageGrid.agentTotalCompleteTransactionsCount),
+      amount: numberFormatter(
+        homePageStats.agencyOverview.totalCompletedTransactions,
+      ),
       label: 'Total Number of Completed Transactions',
     },
     {
-      amount: numberFormatter(homePageGrid.agentTotalFailedTransactionsCount),
+      amount: numberFormatter(
+        homePageStats.agencyOverview.totalFailedTransactions,
+      ),
       label: 'Total  Number of Failed Transactions',
     },
     {
-      amount: numberFormatter(homePageGrid.agentTotalPendingTransactionsCount),
+      amount: numberFormatter(
+        homePageStats.agencyOverview.totalPendingTransactions,
+      ),
       label: 'Total Number of Pending Transactions',
     },
   ]
@@ -86,45 +99,51 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
   // array of users stats
   const agencyOveriewData2 = [
     {
-      amount: numberFormatter(homePageStats.totalSubscribers),
+      amount: numberFormatter(homePageStats.userOverview.totalUsers),
       label: 'Total Number of Users',
     },
     {
-      amount: numberFormatter(homePageGrid.userTotalCompleteTransactionsCount),
+      amount: numberFormatter(
+        homePageStats.userOverview.totalCompletedTransactions,
+      ),
       label: 'Total NUmber of Completed Transactions',
     },
     {
-      amount: numberFormatter(homePageGrid.userTotalFailedTransactionsCount),
+      amount: numberFormatter(
+        homePageStats.userOverview.totalFailedTransactions,
+      ),
       label: 'Total Number of Failed Transactions',
     },
     {
-      amount: numberFormatter(homePageGrid.userTotalPendingTransactionsCount),
+      amount: numberFormatter(
+        homePageStats.userOverview.totalPendingTransactions,
+      ),
       label: 'Total Number of Pending Transactions',
     },
   ]
 
   // DataGrid rows
-  let rows
+  let rows = []
   // check if providerList is an array
-  if (Array.isArray(transData)) {
-    rows = transData.map((item, index) => {
-      return {
-        id: item.tid,
-        col1: index + 1,
-        col2: item.initiator,
-        col3: item.transType,
-        col4: item.amount,
-        col5: item.fee,
-        col6: item.paymentRef,
-        col7: item.paymentMethod,
-        col8: item.transtatus,
-        col9: item.transDate,
-        col10: '',
-      }
-    })
-  } else {
-    rows = []
-  }
+  // if (Array.isArray(transData)) {
+  //   rows = transData.map((item, index) => {
+  //     return {
+  //       id: item.tid,
+  //       col1: index + 1,
+  //       col2: item.initiator,
+  //       col3: item.transType,
+  //       col4: item.amount,
+  //       col5: item.fee,
+  //       col6: item.paymentRef,
+  //       col7: item.paymentMethod,
+  //       col8: item.transtatus,
+  //       col9: item.transDate,
+  //       col10: '',
+  //     }
+  //   })
+  // } else {
+  //   rows = []
+  // }
 
   const columns = [
     {
@@ -262,7 +281,7 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
         </TitleSpan>
       </Ttile>
 
-      <HomeDisplayCard data={homePageData} hasIcon />
+      <HomeDisplayCard data={homePageData} isGridThree hasIcon />
 
       <OverviewCardSection title="Agency Overview" data={agencyOveriewData} />
 
@@ -270,8 +289,8 @@ const HomeDashboard = ({ homePageStats = [], homePageGrid = [] }) => {
 
       {/* Chart */}
       <div tw="grid mt-10 gap-5 lg:(grid-cols-2)">
-        <Chart title= "Income for Agency Banking" />
-        <Chart title= "Income for Users" />
+        <Chart title="Income for Agency Banking" />
+        <Chart title="Income for Users" />
       </div>
 
       <DataGridViewTemp

@@ -1,98 +1,49 @@
-// imports
-import React from 'react'
-import moment from 'moment'
+import axios from 'axios'
 import Head from 'next/head'
 import nookies from 'nookies'
-import Router from 'next/router'
-import uid from 'generate-unique-id'
-import useSWR, { SWRConfig } from 'swr'
-import { destroyCookie } from 'nookies'
-import { useDispatch } from 'react-redux'
+import React from 'react'
 
 import { HomeDashboard } from '../components'
-import { logout } from '../features/userSlice'
-import { makeEncryptedRequest } from '../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
+  const { USER_TOKEN } = nookies.get(ctx)
 
-  const homeStats = await makeEncryptedRequest(
-    {},
-    'paysure/api/processor/admin-home-page-stats',
-    'POST',
-    USER_AUTHORIZATION,
-  )
+  // check if user is logged in, if not, redirect to login page
+  if (!USER_TOKEN) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
 
-  const homeDataList = await makeEncryptedRequest(
+  // fetch data from server
+  const response = await axios.get(
+    `${process.env.BASE_URL}/apis/v1/paysure/admin/adminMainPage/analytics`,
     {
-      requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(30, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      toDate: moment().format('YYYY-MM-DD hh:mm:ss'),
-      pageId: 1,
-      pageSize: 5,
+      headers: {
+        Authorization: `Bearer ${USER_TOKEN}`,
+      },
     },
-    'paysure/api/processor/admin-dashboard-stats-with-grid',
-    'POST',
-    USER_AUTHORIZATION,
   )
 
   return {
     props: {
-      status: homeStats ? homeStats.status : 500,
-      status2: homeDataList ? homeDataList.status : 500,
-      fallback: {
-        '/api/home/homeStats': homeStats ? homeStats.data : [],
-        '/api/home/homeDataList': homeDataList ? homeDataList.data : [],
-      },
+      data: response.data,
     },
   }
 }
 
-function HomePage() {
-  async function fetcher(url) {
-    const res = await fetch(url)
-    return res.json()
-  }
-
-  const { data } = useSWR('/api/home/homeStats', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
-
-  const { data: data2 } = useSWR('/api/home/homeDataList', fetcher, {
-    revalidateOnMount: true,
-    revalidateIfStale: true,
-  })
-
+export default function Home({ data }) {
+  console.log(data)
   return (
     <>
       <Head>
         <title>Home | Paysure</title>
       </Head>
 
-      <HomeDashboard homePageGrid={data2} homePageStats={data} />
+      <HomeDashboard homePageStats={data} />
     </>
-  )
-}
-
-export default function Home({ fallback, status, status2 }) {
-  // dispatch
-  const dispatch = useDispatch()
-
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873 || status2 === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
-  }, [status, status2, fallback, dispatch])
-
-  return (
-    <SWRConfig value={{ fallback }}>
-      <HomePage />
-    </SWRConfig>
   )
 }
