@@ -1,51 +1,51 @@
-import React from 'react'
-import moment from 'moment'
+import axios from 'axios'
 import Head from 'next/head'
-import Router from 'next/router'
-import uid from 'generate-unique-id'
-import useSWR, { SWRConfig } from 'swr'
-import { useDispatch } from 'react-redux'
-import nookies, { destroyCookie } from 'nookies'
+import nookies from 'nookies'
+import React from 'react'
 
 import { UsersDashboard } from '../../components'
-import { logout } from '../../features/userSlice'
-import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
+  const { USER_TOKEN } = nookies.get(ctx)
 
-  const usersStats = await makeEncryptedRequest(
+  // check if user is logged in, if not, redirect to login page
+  if (!USER_TOKEN) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  // fetch data from server
+  const response = await axios.get(
+    `${process.env.BASE_URL}/apis/bizzdeskgroup/users/admin/adminUserDasboard/analytics`,
     {
-      requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate: moment().format('YYYY-MM-DD 23:59:59'),
-      pageId: 1,
-      pageSize: 5,
+      headers: {
+        Authorization: `Bearer ${USER_TOKEN}`,
+      },
     },
-    'paysure/api/processor/user-dashboard-stats-with-grid',
-    'POST',
-    USER_AUTHORIZATION,
   )
+
+  // if status is 401, redirect to login page
+  // if (response.status === 401) {
+  //   return {
+  //     redirect: {
+  //       destination: '/login',
+  //       permanent: false,
+  //     },
+  //   }
+  // }
 
   return {
     props: {
-      status: usersStats ? usersStats.status : 500,
-      fallback: {
-        '/api/users/usersStats': usersStats ? usersStats.data : [],
-      },
+      data: response.data,
     },
   }
 }
 
-function UsersPage() {
-  async function fetcher(url) {
-    const res = await fetch(url)
-    return res.json()
-  }
-
-  // TODO: create url in api route for /api/users/usersStats
-  const { data } = useSWR('/api/users/usersStats', fetcher)
-
+export default function Users({ data }) {
   return (
     <>
       <Head>
@@ -54,27 +54,5 @@ function UsersPage() {
 
       <UsersDashboard usersStats={data} />
     </>
-  )
-}
-
-export default function Users({ fallback, status }) {
-  // dispatch
-  const dispatch = useDispatch()
-
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
-  }, [status, fallback, dispatch])
-
-  return (
-    <SWRConfig value={{ fallback }}>
-      <UsersPage />
-    </SWRConfig>
   )
 }

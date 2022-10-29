@@ -6,7 +6,7 @@ import Router from 'next/router'
 import { Button, Tooltip } from '@mui/material'
 import CurrencyFormat from 'react-currency-format'
 
-import { DataGridViewTemp, HomeDisplayCard } from '..'
+import { DataGridViewTemp, HomeDisplayCard, HomeMetricCard } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
@@ -47,22 +47,27 @@ const UserssDashboard = ({ usersStats = [] }) => {
   // Array of data to be displayed in the cards
   const metricData = [
     {
-      amount: numberFormatter(2123),
-      title: 'Total Number of Users',
-      link: '/users/users_list',
-      active: '121',
-      inactive: '200',
+      amount: numberFormatter(
+        usersStats.transactionsAnalytics.totalTransactions,
+      ),
+      title: 'Total Number of Transactions',
     },
     {
-      amount: numberFormatter(2123),
+      amount: numberFormatter(
+        usersStats.transactionsAnalytics.totalCompletedTransactions,
+      ),
       title: 'Total Number of Completed Transactions',
     },
     {
-      amount: numberFormatter(2123),
+      amount: numberFormatter(
+        usersStats.transactionsAnalytics.totalFailedTransactions,
+      ),
       title: 'Total Number of  Pending Transactions',
     },
     {
-      amount: numberFormatter(2123),
+      amount: numberFormatter(
+        usersStats.transactionsAnalytics.totalPendingTransactions,
+      ),
       title: 'Total Number of  Failed Tranasctions',
     },
   ]
@@ -178,7 +183,9 @@ const UserssDashboard = ({ usersStats = [] }) => {
       renderCell: params => {
         return (
           <span>
-            {params.row.col8 ? moment(params.row.col8).format('MMM DD, YYYY HH:mm') : '-'}
+            {params.row.col8
+              ? moment(params.row.col8).format('MMM DD, YYYY HH:mm')
+              : '-'}
           </span>
         )
       },
@@ -231,7 +238,7 @@ const UserssDashboard = ({ usersStats = [] }) => {
               </button>
             </Tooltip>
 
-            <Tooltip title= "View User">
+            <Tooltip title="View User">
               <button onClick={handleView}>
                 <ViewActionSVG />
               </button>
@@ -323,7 +330,27 @@ const UserssDashboard = ({ usersStats = [] }) => {
         </Modal>
       </div>
 
-      <HomeDisplayCard data={metricData} />
+      <div tw="lg:(overflow-x-auto) w-full" className="scrollHidden">
+        <div tw="mt-10 grid grid-cols-2 gap-3 w-full md:grid-cols-3 lg:(flex gap-5)">
+          <HomeMetricCard.CardWithActiveInActiveNoIcon
+            title={`Total Number of Users`}
+            active={numberFormatter(usersStats.userAnalytics.totalActiveUsers)}
+            inactive={numberFormatter(
+              usersStats.userAnalytics.totalInactiveUsers,
+            )}
+            amount={numberFormatter(usersStats.userAnalytics.totalUsers)}
+          />
+          {metricData.map(({ amount, title }, index) => {
+            return (
+              <HomeMetricCard.PlainCard
+                key={index}
+                title={title}
+                amount={amount}
+              />
+            )
+          })}
+        </div>
+      </div>
 
       <DataGridViewTemp
         link="/users/users_list"

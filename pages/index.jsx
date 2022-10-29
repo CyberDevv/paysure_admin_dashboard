@@ -36,7 +36,6 @@ export async function getServerSideProps(ctx) {
 }
 
 export default function Home({ data }) {
-  console.log(data)
   return (
     <>
       <Head>

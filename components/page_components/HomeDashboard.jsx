@@ -6,7 +6,7 @@ import tw from 'twin.macro'
 
 import {
   DataGridViewTemp,
-  HomeDisplayCard,
+  HomeMetricCard,
   OverviewCardSection,
   Receipt,
 } from '..'
@@ -281,7 +281,22 @@ const HomeDashboard = ({ homePageStats = [] }) => {
         </TitleSpan>
       </Ttile>
 
-      <HomeDisplayCard data={homePageData} isGridThree hasIcon />
+      <div tw="grid grid-cols-2 gap-3 md:grid-cols-3 xl:(gap-5) mt-10">
+        {homePageData.map(
+          ({ amount, active, inactive, link, title }, index) => {
+            return (
+              <HomeMetricCard.CardWithActiveInActive
+                key={index}
+                title={title}
+                link={link}
+                amount={amount}
+                active={active || null}
+                inactive={inactive || null}
+              />
+            )
+          },
+        )}
+      </div>
 
       <OverviewCardSection title="Agency Overview" data={agencyOveriewData} />
 
