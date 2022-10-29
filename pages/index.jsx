@@ -19,14 +19,22 @@ export async function getServerSideProps(ctx) {
   }
 
   // fetch data from server
-  const response = await axios.get(
-    `${process.env.BASE_URL}/apis/v1/paysure/admin/adminMainPage/analytics`,
-    {
-      headers: {
-        Authorization: `Bearer ${USER_TOKEN}`,
+  const response = await axios
+    .get(
+      `${process.env.BASE_URL}/apis/v1/paysure/admin/adminMainPage/analytics`,
+      {
+        headers: {
+          Authorization: `Bearer ${USER_TOKEN}`,
+        },
       },
-    },
-  )
+    )
+    .then(res => {
+      return res
+    })
+    .catch(err => {
+      console.log(err.response.data)
+      return { data: err.response.data }
+    })
 
   return {
     props: {
