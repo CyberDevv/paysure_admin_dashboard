@@ -43,10 +43,14 @@ export async function getServerSideProps(ctx) {
   }
 }
 
-export default function Terminals({ data, tableData, agentTableData, bankTableData }) {
-
+export default function Terminals({
+  data,
+  tableData,
+  agentTableData,
+  bankTableData,
+}) {
   const terminalData = [data, tableData, agentTableData, bankTableData]
-  
+
   return (
     <>
       <Head>
