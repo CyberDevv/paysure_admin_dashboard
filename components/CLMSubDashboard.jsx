@@ -1,62 +1,66 @@
 import { Button, Tooltip } from '@mui/material'
 import moment from 'moment'
+import Head from 'next/head'
 import Router from 'next/router'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import tw from 'twin.macro'
 
-import { DataGridViewTemp, HomeDisplayCard } from '.'
+import { DataGridViewTemp, HomeDisplayCard, HomeMetricCard } from '.'
 import numberFormatter from '../utils/numberFormatter'
 import BarChat from './BarChat'
 import Modal from './layouts/modal_ayout/index.modal_layout'
 import Label from './layouts/modal_ayout/LabelInput.main_layout'
-import { Add, EditActionSVG, ViewActionSVG } from './SVGIcons'
+import {
+  Add,
+  EditActionSVG,
+  UserWithNegative,
+  UserWithPositive,
+  ViewActionSVG,
+  Wallet,
+} from './SVGIcons'
 
-const CMDashboard = ({ agentData = [] }) => {
-  const { transStats = [], trxInfo = [] } = agentData
+const CMDashboard = ({ clmData = [] }) => {
+  console.log(
+    '🚀 ~ file: CLMSubDashboard.jsx ~ line 17 ~ CMDashboard ~ clmData',
+    clmData,
+  )
+  const { transStats = [], trxInfo = [] } = clmData
 
   // functions
-  const agentStats = [
+  const clmStats = [
     {
-      amount: numberFormatter(232),
+      amount: numberFormatter(clmData[0].totalCLM),
       title: 'Total number of Cluster Managers',
     },
     {
-      amount: numberFormatter(232),
+      amount: numberFormatter(clmData[0].totalActiveCLM),
       title: 'Total number of Active Cluster Managers',
       link: '/agents/agents_list',
     },
     {
-      amount: numberFormatter(232),
+      amount: numberFormatter(clmData[0].totalInactiveCLM),
       title: 'Total number of inactive Cluster Managers',
     },
   ]
 
   // DataGrid rows
-  let rows
-  // check if trxInfo is an array
-  if (Array.isArray(trxInfo)) {
-    rows = trxInfo.map((item, index) => {
-      return {
-        id: item.tid,
-        col1: index + 1,
-        col2: item.fullName,
-        col3: item.parent,
-        col4: item.AgentsTerminal,
-        col5: item.totalTransactionsCount,
-        col6: item.sumTotalSuccessful,
-        col7: item.walletBalance,
-        col8: item.contractType,
-        col9: item.dateAdded,
-        col10: item.statusStr,
-        col11: '',
-        email: item.emailAddress,
-        phone: item.phonePri,
-      }
-    })
-  } else {
-    rows = []
-  }
+  const rows = clmData[1].map((item, index) => {
+    return {
+      id: index,
+      col1: index + 1,
+      col2: item.fullname,
+      col3: item.noOfAgents,
+      col4: item.noOfAggregators,
+      col5: item.terminals,
+      col6: item.noOfTransactions,
+      col7: item.totalAmountInTransactions,
+      col8: item.walletBalance,
+      col9: item.dateAdded,
+      col10: item.status,
+      col11: '',
+    }
+  })
 
   // dataGrid column
   const columns = [
@@ -66,77 +70,77 @@ const CMDashboard = ({ agentData = [] }) => {
       minWidth: 71,
       flex: 1,
       headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
     },
     {
       field: 'col2',
-      headerName: 'Agent Name',
+      headerName: "Cluster Manager's Name",
       minWidth: 227,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
       field: 'col3',
-      headerName: 'Parent',
+      headerName: 'No. of Agents',
+      minWidth: 236,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+
+    {
+      field: 'col4',
+      headerName: 'No. of Aggregators',
       minWidth: 236,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col4',
-      headerName: 'Terminals',
-      minWidth: 203,
-      flex: 1,
-      headerClassName: 'grid-header',
-      // renderCell: params => {
-      //   return (
-      //     <div tw="space-x-1">
-      //       {params.row.col4.slice(0, 2).map((item, index) => {
-      //         return (
-      //           <span
-      //             key={index}
-      //             css={[
-      //               tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
-      //             ]}
-      //           >
-      //             {item}
-      //           </span>
-      //         )
-      //       })}
-      //       {params.row.col4.length > 2 && (
-      //         <span tw="ml-4">+{params.row.col4.length - 2}</span>
-      //       )}
-      //     </div>
-      //   )
-      // },
-    },
-    {
       field: 'col5',
-      headerName: 'No. of Transactions',
-      minWidth: 166,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
-    {
-      field: 'col6',
-      headerName: 'Transactions{N}',
-      minWidth: 150,
+      headerName: 'Terminals',
+      minWidth: 193,
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
         return (
-          <CurrencyFormat
-            value={params.row.col6}
-            displayType={'text'}
-            thousandSeparator={true}
-            prefix={'₦'}
-          />
+          <div>
+            {params.row.col5.length !== 0 ? (
+              <div tw="space-x-1">
+                {params.row.col5.slice(0, 2).map((item, index) => {
+                  return (
+                    <span
+                      key={index}
+                      css={[
+                        tw`bg-paysure-10 text-paysure-100 text-[10px] uppercase p-1 rounded`,
+                      ]}
+                    >
+                      {item}
+                    </span>
+                  )
+                })}
+                {params.row.col5.length > 2 && (
+                  <span tw="ml-4">+{params.row.col5.length - 2}</span>
+                )}
+              </div>
+            ) : (
+              <spn>0</spn>
+            )}
+          </div>
         )
       },
     },
     {
+      field: 'col6',
+      headerName: 'No. of Transactions',
+      minWidth: 176,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
       field: 'col7',
-      headerName: 'Wallet Balance',
-      minWidth: 144,
+      headerName: 'Transactions{N}',
+      minWidth: 150,
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
@@ -152,16 +156,25 @@ const CMDashboard = ({ agentData = [] }) => {
     },
     {
       field: 'col8',
-      headerName: 'Current Plan',
-      minWidth: 153,
+      headerName: 'Wallet Balance',
+      minWidth: 144,
       flex: 1,
       headerClassName: 'grid-header',
-      disableClickEventBubbling: true,
+      renderCell: params => {
+        return (
+          <CurrencyFormat
+            value={params.row.col8}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'₦'}
+          />
+        )
+      },
     },
     {
       field: 'col9',
       headerName: 'Date Added',
-      minWidth: 123,
+      minWidth: 153,
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
@@ -173,18 +186,17 @@ const CMDashboard = ({ agentData = [] }) => {
     {
       field: 'col10',
       headerName: 'Status',
-      minWidth: 100,
+      minWidth: 140,
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
         return (
           <span
-            css={[
-              tw`uppercase text-[10px] p-1 rounded`,
-              params.row.col10.toLowerCase() === 'active'
-                ? tw`bg-[#E9FBF9] text-paysure-success-100 `
-                : tw`bg-[#FDF6EF] text-[#EDA95A] `,
-            ]}
+            css={
+              params.row.col10.toLowerCase() !== 'active'
+                ? tw`bg-[#FDF6EF] text-paysure-danger-100 text-[10px] uppercase p-1 rounded`
+                : tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
+            }
           >
             {params.row.col10}
           </span>
@@ -213,54 +225,63 @@ const CMDashboard = ({ agentData = [] }) => {
               c => (thisRow[c.field] = params.getValue(params.id, c.field)),
             )
 
-          Router.push({
-            pathname: `/agents/agent/${thisRow.col2}`,
-            query: { email: thisRow.email, phone: thisRow.phone },
-          })
+          // Router.push(`/agents/super_agent/${thisRow.col1}`)
         }
 
         return (
           <div tw="space-x-1">
-            <Tooltip title="Edit Agent">
+            <Tooltip title="Edit Cluster Manager">
               <button onClick={handleEdit}>
                 <EditActionSVG />
               </button>
             </Tooltip>
 
-            {/* <button onClick={handleView}>
-            <UserWithPositive />
-          </button> */}
+            {params.row.col10.toLowerCase() === 'active' && (
+              <Tooltip title="Deactivate Cluster Manager">
+                <button onClick={handleView}>
+                  <UserWithPositive />
+                </button>
+              </Tooltip>
+            )}
 
-            <Tooltip title="View Agent">
+            {params.row.col10.toLowerCase() === 'inactive' && (
+              <Tooltip title="Activate Cluster Manager">
+                <button onClick={handleView}>
+                  <UserWithNegative />
+                </button>
+              </Tooltip>
+            )}
+
+            <Tooltip title="View Cluster Manager">
               <button onClick={handleView}>
-                <ViewActionSVG />
+                <Wallet />
               </button>
             </Tooltip>
           </div>
         )
       },
     },
-    {
-      field: 'email',
-      minWidth: 123,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
-    {
-      field: 'phone',
-      minWidth: 123,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
   ]
 
   return (
     <>
+      <Head>
+        <title>Cluster Manager | Paysure</title>
+      </Head>
+
       <div css={[tw`flex items-center justify-between`]}>
         <Ttile className="font-bold">Cluster Manager</Ttile>
       </div>
 
-      <HomeDisplayCard data={agentStats} />
+      <div tw="grid mt-10 grid-cols-2 gap-3 lg:(grid-cols-3 gap-5)">
+        {clmStats.map((item, index) => (
+          <HomeMetricCard.PlainCard
+            key={index}
+            amount={item.amount}
+            title={item.title}
+          />
+        ))}
+      </div>
 
       <BarChat
         title={'Performance of Cluster Managers'}
@@ -282,7 +303,6 @@ const CMDashboard = ({ agentData = [] }) => {
         title="Cluster Manager List"
         rows={rows}
         columns={columns}
-        columnVisibilityModel={{ email: false, phone: false }}
       />
     </>
   )

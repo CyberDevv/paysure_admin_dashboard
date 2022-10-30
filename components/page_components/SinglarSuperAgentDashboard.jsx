@@ -1,21 +1,11 @@
-import tw from 'twin.macro'
+import { Box, Tab, Tabs } from '@mui/material'
 import React, { useState } from 'react'
-import { Box, Tabs, Tab } from '@mui/material'
+import tw from 'twin.macro'
 
+import { Agents, Aggregators, CMDashboard, TabPanel } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
-import { CMDashboard, Aggregators, Agents, TabPanel } from '..'
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
-
-export default function AgentDashboard({
-  agentData = [],
-  superAgentData = [],
-}) {
+export default function AgentDashboard({ clmData = [], superAgentData = [] }) {
   const [tabValue, setTabValue] = useState(0)
 
   const handleChange = (event, newValue) => {
@@ -49,21 +39,13 @@ export default function AgentDashboard({
               },
             }}
           >
-            <MUITab label="Cluster Managers" {...a11yProps(0)} />
-            <MUITab
-              sx={{ marginLeft: '32px' }}
-              label="Aggregators"
-              {...a11yProps(1)}
-            />
-            <MUITab
-              sx={{ marginLeft: '32px' }}
-              label="Agents"
-              {...a11yProps(2)}
-            />
+            <MUITab label="Cluster Managers" />
+            <MUITab sx={{ marginLeft: '32px' }} label="Aggregators" />
+            <MUITab sx={{ marginLeft: '32px' }} label="Agents" />
           </MUITabs>
         </Box>
         <TabPanel tabvalue={tabValue} index={0}>
-          <CMDashboard agentData={agentData} />
+          <CMDashboard clmData={clmData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
           <Aggregators superAgentData={superAgentData} />

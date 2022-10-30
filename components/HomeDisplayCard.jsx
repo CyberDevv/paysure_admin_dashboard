@@ -77,7 +77,7 @@ export const CardWithActiveInActiveNoIcon = ({
   amount,
 }) => {
   return (
-    <Wrapper css={[tw`p-4 lg:max-h-[174px] lg:(p-6)`]}>
+    <Wrapper css={[tw`p-4 min-h-[174px] lg:max-h-[174px] lg:(p-6)`]}>
       <div tw="md:(flex items-center space-x-3) ">
         <H1 className="font-bold">{amount}</H1>
         <p tw="truncate text-sm text-paysure-50 mt-1 lg:(text-base mt-0)">
@@ -109,7 +109,7 @@ export const CardWithActiveInActiveNoIcon = ({
 
 export const PlainCard = ({ title, amount }) => {
   return (
-    <Wrapper css={[tw`px-4 flex flex-col justify-center lg:max-h-[174px] lg:(px-6)`]}>
+    <Wrapper css={[tw`px-4 flex flex-col justify-center min-h-[174px] lg:max-h-[174px] lg:(px-6)`]}>
       <H1 className="font-bold">{amount}</H1>
       <p tw="truncate text-sm text-paysure-50 mt-2 lg:(text-base mt-4)">
         {title}
