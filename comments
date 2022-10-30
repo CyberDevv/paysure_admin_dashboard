@@ -4,3 +4,7 @@
 
 >> users
   >> Endpoint for usersList returns status code 500
+
+>> Agents
+  >> Endpoint for cluster managers, aggregators and agents barChat
+  >> Endpoint for agents metric data  

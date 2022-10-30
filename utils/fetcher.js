@@ -26,7 +26,7 @@ export async function fetcher(USER_TOKEN, method, url) {
         return { data: err.response.data }
       })
 
-    if (response.data.status === 401) {
+    if (response.data.status === 401 || response.data.status === 500) {
       return {
         redirect: {
           destination: '/login',
