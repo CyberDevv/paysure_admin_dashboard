@@ -5,7 +5,7 @@ import tw from 'twin.macro'
 import { Agents, Aggregators, CMDashboard, TabPanel } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 
-export default function AgentDashboard({ clmData = [], superAgentData = [] }) {
+export default function AgentDashboard({ clmData = [], aggregatorData = [] }) {
   const [tabValue, setTabValue] = useState(0)
 
   const handleChange = (event, newValue) => {
@@ -48,10 +48,10 @@ export default function AgentDashboard({ clmData = [], superAgentData = [] }) {
           <CMDashboard clmData={clmData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
-          <Aggregators superAgentData={superAgentData} />
+          <Aggregators aggregatorData={aggregatorData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={2}>
-          <Agents superAgentData={superAgentData} />
+          <Agents aggregatorData={aggregatorData} />
         </TabPanel>
       </Box>
     </Layout>
