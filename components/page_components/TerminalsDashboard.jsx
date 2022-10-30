@@ -1,14 +1,13 @@
-import React from 'react'
-import axios from 'axios'
-import moment from 'moment'
-import tw from 'twin.macro'
-import Router from 'next/router'
-import { useSWRConfig } from 'swr'
-import { toast } from 'react-toastify'
 import { LoadingButton } from '@mui/lab'
 import { Button, Tooltip } from '@mui/material'
+import axios from 'axios'
+import Router from 'next/router'
+import React from 'react'
+import { toast } from 'react-toastify'
+import { useSWRConfig } from 'swr'
+import tw from 'twin.macro'
 
-import { DataGridViewTemp, HomeDisplayCard } from '..'
+import { DataGridViewTemp, HomeMetricCard } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
@@ -17,14 +16,12 @@ import {
   Add,
   EditActionSVG,
   UserWithNegative,
-  Wallet,
   UserWithPositive,
+  Wallet,
 } from '../SVGIcons'
 
-const TerminalsDashboard = ({ terminalStats = [] }) => {
+const TerminalsDashboard = ({ terminalData = [] }) => {
   const { mutate } = useSWRConfig()
-
-  const { TerminalData = [] } = terminalStats
 
   // UseState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -57,29 +54,45 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
       })
   }
 
-  // rows
-  let rows
-  // check if TerminalData is an array
-  if (Array.isArray(TerminalData)) {
-    rows = TerminalData.map((item, index) => {
-      return {
-        id: item.tid,
-        col1: index + 1,
-        col2: item.terminalId,
-        col3: item.terminalSerialNo,
-        col4: item.bankStr,
-        col5: item.transCount,
-        col6: item.nibssRate,
-        col7: item.partnerName,
-        col8: item.merchantName,
-        col9: item.statusStr,
-        col10: item.lastTransactionDate,
-        col11: '',
-      }
-    })
-  } else {
-    rows = []
-  }
+  // DataGrid rows
+  const rows = terminalData[1].map((item, index) => {
+    return {
+      id: index,
+      col1: index + 1,
+      tid: item.tid,
+      serialNo: item.serialNo,
+      bank: item.bank,
+      transactions: item.transactions,
+      nibbsRate: item.nibbsRate,
+      clm: item.null,
+      aggregator: item.null,
+      agent: item.agentFullName,
+      status: item.status,
+      actions: '',
+    }
+  })
+
+  // DataGrid rows for banks
+  const bankRows = terminalData[3].map((item, index) => {
+    return {
+      id: index,
+      col1: index + 1,
+      bank: item.bank,
+      terminals: item.noOfTerminals,
+      actions: '',
+    }
+  })
+
+  // DataGrid rows for agents
+  const agentsRows = terminalData[2].map((item, index) => {
+    return {
+      id: index,
+      col1: index + 1,
+      agent: item.agent,
+      terminals: item.noOfTerminals,
+      actions: '',
+    }
+  })
 
   // dataGrid columns
   const columns = [
@@ -94,57 +107,65 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
       },
     },
     {
-      field: 'col2',
+      field: 'tid',
       headerName: 'Terminal ID',
       minWidth: 157,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col3',
+      field: 'serialNo',
       headerName: 'Serial No.',
       minWidth: 156,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col4',
+      field: 'bank',
       headerName: 'Bank',
       minWidth: 193,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col5',
+      field: 'transactions',
       headerName: 'Transactions',
       minWidth: 156,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col6',
+      field: 'nibbsRate',
       headerName: 'Nibble Rate (%)',
       minWidth: 150,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col7',
-      headerName: 'Super Agent',
+      field: 'clm',
+      headerName: 'Cluster Manager',
       minWidth: 194,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col8',
-      headerName: 'Merchant',
+      field: 'aggregator',
+      headerName: 'Aggregator',
       minWidth: 180,
       flex: 1,
       headerClassName: 'grid-header',
       disableClickEventBubbling: true,
     },
     {
-      field: 'col9',
+      field: 'agent',
+      headerName: 'Agent',
+      minWidth: 180,
+      flex: 1,
+      headerClassName: 'grid-header',
+      disableClickEventBubbling: true,
+    },
+    {
+      field: 'status',
       headerName: 'Status',
       minWidth: 123,
       flex: 1,
@@ -153,34 +174,18 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
         return (
           <span
             css={
-              params.row.col9.toLowerCase() === 'active'
+              params.row.status.toLowerCase() === 'active'
                 ? tw`bg-[#E9FBF9] text-paysure-success-100 text-[10px] uppercase p-1 rounded`
                 : tw`text-[#EDA95A] bg-[#FDF6EF] text-[10px] uppercase p-1 rounded`
             }
           >
-            {params.row.col9}
+            {params.row.status}
           </span>
         )
       },
     },
     {
-      field: 'col10',
-      headerName: 'Last Transaction',
-      minWidth: 193,
-      flex: 1,
-      headerClassName: 'grid-header',
-      renderCell: params => {
-        return (
-          <span>
-            {params.row.col10
-              ? moment(params.row.col10).format('MMM DD, YYYY HH:mm')
-              : '-'}
-          </span>
-        )
-      },
-    },
-    {
-      field: 'col11',
+      field: 'actions',
       headerName: 'Action',
       minWidth: 100,
       flex: 1,
@@ -252,14 +257,14 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
               </button>
             </Tooltip>
 
-            {params.row.col9.toLowerCase() === 'active' ? (
+            {params.row.status.toLowerCase() === 'active' ? (
               <Tooltip title="Deactivate Terminal">
                 <LoadingButton
                   loading={isLoading}
                   onClick={handleDeactivateTerminl}
                   tw="p-0 m-0 min-w-[initial]"
                 >
-                  <UserWithNegative />
+                  <UserWithPositive />
                 </LoadingButton>
               </Tooltip>
             ) : (
@@ -269,7 +274,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
                   onClick={handleActivateTerminl}
                   tw="p-0 m-0 min-w-[initial]"
                 >
-                  <UserWithPositive />
+                  <UserWithNegative />
                 </LoadingButton>
               </Tooltip>
             )}
@@ -285,19 +290,125 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
     },
   ]
 
+  // dataGrid columns
+  const banksColumns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
+    },
+    {
+      field: 'bank',
+      headerName: 'Bank',
+      minWidth: 193,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'terminals',
+      headerName: 'Terminals',
+      minWidth: 193,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'actions',
+      headerName: 'Action',
+      minWidth: 100,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        // handle view terminal
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          Router.push(`/terminals/${thisRow.col2}`)
+        }
+
+        return <Button>View</Button>
+      },
+    },
+  ]
+
+  // dataGrid columns
+  const agentsColumns = [
+    {
+      field: 'col1',
+      headerName: 'S/N',
+      minWidth: 71,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        return <span>{params.row.col1}.</span>
+      },
+    },
+    {
+      field: 'agent',
+      headerName: 'Agents',
+      minWidth: 193,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'terminals',
+      headerName: 'Terminals',
+      minWidth: 193,
+      flex: 1,
+      headerClassName: 'grid-header',
+    },
+    {
+      field: 'actions',
+      headerName: 'Action',
+      minWidth: 100,
+      flex: 1,
+      headerClassName: 'grid-header',
+      renderCell: params => {
+        // handle view terminal
+        const handleView = e => {
+          const api = params.api
+          const thisRow = {}
+
+          api
+            .getAllColumns()
+            .filter(c => c.field !== '__check__' && !!c)
+            .forEach(
+              c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+            )
+
+          Router.push(`/terminals/${thisRow.col2}`)
+        }
+
+        return <Button>View</Button>
+      },
+    },
+  ]
+
   /* An array of objects that is passed to the HomeDisplayCard component as a prop. */
   const overviewDataArray = [
     {
-      amount: numberFormatter(terminalStats.terminalsCount),
+      amount: numberFormatter(terminalData[0].totalTerminals),
       title: 'Total Number of Terminals',
       link: '/terminals/terminals_list',
     },
     {
-      amount: numberFormatter(terminalStats.activeTerminals),
+      amount: numberFormatter(terminalData[0].totalActiveTerminals),
       title: 'Total Number of Active Terminals',
     },
     {
-      amount: numberFormatter(terminalStats.inActiveTerminals),
+      amount: numberFormatter(terminalData[0].totalInactiveTerminals),
       title: 'Total Number of Inactive Terminals',
     },
   ]
@@ -305,7 +416,7 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
   return (
     <Layout title="Terminals">
       <div>
-        <div css={[tw`flex justify-between items-center`]}>
+        <div css={[tw`flex items-center justify-between`]}>
           <Ttile className="font-bold">Terminals</Ttile>
 
           <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
@@ -366,7 +477,15 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
         </div>
       </div>
 
-      <HomeDisplayCard data={overviewDataArray} />
+      <div tw="grid mt-10 grid-cols-2 gap-3 md:grid-cols-3 lg:(gap-5)">
+        {overviewDataArray.map((item, index) => (
+          <HomeMetricCard.PlainCard
+            key={index}
+            amount={item.amount}
+            title={item.title}
+          />
+        ))}
+      </div>
 
       <DataGridViewTemp
         limited
@@ -375,6 +494,23 @@ const TerminalsDashboard = ({ terminalStats = [] }) => {
         rows={rows}
         columns={columns}
       />
+
+      <div tw="grid lg:grid-cols-2 gap-6">
+        <DataGridViewTemp
+          limited
+          link="/terminals/terminals_list"
+          title="Terminals Per Bank"
+          rows={bankRows}
+          columns={banksColumns}
+        />
+        <DataGridViewTemp
+          limited
+          link="/terminals/terminals_list"
+          title="Terminals Per Agents"
+          rows={agentsRows}
+          columns={agentsColumns}
+        />
+      </div>
     </Layout>
   )
 }

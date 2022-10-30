@@ -8,3 +8,6 @@
 >> Agents
   >> Endpoint for cluster managers, aggregators and agents barChat
   >> Endpoint for agents metric data  
+
+>> Terminals
+  >> (/apis/v1/paysure/terminals/getTerminals) not returning cluster manager and aggregator
