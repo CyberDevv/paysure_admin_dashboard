@@ -222,17 +222,18 @@ const AggregatorsDashboard = ({ aggregatorData = [] }) => {
     },
   ]
 
+  
   return (
     <>
       <Head>
-        <title>Aggregator | Paysure</title>
+        <title>Aggregators | Paysure</title>
       </Head>
 
       <div css={[tw`flex items-center justify-between`]}>
         <Ttile className="font-bold">Aggregators</Ttile>
       </div>
 
-      <div tw="grid mt-10 grid-cols-2 gap-3 lg:(grid-cols-3 gap-5)">
+      <div tw="grid mt-10 grid-cols-2 gap-3 md:grid-cols-3 lg:(gap-5)">
         {aggregatorsStats.map((item, index) => (
           <HomeMetricCard.PlainCard
             key={index}
@@ -269,9 +270,5 @@ const AggregatorsDashboard = ({ aggregatorData = [] }) => {
 
 // Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`
-const MUIButton = tw(
-  Button,
-)`bg-paysure-100 text-white normal-case rounded-lg p-3 pl-3.5 text-[13px] hover:(bg-paysure-100 ring-2 ring-offset-2 ring-paysure-100)`
-const FlexBox = tw.div`flex items-center justify-between space-x-4`
 
 export default AggregatorsDashboard
