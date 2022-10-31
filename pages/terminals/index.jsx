@@ -33,6 +33,20 @@ export async function getServerSideProps(ctx) {
     '/apis/v1/paysure/terminals/analytics/getTerminalsByBank?limit=5&offset=1',
   )
 
+  if (
+    response.status === 401 ||
+    response2.status === 401 ||
+    response3.status === 401 ||
+    response4.status === 401
+  ) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       data: response.data,
@@ -43,10 +57,14 @@ export async function getServerSideProps(ctx) {
   }
 }
 
-export default function Terminals({ data, tableData, agentTableData, bankTableData }) {
-
+export default function Terminals({
+  data,
+  tableData,
+  agentTableData,
+  bankTableData,
+}) {
   const terminalData = [data, tableData, agentTableData, bankTableData]
-  
+
   return (
     <>
       <Head>

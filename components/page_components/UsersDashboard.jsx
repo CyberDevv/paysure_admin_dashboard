@@ -10,9 +10,7 @@ import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { EditActionSVG, ViewActionSVG } from '../SVGIcons'
 
-const UserssDashboard = ({ usersStats = [] }) => {
-  const { usersInfo = [] } = usersStats
-
+const UserssDashboard = ({ usersStats = [], tableData = [] }) => {
   // Array of data to be displayed in the cards
   const metricData = [
     {
@@ -42,27 +40,21 @@ const UserssDashboard = ({ usersStats = [] }) => {
   ]
 
   // DataGrid rows
-  let rows
-  // check if providerList is an array
-  if (Array.isArray(usersInfo)) {
-    rows = usersInfo.map((item, index) => {
-      return {
-        id: item.tid,
-        col1: index + 1,
-        col2: item.fullName,
-        col3: item.walletBalance,
-        col4: item.emailAddress,
-        col5: item.phonePri,
-        col6: item.accountNumber,
-        col7: item.statusStr,
-        col8: item.lastTransactionDate,
-        col9: item.dateAdded,
-        col10: '',
-      }
-    })
-  } else {
-    rows = []
-  }
+  const rows = tableData.map((item, index) => {
+    return {
+      id: index,
+      col1: index + 1,
+      name: item.fullName,
+      walletBalance: item.walletBalance,
+      email: item.userEmail,
+      phoneNumber: item.phoneNumber,
+      acctNumber: item.accountNumber,
+      status: item.status,
+      lastTransaction: item.lastTransaction,
+      dateJoined: item.createOn,
+      actions: '',
+    }
+  })
 
   // DataGrid columns
   const columns = [
@@ -77,14 +69,14 @@ const UserssDashboard = ({ usersStats = [] }) => {
       },
     },
     {
-      field: 'col2',
+      field: 'name',
       headerName: 'Name',
       minWidth: 250,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col3',
+      field: 'walletBalance',
       headerName: 'Wallet Balance',
       minWidth: 220,
       flex: 1,
@@ -92,7 +84,7 @@ const UserssDashboard = ({ usersStats = [] }) => {
       renderCell: params => {
         return (
           <CurrencyFormat
-            value={params.row.col3}
+            value={params.row.walletBalance}
             displayType={'text'}
             thousandSeparator={true}
             prefix={'₦'}
@@ -101,78 +93,80 @@ const UserssDashboard = ({ usersStats = [] }) => {
       },
     },
     {
-      field: 'col4',
+      field: 'email',
       headerName: 'Email',
-      minWidth: 220,
+      minWidth: 270,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col5',
+      field: 'phoneNumber',
       headerName: 'Phone Number',
       minWidth: 180,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col6',
+      field: 'acctNumber',
       headerName: 'Account Number',
       minWidth: 180,
       flex: 1,
       headerClassName: 'grid-header',
     },
     {
-      field: 'col7',
+      field: 'status',
       headerName: 'Status',
       minWidth: 153,
       flex: 1,
       headerClassName: 'grid-header',
       disableClickEventBubbling: true,
-      renderCell: params => {
-        return (
-          <span
-            css={[
-              tw`uppercase text-[10px] p-1 rounded`,
-              params.row.col7.toLowerCase() === 'active'
-                ? tw`bg-[#E9FBF9] text-paysure-success-100 `
-                : tw`bg-[#FDF6EF] text-[#EDA95A] `,
-            ]}
-          >
-            {params.row.col7}
-          </span>
-        )
-      },
+      // renderCell: params => {
+      //   return (
+      //     <span
+      //       css={[
+      //         tw`uppercase text-[10px] p-1 rounded`,
+      //         params.row.status.toLowerCase() === 'active'
+      //           ? tw`bg-[#E9FBF9] text-paysure-success-100 `
+      //           : tw`bg-[#FDF6EF] text-[#EDA95A] `,
+      //       ]}
+      //     >
+      //       {params.row.status}
+      //     </span>
+      //   )
+      // },
     },
     {
-      field: 'col8',
+      field: 'lastTransaction',
       headerName: 'Last Transaction',
-      minWidth: 144,
+      minWidth: 174,
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
         return (
           <span>
-            {params.row.col8
-              ? moment(params.row.col8).format('MMM DD, YYYY HH:mm')
+            {params.row.lastTransaction
+              ? moment(params.row.lastTransaction).format('MMM DD, YYYY HH:mm')
               : '-'}
           </span>
         )
       },
     },
     {
-      field: 'col9',
-      headerName: 'Date Added',
-      minWidth: 123,
+      field: 'dateJoined',
+      headerName: 'Date Joined',
+      minWidth: 173,
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
         return (
-          <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
+          <span>
+            {moment(params.row.dateJoined).format('MMM DD, YYYY HH:mm')}
+          </span>
         )
       },
     },
     {
-      field: 'col10',
+      field: 'action',
       headerName: 'Action.',
       minWidth: 100,
       flex: 1,
@@ -194,8 +188,8 @@ const UserssDashboard = ({ usersStats = [] }) => {
             )
 
           Router.push({
-            pathname: `/users/${thisRow.col2}`,
-            query: { email: thisRow.col4, phone: thisRow.col5 },
+            pathname: `/users/${thisRow.name}`,
+            // query: { email: thisRow.col4, phone: thisRow.col5 },
           })
         }
 

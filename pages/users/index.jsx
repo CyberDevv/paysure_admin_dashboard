@@ -20,6 +20,15 @@ export async function getServerSideProps(ctx) {
     '/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable?limit=5&offset=1',
   )
 
+  if (response.status === 401 || response2.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       data: response.data,
@@ -29,14 +38,13 @@ export async function getServerSideProps(ctx) {
 }
 
 export default function Users({ data, tableData }) {
-  console.log('🚀 ~ file: index.jsx ~ line 65 ~ Users ~ tableData', tableData)
   return (
     <>
       <Head>
         <title>Users | Paysure</title>
       </Head>
 
-      <UsersDashboard usersStats={data} />
+      <UsersDashboard usersStats={data} tableData={tableData} />
     </>
   )
 }

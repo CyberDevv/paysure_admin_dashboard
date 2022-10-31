@@ -2,8 +2,8 @@ import Head from 'next/head'
 import nookies from 'nookies'
 import React from 'react'
 
-import { fetcher } from '../utils/fetcher'
 import { HomeDashboard } from '../components'
+import { fetcher } from '../utils/fetcher'
 
 export async function getServerSideProps(ctx) {
   const { USER_TOKEN } = nookies.get(ctx)
@@ -13,6 +13,15 @@ export async function getServerSideProps(ctx) {
     'GET',
     '/apis/v1/paysure/admin/adminMainPage/analytics',
   )
+
+  if (response.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {

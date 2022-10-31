@@ -18,7 +18,7 @@ const HomeDashboard = ({ homePageStats = [] }) => {
   // array of home page stats
   const homePageData = [
     {
-      amount: numberFormatter(homePageStats.numberFormatter || 0),
+      amount: numberFormatter(homePageStats.totalProviders),
       title: 'Total Number of Providers',
       link: '/providers',
     },

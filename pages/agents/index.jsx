@@ -43,6 +43,28 @@ export async function getServerSideProps(ctx) {
     '/apis/paysure/agents/admin/analytics/getAgentAnalyticsTable?limit=5&offset=1',
   )
 
+  const agentBarChat = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/paysure/agents/admin/analytics/getPerformanceAnlytics?limit=5&offset=1',
+  )
+
+  if (
+    response.status === 401 ||
+    clmTableResponse.status === 401 ||
+    aggregatorResponse.status === 401 ||
+    aggregatorTableResponse.status === 401 ||
+    agentResponse.status === 401 ||
+    agentTableResponse.status === 401
+  ) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
   return {
     props: {
       data: response.data,
@@ -51,6 +73,7 @@ export async function getServerSideProps(ctx) {
       aggTableData: aggregatorTableResponse.data,
       agtData: agentResponse.data,
       agtTableData: agentTableResponse.data,
+      agentBarChat: agentBarChat.data,
     },
   }
 }
@@ -62,10 +85,11 @@ export default function Agent({
   aggTableData,
   agtData,
   agtTableData,
+  agentBarChat,
 }) {
   const clmData = [data, clmTableData]
   const aggregatorData = [aggData, aggTableData]
-  const agentData = [agtData, agtTableData]
+  const agentData = [agtData, agtTableData, agentBarChat]
 
   return (
     <>

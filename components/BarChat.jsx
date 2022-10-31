@@ -4,12 +4,14 @@ import tw from 'twin.macro'
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
-const BarChat = ({ title, categories }) => {
+const BarChat = ({ title, categories, agentData }) => {
   const [data, setData] = React.useState({
     series: [
       {
         name: 'Amount',
-        data: [85, 45, 67, 60, 38, 93, 60, 66],
+        data: agentData
+          ? agentData.map(item => item.amountInTransactions)
+          : [85, 45, 67, 60, 38, 93, 60, 66],
       },
     ],
     options: {
@@ -34,7 +36,9 @@ const BarChat = ({ title, categories }) => {
         show: false,
       },
       xaxis: {
-        categories: categories,
+        categories: agentData
+          ? agentData.map(item => item.fullName)
+          : categories,
       },
       yaxis: {
         title: {

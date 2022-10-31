@@ -35,7 +35,7 @@ const LoginDashboard = () => {
 
         setLoading(false)
 
-        toast.success('Login Successful')
+        toast.success('Redirecting...')
 
         Router.push('/')
       })

@@ -1,15 +1,6 @@
 import axios from 'axios'
 
 export async function fetcher(USER_TOKEN, method, url) {
-  if (!USER_TOKEN) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }
-
   if (method === 'GET') {
     // fetch data from server
     const response = await axios
@@ -22,18 +13,9 @@ export async function fetcher(USER_TOKEN, method, url) {
         return res
       })
       .catch(err => {
-        console.log(err.response.data)
-        return { data: err.response.data }
+        console.log({ data: err.response.data, status: err.response.status })
+        return { data: err.response.data, status: err.response.status }
       })
-
-    if (response.data.status === 401 || response.data.status === 500) {
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: false,
-        },
-      }
-    }
 
     return response
   }

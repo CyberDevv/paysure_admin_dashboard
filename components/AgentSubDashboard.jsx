@@ -227,7 +227,7 @@ const AgentsDashboard = ({ agentData = [] }) => {
               </button>
             </Tooltip>
 
-            {params.row.col10.toLowerCase() === 'active' && (
+            {params.row.status.toLowerCase() === 'active' && (
               <Tooltip title="Deactivate Agent">
                 <button onClick={handleView}>
                   <UserWithPositive />
@@ -235,7 +235,7 @@ const AgentsDashboard = ({ agentData = [] }) => {
               </Tooltip>
             )}
 
-            {params.row.col10.toLowerCase() === 'inactive' && (
+            {params.row.status.toLowerCase() === 'inactive' && (
               <Tooltip title="Activate Agent">
                 <button onClick={handleView}>
                   <UserWithNegative />
@@ -286,6 +286,7 @@ const AgentsDashboard = ({ agentData = [] }) => {
           'AGENT 7',
           'AGENT 8',
         ]}
+        agentData={agentData[2]}
       />
 
       <DataGridViewTemp
