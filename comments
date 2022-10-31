@@ -3,11 +3,14 @@
   >> Endpoint for recent transactions
 
 >> users
-  >> Endpoint for usersList returns status code 500
+  >> (/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable) should return status
 
 >> Agents
-  >> Endpoint for cluster managers, aggregators and agents barChat
+  >> Endpoint for cluster managers and aggregators barChat
   >> Endpoint for agents metric data  
 
 >> Terminals
   >> (/apis/v1/paysure/terminals/getTerminals) not returning cluster manager and aggregator
+
+>> Providers
+  >> (/apis/v1/paysure/providers/getProviderAnalyticsTable) should return transactions(naira)

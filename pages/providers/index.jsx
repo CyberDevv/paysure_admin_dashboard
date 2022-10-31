@@ -1,90 +1,50 @@
-import React from 'react'
-import moment from 'moment'
 import Head from 'next/head'
-import Router from 'next/router'
-import useSWR, { SWRConfig } from 'swr'
-import { useDispatch } from 'react-redux'
-import nookies, { destroyCookie } from 'nookies'
+import nookies from 'nookies'
+import React from 'react'
 
-import { logout } from '../../features/userSlice'
 import { ProvidersDashboard } from '../../components'
-import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
+import { fetcher } from '../../utils/fetcher'
 
 export async function getServerSideProps(ctx) {
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
+  const { USER_TOKEN } = nookies.get(ctx)
 
-  const providerStats = await makeEncryptedRequest(
-    {},
-    'paysure/api/processor/lookup-provider-stats',
-    'POST',
-    USER_AUTHORIZATION,
+  const response = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/providers/getAnalytics',
   )
 
-  const providersList = await makeEncryptedRequest(
-    {
-      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate: moment().format('YYYY-MM-DD 23:59:59'),
-      pageId: 1,
-      pageSize: 5,
-      searchKey: '',
-      status: 1,
-    },
-    'paysure/api/processor/list-providers',
-    'POST',
-    USER_AUTHORIZATION,
+  const response2 = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/providers/getProviderAnalyticsTable',
   )
+
+  if (response.status === 401 || response2.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
-      status: providerStats ? providerStats.status : 500,
-      status2: providersList ? providersList.status : 500,
-      fallback: {
-        '/api/providers/providerStats': providerStats ? providerStats.data : [],
-        '/api/providers/providerList': providersList ? providersList.data : [],
-      },
+      data: response.data,
+      tableTata: response2.data,
     },
   }
 }
 
-function ProviderPage() {
-  async function fetcher(url) {
-    const res = await fetch(url)
-    return res.json()
-  }
-
-  const { data } = useSWR('/api/providers/providerStats', fetcher)
-
-  const { data: data2 } = useSWR('/api/providers/providerList', fetcher)
-
+export default function Providers({ data, tableTata }) {
   return (
     <>
       <Head>
         <title>Providers | Paysure</title>
       </Head>
 
-      <ProvidersDashboard providerStats={data} providersList={data2} />
+      <ProvidersDashboard providerStats={data} tableTata={tableTata} />
     </>
-  )
-}
-
-export default function Providers({ fallback, status, status2 }) {
-  // dispatch
-  const dispatch = useDispatch()
-
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873 || status2 === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
-  }, [status, status2, fallback, dispatch])
-
-  return (
-    <SWRConfig value={{ fallback }}>
-      <ProviderPage />
-    </SWRConfig>
   )
 }

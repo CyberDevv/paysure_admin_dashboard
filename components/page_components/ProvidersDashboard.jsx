@@ -12,11 +12,15 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import { Add, EditActionSVG, ViewActionSVG } from '../SVGIcons'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import {
+  DataGridViewTemp,
+  HomeDisplayCard,
+  HomeMetricCard,
+  OverviewCardSection,
+} from '..'
+import BarChat from '../BarChat'
 
-const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
-  const { providerInfo = [] } = providersList
-
+const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [providerName, setProviderName] = React.useState('')
@@ -36,7 +40,6 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
     {
       amount: providerStats.totalProviders,
       title: 'Total Number of Providers',
-      link: '/providers/providers_list',
     },
     {
       amount: providerStats.totalServices,
@@ -57,38 +60,87 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
     {
       amount: (
         <CurrencyFormat
-          value={providerStats.sumTotalTransfers}
+          value={providerStats.allTransactions}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
         />
       ),
-      label: 'Total Transactions',
+      label: 'All Transactions',
+    },
+    {
+      amount: (
+        <CurrencyFormat
+          value={providerStats.allData}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Data',
+    },
+    {
+      amount: (
+        <CurrencyFormat
+          value={providerStats.allTransfer}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Transfer',
+    },
+    {
+      amount: (
+        <CurrencyFormat
+          value={providerStats.allRechargeTransaction}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Recharge Transactions',
+    },
+    {
+      amount: (
+        <CurrencyFormat
+          value={providerStats.allPowerTransaction}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Power Transactions',
+    },
+    {
+      amount: (
+        <CurrencyFormat
+          value={providerStats.allTvTransactions}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'TV Transactions',
     },
   ]
 
   // rows
-  let rows
-  // check if providerList is an array
-  if (Array.isArray(providerInfo)) {
-    rows = providerInfo.map((provider, index) => {
-      return {
-        id: provider.tid,
-        col1: index + 1,
-        col2: provider.providerName,
-        col3: provider.servicesDesc,
-        col4: provider.servicesCount,
-        col5: provider.noOfTransactions,
-        col6: provider.walletBalance,
-        col7: provider.transSum,
-        col8: provider.charges,
-        col9: provider.dateCreated,
-        col10: '',
-      }
-    })
-  } else {
-    rows = []
-  }
+  let rows = tableTata.map((provider, index) => {
+    return {
+      id: index,
+      col1: index + 1,
+      col2: provider.providerName,
+      col3: provider.services,
+      col4: provider.noOfServices,
+      col5: provider.noOfTransactions,
+      col6: provider.walletBalance,
+      col7: provider.null,
+      col8: provider.charges,
+      col9: provider.dateCreated,
+      col10: '',
+    }
+  })
 
   const columns = [
     {
@@ -233,13 +285,13 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
 
         return (
           <div tw="space-x-1">
-            <Tooltip title= "Edit Provider">
+            <Tooltip title="Edit Provider">
               <button onClick={handleEdit}>
                 <EditActionSVG />
               </button>
             </Tooltip>
 
-            <Tooltip title= "View Provider">
+            <Tooltip title="View Provider">
               <button onClick={handleView}>
                 <ViewActionSVG />
               </button>
@@ -264,7 +316,13 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
 
   const handleAddProvider = () => {
     // Validation
-    if (!providerName || !walletBalance || !servicesDesc || !servicesCount || !emailAddress) {
+    if (
+      !providerName ||
+      !walletBalance ||
+      !servicesDesc ||
+      !servicesCount ||
+      !emailAddress
+    ) {
       toast.error('Please fill all the fields')
       return
     }
@@ -351,7 +409,7 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
 
   return (
     <Layout title="Providers">
-      <div css={[tw`flex justify-between items-center`]}>
+      <div css={[tw`flex items-center justify-between`]}>
         <Ttile className="font-bold">
           Providers
           <TitleSpan>Manage all providers available on Paysure</TitleSpan>
@@ -408,9 +466,31 @@ const ProvidersDashboard = ({ providerStats = [], providersList = [] }) => {
         </Modal>
       </div>
 
-      <HomeDisplayCard data={providerStatsData} />
+      <div tw="grid mt-10 grid-cols-2 gap-3 md:grid-cols-4">
+        {providerStatsData.map((item, index) => (
+          <HomeMetricCard.PlainCard
+            key={index}
+            amount={item.amount}
+            title={item.title}
+          />
+        ))}
+      </div>
 
       <OverviewCardSection title="Metrics" data={metricData} />
+
+      <BarChat
+        title={'Performance of Providers'}
+        categories={[
+          'PROVIDER 1',
+          'PROVIDER 2',
+          'PROVIDER 3',
+          'PROVIDER 4',
+          'PROVIDER 5',
+          'PROVIDER 6',
+          'PROVIDER 7',
+          'PROVIDER 8',
+        ]}
+      />
 
       <DataGridViewTemp
         limited
