@@ -68,7 +68,7 @@ function UsersListPage() {
   const { data } = useSWR(
     `/api/users/usersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}`,
     fetcher,
-    )
+  )
 
   return (
     <>

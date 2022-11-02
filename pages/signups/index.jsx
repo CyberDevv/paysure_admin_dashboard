@@ -3,8 +3,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 import useSWR, { SWRConfig } from 'swr'
 import { useDispatch } from 'react-redux'
-import nookies,{ destroyCookie } from 'nookies'
-
+import nookies, { destroyCookie } from 'nookies'
 
 import { logout } from '../../features/userSlice'
 import { SignupsDashboard } from '../../components'
@@ -36,7 +35,8 @@ export async function getServerSideProps(ctx) {
 }
 
 function SignupsPage() {
-  async function fetcher(url) {signup
+  async function fetcher(url) {
+    signup
     const res = await fetch(url)
     return res.json()
   }
