@@ -1,35 +1,26 @@
+import Router from 'next/router'
 import { parseCookies } from 'nookies'
 
-import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
+import { fetcher } from '../../../utils/fetcher'
 
 export default async function addTerminal(req, res) {
-  const { USER_AUTHORIZATION } = parseCookies({ req })
+  const { USER_TOKEN } = parseCookies({ req })
 
-  try {
-    const {
-      providerName,
-      walletBalanceRefined,
-      servicesCount,
-      servicesDesc,
-      emailAddress,
-    } = req.body
+  const { providerName, services } = req.body
 
-    const response = await makeEncryptedRequest(
-      {
-        providerName,
-        walletBalance: walletBalanceRefined,
-        servicesCount,
-        servicesDesc,
-        providerEmail: emailAddress,
-      },
-      'paysure/api/processor/create-provider',
-      'POST',
-      USER_AUTHORIZATION,
-    )
-
-    res.status(response.status).json(response)
-  } catch (error) {
-    console.log(error)
-    res.json(error)
-  }
+  await fetcher(USER_TOKEN, 'POST', '/apis/v1/paysure/providers/add', {
+    providerName,
+    services,
+  })
+    .then(response => {
+      res.status(response.status).json(response.data)
+    })
+    .catch(err => {
+      console.log(err.data)
+      if (err.status === 401) {
+        Router.push('/login')
+        return
+      }
+      res.status(err.status).send(err.data)
+    })
 }
