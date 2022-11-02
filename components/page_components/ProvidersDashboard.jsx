@@ -19,19 +19,18 @@ import {
   OverviewCardSection,
 } from '..'
 import BarChat from '../BarChat'
+// import { MultiSelect } from '../layouts/modal_ayout/LabelInput.main_layout'
+import MultipleSelectChip from '../MultiSelect'
 
 const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
+  console.log("🚀 ~ file: ProvidersDashboard.jsx ~ line 26 ~ ProvidersDashboard ~ tableTata", tableTata)
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
-  const [providerName, setProviderName] = React.useState('')
-  const [walletBalance, setWalletBallance] = React.useState('')
-  const [servicesDesc, setServicesDesc] = React.useState('')
-  const [servicesCount, setServicesCount] = React.useState('')
-  const [tid, setTid] = React.useState('')
+  const [providerName, setProviderName] = React.useState('MTN')
+  const [services, setServices] = React.useState(['Airtime'])
   const [btnLabel, setBtnLabel] = React.useState('Add Provider')
   const [modalLabel, setModalLabel] = React.useState('Add New Provider')
   const [isLoading, setIsLoading] = React.useState(false)
-  const [emailAddress, setEmailAddress] = React.useState('')
 
   const { mutate } = useSWRConfig()
 
@@ -163,11 +162,11 @@ const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
     {
       field: 'col3',
       headerName: 'Services',
-      minWidth: 236,
+      minWidth: 300,
       flex: 1,
       headerClassName: 'grid-header',
       renderCell: params => {
-        return <span tw="truncate">{params.row.col3}</span>
+        return <span tw="truncate w-full">{params.row.col3}</span>
       },
     },
     {
@@ -303,79 +302,55 @@ const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
   ]
 
   // functions
-  const handSetIsAddmodalOpened = () => (
-    setBtnLabel('Add Provider'),
-    setIsAddmodalOpened(true),
-    setModalLabel('Add New Provider'),
-    setProviderName(''),
-    setWalletBallance(''),
-    setServicesDesc(''),
-    setServicesCount(''),
-    setEmailAddress('')
-  )
+  const handSetIsAddmodalOpened = () => {
+    setBtnLabel('Add Provider')
+    setIsAddmodalOpened(true)
+    setModalLabel('Add New Provider')
+    // setProviderName(''),
+    // setWalletBallance(''),
+    // setServicesDesc(''),
+    // setServicesCount(''),
+    // setEmailAddress('')
+  }
 
   const handleAddProvider = () => {
     // Validation
-    if (
-      !providerName ||
-      !walletBalance ||
-      !servicesDesc ||
-      !servicesCount ||
-      !emailAddress
-    ) {
+    if (!providerName || !services) {
       toast.error('Please fill all the fields')
       return
     }
 
-    let walletBalanceRefined = `${walletBalance}.00`
     setIsLoading(true)
 
     if (modalLabel === 'Add New Provider') {
       axios
         .post('/api/providers/addProvider', {
           providerName,
-          walletBalanceRefined,
-          servicesCount,
-          servicesDesc,
-          emailAddress,
+          services,
         })
         .then(res => {
-          if (res.status === 200) {
-            toast.success('Provider added successfully')
+          toast.success('Provider added successfully')
 
-            setIsLoading(false)
+          setIsLoading(false)
 
-            setProviderName('')
-            setWalletBallance('')
-            setServicesDesc('')
-            setServicesCount('')
-            setIsAddmodalOpened(false)
+          setProviderName('')
+          setServices([])
+          setIsAddmodalOpened(false)
 
-            // Fresh information from the server
-            mutate('/api/providers/providerStats')
-            mutate('/api/providers/providerList')
-          }
+          // Fresh information from the server
+          // mutate('/api/providers/providerStats')
+          // mutate('/api/providers/providerList')
         })
         .catch(err => {
           setIsLoading(false)
-
-          if (err.response.status === 913) {
-            toast.error('Provider already exists')
-          } else {
-            toast.error('Error adding provider')
-          }
-
+          toast.success('Error adding provider')
           console.log('err >>>>', err.response.status)
         })
     } else {
       axios
         .post('/api/providers/editProvider', {
           providerName,
-          walletBalanceRefined,
-          servicesCount,
-          servicesDesc,
-          emailAddress,
-          tid,
+          services,
         })
         .then(res => {
           if (res.status === 200) {
@@ -384,24 +359,16 @@ const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
             setIsLoading(false)
 
             setProviderName('')
-            setWalletBallance('')
-            setServicesDesc('')
-            setServicesCount('')
+            setServices( )
             setIsAddmodalOpened(false)
 
             // Fresh information from the server
-            mutate('/api/providers/providerStats')
-            mutate('/api/providers/providerList')
+            // mutate('/api/providers/providerStats')
+            // mutate('/api/providers/providerList')
           }
         })
         .catch(err => {
           setIsLoading(false)
-          if (err.response.status === 913) {
-            toast.error('Provider already exists')
-          } else {
-            toast.error('Error updating provider')
-          }
-
           console.log('err >>>>', err.response.status)
         })
     }
@@ -435,33 +402,11 @@ const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
             value={providerName}
             setState={setProviderName}
           />
-          <Label
-            label="Email Address"
-            type="email"
-            placeholder="provider@example.com"
-            value={emailAddress}
-            setState={setEmailAddress}
-          />
-          <Label
-            label="Wallet Ballance"
-            type="text"
-            placeholder="₦20,000"
-            value={walletBalance}
-            setState={setWalletBallance}
-          />
-          <Label
+          <MultipleSelectChip
+            menuItems={['Airtime', 'Data', 'Transfer']}
             label="Services"
-            type="text"
-            placeholder="Provider"
-            value={servicesDesc}
-            setState={setServicesDesc}
-          />
-          <Label
-            label="Number of Services"
-            type="number"
-            placeholder="0"
-            value={servicesCount}
-            setState={setServicesCount}
+            value={services}
+            setState={setServices}
           />
         </Modal>
       </div>
