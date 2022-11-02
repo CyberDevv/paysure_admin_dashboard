@@ -32,7 +32,7 @@ export async function getServerSideProps(ctx) {
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
   const formattedPhone = `+${phone.replace(/\D/g, '')}`
-  
+
   const userTransList = await makeEncryptedRequest(
     {
       requestId: uid({ length: 20 }),
@@ -85,8 +85,8 @@ function ProviderListPage() {
   const { data } = useSWR(
     `/api/users/user/${userName}?phone=${formattedPhone}&email=${email}&fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&status=${status}&search=${searchKey}`,
     fetcher,
-    )
-    
+  )
+
   return (
     <>
       <Head>

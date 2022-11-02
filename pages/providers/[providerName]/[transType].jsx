@@ -20,7 +20,10 @@ const Airtime_transactionRecord = () => {
         </title>
       </Head>
 
-      <ProviderTradeSumaryDashboard providerName= {providerName} transType= {transType} />
+      <ProviderTradeSumaryDashboard
+        providerName={providerName}
+        transType={transType}
+      />
     </>
   )
 }

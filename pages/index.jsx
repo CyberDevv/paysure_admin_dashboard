@@ -13,7 +13,10 @@ export async function getServerSideProps(ctx) {
     'GET',
     '/apis/v1/paysure/admin/adminMainPage/analytics',
   )
-  console.log("🚀 ~ file: index.jsx ~ line 16 ~ getServerSideProps ~ response", response)
+  console.log(
+    '🚀 ~ file: index.jsx ~ line 16 ~ getServerSideProps ~ response',
+    response,
+  )
 
   if (response.status === 401) {
     return {
