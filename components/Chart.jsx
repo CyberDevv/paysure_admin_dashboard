@@ -47,7 +47,7 @@ const Chart = ({ title }) => {
         </Select>
       </div>
 
-      <Graph label= {title} />
+      <Graph label={title} />
     </div>
   )
 }

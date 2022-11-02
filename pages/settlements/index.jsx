@@ -48,8 +48,8 @@ function SettlementPage() {
   }
 
   const { data } = useSWR('/api/settlements/settlementStats', fetcher)
-  console.log("🚀 ~ file: index.jsx ~ line 51 ~ SettlementPage ~ data", data)
-  
+  console.log('🚀 ~ file: index.jsx ~ line 51 ~ SettlementPage ~ data', data)
+
   return (
     <>
       <Head>

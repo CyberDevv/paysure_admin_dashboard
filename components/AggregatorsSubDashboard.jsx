@@ -222,7 +222,6 @@ const AggregatorsDashboard = ({ aggregatorData = [] }) => {
     },
   ]
 
-  
   return (
     <>
       <Head>

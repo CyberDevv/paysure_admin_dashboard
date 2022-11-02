@@ -32,7 +32,7 @@ const Super_Agents_ListDashboard = ({
     fromDate ? fromDate : moment().subtract(30, 'days'),
     toDate ? toDate : new Date(),
   ])
-  
+
   // DataGrid rows
   let rows
   // check if trxInfo is an array

@@ -13,7 +13,6 @@ import { SettlementsListDashboard } from '../../components'
 import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
-
   const {
     query: {
       fromDate = moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
@@ -24,8 +23,7 @@ export async function getServerSideProps(ctx) {
       status = 0,
     },
   } = ctx
-  
-  
+
   const { USER_AUTHORIZATION } = nookies.get(ctx)
 
   // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/settlements/settlementStats
@@ -67,15 +65,15 @@ function SettlementsListPage() {
     searchKey = '',
     status = 0,
   } = router.query
-  
+
   async function fetcher(url) {
     const res = await fetch(url)
     return res.json()
   }
 
   const { data } = useSWR('/api/settlements/settlementStats', fetcher)
-  console.log("🚀 ~ file: index.jsx ~ line 51 ~ SettlementPage ~ data", data)
-  
+  console.log('🚀 ~ file: index.jsx ~ line 51 ~ SettlementPage ~ data', data)
+
   return (
     <>
       <Head>

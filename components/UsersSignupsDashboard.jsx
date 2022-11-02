@@ -9,7 +9,7 @@ import { Print, ViewActionSVG } from './SVGIcons'
 
 const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
   const { userData = [] } = signupsList
-  
+
   const overviewDataArray = [
     {
       amount: numberFormatter(signupsList.newUsers),
