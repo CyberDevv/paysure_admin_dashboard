@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from 'axios'
 
 export const onSuccess = reference => {
   // Implementation for whatever you want to do with reference and after success call.

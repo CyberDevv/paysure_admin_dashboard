@@ -191,7 +191,7 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Super Agent">
+          <Tooltip title="View Super Agent">
             <button onClick={handleView}>
               <ViewActionSVG />
             </button>

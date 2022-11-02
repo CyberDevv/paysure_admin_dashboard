@@ -7,7 +7,7 @@ import { DataGridViewTemp, SearchBar, FilterBox } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { Tooltip } from '@mui/material'
 
-const AgentsListDashboard = ({ agentsList= [], page, searchKey }) => {
+const AgentsListDashboard = ({ agentsList = [], page, searchKey }) => {
   const { trxInfo = [], totalRecords } = agentsList
 
   // DataGrid rows
@@ -232,7 +232,7 @@ const columns = [
             <UserWithPositive />
           </button> */}
 
-          <Tooltip title= "View Agent">
+          <Tooltip title="View Agent">
             <button onClick={handleView}>
               <ViewActionSVG />
             </button>

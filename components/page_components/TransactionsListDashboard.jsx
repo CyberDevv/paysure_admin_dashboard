@@ -302,9 +302,9 @@ const TransactionsListDashboard = ({
     {
       value: 'Users',
       label: 'Users',
-    }
+    },
   ]
-  
+
   return (
     <Layout goBack>
       <DataGridViewTemp
