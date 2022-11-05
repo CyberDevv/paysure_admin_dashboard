@@ -19,8 +19,8 @@ const DatRangePickerAndOthers = ({ value, setValue }) => {
       pathname: router.pathname,
       query: {
         ...router.query,
-        fromDate: moment(value[0]).format('YYYY-MM-DD hh:mm:ss'),
-        toDate: moment(value[1]).format('YYYY-MM-DD hh:mm:ss'),
+        startDate: moment(value[0]).format('yyyy-MM-DD'),
+        endDate: moment(value[1]).format('yyyy-MM-DD'),
       },
     })
   }

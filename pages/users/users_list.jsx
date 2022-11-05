@@ -1,75 +1,74 @@
 // imports
-import React from 'react'
+import uid from 'generate-unique-id'
 import moment from 'moment'
 import Head from 'next/head'
-import uid from 'generate-unique-id'
-import useSWR, { SWRConfig } from 'swr'
-import { useDispatch } from 'react-redux'
 import Router, { useRouter } from 'next/router'
 import nookies, { destroyCookie } from 'nookies'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import useSWR, { SWRConfig } from 'swr'
 
-import { logout } from '../../features/userSlice'
 import { UserListDashboard } from '../../components'
+import { logout } from '../../features/userSlice'
+import { fetcher } from '../../utils/fetcher'
 import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
 
 export async function getServerSideProps(ctx) {
+  const { USER_TOKEN } = nookies.get(ctx)
+
   const {
     query: {
-      fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate = moment().format('YYYY-MM-DD 23:59:59'),
-      page = 1,
-      pageSize = 10,
-      searchKey = '',
+      startDate,
+      endDate,
+      offset = 1,
+      limit = 10,
+      searchParameter,
+      userType,
     },
   } = ctx
 
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
-
-  const usersList = await makeEncryptedRequest(
-    {
-      requestId: uid({ length: 20 }),
-      fromDate: fromDate,
-      toDate: toDate,
-      pageId: page,
-      pageSize: pageSize,
-      searchKey: searchKey,
-    },
-    'paysure/api/processor/user-dashboard-stats-with-grid',
-    'POST',
-    USER_AUTHORIZATION,
+  const response = await fetcher(
+    USER_TOKEN,
+    'GET',
+    `/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable?limit=${limit}&offset=${offset}${
+      searchParameter === undefined ? '' : `&searchParameter=${searchParameter}`
+    }${userType === undefined ? '' : `&userType=${userType}`}${
+      startDate === undefined ? '' : `&startDate=${startDate}`
+    }${endDate === undefined ? '' : `&endDate=${endDate}`}`,
   )
+
+  console.log(
+    'link >>>>>',
+    `/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable?limit=${limit}&offset=${offset}${
+      searchParameter === undefined ? '' : `&searchParameter=${searchParameter}`
+    }${userType === undefined ? '' : `&userType=${userType}`}${
+      startDate === undefined ? '' : `&startDate=${startDate}`
+    }${endDate === undefined ? '' : `&endDate=${endDate}`}`,
+  )
+
+  if (response.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  if (response.status > 399) {
+    console.log(response.data)
+  }
 
   return {
     props: {
-      status: usersList ? usersList.status : 500,
-      fallback: {
-        [`/api/users/usersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}`]:
-          usersList ? usersList.data : [],
-      },
+      tableData: response.status > 399 ? [] : response.data,
     },
   }
 }
 
-function UsersListPage() {
+export default function UsersList({ tableData }) {
   const router = useRouter()
-  const {
-    fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
-    toDate = moment().format('YYYY-MM-DD 23:59:59'),
-    page = 1,
-    pageSize = 10,
-    searchKey = '',
-  } = router.query
-
-  async function fetcher(url) {
-    const res = await fetch(url)
-    return res.json()
-  }
-
-  const { data } = useSWR(
-    `/api/users/usersListLists?fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&searchKey=${searchKey}`,
-    fetcher,
-    )
-
+  const { startDate, endDate, offset, searchParameter, userType } = router.query
   return (
     <>
       <Head>
@@ -77,34 +76,12 @@ function UsersListPage() {
       </Head>
 
       <UserListDashboard
-        usersList={data}
-        page={page}
-        searchKey={searchKey}
-        toDate={toDate}
-        fromDate={fromDate}
+        tableData={tableData}
+        page={offset}
+        searchKey={searchParameter}
+        toDate={endDate}
+        fromDate={startDate}
       />
     </>
-  )
-}
-
-export default function UsersList({ fallback, status }) {
-  // dispatch
-  const dispatch = useDispatch()
-
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
-  }, [status, fallback, dispatch])
-
-  return (
-    <SWRConfig value={{ fallback }}>
-      <UsersListPage />
-    </SWRConfig>
   )
 }

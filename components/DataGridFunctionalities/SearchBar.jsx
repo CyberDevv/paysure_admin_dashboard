@@ -22,7 +22,7 @@ const SearchBar = ({ value }) => {
       pathname: router.pathname,
       query: {
         ...router.query,
-        searchKey: searchValue,
+        searchParameter: searchValue,
       },
     })
   }

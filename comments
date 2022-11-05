@@ -1,16 +1,42 @@
->> HomePage
-  >> Endpoint for the income for agency banking and income for users graph
-  >> Endpoint for recent transactions
+>>> Challenges
+  >> HomePage
+    > Endpoint for the income for agency banking and income for users graph
+    > Endpoint for recent transactions
 
->> users
-  >> (/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable) should return status
+  >> users
+    > (/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable) should return status
 
->> Agents
-  >> Endpoint for cluster managers and aggregators barChat
-  >> Endpoint for agents metric data  
+  >> Agents
+    > Endpoint for cluster managers and aggregators barChat
+    > Endpoint for agents metric data  
 
->> Terminals
-  >> (/apis/v1/paysure/terminals/getTerminals) not returning cluster manager and aggregator
+  >> Terminals
+    > (/apis/v1/paysure/terminals/getTerminals) not returning cluster manager and aggregator
 
->> Providers
-  >> (/apis/v1/paysure/providers/getProviderAnalyticsTable) should return transactions(naira)
+  >> Providers
+    > (/apis/v1/paysure/providers/getProviderAnalyticsTable) should return transactions(naira)
+
+  >> Transactions
+    > There is no endpont for transactions page metrics
+
+  >> Settlements
+    > There is no endpont for settlements page metrics
+
+  >> Signups
+    > There is no endpont for Signups
+
+  >> Organizations
+    > There is no endpont for Organizations
+
+
+
+>>> Done
+  >> Onboarding
+  >> Consumed the endpoint for the homePage metrics
+  >> Consumed the endpont for providers page metrics, and also for the list of providers
+  >> Add provider
+  >> Consumed the endpoints for users page metrics and list of users
+  >> Consumed the endpoints for CLM page metrics and the CLM list
+  >> Consumed the endpoints for aggregators page metrics and the aggregators list
+  >> Consumed the endpoints for agents page metrics, agents performance graph and the agents list
+  >> Consumed the endpoints for terminals page metrics, terminals list, terminals per bank list and terminals per agents list
