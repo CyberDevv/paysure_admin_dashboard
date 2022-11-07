@@ -2,6 +2,7 @@ import moment from 'moment'
 import React from 'react'
 import CurrencyFormat from 'react-currency-format'
 import ReactToPrint from 'react-to-print'
+import useSWR from 'swr'
 import tw from 'twin.macro'
 
 import {
@@ -14,51 +15,65 @@ import numberFormatter from '../../utils/numberFormatter'
 import Chart from '../Chart'
 import Layout from '../layouts/main_layout/index.main_layout'
 
-const HomeDashboard = ({ homePageStats = [] }) => {
+const HomeDashboard = () => {
+  async function fetcher(url) {
+    console.log('🚀 ~ file: HomeDashboard.jsx ~ line 20 ~ fetcher ~ url', url)
+    const res = await fetch(url)
+    console.log('🚀 ~ file: HomeDashboard.jsx ~ line 22 ~ fetcher ~ res', res)
+    return res.json()
+  }
+
+  const { data: homePageStats, error } = useSWR('/api/home/homeStats', fetcher)
+
+  // console.log("🚀 ~ file: HomeDashboard.jsx ~ line 25 ~ HomeDashboard ~ error", error)
+  console.log('Data >>>', homePageStats)
+
   // array of home page stats
   const homePageData = [
     {
-      amount: numberFormatter(homePageStats.totalProviders),
+      amount: numberFormatter(homePageStats?.totalProviders),
       title: 'Total Number of Providers',
       link: '/providers',
     },
     {
-      amount: numberFormatter(homePageStats.clusterManagerAnalytics.totalCLM),
+      amount: numberFormatter(homePageStats?.clusterManagerAnalytics?.totalCLM),
       title: 'Total Number of Cluster Manager',
       link: '/agents',
     },
     {
       amount: numberFormatter(
-        homePageStats.aggregatorAnalytics.totalAggregator,
+        homePageStats?.aggregatorAnalytics?.totalAggregator,
       ),
       title: 'Total Number of Aggregators',
       link: '/agents',
     },
     {
-      amount: numberFormatter(homePageStats.userAnalytics.totalUsers),
+      amount: numberFormatter(homePageStats?.userAnalytics?.totalUsers),
       title: 'Total Number of Users',
       link: '/users',
-      active: numberFormatter(homePageStats.userAnalytics.totalActiveUsers),
-      inactive: numberFormatter(homePageStats.userAnalytics.totalInactiveUsers),
+      active: numberFormatter(homePageStats?.userAnalytics?.totalActiveUsers),
+      inactive: numberFormatter(
+        homePageStats?.userAnalytics?.totalInactiveUsers,
+      ),
     },
     {
-      amount: numberFormatter(homePageStats.terminalAnalytics.totalTerminals),
+      amount: numberFormatter(homePageStats?.terminalAnalytics?.totalTerminals),
       title: 'Total Number of Terminals',
       link: '/terminals',
       active: numberFormatter(
-        homePageStats.terminalAnalytics.totalActiveTerminals,
+        homePageStats?.terminalAnalytics?.totalActiveTerminals,
       ),
       inactive: numberFormatter(
-        homePageStats.terminalAnalytics.totalInactiveTerminals,
+        homePageStats?.terminalAnalytics?.totalInactiveTerminals,
       ),
     },
     {
-      amount: numberFormatter(homePageStats.agentAnalytics.totalAgents),
+      amount: numberFormatter(homePageStats?.agentAnalytics?.totalAgents),
       title: 'Total Number of Agents',
       link: '/agents',
-      active: numberFormatter(homePageStats.agentAnalytics.totalActiveAgents),
+      active: numberFormatter(homePageStats?.agentAnalytics?.totalActiveAgents),
       inactive: numberFormatter(
-        homePageStats.agentAnalytics.totalInactiveAgents,
+        homePageStats?.agentAnalytics?.totalInactiveAgents,
       ),
     },
   ]
@@ -68,7 +83,7 @@ const HomeDashboard = ({ homePageStats = [] }) => {
     {
       amount: (
         <CurrencyFormat
-          value={homePageStats.agencyOverview.totalTransactions}
+          value={homePageStats?.agencyOverview?.totalTransactions}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
@@ -78,19 +93,19 @@ const HomeDashboard = ({ homePageStats = [] }) => {
     },
     {
       amount: numberFormatter(
-        homePageStats.agencyOverview.totalCompletedTransactions,
+        homePageStats?.agencyOverview?.totalCompletedTransactions,
       ),
       label: 'Total Number of Completed Transactions',
     },
     {
       amount: numberFormatter(
-        homePageStats.agencyOverview.totalFailedTransactions,
+        homePageStats?.agencyOverview?.totalFailedTransactions,
       ),
       label: 'Total  Number of Failed Transactions',
     },
     {
       amount: numberFormatter(
-        homePageStats.agencyOverview.totalPendingTransactions,
+        homePageStats?.agencyOverview?.totalPendingTransactions,
       ),
       label: 'Total Number of Pending Transactions',
     },
@@ -99,24 +114,24 @@ const HomeDashboard = ({ homePageStats = [] }) => {
   // array of users stats
   const agencyOveriewData2 = [
     {
-      amount: numberFormatter(homePageStats.userOverview.totalUsers),
+      amount: numberFormatter(homePageStats?.userOverview?.totalUsers),
       label: 'Total Number of Users',
     },
     {
       amount: numberFormatter(
-        homePageStats.userOverview.totalCompletedTransactions,
+        homePageStats?.userOverview?.totalCompletedTransactions,
       ),
       label: 'Total NUmber of Completed Transactions',
     },
     {
       amount: numberFormatter(
-        homePageStats.userOverview.totalFailedTransactions,
+        homePageStats?.userOverview?.totalFailedTransactions,
       ),
       label: 'Total Number of Failed Transactions',
     },
     {
       amount: numberFormatter(
-        homePageStats.userOverview.totalPendingTransactions,
+        homePageStats?.userOverview?.totalPendingTransactions,
       ),
       label: 'Total Number of Pending Transactions',
     },
