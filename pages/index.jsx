@@ -1,7 +1,36 @@
 import Head from 'next/head'
+import nookies from 'nookies'
 import React from 'react'
 
-export default function Home() {
+import { HomeDashboard } from '../components'
+import { fetcher } from '../utils/fetcher'
+
+export async function getServerSideProps(ctx) {
+  const { USER_TOKEN } = nookies.get(ctx)
+
+  const response = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/signup/a/hello',
+  )
+
+  if (response.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {
+      data: response.data,
+    },
+  }
+}
+
+export default function Home({ data }) {
   return (
     <>
       <Head>
@@ -9,7 +38,7 @@ export default function Home() {
       </Head>
 
       {/* <HomeDashboard homePageStats={data} /> */}
-      <p>What the fuck is wrong with you</p>
+      <p>{data}</p>
     </>
   )
 }

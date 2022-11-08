@@ -13,8 +13,13 @@ export async function fetcher(USER_TOKEN, method, url, data) {
         return res
       })
       .catch(err => {
-        console.log({ data: err.response.data, status: err.response.status })
-        return { data: err.response.data, status: err.response.status }
+        if (err.response) {
+          console.log({ data: err.response.data, status: err.response.status })
+          return { data: err.response.data, status: err.response.status }
+        } else {
+          console.log({ data: err })
+          return { data: err }
+        }
       })
 
     return response
@@ -30,8 +35,13 @@ export async function fetcher(USER_TOKEN, method, url, data) {
         return res
       })
       .catch(err => {
-        console.log({ data: err.response.data, status: err.response.status })
-        return { data: err.response.data, status: err.response.status }
+        if (err.response) {
+          console.log({ data: err.response.data, status: err.response.status })
+          return { data: err.response.data, status: err.response.status }
+        } else {
+          console.log({ data: err })
+          return { data: err }
+        }
       })
 
     return response
