@@ -11,7 +11,7 @@ export async function getServerSideProps(ctx) {
   const response = await fetcher(
     USER_TOKEN,
     'GET',
-    '/apis/v1/paysure/signup/a/hello',
+    '/apis/v1/paysure/admin/adminMainPage/analytics',
   )
 
   if (response.status === 401) {
@@ -37,8 +37,7 @@ export default function Home({ data }) {
         <title>Home | Paysure</title>
       </Head>
 
-      {/* <HomeDashboard homePageStats={data} /> */}
-      <p>{data}</p>
+      <HomeDashboard homePageStats={data} />
     </>
   )
 }
