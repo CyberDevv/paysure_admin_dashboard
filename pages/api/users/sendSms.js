@@ -30,4 +30,3 @@ export default async function SendSMS(req, res) {
       res.status(err.status).send(err.data)
     })
 }
-

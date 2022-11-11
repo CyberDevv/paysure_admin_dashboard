@@ -55,7 +55,7 @@ const SendModal = ({ state, setState, title, onClick }) => {
       />
 
       {/* Text editor */}
-      <TextEditor onClick= {onClick} />
+      <TextEditor onClick={onClick} />
     </Modal>
   )
 }
