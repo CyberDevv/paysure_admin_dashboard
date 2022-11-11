@@ -14,7 +14,23 @@ export async function getServerSideProps(ctx) {
     '/apis/v1/paysure/admin/adminMainPage/analytics',
   )
 
-  if (response.status === 401) {
+  const response2 = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/admin/analytics/homePage/IncomeFromUsers',
+  )
+
+  const response3 = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/admin/analytics/homePage/IncomeFromAgencyBanking',
+  )
+
+  if (
+    response.status === 401 ||
+    response2.status === 401 ||
+    response3.status === 401
+  ) {
     return {
       redirect: {
         destination: '/login',
@@ -26,18 +42,22 @@ export async function getServerSideProps(ctx) {
   return {
     props: {
       data: response.data,
+      userTable: response2.data,
+      bankTable: response3.data,
     },
   }
 }
 
-export default function Home({ data }) {
+export default function Home({ data, userTable, bankTable }) {
+  const homePageStats = [data, userTable, bankTable]
+
   return (
     <>
       <Head>
         <title>Home | Paysure</title>
       </Head>
 
-      <HomeDashboard homePageStats={data} />
+      <HomeDashboard homePageStats={homePageStats} />
     </>
   )
 }

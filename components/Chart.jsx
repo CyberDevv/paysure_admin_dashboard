@@ -3,7 +3,7 @@ import React from 'react'
 import tw from 'twin.macro'
 import Graph from './LineGraph'
 
-const Chart = ({ title }) => {
+const Chart = ({ title, data }) => {
   const [duration, setDuration] = React.useState('Last Year')
 
   const handleChange = event => {
@@ -47,7 +47,7 @@ const Chart = ({ title }) => {
         </Select>
       </div>
 
-      <Graph label= {title} />
+      <Graph label= {title} data= {data} />
     </div>
   )
 }

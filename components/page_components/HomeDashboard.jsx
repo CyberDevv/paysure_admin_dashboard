@@ -18,47 +18,55 @@ const HomeDashboard = ({ homePageStats = [] }) => {
   // array of home page stats
   const homePageData = [
     {
-      amount: numberFormatter(homePageStats.totalProviders),
+      amount: numberFormatter(homePageStats[0].totalProviders),
       title: 'Total Number of Providers',
       link: '/providers',
     },
     {
-      amount: numberFormatter(homePageStats.clusterManagerAnalytics.totalCLM),
+      amount: numberFormatter(
+        homePageStats[0].clusterManagerAnalytics.totalCLM,
+      ),
       title: 'Total Number of Cluster Manager',
       link: '/agents',
     },
     {
       amount: numberFormatter(
-        homePageStats.aggregatorAnalytics.totalAggregator,
+        homePageStats[0].aggregatorAnalytics.totalAggregator,
       ),
       title: 'Total Number of Aggregators',
       link: '/agents',
     },
     {
-      amount: numberFormatter(homePageStats.userAnalytics.totalUsers),
+      amount: numberFormatter(homePageStats[0].userAnalytics.totalUsers),
       title: 'Total Number of Users',
       link: '/users',
-      active: numberFormatter(homePageStats.userAnalytics.totalActiveUsers),
-      inactive: numberFormatter(homePageStats.userAnalytics.totalInactiveUsers),
+      active: numberFormatter(homePageStats[0].userAnalytics.totalActiveUsers),
+      inactive: numberFormatter(
+        homePageStats[0].userAnalytics.totalInactiveUsers,
+      ),
     },
     {
-      amount: numberFormatter(homePageStats.terminalAnalytics.totalTerminals),
+      amount: numberFormatter(
+        homePageStats[0].terminalAnalytics.totalTerminals,
+      ),
       title: 'Total Number of Terminals',
       link: '/terminals',
       active: numberFormatter(
-        homePageStats.terminalAnalytics.totalActiveTerminals,
+        homePageStats[0].terminalAnalytics.totalActiveTerminals,
       ),
       inactive: numberFormatter(
-        homePageStats.terminalAnalytics.totalInactiveTerminals,
+        homePageStats[0].terminalAnalytics.totalInactiveTerminals,
       ),
     },
     {
-      amount: numberFormatter(homePageStats.agentAnalytics.totalAgents),
+      amount: numberFormatter(homePageStats[0].agentAnalytics.totalAgents),
       title: 'Total Number of Agents',
       link: '/agents',
-      active: numberFormatter(homePageStats.agentAnalytics.totalActiveAgents),
+      active: numberFormatter(
+        homePageStats[0].agentAnalytics.totalActiveAgents,
+      ),
       inactive: numberFormatter(
-        homePageStats.agentAnalytics.totalInactiveAgents,
+        homePageStats[0].agentAnalytics.totalInactiveAgents,
       ),
     },
   ]
@@ -68,7 +76,7 @@ const HomeDashboard = ({ homePageStats = [] }) => {
     {
       amount: (
         <CurrencyFormat
-          value={homePageStats.agencyOverview.totalTransactions}
+          value={homePageStats[0].agencyOverview.totalTransactions}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
@@ -78,19 +86,19 @@ const HomeDashboard = ({ homePageStats = [] }) => {
     },
     {
       amount: numberFormatter(
-        homePageStats.agencyOverview.totalCompletedTransactions,
+        homePageStats[0].agencyOverview.totalCompletedTransactions,
       ),
       label: 'Total Number of Completed Transactions',
     },
     {
       amount: numberFormatter(
-        homePageStats.agencyOverview.totalFailedTransactions,
+        homePageStats[0].agencyOverview.totalFailedTransactions,
       ),
       label: 'Total  Number of Failed Transactions',
     },
     {
       amount: numberFormatter(
-        homePageStats.agencyOverview.totalPendingTransactions,
+        homePageStats[0].agencyOverview.totalPendingTransactions,
       ),
       label: 'Total Number of Pending Transactions',
     },
@@ -99,24 +107,24 @@ const HomeDashboard = ({ homePageStats = [] }) => {
   // array of users stats
   const agencyOveriewData2 = [
     {
-      amount: numberFormatter(homePageStats.userOverview.totalUsers),
+      amount: numberFormatter(homePageStats[0].userOverview.totalUsers),
       label: 'Total Number of Users',
     },
     {
       amount: numberFormatter(
-        homePageStats.userOverview.totalCompletedTransactions,
+        homePageStats[0].userOverview.totalCompletedTransactions,
       ),
       label: 'Total NUmber of Completed Transactions',
     },
     {
       amount: numberFormatter(
-        homePageStats.userOverview.totalFailedTransactions,
+        homePageStats[0].userOverview.totalFailedTransactions,
       ),
       label: 'Total Number of Failed Transactions',
     },
     {
       amount: numberFormatter(
-        homePageStats.userOverview.totalPendingTransactions,
+        homePageStats[0].userOverview.totalPendingTransactions,
       ),
       label: 'Total Number of Pending Transactions',
     },
@@ -304,8 +312,8 @@ const HomeDashboard = ({ homePageStats = [] }) => {
 
       {/* Chart */}
       <div tw="grid mt-10 gap-5 lg:(grid-cols-2)">
-        <Chart title="Income for Agency Banking" />
-        <Chart title="Income for Users" />
+        <Chart data={homePageStats[2]} title="Income for Agency Banking" />
+        <Chart title="Income for Users" data={homePageStats[1]} />
       </div>
 
       <DataGridViewTemp

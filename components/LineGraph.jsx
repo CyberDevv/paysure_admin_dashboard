@@ -4,12 +4,14 @@ import tw from 'twin.macro'
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
-const Graph = ({ label }) => {
+const Graph = ({ label, data: graphData }) => {
+  console.log(graphData.map(item => item.amount))
+
   const [data, setData] = useState({
     series: [
       {
         name: label,
-        data: [50, 150, 400, 300, 350],
+        data: graphData.length > 0 ? graphData.map(item => item.amount) : [],
       },
     ],
     options: {
@@ -27,10 +29,12 @@ const Graph = ({ label }) => {
         curve: 'smooth',
         width: 2,
       },
-      yaxis: {
-        tickAmount: 4,
-        min: 0,
-        max: 400,
+      // yaxis: {
+      //   tickAmount: 4,
+      // },
+      xaxis: {
+        categories:
+          graphData.length > 0 ? graphData.map(item => item.date) : [],
       },
       colors: ['#6601DF'],
       legend: {
