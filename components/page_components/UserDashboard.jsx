@@ -40,7 +40,8 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
   // ****************************   Functions   *************************************
 
   /* function to open suspen user modal. */
-  const handleSuspned = () => {setIsSuspendAccountModalOpened(true)
+  const handleSuspned = () => {
+    setIsSuspendAccountModalOpened(true)
     setIsLoading(true)
     axios
       .post('/api/users/suspend', { userName: username, reason })
@@ -72,15 +73,21 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
     setIsLoading(true)
     axios
       .post('/api/users/activate', { userName: username })
-      .then((res) => {
+      .then(res => {
         setIsLoading(false)
         toast.success('User Activated')
-        console.log("🚀 ~ file: UserDashboard.jsx ~ line 58 ~ .then ~ res.data.message", res.data.message)
+        console.log(
+          '🚀 ~ file: UserDashboard.jsx ~ line 58 ~ .then ~ res.data.message',
+          res.data.message,
+        )
       })
-      .catch((err) => {
+      .catch(err => {
         setIsLoading(false)
         toast.error('Error activating user')
-        console.log("🚀 ~ file: UserDashboard.jsx ~ line 63 ~ handleActivate ~ Error >>", err.response.data.message)
+        console.log(
+          '🚀 ~ file: UserDashboard.jsx ~ line 63 ~ handleActivate ~ Error >>',
+          err.response.data.message,
+        )
       })
   }
 
@@ -286,9 +293,7 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
               }}
             >
               <MenuItem onClick={handleClose}>
-                <button onClick={handleSendEmail}>
-                  Send Email
-                </button>
+                <button onClick={handleSendEmail}>Send Email</button>
               </MenuItem>
               <MenuItem onClick={handleClose}>
                 <button onClick={handleSendSMS}>Send SMS</button>
@@ -298,9 +303,7 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
               </MenuItem>
               <MenuItem onClick={handleClose}>
                 {userStats.status?.toLowerCase() === 'active' && (
-                  <button onClick={handleSuspned}>
-                    Suspend Account
-                  </button>
+                  <button onClick={handleSuspned}>Suspend Account</button>
                 )}
 
                 {userStats.status?.toLowerCase() !== 'active' && (
@@ -313,9 +316,7 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
 
         {/* Action Buttons */}
         <ButtonWrapper>
-          <MUIButton onClick={handleSendEmail}>
-            Send Email
-          </MUIButton>
+          <MUIButton onClick={handleSendEmail}>Send Email</MUIButton>
           <MUIButton onClick={handleSendSMS}>Send SMS</MUIButton>
           <MUIButton tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)">
             Call
@@ -347,7 +348,7 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
           title="Send Email"
           state={isSendEmailModalOpend}
           setState={SetIsSendEmailModalOpend}
-          onClick= {handleSendEmail_}
+          onClick={handleSendEmail_}
         />
 
         {/* Send SMS modal */}

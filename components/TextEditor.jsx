@@ -15,7 +15,7 @@ const modules = {
   },
 }
 
-const TextEditor = ({onClick}) => {
+const TextEditor = ({ onClick }) => {
   const [message, setMessage] = React.useState('')
   const [wow, setwow] = React.useState('')
 

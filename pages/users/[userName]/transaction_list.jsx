@@ -47,7 +47,10 @@ export async function getServerSideProps(ctx) {
 }
 
 export default function TransactionList({ tableData }) {
-  console.log("🚀 ~ file: transaction_list.jsx ~ line 50 ~ TransactionList ~ tableData", tableData)
+  console.log(
+    '🚀 ~ file: transaction_list.jsx ~ line 50 ~ TransactionList ~ tableData',
+    tableData,
+  )
   const router = useRouter()
   const { startDate, endDate, offset, username } = router.query
   return (
