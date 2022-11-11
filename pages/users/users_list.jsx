@@ -30,16 +30,7 @@ export async function getServerSideProps(ctx) {
   const response = await fetcher(
     USER_TOKEN,
     'GET',
-    `/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable?limit=${limit}&offset=${offset}${
-      searchParameter === undefined ? '' : `&searchParameter=${searchParameter}`
-    }${userType === undefined ? '' : `&userType=${userType}`}${
-      startDate === undefined ? '' : `&startDate=${startDate}`
-    }${endDate === undefined ? '' : `&endDate=${endDate}`}`,
-  )
-
-  console.log(
-    'link >>>>>',
-    `/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable?limit=${limit}&offset=${offset}${
+    `/apis/v1/paysure/users/admin/analytics/getUserAnalyticsTable?limit=${limit}&offset=${offset}${
       searchParameter === undefined ? '' : `&searchParameter=${searchParameter}`
     }${userType === undefined ? '' : `&userType=${userType}`}${
       startDate === undefined ? '' : `&startDate=${startDate}`

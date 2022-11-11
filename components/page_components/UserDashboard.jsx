@@ -6,7 +6,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Tooltip
 } from '@mui/material'
 import axios from 'axios'
 import moment from 'moment'
@@ -17,18 +16,15 @@ import { toast } from 'react-toastify'
 import tw from 'twin.macro'
 
 import { DataGridViewTemp, OverviewCardSection, SendModal } from '..'
-import numberFormatter from '../../utils/numberFormatter'
+import { UserTransColumn } from '../Columns'
 import Layout from '../layouts/main_layout/index.main_layout'
 import Modal from '../layouts/modal_ayout/index.modal_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
-import { EllipsisSVG, Print, UserProfileSVG, ViewActionSVG } from '../SVGIcons'
+import { EllipsisSVG, UserProfileSVG } from '../SVGIcons'
 
-const UserDashboard = ({ userStats = [] }) => {
-  const { transInfo = [] } = userStats
-
+const UserDashboard = ({ userStats = [], tableData = [] }) => {
   const router = useRouter()
-  const { userName, phone, email } = router.query
-
+  const { username } = router.query
   // useState hook
   const [isSuspendAccoutModalOpened, setIsSuspendAccountModalOpened] =
     React.useState(false)
@@ -44,13 +40,71 @@ const UserDashboard = ({ userStats = [] }) => {
   // ****************************   Functions   *************************************
 
   /* function to open suspen user modal. */
-  const handSetIsSuspendModalOpened = () => setIsSuspendAccountModalOpened(true)
+  const handleSuspned = () => {setIsSuspendAccountModalOpened(true)
+    setIsLoading(true)
+    axios
+      .post('/api/users/suspend', { userName: username, reason })
+      .then(res => {
+        setIsLoading(false)
+        toast.success('User Activated')
+        console.log(
+          '🚀 ~ file: UserDashboard.jsx ~ line 58 ~ .then ~ res.data.message',
+          res.data.message,
+        )
+      })
+      .catch(err => {
+        setIsLoading(false)
+        toast.error('Error activating user')
+        console.log(
+          '🚀 ~ file: UserDashboard.jsx ~ line 63 ~ handleActivate ~ Error >>',
+          err.response.data.message,
+        )
+      })
+  }
 
   /* function to open send email modal. */
-  const handSetIsSendEmailModalOpened = () => SetIsSendEmailModalOpend(true)
+  const handleSendEmail = () => SetIsSendEmailModalOpend(true)
 
   /* function to open send sms modal. */
-  const handSetIsSendSMSModalOpened = () => SetIsSendSMSModalOpend(true)
+  const handleSendSMS = () => SetIsSendSMSModalOpend(true)
+
+  const handleActivate = () => {
+    setIsLoading(true)
+    axios
+      .post('/api/users/activate', { userName: username })
+      .then((res) => {
+        setIsLoading(false)
+        toast.success('User Activated')
+        console.log("🚀 ~ file: UserDashboard.jsx ~ line 58 ~ .then ~ res.data.message", res.data.message)
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        toast.error('Error activating user')
+        console.log("🚀 ~ file: UserDashboard.jsx ~ line 63 ~ handleActivate ~ Error >>", err.response.data.message)
+      })
+  }
+
+  const handleSendEmail_ = () => {
+    setIsLoading(true)
+    axios
+      .post('/api/users/activate', { userName: username, message, reason })
+      .then(res => {
+        setIsLoading(false)
+        toast.success('User Activated')
+        console.log(
+          '🚀 ~ file: UserDashboard.jsx ~ line 58 ~ .then ~ res.data.message',
+          res.data.message,
+        )
+      })
+      .catch(err => {
+        setIsLoading(false)
+        toast.error('Error activating user')
+        console.log(
+          '🚀 ~ file: UserDashboard.jsx ~ line 63 ~ handleActivate ~ Error >>',
+          err.response.data.message,
+        )
+      })
+  }
 
   // Function to set Note to target value
   const handleSetNote = e => {
@@ -93,14 +147,14 @@ const UserDashboard = ({ userStats = [] }) => {
 
   /* The below code is a JavaScript object that contains the user details. */
   const userDetails = {
-    name: userName,
-    joined: moment(userStats.createdDate).format('DD MMMM, YYYY'),
-    // city: 'Ikeja',
+    name: userStats.firstName + ' ' + userStats.lastName,
+    joined: moment(userStats.createOn).format('DD MMMM, YYYY'),
+    city: userStats.city,
     email: userStats.userEmail,
-    // state: 'Lagos',
-    phone: userStats.userMobile,
-    // country: 'Nigeria',
-    walletAddressNumber: userStats.userAccountNumber,
+    state: userStats.state,
+    phone: userStats.phoneNumber,
+    country: userStats.country,
+    walletAddressNumber: userStats.accountNumber,
     address1: userStats.address,
     gender: userStats.gender,
     address2: userStats.address2,
@@ -119,43 +173,73 @@ const UserDashboard = ({ userStats = [] }) => {
         />
       ),
       label: 'Total Transaction',
+      subAmount: (
+        <CurrencyFormat
+          value={2344}
+          displayType={'text'}
+          thousandSeparator={true}
+        />
+      ),
     },
     {
-      amount: numberFormatter(5520103),
-      label: 'Total Number of Completed Transactions',
+      amount: (
+        <CurrencyFormat
+          value={5520103}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Completed Transactions',
+      subAmount: (
+        <CurrencyFormat
+          value={2344}
+          displayType={'text'}
+          thousandSeparator={true}
+        />
+      ),
     },
     {
-      amount: numberFormatter(5520103),
-      label: 'Total Number of Declined Transactions',
+      amount: (
+        <CurrencyFormat
+          value={5520103}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      label: 'Declined Transactions',
+      subAmount: (
+        <CurrencyFormat
+          value={2344}
+          displayType={'text'}
+          thousandSeparator={true}
+        />
+      ),
     },
   ]
 
-  const handleActivate = () => {}
-
   // dataGrid rows
-  let rows
-
-  // check if transInfo.transData is an array
-  if (Array.isArray(transInfo.transData)) {
-    rows = transInfo.transData.map((item, index) => {
-      return {
-        id: item.tid,
-        col1: index + 1,
-        col2: item.initiator,
-        col3: item.transType,
-        col4: item.contractType,
-        col5: item.amount,
-        col6: item.fee,
-        col7: item.benefBank,
-        col8: item.status,
-        col9: item.benefNO,
-        col10: item.transDate,
-        col11: '',
-      }
-    })
-  } else {
-    rows = []
-  }
+  let rows =
+    tableData.length > 0
+      ? tableData.map((item, index) => {
+          return {
+            id: index,
+            col1: index + 1,
+            initiator: item.initiator,
+            type: item.type,
+            amount: item.amount,
+            charge: item.charge,
+            status: item.status,
+            markPan: item.markPan,
+            transactionRef: item.transactionRef,
+            paymentMethod: item.paymentMethod,
+            rrn: item.rrn,
+            date: item.date,
+            actions: '',
+          }
+        })
+      : []
 
   // ********************************************************************************
   // ********************************************************************************
@@ -202,24 +286,24 @@ const UserDashboard = ({ userStats = [] }) => {
               }}
             >
               <MenuItem onClick={handleClose}>
-                <button onClick={handSetIsSendEmailModalOpened}>
+                <button onClick={handleSendEmail}>
                   Send Email
                 </button>
               </MenuItem>
               <MenuItem onClick={handleClose}>
-                <button onClick={handSetIsSendSMSModalOpened}>Send SMS</button>
+                <button onClick={handleSendSMS}>Send SMS</button>
               </MenuItem>
               <MenuItem onClick={handleClose}>
                 <button onClick="">Call</button>
               </MenuItem>
               <MenuItem onClick={handleClose}>
-                {userStats.userStatus?.toLowerCase() === 'active' && (
-                  <button onClick={handSetIsSuspendModalOpened}>
+                {userStats.status?.toLowerCase() === 'active' && (
+                  <button onClick={handleSuspned}>
                     Suspend Account
                   </button>
                 )}
 
-                {userStats.userStatus?.toLowerCase() !== 'active' && (
+                {userStats.status?.toLowerCase() !== 'active' && (
                   <button onClick={handleActivate}>Activate Account</button>
                 )}
               </MenuItem>
@@ -229,17 +313,17 @@ const UserDashboard = ({ userStats = [] }) => {
 
         {/* Action Buttons */}
         <ButtonWrapper>
-          <MUIButton onClick={handSetIsSendEmailModalOpened}>
+          <MUIButton onClick={handleSendEmail}>
             Send Email
           </MUIButton>
-          <MUIButton onClick={handSetIsSendSMSModalOpened}>Send SMS</MUIButton>
+          <MUIButton onClick={handleSendSMS}>Send SMS</MUIButton>
           <MUIButton tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)">
             Call
           </MUIButton>
-          {userStats.userStatus?.toLowerCase() === 'active' && (
+          {userStats.status?.toLowerCase() === 'active' && (
             <MUIButton
               loading={isLoading}
-              onClick={handSetIsSuspendModalOpened}
+              onClick={handleSuspned}
               tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
             >
               Suspend Account
@@ -247,7 +331,7 @@ const UserDashboard = ({ userStats = [] }) => {
           )}
 
           {/* Button to activate provider */}
-          {userStats.userStatus?.toLowerCase() !== 'active' && (
+          {userStats.status?.toLowerCase() !== 'active' && (
             <MUIButton
               loading={isLoading}
               onClick={handleActivate}
@@ -263,6 +347,7 @@ const UserDashboard = ({ userStats = [] }) => {
           title="Send Email"
           state={isSendEmailModalOpend}
           setState={SetIsSendEmailModalOpend}
+          onClick= {handleSendEmail_}
         />
 
         {/* Send SMS modal */}
@@ -331,7 +416,7 @@ const UserDashboard = ({ userStats = [] }) => {
         <P className="font-500">Total Wallet Balance</P>
         <Amount className="font-500">
           <CurrencyFormat
-            value={userStats.userBalance}
+            value={userStats.walletBalance}
             displayType={'text'}
             thousandSeparator={true}
             prefix={'₦'}
@@ -359,8 +444,18 @@ const UserDashboard = ({ userStats = [] }) => {
           </Label>
 
           <Label>
+            City
+            <LabelAns>{userDetails.city}</LabelAns>
+          </Label>
+
+          <Label>
             Email
             <LabelAns>{userDetails.email}</LabelAns>
+          </Label>
+
+          <Label>
+            State
+            <LabelAns>{userDetails.state}</LabelAns>
           </Label>
 
           <Label>
@@ -369,8 +464,17 @@ const UserDashboard = ({ userStats = [] }) => {
           </Label>
 
           <Label>
+            Country
+            <LabelAns>{userDetails.country}</LabelAns>
+          </Label>
+
+          <Label>
             Wallet Account Number
             <LabelAns>{userDetails.walletAddressNumber}</LabelAns>
+          </Label>
+
+          <Label>
+            Address 1<LabelAns>{userDetails.address1}</LabelAns>
           </Label>
 
           <Label>
@@ -379,31 +483,12 @@ const UserDashboard = ({ userStats = [] }) => {
           </Label>
 
           <Label>
+            Address 2<LabelAns>{userDetails.address2}</LabelAns>
+          </Label>
+
+          <Label>
             Date of Birth
             <LabelAns>{userDetails.DOB}</LabelAns>
-          </Label>
-
-          {/* <Label>
-            City
-            <LabelAns>{userDetails.city}</LabelAns>
-          </Label> */}
-
-          {/* <Label>
-            State
-            <LabelAns>{userDetails.state}</LabelAns>
-          </Label> */}
-
-          {/* <Label>
-            Country
-            <LabelAns>{userDetails.country}</LabelAns>
-          </Label> */}
-
-          <Label>
-            Address 1<LabelAns>{userDetails.address1}</LabelAns>
-          </Label>
-
-          <Label>
-            Address 2<LabelAns>{userDetails.address2}</LabelAns>
           </Label>
         </UserGrid>
       </UserInfoWrapper>
@@ -411,162 +496,14 @@ const UserDashboard = ({ userStats = [] }) => {
       {/* DataGrid */}
       <DataGridViewTemp
         limited
-        link={`/users/${userName}/transaction_list?email=${email}&phone=${phone}`}
+        link={`/users/${username}/transaction_list?username=${username}`}
         title={`${userDetails.name}'s Transaction Records`}
         rows={rows}
-        columns={columns}
+        columns={UserTransColumn}
       />
     </Layout>
   )
 }
-
-// FIXME: Temp data (should be replaced with real data)
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Initiator',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Transaction Type',
-    minWidth: 170,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Contract',
-    minWidth: 103,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'Amount',
-    minWidth: 130,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col5}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col6',
-    headerName: 'Charges',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      return (
-        <CurrencyFormat
-          value={params.row.col6}
-          displayType={'text'}
-          thousandSeparator={true}
-          prefix={'₦'}
-        />
-      )
-    },
-  },
-  {
-    field: 'col7',
-    headerName: 'Elec Board',
-    minWidth: 144,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col8',
-    headerName: 'Status',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-    disableClickEventBubbling: true,
-    renderCell: params => {
-      return (
-        <span
-          css={
-            params.row.col8.toLowerCase() === 'pending'
-              ? tw`bg-[#EBF2FA] text-[#A6B7D4] p-1 rounded capitalize`
-              : tw`p-1 capitalize rounded bg-border2 text-paysure-100`
-          }
-        >
-          {params.row.col8}
-        </span>
-      )
-    },
-  },
-  {
-    field: 'col9',
-    headerName: 'Meter Number',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col10',
-    headerName: 'Date',
-    minWidth: 153,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col11',
-    headerName: 'Action.',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {}
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        // Router.push(`/users/${thisRow.col1}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <Tooltip title= "View Transaction">
-            <button onClick={handleEdit}>
-              <ViewActionSVG />
-            </button>
-          </Tooltip>
-
-          <Tooltip title="Print Transaction">
-            <button onClick={handleView}>
-              <Print />
-            </button>
-          </Tooltip>
-        </div>
-      )
-    },
-  },
-]
 
 const menuItems = ['All', 'Active', 'Inactive']
 

@@ -1,95 +1,56 @@
-import React from 'react'
-import moment from 'moment'
 import Head from 'next/head'
-import Router, { useRouter } from 'next/router'
-import uid from 'generate-unique-id'
-import useSWR, { SWRConfig } from 'swr'
-import { useDispatch } from 'react-redux'
-import nookies, { destroyCookie } from 'nookies'
+import nookies from 'nookies'
+import React from 'react'
 
 import { UserDashboard } from '../../../components'
-import { logout } from '../../../features/userSlice'
-import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
+import { fetcher } from '../../../utils/fetcher'
 
 export async function getServerSideProps(ctx) {
-  const { email, phone } = ctx.query
-  
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
+  const { username } = ctx.query
 
-  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/users/user/userStats
-  const userStats = await makeEncryptedRequest(
-    {
-      requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(60, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate: moment().format('YYYY-MM-DD 23:59:59'),
-      pageId: 1,
-      pageSize: 5,
-      phoneNumberPri: phone,
-      emailAddress: email,
-    },
-    'paysure/api/processor/each-user-info',
-    'POST',
-    USER_AUTHORIZATION,
+  const { USER_TOKEN } = nookies.get(ctx)
+
+  const response = await fetcher(
+    USER_TOKEN,
+    'GET',
+    `/apis/v1/paysure/users/admin/profile/getUserProfile?username=${username}`,
   )
+
+  const response2 = await fetcher(
+    USER_TOKEN,
+    'GET',
+    `/apis/v1/paysure/users/admin/analytics/getUserTransactionsTable?limit=5&offset=1&userName=${username}`,
+  )
+
+  if (response.status === 401 || response2.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  if (response.status > 399 || response2.status > 399) {
+    console.log(response.data)
+  }
 
   return {
     props: {
-      status: userStats ? userStats.status : 500,
-      fallback: {
-        '/api/users/user/userStats': userStats ? userStats.data : [],
-      },
+      data: response.status > 399 ? [] : response.data,
+      tableData: response2.status > 399 ? [] : response2.data,
     },
   }
 }
 
-function UserPage() {
-  const router = useRouter()
-  
-  async function fetcher(url) {
-    const res = await fetch(url)
-    return res.json()
-  }
-
-  const {
-    userName,
-    fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD 12:00:00'),
-    toDate = moment().format('YYYY-MM-DD 23:59:59'),
-    page = 1,
-    pageSize = 5,
-  } = router.query
-
-  const { data } = useSWR('/api/users/user/userStats', fetcher)
-  console.log("🚀 ~ file: index.jsx ~ line 61 ~ UserPage ~ data", data)
-
+export default function User({ data, tableData }) {
   return (
     <>
       <Head>
-        <title>User - {userName} | Paysure</title>
+        <title>User - {data.firstName + ' ' + data.lastName} | Paysure</title>
       </Head>
 
-      <UserDashboard userStats={data} />
+      <UserDashboard userStats={data} tableData={tableData} />
     </>
-  )
-}
-
-export default function User({ fallback, status }) {
-  // dispatch
-  const dispatch = useDispatch()
-
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
-  }, [status, fallback, dispatch])
-
-  return (
-    <SWRConfig value={{ fallback }}>
-      <UserPage />
-    </SWRConfig>
   )
 }

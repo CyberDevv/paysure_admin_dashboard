@@ -15,7 +15,7 @@ const modules = {
   },
 }
 
-const TextEditor = () => {
+const TextEditor = ({onClick}) => {
   const [message, setMessage] = React.useState('')
   const [wow, setwow] = React.useState('')
 
@@ -69,7 +69,7 @@ const TextEditor = () => {
           </div> */}
         </Toolbar>
 
-        <MUIButton>Send</MUIButton>
+        <MUIButton onClick={onClick}>Send</MUIButton>
       </FlexPannel>
     </div>
   )

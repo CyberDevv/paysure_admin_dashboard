@@ -3,8 +3,9 @@
     > Endpoint for the income for agency banking and income for users graph
     > Endpoint for recent transactions
 
-  >> users
-    > (/apis/bizzdeskgroup/users/admin/analytics/getUserAnalyticsTable) should return status
+  >> user
+    > (/apis/v1/paysure/users/admin/profile/getUserProfile) should return last active date and status
+    > Endpoint that returns user total, completed and declined transactions all in naira and counts
 
   >> Agents
     > Endpoint for cluster managers and aggregators barChat

@@ -22,13 +22,14 @@ const OverviewCardSection = ({ title, data, btnLabel, link }) => {
 
       <div>
         <Div css={data.length <= 3 ? tw`xl:grid-cols-3` : tw`xl:grid-cols-4`}>
-          {data.map(({ amount, label, link }, index) => {
+          {data.map(({ amount, label, link, subAmount }, index) => {
             return (
               <OverViewCard
                 key={index}
                 amount={amount}
                 label={label}
                 onClick={link}
+                subAmount={subAmount}
               />
             )
           })}

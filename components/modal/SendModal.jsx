@@ -7,7 +7,7 @@ import Modal from './ModalLayout'
 import { TaggedTextfield } from '..'
 import TextEditor from '../TextEditor'
 
-const SendModal = ({ state, setState, title }) => {
+const SendModal = ({ state, setState, title, onClick }) => {
   const [message, setMessage] = React.useState('')
   const [selectedItem, setSelectedItem] = React.useState([])
 
@@ -55,7 +55,7 @@ const SendModal = ({ state, setState, title }) => {
       />
 
       {/* Text editor */}
-      <TextEditor />
+      <TextEditor onClick= {onClick} />
     </Modal>
   )
 }

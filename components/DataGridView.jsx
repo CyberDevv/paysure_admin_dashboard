@@ -76,7 +76,7 @@ const DataGridView = ({
     }
 
     return (
-      <GridToolbarContainer tw="mb-6">
+      <GridToolbarContainer css={children ? tw`mb-6` : tw`p-0`}>
         <FuncWrappper>
           <div css={className}>
             {children}

@@ -1,129 +1,68 @@
 // imports
-import React from 'react'
-import moment from 'moment'
 import Head from 'next/head'
-import nookies from 'nookies'
-import Router from 'next/router'
-import uid from 'generate-unique-id'
-import { destroyCookie } from 'nookies'
-import useSWR, { SWRConfig } from 'swr'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import nookies from 'nookies'
+import React from 'react'
 
-import { logout } from '../../../features/userSlice'
 import { UserTransactionListDashboard } from '../../../components'
-import { makeEncryptedRequest } from '../../../utils/makeEncryptedRequest'
+import { fetcher } from '../../../utils/fetcher'
+
+// username
 
 export async function getServerSideProps(ctx) {
+  const { USER_TOKEN } = nookies.get(ctx)
+
   const {
-    query: {
-      phone,
-      userName,
-      email,
-      fromDate = moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate = moment().format('YYYY-MM-DD 23:59:59'),
-      page = 1,
-      pageSize = 10,
-      status = 0,
-      searchKey = '',
-    },
+    query: { startDate, endDate, offset = 1, limit = 10, username },
   } = ctx
 
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
-
-  const formattedPhone = `+${phone.replace(/\D/g, '')}`
-  
-  const userTransList = await makeEncryptedRequest(
-    {
-      requestId: uid({ length: 20 }),
-      fromDate: fromDate,
-      toDate: toDate,
-      pageId: page,
-      pageSize: pageSize,
-      phoneNumberPri: formattedPhone,
-      emailAddress: email,
-      status: status,
-      searchKey: searchKey,
-    },
-    'paysure/api/processor/each-user-info',
-    'POST',
-    USER_AUTHORIZATION,
+  const response = await fetcher(
+    USER_TOKEN,
+    'GET',
+    `/apis/v1/paysure/users/admin/analytics/getUserTransactionsTable?limit=${limit}&offset=${offset}${
+      username === undefined ? '' : `&userName=${username}`
+    }${startDate === undefined ? '' : `&startDate=${startDate}`}${
+      endDate === undefined ? '' : `&endDate=${endDate}`
+    }`,
   )
+
+  if (response.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  if (response.status > 399) {
+    console.log(response.data)
+  }
 
   return {
     props: {
-      status: userTransList ? userTransList.status : 500,
-      fallback: {
-        [`/api/users/user/${userName}?phone=${formattedPhone}&email=${email}&fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&status=${status}&search=${searchKey}`]:
-          userTransList ? userTransList.data : [],
-      },
+      tableData: response.status > 399 ? [] : response.data,
     },
   }
 }
 
-function ProviderListPage() {
+export default function TransactionList({ tableData }) {
+  console.log("🚀 ~ file: transaction_list.jsx ~ line 50 ~ TransactionList ~ tableData", tableData)
   const router = useRouter()
-  const {
-    phone,
-    email,
-    userName,
-    fromDate = moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
-    toDate = moment().format('YYYY-MM-DD 23:59:59'),
-    page = 1,
-    pageSize = 10,
-    status = 0,
-    searchKey = '',
-  } = router.query
-
-  async function fetcher(url) {
-    const res = await fetch(url)
-    return res.json()
-  }
-
-  const formattedPhone = `+${phone.replace(/\D/g, '')}`
-
-  const { data } = useSWR(
-    `/api/users/user/${userName}?phone=${formattedPhone}&email=${email}&fromDate=${fromDate}&toDate=${toDate}&page=${page}&pageSize=${pageSize}&status=${status}&search=${searchKey}`,
-    fetcher,
-    )
-    
+  const { startDate, endDate, offset, username } = router.query
   return (
     <>
       <Head>
-        <title>{userName} - Transaction Record | Paysure</title>
+        <title>Transaction Record | Paysure</title>
       </Head>
 
       <UserTransactionListDashboard
-        userName={userName}
-        transactionData={data}
-        toDate={toDate}
-        fromDate={fromDate}
-        page={page}
-        searchKey={searchKey}
-        status={status}
+        tableData={tableData}
+        page={offset}
+        username={username}
+        toDate={endDate}
+        fromDate={startDate}
       />
     </>
-  )
-}
-
-export default function TransactionList({ fallback, status }) {
-  // dispatch
-  const dispatch = useDispatch()
-
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
-  }, [status, fallback, dispatch])
-
-  return (
-    <SWRConfig value={{ fallback }}>
-      <ProviderListPage />
-    </SWRConfig>
   )
 }
