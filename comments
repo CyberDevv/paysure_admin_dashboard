@@ -7,9 +7,6 @@
     > (/apis/v1/paysure/providers/getProviderAnalyticsTable) should return transactions(naira)
     > Endpoint for performance of providers
 
-  >> Settlements
-    > There is no endpont for settlements page metrics
-
   >> Signups
     > There is no endpont for Signups
 

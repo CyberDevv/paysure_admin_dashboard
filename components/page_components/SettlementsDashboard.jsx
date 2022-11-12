@@ -6,51 +6,78 @@ import CurrencyFormat from 'react-currency-format'
 import numberFormatter from '../../utils/numberFormatter'
 import Layout from '../layouts/main_layout/index.main_layout'
 import { EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
+import {
+  DataGridViewTemp,
+  HomeDisplayCard,
+  HomeMetricCard,
+  OverviewCardSection,
+} from '..'
 import { Tooltip } from '@mui/material'
 
-const SettlementsDashboard = ({ settlementData = [] }) => {
-  const { transData = [] } = settlementData
+const SettlementsDashboard = ({ settlementMetric = [] }) => {
+  const { transData = [] } = settlementMetric
 
   // Settlement data metric array
   const settlementDataArray = [
     {
       amount: (
         <CurrencyFormat
-          value={settlementData.totalSettlements}
+          value={settlementMetric.totalAmountInSettlements}
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
         />
       ),
-      title: 'Total Settlements',
-      link: '/settlements/settlements_list',
+      title: 'Total settlements',
+      value: numberFormatter(settlementMetric.totalSettlements),
     },
     {
-      amount: numberFormatter(settlementData.totalNoOfSuccessfulSettlements),
-      title: 'Total Number of Successful Settlements',
+      amount: (
+        <CurrencyFormat
+          value={settlementMetric.totalAmountInSuccessfulSettlements}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      title: 'Total successful settlements',
+      value: numberFormatter(settlementMetric.totalCompletedSettlements),
     },
     {
-      amount: numberFormatter(settlementData.totalFailedSettlementsCount),
-      title: 'Total Number of Failed Settlements',
-    },
-    {
-      amount: numberFormatter(settlementData.totalPendingSettlementsCount),
-      title: 'Total Number of Pending Settlements',
+      amount: (
+        <CurrencyFormat
+          value={settlementMetric.totalAmountInPendingSettlements}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      title: 'Total pending settlements',
+      value: numberFormatter(settlementMetric.totalPendingSettlements),
     },
   ]
 
   const agencyOveriewData = [
     {
-      amount: numberFormatter(settlementData.paysureSettlement),
+      amount: numberFormatter(
+        settlementMetric.getTotalAmountInPaysureSettlements,
+      ),
       label: 'Paysure Settlement',
     },
     {
-      amount: numberFormatter(settlementData.superAgentSettlements),
-      label: 'Super Agent Settlement',
+      amount: numberFormatter(settlementMetric.getTotalAmountInCLMSettlements),
+      label: 'Cluster manager Settlement',
     },
     {
-      amount: numberFormatter(settlementData.agentsSettlement),
+      amount: numberFormatter(
+        settlementMetric.getTotalAmountInAggregatorSettlements,
+      ),
+      label: 'Aggregator Settlement',
+    },
+    {
+      amount: numberFormatter(
+        settlementMetric.getTotalAmountInAgentSettlements,
+      ),
       label: 'Agent Settlement',
     },
   ]
@@ -83,7 +110,18 @@ const SettlementsDashboard = ({ settlementData = [] }) => {
         <Ttile className="font-bold">Settlements</Ttile>
       </div>
 
-      <HomeDisplayCard data={settlementDataArray} />
+      <div tw="grid grid-cols-2 gap-3 md:grid-cols-3 xl:(gap-5) mt-10">
+        {settlementDataArray.map(({ amount, value, link, title }, index) => {
+          return (
+            <HomeMetricCard.TransactionCard
+              key={index}
+              title={title}
+              amount={amount}
+              value={value}
+            />
+          )
+        })}
+      </div>
 
       <OverviewCardSection
         title="Settlement Overview"

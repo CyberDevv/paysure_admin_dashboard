@@ -1,84 +1,44 @@
 // imports
-import React from 'react'
-import moment from 'moment'
 import Head from 'next/head'
-import Router from 'next/router'
-import uid from 'generate-unique-id'
-import useSWR, { SWRConfig } from 'swr'
-import { useDispatch } from 'react-redux'
-import nookies, { destroyCookie } from 'nookies'
+import nookies from 'nookies'
+import React from 'react'
 
-import { logout } from '../../features/userSlice'
 import { SettlementsDashboard } from '../../components'
-import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
+import { fetcher } from '../../utils/fetcher'
 
 export async function getServerSideProps(ctx) {
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
+  const { USER_TOKEN } = nookies.get(ctx)
 
-  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/settlements/settlementStats
-  const settlementStats = await makeEncryptedRequest(
-    {
-      requestId: uid({ length: 20 }),
-      fromDate: moment().subtract(400, 'days').format('YYYY-MM-DD 12:00:00'),
-      toDate: moment().format('YYYY-MM-DD 23:59:59'),
-      pageId: 1,
-      pageSize: 5,
-    },
-    'paysure/api/processor/admin-settlement-paged-th',
-    'POST',
-    USER_AUTHORIZATION,
+  const response = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/admin/settlement/analytics/getSettlementPageMetrics',
   )
+
+  if (response.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
-      status: settlementStats ? settlementStats.status : 500,
-      fallback: {
-        '/api/settlements/settlementStats': settlementStats
-          ? settlementStats.data
-          : [],
-      },
+      data: response.data,
     },
   }
 }
 
-function SettlementPage() {
-  async function fetcher(url) {
-    const res = await fetch(url)
-    return res.json()
-  }
-
-  const { data } = useSWR('/api/settlements/settlementStats', fetcher)
-  console.log("🚀 ~ file: index.jsx ~ line 51 ~ SettlementPage ~ data", data)
-  
+export default function Settlements({ data }) {
   return (
     <>
       <Head>
         <title>Settlements | Paysure</title>
       </Head>
 
-      <SettlementsDashboard settlementData={data} />
+      <SettlementsDashboard settlementMetric={data} />
     </>
-  )
-}
-
-export default function Settlements({ fallback, status }) {
-  // dispatch
-  const dispatch = useDispatch()
-
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
-  }, [status, fallback, dispatch])
-
-  return (
-    <SWRConfig value={{ fallback }}>
-      <SettlementPage />
-    </SWRConfig>
   )
 }
