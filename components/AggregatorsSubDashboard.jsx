@@ -245,16 +245,7 @@ const AggregatorsDashboard = ({ aggregatorData = [] }) => {
 
       <BarChat
         title={'Performance of Aggregators'}
-        categories={[
-          'AGGREGATOR 1',
-          'AGGREGATOR 2',
-          'AGGREGATOR 3',
-          'AGGREGATOR 4',
-          'AGGREGATOR 5',
-          'AGGREGATOR 6',
-          'AGGREGATOR 7',
-          'AGGREGATOR 8',
-        ]}
+        agentData={aggregatorData[2]}
       />
 
       <DataGridViewTemp

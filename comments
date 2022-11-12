@@ -3,10 +3,6 @@
     > (/apis/v1/paysure/users/admin/profile/getUserProfile) should return last active date and status
     > Endpoint that returns user total, completed and declined transactions all in naira and counts
 
-  >> Agents
-    > Endpoint for cluster managers and aggregators barChat
-    > Endpoint for agents metric data  
-
   >> Terminals
     > (/apis/v1/paysure/terminals/getTerminals) not returning cluster manager and aggregator
 

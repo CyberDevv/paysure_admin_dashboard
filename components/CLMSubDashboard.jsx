@@ -273,16 +273,7 @@ const CMDashboard = ({ clmData = [] }) => {
 
       <BarChat
         title={'Performance of Cluster Managers'}
-        categories={[
-          'Cluster Managers 1',
-          'Cluster Managers 2',
-          'Cluster Managers 3',
-          'Cluster Managers 4',
-          'Cluster Managers 5',
-          'Cluster Managers 6',
-          'Cluster Managers 7',
-          'Cluster Managers 8',
-        ]}
+        agentData={clmData[2]}
       />
 
       <DataGridViewTemp

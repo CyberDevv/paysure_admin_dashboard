@@ -19,6 +19,12 @@ export async function getServerSideProps(ctx) {
     '/apis/v1/paysure/aggregator/admin/analytics/getClusterManagersAnalyticsTable?limit=5&offset=1',
   )
 
+  const clmBarChart = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/aggregator/admin/ClusterManager/analytics/getPerformanceAnlytics?limit=8&offset=1',
+  )
+
   const aggregatorResponse = await fetcher(
     USER_TOKEN,
     'GET',
@@ -31,10 +37,16 @@ export async function getServerSideProps(ctx) {
     '/apis/v1/paysure/aggregator/admin/analytics/getAggregatorsAnalyticsTable?limit=5&offset=1',
   )
 
+  const aggregatorBarChat = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/aggregator/admin/aggregators/analytics/getPerformanceAnlytics?limit=8&offset=1',
+  )
+
   const agentResponse = await fetcher(
     USER_TOKEN,
     'GET',
-    '/apis/v1/paysure/aggregator/admin/aggregators/analytics',
+    '/apis/paysure/agents/analytics',
   )
 
   const agentTableResponse = await fetcher(
@@ -46,7 +58,7 @@ export async function getServerSideProps(ctx) {
   const agentBarChat = await fetcher(
     USER_TOKEN,
     'GET',
-    '/apis/paysure/agents/admin/analytics/getPerformanceAnlytics?limit=5&offset=1',
+    '/apis/paysure/agents/admin/analytics/getPerformanceAnlytics?limit=8&offset=1',
   )
 
   if (
@@ -74,6 +86,8 @@ export async function getServerSideProps(ctx) {
       agtData: agentResponse.data,
       agtTableData: agentTableResponse.data,
       agentBarChat: agentBarChat.data,
+      aggregatorBarChat: aggregatorBarChat.data,
+      clmBarChart: clmBarChart.data,
     },
   }
 }
@@ -86,9 +100,11 @@ export default function Agent({
   agtData,
   agtTableData,
   agentBarChat,
+  aggregatorBarChat,
+  clmBarChart,
 }) {
-  const clmData = [data, clmTableData]
-  const aggregatorData = [aggData, aggTableData]
+  const clmData = [data, clmTableData, clmBarChart]
+  const aggregatorData = [aggData, aggTableData, aggregatorBarChat]
   const agentData = [agtData, agtTableData, agentBarChat]
 
   return (

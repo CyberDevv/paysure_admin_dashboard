@@ -6,31 +6,32 @@ import tw from 'twin.macro'
 import Head from 'next/head'
 import CurrencyFormat from 'react-currency-format'
 import { DataGridViewTemp, HomeMetricCard } from '.'
+import numberFormatter from '../utils/numberFormatter'
 import BarChat from './BarChat'
 import {
   EditActionSVG,
   UserWithNegative,
   UserWithPositive,
-  Wallet,
+  Wallet
 } from './SVGIcons'
 
 const AgentsDashboard = ({ agentData = [] }) => {
   // Data array of super agents stats
   const agentStats = [
     {
-      amount: '32201',
+      amount: numberFormatter(agentData[0].totalTransactions),
       title: 'Total transactions',
     },
     {
-      amount: '213',
+      amount: numberFormatter(agentData[0].totalAgents),
       title: 'Total number of agents',
     },
     {
-      amount: '213',
+      amount: numberFormatter(agentData[0].totalActiveAgents),
       title: 'Total number of active agents',
     },
     {
-      amount: '213',
+      amount: numberFormatter(agentData[0].totalInactiveAgents),
       title: 'Total number of inactive agents',
     },
   ]
