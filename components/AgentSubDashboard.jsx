@@ -12,7 +12,7 @@ import {
   EditActionSVG,
   UserWithNegative,
   UserWithPositive,
-  Wallet
+  Wallet,
 } from './SVGIcons'
 
 const AgentsDashboard = ({ agentData = [] }) => {
