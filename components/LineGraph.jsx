@@ -5,8 +5,6 @@ import tw from 'twin.macro'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 const Graph = ({ label, data: graphData }) => {
-  console.log(graphData.map(item => item.amount))
-
   const [data, setData] = useState({
     series: [
       {

@@ -12,6 +12,7 @@ import {
 } from '..'
 import numberFormatter from '../../utils/numberFormatter'
 import Chart from '../Chart'
+import { HomeRecentTransColumn } from '../Columns'
 import Layout from '../layouts/main_layout/index.main_layout'
 
 const HomeDashboard = ({ homePageStats = [] }) => {
@@ -131,152 +132,24 @@ const HomeDashboard = ({ homePageStats = [] }) => {
   ]
 
   // DataGrid rows
-  let rows = []
-  // check if providerList is an array
-  // if (Array.isArray(transData)) {
-  //   rows = transData.map((item, index) => {
-  //     return {
-  //       id: item.tid,
-  //       col1: index + 1,
-  //       col2: item.initiator,
-  //       col3: item.transType,
-  //       col4: item.amount,
-  //       col5: item.fee,
-  //       col6: item.paymentRef,
-  //       col7: item.paymentMethod,
-  //       col8: item.transtatus,
-  //       col9: item.transDate,
-  //       col10: '',
-  //     }
-  //   })
-  // } else {
-  //   rows = []
-  // }
-
-  const columns = [
-    {
-      field: 'col1',
-      headerName: 'S/N',
-      minWidth: 71,
-      flex: 1,
-      headerClassName: 'grid-header',
-      renderCell: params => {
-        return <span>{params.row.col1}.</span>
-      },
-    },
-    {
-      field: 'col2',
-      headerName: 'Initiator',
-      minWidth: 227,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
-    {
-      field: 'col3',
-      headerName: 'Type',
-      minWidth: 140,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
-    {
-      field: 'col4',
-      headerName: 'Amount',
-      minWidth: 126,
-      flex: 1,
-      headerClassName: 'grid-header',
-      renderCell: params => {
-        return (
-          <CurrencyFormat
-            value={params.row.col4}
-            displayType={'text'}
-            thousandSeparator={true}
-            prefix={'₦'}
-          />
-        )
-      },
-    },
-    {
-      field: 'col5',
-      headerName: 'Charge',
-      minWidth: 101,
-      flex: 1,
-      headerClassName: 'grid-header',
-      renderCell: params => {
-        return (
-          <CurrencyFormat
-            value={params.row.col5}
-            displayType={'text'}
-            thousandSeparator={true}
-            prefix={'₦'}
-          />
-        )
-      },
-    },
-    {
-      field: 'col6',
-      headerName: 'Transaction Ref.',
-      minWidth: 270,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
-    {
-      field: 'col7',
-      headerName: 'Payment Method',
-      minWidth: 184,
-      flex: 1,
-      headerClassName: 'grid-header',
-    },
-    {
-      field: 'col8',
-      headerName: 'Status',
-      minWidth: 131,
-      flex: 1,
-      headerClassName: 'grid-header',
-      disableClickEventBubbling: true,
-      renderCell: params => {
-        return (
-          <span css={[tw`p-1 rounded bg-border2 text-paysure-100`]}>
-            {params.row.col8}
-          </span>
-        )
-      },
-    },
-    {
-      field: 'col9',
-      headerName: 'Notification Time',
-      minWidth: 200,
-      flex: 1,
-      headerClassName: 'grid-header',
-      renderCell: params => {
-        return (
-          <span>{moment(params.row.col9).format('MMM DD, YYYY HH:mm')}</span>
-        )
-      },
-    },
-    {
-      field: 'col10',
-      headerName: 'Action',
-      minWidth: 100,
-      flex: 1,
-      sortable: false,
-      headerClassName: 'grid-header',
-
-      renderCell: params => {
-        const handlePrint = () => {}
-
-        return (
-          <ReactToPrint
-            trigger={() => (
-              <button onClick={handlePrint} tw="normal-case text-paysure-100">
-                Print
-              </button>
-            )}
-            content={() => componentRef.current}
-          />
-        )
-      },
-    },
-  ]
+  let rows =
+    homePageStats[3].length > 0
+      ? homePageStats[3].map((item, index) => {
+          return {
+            id: index,
+            col1: index + 1,
+            initiator: item.initiator,
+            type: item.type,
+            amount: item.amount,
+            charge: item.charge,
+            transactionRef: item.transactionRef,
+            paymentMethod: item.paymentMethod,
+            status: item.status,
+            date: item.date,
+            actions: '',
+          }
+        })
+      : []
 
   const componentRef = React.useRef()
 
@@ -321,7 +194,7 @@ const HomeDashboard = ({ homePageStats = [] }) => {
         limited
         title="Recent Transactions"
         rows={rows}
-        columns={columns}
+        columns={HomeRecentTransColumn}
       />
 
       {/* Print */}

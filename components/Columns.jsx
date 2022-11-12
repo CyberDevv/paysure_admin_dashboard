@@ -4,6 +4,7 @@ import { EditActionSVG, Print, ViewActionSVG } from './SVGIcons'
 import moment from 'moment'
 import tw from 'twin.macro'
 import Router from 'next/router'
+import ReactToPrint from 'react-to-print'
 
 export const UsersListColumn = [
   {
@@ -309,6 +310,129 @@ export const UserTransColumn = [
             </button>
           </Tooltip>
         </div>
+      )
+    },
+  },
+]
+
+export const HomeRecentTransColumn = [
+  {
+    field: 'col1',
+    headerName: 'S/N',
+    minWidth: 71,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
+  },
+  {
+    field: 'initiator',
+    headerName: 'Initiator',
+    minWidth: 227,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'type',
+    headerName: 'Type',
+    minWidth: 160,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'amount',
+    headerName: 'Amount',
+    minWidth: 126,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.amount}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
+  },
+  {
+    field: 'charge',
+    headerName: 'Charge',
+    minWidth: 101,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <CurrencyFormat
+          value={params.row.charge}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      )
+    },
+  },
+  {
+    field: 'transactionRef',
+    headerName: 'Transaction Ref.',
+    minWidth: 170,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'paymentMethod',
+    headerName: 'Payment Method',
+    minWidth: 164,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'status',
+    headerName: 'Status',
+    minWidth: 131,
+    flex: 1,
+    headerClassName: 'grid-header',
+    disableClickEventBubbling: true,
+    renderCell: params => {
+      return (
+        <span css={[tw`p-1 rounded bg-border2 text-paysure-100`]}>
+          {params.row.status}
+        </span>
+      )
+    },
+  },
+  {
+    field: 'date',
+    headerName: 'Notification Time',
+    minWidth: 200,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{moment(params.row.date).format('MMM DD, YYYY HH:mm')}</span>
+    },
+  },
+  {
+    field: 'col10',
+    headerName: 'Action',
+    minWidth: 100,
+    flex: 1,
+    sortable: false,
+    headerClassName: 'grid-header',
+
+    renderCell: params => {
+      const handlePrint = () => {}
+
+      return (
+        <ReactToPrint
+          trigger={() => (
+            <button onClick={handlePrint} tw="normal-case text-paysure-100">
+              Print
+            </button>
+          )}
+          content={() => componentRef.current}
+        />
       )
     },
   },
