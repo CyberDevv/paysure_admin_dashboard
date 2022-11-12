@@ -1,16 +1,24 @@
-import tw from 'twin.macro'
-import React from 'react'
 import moment from 'moment'
+import React from 'react'
 import CurrencyFormat from 'react-currency-format'
+import tw from 'twin.macro'
 
-import { Print, ViewActionSVG } from '../SVGIcons'
-import { printPartOfPage } from '../../utils/print'
-import numberFormatter from '../../utils/numberFormatter'
-import Layout from '../layouts/main_layout/index.main_layout'
-import { DataGridViewTemp, HomeDisplayCard, OverviewCardSection } from '..'
 import { Tooltip } from '@mui/material'
+import {
+  DataGridViewTemp,
+  HomeDisplayCard,
+  HomeMetricCard,
+  OverviewCardSection,
+} from '..'
+import numberFormatter from '../../utils/numberFormatter'
+import { printPartOfPage } from '../../utils/print'
+import Layout from '../layouts/main_layout/index.main_layout'
+import { Print, ViewActionSVG } from '../SVGIcons'
 
-const TransacitonsDashboard = ({ transactionsPageStats = [] }) => {
+const TransacitonsDashboard = ({
+  transactionsPageStats = [],
+  settlementData = [],
+}) => {
   const { transData = [] } = transactionsPageStats
 
   /* A data for the transactionStatsData component. */
@@ -18,43 +26,65 @@ const TransacitonsDashboard = ({ transactionsPageStats = [] }) => {
     {
       amount: (
         <CurrencyFormat
-          value={transactionsPageStats.totalSuccessfulTransactions}
+          value={
+            transactionsPageStats.totalAmountInFailedTransactions +
+            transactionsPageStats.totalAmountInPendingTransactions +
+            transactionsPageStats.totalAmountInSuccessfulTransactions
+          }
           displayType={'text'}
           thousandSeparator={true}
           prefix={'₦'}
         />
       ),
       title: 'Total Transactions',
-      link: '/transactions/transactions_list',
-    },
-    {
-      amount: numberFormatter(
-        transactionsPageStats.totalNoOfSuccessfulTransactions,
+      value: numberFormatter(
+        transactionsPageStats.totalCompletedTransactions +
+          transactionsPageStats.totalPendingTransactions +
+          transactionsPageStats.totalFailedTransactions,
       ),
-      title: 'Total number of successful transactions',
     },
     {
-      amount: numberFormatter(transactionsPageStats.totalFailedCount),
-      title: 'Total number of failed transactions',
+      amount: (
+        <CurrencyFormat
+          value={transactionsPageStats.totalAmountInSuccessfulTransactions}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      title: 'Total successful transactions',
+      value: numberFormatter(transactionsPageStats.totalCompletedTransactions),
     },
     {
-      amount: numberFormatter(transactionsPageStats.totalPendingCount),
-      title: 'Total number of pending transactions',
+      amount: (
+        <CurrencyFormat
+          value={transactionsPageStats.totalAmountInFailedTransactions}
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'₦'}
+        />
+      ),
+      title: 'Total failed transactions',
+      value: numberFormatter(transactionsPageStats.totalFailedTransactions),
     },
   ]
 
   /* A data for the OverviewCardSection component. */
   const settlementOveriewData = [
     {
-      amount: numberFormatter(transactionsPageStats.paysureSettlement),
+      amount: numberFormatter(settlementData.getTotalPaysureSettlements),
       label: 'Paysure Settlement',
     },
     {
-      amount: numberFormatter(transactionsPageStats.superAgentSettlements),
-      label: 'Super Agent Settlement',
+      amount: numberFormatter(settlementData.getTotalCLMSettlements),
+      label: 'Cluster manager Settlement',
     },
     {
-      amount: numberFormatter(transactionsPageStats.agentsSettlement),
+      amount: numberFormatter(settlementData.getTotalAggregatorSettlements),
+      label: 'Aggregator Settlement',
+    },
+    {
+      amount: numberFormatter(settlementData.getTotalAgentSettlements),
       label: 'Agent Settlement',
     },
   ]
@@ -89,7 +119,18 @@ const TransacitonsDashboard = ({ transactionsPageStats = [] }) => {
         <Ttile className="font-bold">Transactions</Ttile>
       </div>
 
-      <HomeDisplayCard data={transactionStatsData} />
+      <div tw="grid grid-cols-2 gap-3 md:grid-cols-3 xl:(gap-5) mt-10">
+        {transactionStatsData.map(({ amount, value, link, title }, index) => {
+          return (
+            <HomeMetricCard.TransactionCard
+              key={index}
+              title={title}
+              amount={amount}
+              value={value}
+            />
+          )
+        })}
+      </div>
 
       <OverviewCardSection
         title="Settlement Overview"
@@ -287,7 +328,7 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Transaction">
+          <Tooltip title="View Transaction">
             <button onClick={handleView}>
               <ViewActionSVG />
             </button>
