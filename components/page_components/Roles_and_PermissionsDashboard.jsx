@@ -8,7 +8,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import Link from 'next/link'
 
-const Roles_and_PermissionsDashboard = ({RandPData}) => {
+const Roles_and_PermissionsDashboard = ({ RandPData }) => {
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [title, setTitle] = React.useState('')
@@ -22,14 +22,13 @@ const Roles_and_PermissionsDashboard = ({RandPData}) => {
   const [accountAdmin, setAccountAdmin] = React.useState([false, false, false])
   const [accountUser, setAccountUser] = React.useState([false, false, false])
 
+  const tempData = RandPData.map(item => {
+    return {
+      role: item.roleTitle,
+      accounts: item.users,
+    }
+  })
 
-const tempData = RandPData.map((item) => {
-  return {
-    role: item.roleTitle,
-    accounts: item.users,
-  }
-})
-  
   // functions
   const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
