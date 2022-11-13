@@ -437,3 +437,133 @@ export const HomeRecentTransColumn = [
     },
   },
 ]
+
+export const SignupsColumn = [
+  {
+    field: 'col1',
+    headerName: 'S/N',
+    minWidth: 71,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return <span>{params.row.col1}.</span>
+    },
+  },
+  {
+    field: 'fullName',
+    headerName: 'Full Name',
+    minWidth: 227,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'email',
+    headerName: 'Email',
+    minWidth: 236,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'document',
+    headerName: 'Document',
+    minWidth: 200,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'bvn',
+    headerName: 'BVN',
+    minWidth: 176,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'businessName',
+    headerName: 'Business Name',
+    minWidth: 200,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'businessAddress',
+    headerName: 'Business Address',
+    minWidth: 220,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'dateAdded',
+    headerName: 'Date Added',
+    minWidth: 160,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span>{moment(params.row.dateAdded).format('MMM DD, YYYY HH:mm')}</span>
+      )
+    },
+  },
+  {
+    field: 'status',
+    headerName: 'Status',
+    minWidth: 120,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      return (
+        <span
+          css={[
+            tw`uppercase text-[10px] p-1 rounded`,
+            params.row.status.toLowerCase() === 'active'
+              ? tw`bg-[#E9FBF9] text-paysure-success-100 `
+              : tw`bg-[#FDF6EF] text-[#EDA95A] `,
+          ]}
+        >
+          {params.row.status}
+        </span>
+      )
+    },
+  },
+  {
+    field: 'col10',
+    headerName: 'Actions',
+    minWidth: 120,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        Router.push(`/signups/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <Tooltip title="View Super Agent">
+            <button onClick={handleView}>
+              <ViewActionSVG />
+            </button>
+          </Tooltip>
+
+          <Tooltip title="Print Document">
+            <button onClick={handleEdit}>
+              <Print />
+            </button>
+          </Tooltip>
+        </div>
+      )
+    },
+  },
+]
