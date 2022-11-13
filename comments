@@ -7,11 +7,11 @@
     > (/apis/v1/paysure/providers/getProviderAnalyticsTable) should return transactions(naira)
     > Endpoint for performance of providers
 
-  >> Signups
-    > There is no endpont for Signups
-
   >> Organizations
     > There is no endpont for Organizations
+
+  >> Roles and Permissions
+    > There is no endpoint for list of Permissions
 
 
 

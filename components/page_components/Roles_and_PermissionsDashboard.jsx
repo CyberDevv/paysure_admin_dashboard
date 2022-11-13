@@ -8,7 +8,7 @@ import Layout from '../layouts/main_layout/index.main_layout'
 import Label from '../layouts/modal_ayout/LabelInput.main_layout'
 import Link from 'next/link'
 
-const Roles_and_PermissionsDashboard = () => {
+const Roles_and_PermissionsDashboard = ({RandPData}) => {
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [title, setTitle] = React.useState('')
@@ -22,6 +22,14 @@ const Roles_and_PermissionsDashboard = () => {
   const [accountAdmin, setAccountAdmin] = React.useState([false, false, false])
   const [accountUser, setAccountUser] = React.useState([false, false, false])
 
+
+const tempData = RandPData.map((item) => {
+  return {
+    role: item.roleTitle,
+    accounts: item.users,
+  }
+})
+  
   // functions
   const handSetIsAddmodalOpened = () => setIsAddmodalOpened(true)
 
@@ -102,7 +110,7 @@ const Roles_and_PermissionsDashboard = () => {
               <a>
                 <Card role="button">
                   <OverviewTitle className="font-500">
-                    {`${role} (${upperLimit.toUpperCase()})`}
+                    {`${role}`}
                   </OverviewTitle>
 
                   <Div>
@@ -111,12 +119,12 @@ const Roles_and_PermissionsDashboard = () => {
                     <AvatarGroup
                       sx={{ flexDirection: 'row', marginTop: '8px' }}
                     >
-                      {accounts.map((url, index) => (
+                      {accounts.map((user, index) => (
                         <Avatar
                           key={index}
                           variant="rounded"
-                          alt="Remy Sharp"
-                          src={url}
+                          alt={user.name}
+                          src={user.name}
                           sx={{
                             width: { xs: '18px', lg: '24px' },
                             height: { xs: '18px', lg: '24px' },
@@ -310,42 +318,11 @@ const Roles_and_PermissionsDashboard = () => {
   )
 }
 
-const tempData = [
-  {
-    role: 'Administrator',
-    upperLimit: 'amd',
-    accounts: [
-      '/static/images/avatar/4.jpg',
-      '/static/images/avatar/3.jpg',
-      '/static/images/avatar/1.jpg',
-    ],
-  },
-  {
-    role: 'Account Admin',
-    upperLimit: 'aad',
-    accounts: [
-      '/static/images/avatar/4.jpg',
-      '/static/images/avatar/5.jpg',
-      '/static/images/avatar/3.jpg',
-      '/static/images/avatar/1.jpg',
-    ],
-  },
-  {
-    role: 'Account User',
-    upperLimit: 'acu',
-    accounts: [
-      '/static/images/avatar/4.jpg',
-      '/static/images/avatar/3.jpg',
-      '/static/images/avatar/1.jpg',
-    ],
-  },
-]
-
 // Tailwind Styles
 const Ttile = tw.h1`text-gray-dark tracking-[-0.05em] text-2xl lg:text-[28px] xl:(text-[32px])`
 const OverviewTitle = tw.h4`text-lg sm:text-xl lg:text-2xl text-paysure-text-100 tracking-[-0.025em]`
 const Div = tw.div`mt-5`
-const Card = tw.div`rounded-[20px] p-5 border border-border transition-colors duration-[250ms] hover:(border-[#1976d2] bg-[rgba(25, 118, 210, 0.04)]) lg:(min-w-[230px])`
+const Card = tw.div`rounded-[20px] p-5 border border-border transition-colors duration-[250ms] hover:(border-[#1976d2] bg-[rgba(25, 118, 210, 0.04)]) lg:(min-w-[230px] min-h-[155px])`
 const P = tw.p`text-sm text-paysure-50 lg:(text-base)`
 const MUIButton = tw(
   Button,

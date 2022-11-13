@@ -1,16 +1,25 @@
+import { Button, InputAdornment, TextField } from '@mui/material'
+import Router from 'next/router'
 import React from 'react'
 import tw from 'twin.macro'
-import Router from 'next/router'
-import { Button, InputAdornment, TextField } from '@mui/material'
 
-import { ArrowBack, Search, UserProfileBlueSVG } from '../SVGIcons'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { ArrowBack, Search, UserProfileBlueSVG } from '../SVGIcons'
 
-const AdminstratorDashboard = () => {
+const AdminstratorDashboard = ({ roleData }) => {
   // fuction
   const handleGoback = () => {
     Router.back()
   }
+
+  const userDetails = roleData.users.map(item => {
+    return {
+      name: item.name,
+      role: item.userRoles,
+      email: item.email,
+      dateJoined: item.datePosted,
+    }
+  })
 
   return (
     <Layout title="Roles & Permissions">
@@ -24,24 +33,13 @@ const AdminstratorDashboard = () => {
         Back
       </Button>
 
-      <Ttile className="font-500">Administrator</Ttile>
+      <Ttile className="font-500">{roleData.roleTitle}</Ttile>
 
       {/* description */}
       <DescWrapper>
         <DescTitle className="font-500">Description</DescTitle>
 
-        <DescDescription>
-          Eros quam senectus pharetra quis in cras viverra. Amet pulvinar
-          interdum neque ultrices egestas ac maecenas. Imperdiet urna et
-          curabitur morbi pharetra lacinia facilisi etiam. Velit pellentesque
-          nunc quam orci sodales hac arcu eget felis. Risus, enim ipsum
-          pellentesque mus sit sit lorem lorem. Tristique sodales adipiscing
-          dignissim odio viverra massa in fusce. Sodales cum vestibulum velit
-          fames ac feugiat rhoncus eget. Egestas dictum etiam blandit pulvinar
-          nascetur lacus enim volutpat. Risus curabitur pretium id a cras orci
-          laoreet ut. Sagittis commodo urna tristique senectus curabitur sem
-          consequat gravida. Amet elementum eleifend quam adipiscing.
-        </DescDescription>
+        <DescDescription>{roleData.description}</DescDescription>
       </DescWrapper>
 
       {/* Users */}
@@ -94,17 +92,21 @@ const AdminstratorDashboard = () => {
 
             {/* Users */}
             <div tw="mt-4 space-y-4 lg:(mt-8 space-y-8)">
-              {userDetails.map(({ name, role, email, dateJoined }, index) => (
-                <UserGrid key={index}>
-                  <div tw="flex items-center space-x-2.5">
-                    <UserProfileBlueSVG />
-                    <GridRow>{name}</GridRow>
-                  </div>
-                  <UserBody>{role}</UserBody>
-                  <UserBody>{email}</UserBody>
-                  <UserBody>{dateJoined}</UserBody>
-                </UserGrid>
-              ))}
+              {userDetails.length > 0 ? (
+                userDetails.map(({ name, role, email, dateJoined }, index) => (
+                  <UserGrid key={index}>
+                    <div tw="flex items-center space-x-2.5">
+                      <UserProfileBlueSVG />
+                      <GridRow>{name}</GridRow>
+                    </div>
+                    <UserBody>{role}</UserBody>
+                    <UserBody>{email}</UserBody>
+                    <UserBody>{dateJoined}</UserBody>
+                  </UserGrid>
+                ))
+              ) : (
+                <div tw="text-center text-paysure-50">No user found</div>
+              )}
             </div>
           </div>
         </div>
@@ -112,27 +114,6 @@ const AdminstratorDashboard = () => {
     </Layout>
   )
 }
-
-const userDetails = [
-  {
-    name: 'Wader Warren',
-    role: 'Account Admin',
-    email: 'ozeuaoluwatoi@gmail.com',
-    dateJoined: 'Oct 4, 2020 12:11am',
-  },
-  {
-    name: 'Wader Warren',
-    role: 'Account Admin',
-    email: 'ozeuaoluwatoi@gmail.com',
-    dateJoined: 'Oct 4, 2020 12:11am',
-  },
-  {
-    name: 'Wader Warren',
-    role: 'Account Admin',
-    email: 'ozeuaoluwatoi@gmail.com',
-    dateJoined: 'Oct 4, 2020 12:11am',
-  },
-]
 
 // Tailwind Styles
 const Ttile = tw.h5`text-gray-dark tracking-[-0.025em] text-lg  mt-2 lg:(text-[20px] mt-4)`

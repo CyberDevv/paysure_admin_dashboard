@@ -27,7 +27,7 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
   // NavBar styles
   const Nav = styled.nav`
     ${tw`w-[245px] min-w-[245px] h-full bg-gray-light pl-8 py-7 fixed overflow-y-auto z-20 transition-transform transform lg:(transform-none)`}
-    ${isSideBarOpen ? tw`translate-x-0` : tw` -translate-x-full`}
+    ${isSideBarOpen ? tw`translate-x-0` : tw`-translate-x-full `}
   `
 
   // NavItem Component
@@ -42,7 +42,7 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
               css={[
                 asPath === (link || `/${label.toLowerCase()}`)
                   ? tw`text-paysure-100`
-                  : asPath.includes(`/${label.toLowerCase()}`)
+                  : asPath.includes(link || `/${label.toLowerCase()}`)
                   ? tw`text-paysure-100`
                   : tw`text-gray-700 hover:text-gray-dark`,
               ]}
