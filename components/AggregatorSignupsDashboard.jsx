@@ -1,40 +1,40 @@
-import React from 'react'
 import moment from 'moment'
-import tw from 'twin.macro'
 import Router from 'next/router'
+import tw from 'twin.macro'
 
-import { Print, ViewActionSVG } from './SVGIcons'
-import { DataGridViewTemp, HomeDisplayCard } from '.'
-import numberFormatter from '../utils/numberFormatter'
 import { Tooltip } from '@mui/material'
+import Head from 'next/head'
+import { DataGridViewTemp, HomeMetricCard } from '.'
+import numberFormatter from '../utils/numberFormatter'
+import { Print, ViewActionSVG } from './SVGIcons'
 
 const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
-  const { superAgentsInfo = [] } = signupsList
-
-  const overviewDataArray = [
+  const { agentsData = [] } = signupsList
+  // data overview array
+  const overviewData = [
     {
-      amount: numberFormatter(signupsList.newSuperAgents),
+      amount: numberFormatter(signupsList[0].newlyAdded),
       title: 'New',
     },
     {
-      amount: numberFormatter(signupsList.approvedSuperAgents),
+      amount: numberFormatter(signupsList[0].approved),
       title: 'Approved',
     },
     {
-      amount: numberFormatter(signupsList.rejectedSuperAgents),
+      amount: numberFormatter(signupsList[0].rejected),
       title: 'Rejected',
     },
     {
-      amount: numberFormatter(signupsList.pendingSuperAgents),
+      amount: numberFormatter(signupsList[0].pending),
       title: 'Pending',
     },
   ]
 
   // DataGrid rows
   let rows
-  // check if superAgentsInfo is an array
-  if (Array.isArray(superAgentsInfo)) {
-    rows = superAgentsInfo.map((item, index) => {
+  // check if agentsData is an array
+  if (Array.isArray(agentsData.agentsInfo)) {
+    rows = agentsData.agentsInfo.map((item, index) => {
       return {
         id: item.tid,
         col1: index + 1,
@@ -55,14 +55,26 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
 
   return (
     <>
-      <Ttile className="font-bold">Super Agents</Ttile>
+      <Head>
+        <title>New Aggregators | Paysure</title>
+      </Head>
 
-      <HomeDisplayCard data={overviewDataArray} />
+      <Ttile className="font-bold">Aggregators</Ttile>
+
+      <div tw="grid mt-10 grid-cols-2 gap-3 md:grid-cols-3 lg:(grid-cols-4 gap-5)">
+        {overviewData.map((item, index) => (
+          <HomeMetricCard.PlainCard
+            key={index}
+            amount={item.amount}
+            title={item.title}
+          />
+        ))}
+      </div>
 
       <DataGridViewTemp
         limited
-        link="/agents/super_agents_list"
-        title="Super Agents list"
+        link="/agents/agents_list"
+        title="List of New signups"
         rows={rows}
         columns={columns}
       />
@@ -191,7 +203,7 @@ const columns = [
 
       return (
         <div tw="space-x-1">
-          <Tooltip title= "View Super Agent">
+          <Tooltip title="View Super Agent">
             <button onClick={handleView}>
               <ViewActionSVG />
             </button>

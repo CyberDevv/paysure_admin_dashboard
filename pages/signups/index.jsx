@@ -1,77 +1,77 @@
+import nookies from 'nookies'
 import React from 'react'
-import Head from 'next/head'
-import Router from 'next/router'
-import useSWR, { SWRConfig } from 'swr'
-import { useDispatch } from 'react-redux'
-import nookies,{ destroyCookie } from 'nookies'
 
-
-import { logout } from '../../features/userSlice'
 import { SignupsDashboard } from '../../components'
-import { makeEncryptedRequest } from '../../utils/makeEncryptedRequest'
+import { fetcher } from '../../utils/fetcher'
 
 export async function getServerSideProps(ctx) {
-  const { USER_AUTHORIZATION } = nookies.get(ctx)
+  const { USER_TOKEN } = nookies.get(ctx)
 
-  // TODO: cREATE THE ROUTE FOR THIS IN THE API ROUTE /api/signups/signupsList
-  const signupsList = await makeEncryptedRequest(
-    {
-      // status: '0',
-      pageId: 1,
-      pageSize: 5,
-    },
-    'paysure/api/processor/signup-stats-with-grid',
-    'POST',
-    USER_AUTHORIZATION,
+  const response = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/signups/CLMSignups/metrics',
   )
+
+  const aggData = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/signups/aggregatorsSignups/metrics',
+  )
+
+  const agtData = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/signups/agentsSignups/metrics',
+  )
+
+  const userData = await fetcher(
+    USER_TOKEN,
+    'GET',
+    '/apis/v1/paysure/signups/usersSignups/metrics',
+  )
+
+  if (response.status === 401) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
 
   return {
     props: {
-      status: signupsList ? signupsList.status : 500,
-      fallback: {
-        '/api/signups/signupsList': signupsList ? signupsList.data : [],
-      },
+      data: response.data,
+      aggData: aggData.data,
+      agtData: agtData.data,
+      usrData: userData.data,
     },
   }
 }
 
-function SignupsPage() {
-  async function fetcher(url) {signup
-    const res = await fetch(url)
-    return res.json()
-  }
-
-  const { data } = useSWR('/api/signups/signupsList', fetcher)
+export default function SignupsPage({
+  data,
+  clmTableData,
+  aggData,
+  aggTableData,
+  agtData,
+  agtTableData,
+  usrData,
+}) {
+  const clmData = [data, clmTableData]
+  const aggregatorData = [aggData, aggTableData]
+  const agentData = [agtData, agtTableData]
+  const userData = [usrData, agtTableData]
 
   return (
     <>
-      <Head>
-        <title>Signups | Paysure</title>
-      </Head>
-
-      <SignupsDashboard signupsList={data} />
+      <SignupsDashboard
+        clmData={clmData}
+        aggregatorData={aggregatorData}
+        agentData={agentData}
+        userData={userData}
+      />
     </>
-  )
-}
-
-export default function Signups({ fallback, status }) {
-  // dispatch
-  const dispatch = useDispatch()
-
-  // useEffect hook
-  React.useEffect(() => {
-    if (status === 873) {
-      // logout the user and push to login page
-      dispatch(logout())
-      destroyCookie(null, 'USER_AUTHORIZATION')
-      localStorage.removeItem('user')
-      Router.push('/login')
-    }
-  }, [status, fallback, dispatch])
-
-  return (
-    <SWRConfig value={{ fallback }}>
-      <SignupsPage />
-    </SWRConfig>
   )
 }

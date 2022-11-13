@@ -3,7 +3,8 @@ import Router from 'next/router'
 import tw from 'twin.macro'
 
 import { Tooltip } from '@mui/material'
-import { DataGridViewTemp, HomeDisplayCard } from '.'
+import Head from 'next/head'
+import { DataGridViewTemp, HomeMetricCard } from '.'
 import numberFormatter from '../utils/numberFormatter'
 import { Print, ViewActionSVG } from './SVGIcons'
 
@@ -12,19 +13,19 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
   // data overview array
   const overviewData = [
     {
-      amount: numberFormatter(signupsList.newAgents),
+      amount: numberFormatter(signupsList[0].newlyAdded),
       title: 'New',
     },
     {
-      amount: numberFormatter(signupsList.approvedAgents),
+      amount: numberFormatter(signupsList[0].approved),
       title: 'Approved',
     },
     {
-      amount: numberFormatter(signupsList.rejectedAgents),
+      amount: numberFormatter(signupsList[0].rejected),
       title: 'Rejected',
     },
     {
-      amount: numberFormatter(signupsList.pendingAgents),
+      amount: numberFormatter(signupsList[0].pending),
       title: 'Pending',
     },
   ]
@@ -54,14 +55,26 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
 
   return (
     <>
+      <Head>
+        <title>New Agents | Paysure</title>
+      </Head>
+
       <Ttile className="font-bold">Agents</Ttile>
 
-      <HomeDisplayCard data={overviewData} />
+      <div tw="grid mt-10 grid-cols-2 gap-3 md:grid-cols-3 lg:(grid-cols-4 gap-5)">
+        {overviewData.map((item, index) => (
+          <HomeMetricCard.PlainCard
+            key={index}
+            amount={item.amount}
+            title={item.title}
+          />
+        ))}
+      </div>
 
       <DataGridViewTemp
         limited
         link="/agents/agents_list"
-        title="Agents list"
+        title="List of New signups"
         rows={rows}
         columns={columns}
       />

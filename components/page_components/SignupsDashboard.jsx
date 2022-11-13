@@ -4,20 +4,19 @@ import { Box, Tabs, Tab } from '@mui/material'
 
 import Layout from '../layouts/main_layout/index.main_layout'
 import {
-  AgentSignupsDashboard,
-  SuperAgentSignupsDashboard,
+  AggregatorSignupsDashboard,
+  CLMSignupsDashboard,
   UsersSignupsDashboard,
+  AgentSignupsDashboard,
   TabPanel,
 } from '..'
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
-
-export default function SignupsDashboard({signupsList = []}) {
+export default function SignupsDashboard({
+  clmData = [],
+  aggregatorData = [],
+  userData = [],
+  agentData = [],
+}) {
   const [tabValue, setTabValue] = useState(0)
 
   const handleChange = (event, newValue) => {
@@ -51,27 +50,23 @@ export default function SignupsDashboard({signupsList = []}) {
               },
             }}
           >
-            <MUITab label="Super Agents" {...a11yProps(0)} />
-            <MUITab
-              sx={{ marginLeft: '32px' }}
-              label="Agents"
-              {...a11yProps(1)}
-            />
-            <MUITab
-              sx={{ marginLeft: '32px' }}
-              label="Users"
-              {...a11yProps(2)}
-            />
+            <MUITab label="Cluster Managers" />
+            <MUITab sx={{ marginLeft: '32px' }} label="Aggregators" />
+            <MUITab sx={{ marginLeft: '32px' }} label="Agents" />
+            <MUITab sx={{ marginLeft: '32px' }} label="Users" />
           </MUITabs>
         </Box>
         <TabPanel tabvalue={tabValue} index={0}>
-          <SuperAgentSignupsDashboard signupsList={signupsList} />
+          <CLMSignupsDashboard signupsList={clmData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={1}>
-          <AgentSignupsDashboard signupsList={signupsList} />
+          <AggregatorSignupsDashboard signupsList={aggregatorData} />
         </TabPanel>
         <TabPanel tabvalue={tabValue} index={2}>
-          <UsersSignupsDashboard signupsList={signupsList} />
+          <AgentSignupsDashboard signupsList={agentData} />
+        </TabPanel>
+        <TabPanel tabvalue={tabValue} index={3}>
+          <UsersSignupsDashboard signupsList={userData} />
         </TabPanel>
       </Box>
     </Layout>

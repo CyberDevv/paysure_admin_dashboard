@@ -1,5 +1,6 @@
 import moment from 'moment'
 import Router from 'next/router'
+import React from 'react'
 import tw from 'twin.macro'
 
 import { Tooltip } from '@mui/material'
@@ -9,7 +10,7 @@ import numberFormatter from '../utils/numberFormatter'
 import { Print, ViewActionSVG } from './SVGIcons'
 
 const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
-  const { userData = [] } = signupsList
+  const { superAgentsInfo = [] } = signupsList
 
   const overviewDataArray = [
     {
@@ -32,9 +33,9 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
 
   // DataGrid rows
   let rows
-  // check if userData is an array
-  if (Array.isArray(userData.usersInfo)) {
-    rows = userData.usersInfo.map((item, index) => {
+  // check if superAgentsInfo is an array
+  if (Array.isArray(superAgentsInfo)) {
+    rows = superAgentsInfo.map((item, index) => {
       return {
         id: item.tid,
         col1: index + 1,
@@ -56,10 +57,10 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
   return (
     <>
       <Head>
-        <title>New Users | Paysure</title>
+        <title>New Cluster Managers | Paysure</title>
       </Head>
 
-      <Ttile className="font-bold">Users</Ttile>
+      <Ttile className="font-bold">Cluster Managers</Ttile>
 
       <div tw="grid mt-10 grid-cols-2 gap-3 md:grid-cols-3 lg:(grid-cols-4 gap-5)">
         {overviewDataArray.map((item, index) => (
@@ -73,7 +74,7 @@ const SuperAgentSignupsDashboard = ({ signupsList = [] }) => {
 
       <DataGridViewTemp
         limited
-        link="/users/users_list"
+        link="/agents/super_agents_list"
         title="List of New signups"
         rows={rows}
         columns={columns}
