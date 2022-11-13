@@ -31,14 +31,14 @@ export async function getServerSideProps(ctx) {
 }
 
 // Page init
-const Roles_and_Permissions = ({data}) => {
+const Roles_and_Permissions = ({ data }) => {
   return (
     <>
       <Head>
         <title>Roles and Permissions | Paysure</title>
       </Head>
 
-      <Roles_and_PermissionsDashboard RandPData= {data} />
+      <Roles_and_PermissionsDashboard RandPData={data} />
     </>
   )
 }
