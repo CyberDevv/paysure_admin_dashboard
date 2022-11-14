@@ -31,26 +31,33 @@ export async function getServerSideProps(ctx) {
     }
   }
 
+  let error = null
+
   if (response.status > 399 || response2.status > 399) {
     console.log(response.data)
+    error = response.data
   }
 
   return {
     props: {
       data: response.status > 399 ? [] : response.data,
       tableData: response2.status > 399 ? [] : response2.data,
+      error,
     },
   }
 }
 
-export default function User({ data, tableData }) {
+export default function User({ data, tableData, error }) {
   return (
     <>
       <Head>
-        <title>User - {data.firstName + ' ' + data.lastName} | Paysure</title>
+        <title>
+          User {!error ? '-' + data.firstName + ' ' + data.lastName : ''} |
+          Paysure
+        </title>
       </Head>
 
-      <UserDashboard userStats={data} tableData={tableData} />
+      <UserDashboard userStats={data} tableData={tableData} error={error} />
     </>
   )
 }

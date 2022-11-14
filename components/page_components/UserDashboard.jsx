@@ -22,7 +22,9 @@ import Modal from '../layouts/modal_ayout/index.modal_layout'
 import ModalLabel from '../layouts/modal_ayout/LabelInput.main_layout'
 import { EllipsisSVG, UserProfileSVG } from '../SVGIcons'
 
-const UserDashboard = ({ userStats = [], tableData = [] }) => {
+const UserDashboard = ({ userStats = [], tableData = [], error }) => {
+  console.log(error)
+
   const router = useRouter()
   const { username } = router.query
   // useState hook
@@ -40,7 +42,8 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
   // ****************************   Functions   *************************************
 
   /* function to open suspen user modal. */
-  const handleSuspned = () => {setIsSuspendAccountModalOpened(true)
+  const handleSuspned = () => {
+    setIsSuspendAccountModalOpened(true)
     setIsLoading(true)
     axios
       .post('/api/users/suspend', { userName: username, reason })
@@ -72,15 +75,21 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
     setIsLoading(true)
     axios
       .post('/api/users/activate', { userName: username })
-      .then((res) => {
+      .then(res => {
         setIsLoading(false)
         toast.success('User Activated')
-        console.log("🚀 ~ file: UserDashboard.jsx ~ line 58 ~ .then ~ res.data.message", res.data.message)
+        console.log(
+          '🚀 ~ file: UserDashboard.jsx ~ line 58 ~ .then ~ res.data.message',
+          res.data.message,
+        )
       })
-      .catch((err) => {
+      .catch(err => {
         setIsLoading(false)
         toast.error('Error activating user')
-        console.log("🚀 ~ file: UserDashboard.jsx ~ line 63 ~ handleActivate ~ Error >>", err.response.data.message)
+        console.log(
+          '🚀 ~ file: UserDashboard.jsx ~ line 63 ~ handleActivate ~ Error >>',
+          err.response.data.message,
+        )
       })
   }
 
@@ -246,261 +255,265 @@ const UserDashboard = ({ userStats = [], tableData = [] }) => {
 
   return (
     <Layout goBack>
-      <Header>
-        <div tw="flex justify-between items-center w-full xl:w-[inherit]">
-          {/* Avatar */}
-          <AvatarWrapper>
-            <Avatar>
-              <UserProfileSVG />
-            </Avatar>
+      {!error ? (
+        <>
+          <Header>
+            <div tw="flex justify-between items-center w-full xl:w-[inherit]">
+              {/* Avatar */}
+              <AvatarWrapper>
+                <Avatar>
+                  <UserProfileSVG />
+                </Avatar>
 
-            <AvatarDetails>
-              <UserName className="font-bold">{userDetails.name}</UserName>
-              <LastSeen>
-                Last Active:{' '}
-                {moment(userStats.lastLoginDate).format('DD MMM, YYYY')}
-              </LastSeen>
-            </AvatarDetails>
-          </AvatarWrapper>
+                <AvatarDetails>
+                  <UserName className="font-bold">{userDetails.name}</UserName>
+                  <LastSeen>
+                    Last Active:{' '}
+                    {moment(userStats.lastLoginDate).format('DD MMM, YYYY')}
+                  </LastSeen>
+                </AvatarDetails>
+              </AvatarWrapper>
 
-          {/* buttons  */}
-          <div>
-            <IconButton
-              id="basic-button"
-              aria-controls={open ? 'Btnmenu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleBtnMenuShown}
-              tw="md:hidden lg:block xl:hidden"
+              {/* buttons  */}
+              <div>
+                <IconButton
+                  id="basic-button"
+                  aria-controls={open ? 'Btnmenu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleBtnMenuShown}
+                  tw="md:hidden lg:block xl:hidden"
+                >
+                  <EllipsisSVG />
+                </IconButton>
+
+                <Menu
+                  id="Btnmenu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <button onClick={handleSendEmail}>Send Email</button>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <button onClick={handleSendSMS}>Send SMS</button>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <button onClick="">Call</button>
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {userStats.status?.toLowerCase() === 'active' && (
+                      <button onClick={handleSuspned}>Suspend Account</button>
+                    )}
+
+                    {userStats.status?.toLowerCase() !== 'active' && (
+                      <button onClick={handleActivate}>Activate Account</button>
+                    )}
+                  </MenuItem>
+                </Menu>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <ButtonWrapper>
+              <MUIButton onClick={handleSendEmail}>Send Email</MUIButton>
+              <MUIButton onClick={handleSendSMS}>Send SMS</MUIButton>
+              <MUIButton tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)">
+                Call
+              </MUIButton>
+              {userStats.status?.toLowerCase() === 'active' && (
+                <MUIButton
+                  loading={isLoading}
+                  onClick={handleSuspned}
+                  tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
+                >
+                  Suspend Account
+                </MUIButton>
+              )}
+
+              {/* Button to activate provider */}
+              {userStats.status?.toLowerCase() !== 'active' && (
+                <MUIButton
+                  loading={isLoading}
+                  onClick={handleActivate}
+                  tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)"
+                >
+                  Activate Account
+                </MUIButton>
+              )}
+            </ButtonWrapper>
+
+            {/* Send Email modal */}
+            <SendModal
+              title="Send Email"
+              state={isSendEmailModalOpend}
+              setState={SetIsSendEmailModalOpend}
+              onClick={handleSendEmail_}
+            />
+
+            {/* Send SMS modal */}
+            <SendModal
+              title="Send SMS"
+              state={isSendSMSModalOpend}
+              setState={SetIsSendSMSModalOpend}
+            />
+
+            {/* Suspend account modal */}
+            <Modal
+              title="Reasons for Suspension"
+              state={isSuspendAccoutModalOpened}
+              setState={setIsSuspendAccountModalOpened}
+              buttonLabel="Confirm"
+              onClick={handleSuspenAccount}
             >
-              <EllipsisSVG />
-            </IconButton>
+              <div>
+                <CusLabel>
+                  Note
+                  <TextArea
+                    cols="30"
+                    rows="6"
+                    value={note}
+                    onChange={handleSetNote}
+                  />
+                </CusLabel>
+              </div>
 
-            <Menu
-              id="Btnmenu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem onClick={handleClose}>
-                <button onClick={handleSendEmail}>
-                  Send Email
-                </button>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <button onClick={handleSendSMS}>Send SMS</button>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <button onClick="">Call</button>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                {userStats.status?.toLowerCase() === 'active' && (
-                  <button onClick={handleSuspned}>
-                    Suspend Account
-                  </button>
-                )}
-
-                {userStats.status?.toLowerCase() !== 'active' && (
-                  <button onClick={handleActivate}>Activate Account</button>
-                )}
-              </MenuItem>
-            </Menu>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <ButtonWrapper>
-          <MUIButton onClick={handleSendEmail}>
-            Send Email
-          </MUIButton>
-          <MUIButton onClick={handleSendSMS}>Send SMS</MUIButton>
-          <MUIButton tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)">
-            Call
-          </MUIButton>
-          {userStats.status?.toLowerCase() === 'active' && (
-            <MUIButton
-              loading={isLoading}
-              onClick={handleSuspned}
-              tw="bg-paysure-danger-100 hover:(bg-paysure-danger-100 ring-paysure-danger-100)"
-            >
-              Suspend Account
-            </MUIButton>
-          )}
-
-          {/* Button to activate provider */}
-          {userStats.status?.toLowerCase() !== 'active' && (
-            <MUIButton
-              loading={isLoading}
-              onClick={handleActivate}
-              tw="bg-paysure-success-100 hover:(bg-paysure-success-100 ring-paysure-success-100)"
-            >
-              Activate Account
-            </MUIButton>
-          )}
-        </ButtonWrapper>
-
-        {/* Send Email modal */}
-        <SendModal
-          title="Send Email"
-          state={isSendEmailModalOpend}
-          setState={SetIsSendEmailModalOpend}
-          onClick= {handleSendEmail_}
-        />
-
-        {/* Send SMS modal */}
-        <SendModal
-          title="Send SMS"
-          state={isSendSMSModalOpend}
-          setState={SetIsSendSMSModalOpend}
-        />
-
-        {/* Suspend account modal */}
-        <Modal
-          title="Reasons for Suspension"
-          state={isSuspendAccoutModalOpened}
-          setState={setIsSuspendAccountModalOpened}
-          buttonLabel="Confirm"
-          onClick={handleSuspenAccount}
-        >
-          <div>
-            <CusLabel>
-              Note
-              <TextArea
-                cols="30"
-                rows="6"
-                value={note}
-                onChange={handleSetNote}
+              <ModalLabel
+                combo
+                menuItems={menuItems}
+                label="Reason of Suspension"
+                value={reason}
+                setState={setReason}
               />
-            </CusLabel>
-          </div>
 
-          <ModalLabel
-            combo
-            menuItems={menuItems}
-            label="Reason of Suspension"
-            value={reason}
-            setState={setReason}
+              {/* Quick Reasons */}
+              <div>
+                <CusLabel>Quick Reasons</CusLabel>
+
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Checkbox size="small" />}
+                    label={
+                      <CheckLabel>
+                        KYC document does not match entries
+                      </CheckLabel>
+                    }
+                  />
+
+                  <FormControlLabel
+                    control={<Checkbox size="small" />}
+                    label={<CheckLabel>Your ID is not clear</CheckLabel>}
+                  />
+
+                  <FormControlLabel
+                    control={<Checkbox size="small" />}
+                    label={<CheckLabel>Utility bill is not recent</CheckLabel>}
+                  />
+                </FormGroup>
+              </div>
+            </Modal>
+          </Header>
+
+          {/* Wallet balance */}
+          <WalletWrapper className="bgSVG">
+            <P className="font-500">Total Wallet Balance</P>
+            <Amount className="font-500">
+              <CurrencyFormat
+                value={userStats.walletBalance}
+                displayType={'text'}
+                thousandSeparator={true}
+                prefix={'₦'}
+              />
+            </Amount>
+          </WalletWrapper>
+
+          {/* Transactions */}
+          <OverviewCardSection
+            btnLabel="See all activities"
+            link="/users/1/transactionDetails"
+            title="Transactions"
+            data={transactionStats}
           />
 
-          {/* Quick Reasons */}
-          <div>
-            <CusLabel>Quick Reasons</CusLabel>
+          {/* User information */}
+          <UserInfoWrapper>
+            <Title className="font-500">User Information</Title>
 
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox size="small" />}
-                label={
-                  <CheckLabel>KYC document does not match entries</CheckLabel>
-                }
-              />
+            {/* User details */}
+            <UserGrid>
+              <Label>
+                Date Joined
+                <LabelAns>{userDetails.joined}</LabelAns>
+              </Label>
 
-              <FormControlLabel
-                control={<Checkbox size="small" />}
-                label={<CheckLabel>Your ID is not clear</CheckLabel>}
-              />
+              <Label>
+                City
+                <LabelAns>{userDetails.city}</LabelAns>
+              </Label>
 
-              <FormControlLabel
-                control={<Checkbox size="small" />}
-                label={<CheckLabel>Utility bill is not recent</CheckLabel>}
-              />
-            </FormGroup>
-          </div>
-        </Modal>
-      </Header>
+              <Label>
+                Email
+                <LabelAns>{userDetails.email}</LabelAns>
+              </Label>
 
-      {/* Wallet balance */}
-      <WalletWrapper className="bgSVG">
-        <P className="font-500">Total Wallet Balance</P>
-        <Amount className="font-500">
-          <CurrencyFormat
-            value={userStats.walletBalance}
-            displayType={'text'}
-            thousandSeparator={true}
-            prefix={'₦'}
+              <Label>
+                State
+                <LabelAns>{userDetails.state}</LabelAns>
+              </Label>
+
+              <Label>
+                Phone
+                <LabelAns>{userDetails.phone}</LabelAns>
+              </Label>
+
+              <Label>
+                Country
+                <LabelAns>{userDetails.country}</LabelAns>
+              </Label>
+
+              <Label>
+                Wallet Account Number
+                <LabelAns>{userDetails.walletAddressNumber}</LabelAns>
+              </Label>
+
+              <Label>
+                Address 1<LabelAns>{userDetails.address1}</LabelAns>
+              </Label>
+
+              <Label>
+                Gender
+                <LabelAns>{userDetails.gender}</LabelAns>
+              </Label>
+
+              <Label>
+                Address 2<LabelAns>{userDetails.address2}</LabelAns>
+              </Label>
+
+              <Label>
+                Date of Birth
+                <LabelAns>{userDetails.DOB}</LabelAns>
+              </Label>
+            </UserGrid>
+          </UserInfoWrapper>
+
+          {/* DataGrid */}
+          <DataGridViewTemp
+            limited
+            link={`/users/${username}/transaction_list?username=${username}`}
+            title={`${userDetails.name}'s Transaction Records`}
+            rows={rows}
+            columns={UserTransColumn}
           />
-        </Amount>
-      </WalletWrapper>
-
-      {/* Transactions */}
-      <OverviewCardSection
-        btnLabel="See all activities"
-        link="/users/1/transactionDetails"
-        title="Transactions"
-        data={transactionStats}
-      />
-
-      {/* User information */}
-      <UserInfoWrapper>
-        <Title className="font-500">User Information</Title>
-
-        {/* User details */}
-        <UserGrid>
-          <Label>
-            Date Joined
-            <LabelAns>{userDetails.joined}</LabelAns>
-          </Label>
-
-          <Label>
-            City
-            <LabelAns>{userDetails.city}</LabelAns>
-          </Label>
-
-          <Label>
-            Email
-            <LabelAns>{userDetails.email}</LabelAns>
-          </Label>
-
-          <Label>
-            State
-            <LabelAns>{userDetails.state}</LabelAns>
-          </Label>
-
-          <Label>
-            Phone
-            <LabelAns>{userDetails.phone}</LabelAns>
-          </Label>
-
-          <Label>
-            Country
-            <LabelAns>{userDetails.country}</LabelAns>
-          </Label>
-
-          <Label>
-            Wallet Account Number
-            <LabelAns>{userDetails.walletAddressNumber}</LabelAns>
-          </Label>
-
-          <Label>
-            Address 1<LabelAns>{userDetails.address1}</LabelAns>
-          </Label>
-
-          <Label>
-            Gender
-            <LabelAns>{userDetails.gender}</LabelAns>
-          </Label>
-
-          <Label>
-            Address 2<LabelAns>{userDetails.address2}</LabelAns>
-          </Label>
-
-          <Label>
-            Date of Birth
-            <LabelAns>{userDetails.DOB}</LabelAns>
-          </Label>
-        </UserGrid>
-      </UserInfoWrapper>
-
-      {/* DataGrid */}
-      <DataGridViewTemp
-        limited
-        link={`/users/${username}/transaction_list?username=${username}`}
-        title={`${userDetails.name}'s Transaction Records`}
-        rows={rows}
-        columns={UserTransColumn}
-      />
+        </>
+      ) : (
+        <>
+          <p>{error.message}</p>
+        </>
+      )}
     </Layout>
   )
 }
