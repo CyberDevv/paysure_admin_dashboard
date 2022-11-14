@@ -42,7 +42,7 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
               css={[
                 asPath === (link || `/${label.toLowerCase()}`)
                   ? tw`text-paysure-100`
-                  : asPath.includes(link || `/${label.toLowerCase()}`)
+                  : asPath.includes(link !== '/' || `/${label.toLowerCase()}`)
                   ? tw`text-paysure-100`
                   : tw`text-gray-700 hover:text-gray-dark`,
               ]}

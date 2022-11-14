@@ -20,11 +20,17 @@
 
 >>> Done
   >> Onboarding
-  >> Consumed the endpoint for the homePage metrics
-  >> Consumed the endpont for providers page metrics, and also for the list of providers
-  >> Add provider
+  >> Homepage
+  >> Consumed the endpont for providers page metrics, add provider and also for the list of providers
   >> Consumed the endpoints for users page metrics and list of users
-  >> Consumed the endpoints for CLM page metrics and the CLM list
-  >> Consumed the endpoints for aggregators page metrics and the aggregators list
+  >> Consumed the endpoints for CLM page metrics, performance graph and the CLM list
+  >> Consumed the endpoints for aggregators page metrics, performance graph and the aggregators list
   >> Consumed the endpoints for agents page metrics, agents performance graph and the agents list
+  >> Consumed the endpoints for newly signed up users, clm, aggregators and agents consisting there metrics and lists of each of them
   >> Consumed the endpoints for terminals page metrics, terminals list, terminals per bank list and terminals per agents list
+  >> Consumed the endpoints for transactions page metrics
+  >> Consumed the endpoints for settlements page metrics
+  >> Consumed the endpoints for roles and Permissions page overview card
+  >> Consumed the endpoints for the page showing the details showing the details of a particular user
+  >> Consumed the endpoints for the page showing the details showing the details of a particular role
+  >> Consumed the endpoint for list of sub-admins
