@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import nookies from 'nookies'
 import React from 'react'
+import useSWR, { SWRConfig } from 'swr'
 
 import { UsersDashboard } from '../../components'
 import { fetcher } from '../../utils/fetcher'
@@ -31,13 +32,23 @@ export async function getServerSideProps(ctx) {
 
   return {
     props: {
-      data: response.data,
-      tableData: response2.data,
+      fallback: {
+        '/api/users/usersStats': response.data,
+        '/api/users/usersList': response2.data,
+      },
     },
   }
 }
 
-export default function Users({ data, tableData }) {
+function UsersPage() {
+  async function fetcher(url) {
+    const res = await fetch(url)
+    return res.json()
+  }
+
+  const { data } = useSWR('/api/users/usersStats', fetcher)
+  const { data: tableData } = useSWR('/api/users/usersList', fetcher)
+
   return (
     <>
       <Head>
@@ -46,5 +57,13 @@ export default function Users({ data, tableData }) {
 
       <UsersDashboard usersStats={data} tableData={tableData} />
     </>
+  )
+}
+
+export default function Users({ fallback }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <UsersPage />
+    </SWRConfig>
   )
 }

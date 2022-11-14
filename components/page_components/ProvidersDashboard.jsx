@@ -343,7 +343,7 @@ const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
         })
         .catch(err => {
           setIsLoading(false)
-          toast.success('Error adding provider')
+          toast.error('Error adding provider')
           console.log('err >>>>', err.response.status)
         })
     } else {

@@ -2,6 +2,7 @@
   >> user
     > (/apis/v1/paysure/users/admin/profile/getUserProfile) should return last active date and status
     > Endpoint that returns user total, completed and declined transactions all in naira and counts
+    > Endpoint to edit user
 
   >> Providers
     > (/apis/v1/paysure/providers/getProviderAnalyticsTable) should return transactions(naira)
@@ -34,3 +35,4 @@
   >> Consumed the endpoints for the page showing the details showing the details of a particular user
   >> Consumed the endpoints for the page showing the details showing the details of a particular role
   >> Consumed the endpoint for list of sub-admins
+  >> Consumed endpoint to add user

@@ -52,6 +52,7 @@ const UsersListDashboard = ({
         recordCount={tableData.recordCount}
         pagination={true}
         className={tw`space-y-4 md:(grid grid-cols-2) xl:(flex space-y-0 space-x-4 w-full)`}
+        hasExportBtn
       >
         <div tw=" space-y-4 w-full md:(flex space-x-4 space-y-0 col-span-2)">
           <SearchBar value={searchKey} />

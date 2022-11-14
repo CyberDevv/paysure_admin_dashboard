@@ -98,7 +98,7 @@ export const CardWithActiveInActiveNoIcon = ({
           <h6 tw="font-semibold text-lg lg:text-2xl tracking-[-0.05em]">
             {inactive}{' '}
             <span tw="text-paysure-danger-100 text-xs md:(text-sm leading-[24px]) tracking-normal">
-              Active
+              Inactive
             </span>
           </h6>
         </div>
