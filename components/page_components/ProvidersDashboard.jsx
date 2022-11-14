@@ -23,7 +23,10 @@ import BarChat from '../BarChat'
 import MultipleSelectChip from '../MultiSelect'
 
 const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
-  console.log("🚀 ~ file: ProvidersDashboard.jsx ~ line 26 ~ ProvidersDashboard ~ tableTata", tableTata)
+  console.log(
+    '🚀 ~ file: ProvidersDashboard.jsx ~ line 26 ~ ProvidersDashboard ~ tableTata',
+    tableTata,
+  )
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [providerName, setProviderName] = React.useState('MTN')
@@ -359,7 +362,7 @@ const ProvidersDashboard = ({ providerStats = [], tableTata = [] }) => {
             setIsLoading(false)
 
             setProviderName('')
-            setServices( )
+            setServices()
             setIsAddmodalOpened(false)
 
             // Fresh information from the server
