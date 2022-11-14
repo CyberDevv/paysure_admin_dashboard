@@ -1,10 +1,16 @@
 import { Tooltip } from '@mui/material'
-import CurrencyFormat from 'react-currency-format'
-import { EditActionSVG, Print, ViewActionSVG } from './SVGIcons'
 import moment from 'moment'
-import tw from 'twin.macro'
 import Router from 'next/router'
+import CurrencyFormat from 'react-currency-format'
 import ReactToPrint from 'react-to-print'
+import tw from 'twin.macro'
+import {
+  EditActionSVG,
+  Print,
+  UserWithPositive,
+  ViewActionSVG,
+  Wallet,
+} from './SVGIcons'
 
 export const UsersListColumn = [
   {
@@ -562,6 +568,88 @@ export const SignupsColumn = [
               <Print />
             </button>
           </Tooltip>
+        </div>
+      )
+    },
+  },
+]
+
+export const SubAdminsColumn = [
+  {
+    field: 'col1',
+    headerName: 'S/N',
+    minWidth: 71,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'fullNameOfAdmin',
+    headerName: 'Name',
+    minWidth: 227,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'role',
+    headerName: 'Roles',
+    minWidth: 166,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'email',
+    headerName: 'Email',
+    minWidth: 203,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'dateCreated',
+    headerName: 'Date Joined',
+    minWidth: 180,
+    flex: 1,
+    headerClassName: 'grid-header',
+  },
+  {
+    field: 'col6',
+    headerName: 'Actions',
+    minWidth: 100,
+    flex: 1,
+    headerClassName: 'grid-header',
+    renderCell: params => {
+      const handleEdit = () => {
+        console.log('edit')
+      }
+
+      const handleView = e => {
+        const api = params.api
+        const thisRow = {}
+
+        api
+          .getAllColumns()
+          .filter(c => c.field !== '__check__' && !!c)
+          .forEach(
+            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
+          )
+
+        // Router.push(`/agents/super_agent/${thisRow.col1}`)
+      }
+
+      return (
+        <div tw="space-x-1">
+          <Tooltip title="Edit Account">
+            <button onClick={handleView}>
+              <EditActionSVG />
+            </button>
+          </Tooltip>
+
+          <button onClick={handleEdit}>
+            <UserWithPositive />
+          </button>
+
+          <button onClick={handleEdit}>
+            <Wallet />
+          </button>
         </div>
       )
     },

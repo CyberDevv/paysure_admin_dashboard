@@ -7,8 +7,9 @@ import { Button, InputAdornment, MenuItem, TextField, Tooltip } from '@mui/mater
 import { Add, EditActionSVG, UserWithPositive, Wallet } from '../SVGIcons'
 import { DataGridViewTemp } from '..'
 import Layout from '../layouts/main_layout/index.main_layout'
+import { SubAdminsColumn } from '../Columns'
 
-const Sub_AccountsDashboard = () => {
+const Sub_AccountsDashboard = ({ subAdminsData }) => {
   // UseState hook
   const [selectedDrop, setSelectedDrop] = useState(dropdownData[0].value)
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
@@ -16,6 +17,22 @@ const Sub_AccountsDashboard = () => {
   const [email, setEmail] = React.useState('')
   const [phone, setPhone] = React.useState('')
   const [role, setRole] = React.useState('')
+
+  // DataGrid rows
+  let rows =
+    subAdminsData.length > 0
+      ? subAdminsData.map((item, index) => {
+          return {
+            id: index,
+            col1: index + 1,
+            fullNameOfAdmin: item.fullNameOfAdmin,
+            role: item.role,
+            email: item.email,
+            dateCreated: item.dateCreated,
+            actions: '',
+          }
+        })
+      : []
 
   // functions
   const handleDropdownSelected = event => {
@@ -26,7 +43,7 @@ const Sub_AccountsDashboard = () => {
 
   return (
     <Layout title="Sub Admins">
-      <div css={[tw`flex justify-between items-center`]}>
+      <div css={[tw`flex items-center justify-between`]}>
         <Ttile className="font-bold">Sub-admins</Ttile>
 
         <MUIButton onClick={handSetIsAddmodalOpened} startIcon={<Add />}>
@@ -87,20 +104,7 @@ const Sub_AccountsDashboard = () => {
         </div>
       </OverviewWrapper>
 
-      <DataGridViewTemp
-        rows={rows}
-        columns={columns}
-        dropdownData={dropdownData}
-        StatusDropdownData={dropdownData}
-        typeDropdownData={dropdownData}
-        hasSearch
-        hasFilter="Benefactor"
-        hasExportBtn
-        hasSort
-        hasMT
-        hasFilterType
-        hasFilterStatus
-      />
+      <DataGridViewTemp rows={rows} columns={SubAdminsColumn} hasExportBtn hasMT />
     </Layout>
   )
 }
@@ -118,150 +122,6 @@ const dropdownData = [
   {
     value: 'admin',
     label: 'Admin',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const rows = [
-  {
-    id: 1,
-    col1: 1,
-    col2: 'Apple',
-    col3: 'POS',
-    col4: 1,
-    col5: 'Dec 30, 2018 05:12',
-    col6: '',
-  },
-  {
-    id: 2,
-    col1: 2,
-    col2: 'Master Card',
-    col3: 'POS',
-    col4: 1,
-    col5: 'Dec 30, 2018 05:12',
-    col6: '',
-  },
-  {
-    id: 3,
-    col1: 3,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 4,
-    col1: 4,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'completed',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-  {
-    id: 5,
-    col1: 5,
-    col2: 'Bessie Cooper',
-    col3: 'Tv Subscription',
-    col4: 5000,
-    col5: 39.9,
-    col6: '443943043',
-    col7: 'Bank Card',
-    col8: 'pending',
-    col9: 'Dec 30, 2018 05:12',
-    col10: '',
-  },
-]
-
-// FIXME: Temp data (should be replaced with real data)
-const columns = [
-  {
-    field: 'col1',
-    headerName: 'S/N',
-    minWidth: 71,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col2',
-    headerName: 'Name',
-    minWidth: 227,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col3',
-    headerName: 'Roles',
-    minWidth: 166,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col4',
-    headerName: 'Email',
-    minWidth: 203,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col5',
-    headerName: 'Date Joined',
-    minWidth: 160,
-    flex: 1,
-    headerClassName: 'grid-header',
-  },
-  {
-    field: 'col6',
-    headerName: 'Actions',
-    minWidth: 100,
-    flex: 1,
-    headerClassName: 'grid-header',
-    renderCell: params => {
-      const handleEdit = () => {
-        console.log('edit')
-      }
-
-      const handleView = e => {
-        const api = params.api
-        const thisRow = {}
-
-        api
-          .getAllColumns()
-          .filter(c => c.field !== '__check__' && !!c)
-          .forEach(
-            c => (thisRow[c.field] = params.getValue(params.id, c.field)),
-          )
-
-        // Router.push(`/agents/super_agent/${thisRow.col1}`)
-      }
-
-      return (
-        <div tw="space-x-1">
-          <Tooltip title="Edit Account">
-            <button onClick={handleView}>
-              <EditActionSVG />
-            </button>
-          </Tooltip>
-
-          <button onClick={handleEdit}>
-            <UserWithPositive />
-          </button>
-
-          <button onClick={handleEdit}>
-            <Wallet />
-          </button>
-        </div>
-      )
-    },
   },
 ]
 

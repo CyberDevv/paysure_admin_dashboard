@@ -90,9 +90,9 @@ const SideBar_main_layout = ({ isSideBarOpen, setIsSideBarOpen }) => {
             link="/roles_and_permissions"
           />
           <NavItem
-            label="Sub Accounts"
+            label="Sub Admins"
             icon={<SubAccounts />}
-            link="/sub_accounts"
+            link="/sub_admins"
           />
           <NavItem label="Settings" icon={<Settings />} />
           <NavItem label="Support" icon={<Support />} />

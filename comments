@@ -13,6 +13,9 @@
   >> Roles and Permissions
     > There is no endpoint for list of Permissions
 
+  >> Sub Admins
+    > Endpoint for Sub-admins metrics
+
 
 
 >>> Done
