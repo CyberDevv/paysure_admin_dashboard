@@ -15,7 +15,7 @@ import { Add } from '../SVGIcons'
 
 const UserssDashboard = ({ usersStats, tableData }) => {
   const { mutate } = useSWRConfig()
-  
+
   // useState hook
   const [isaddModalOpened, setIsAddmodalOpened] = React.useState(false)
   const [firstName, setFirstName] = React.useState('Test')
@@ -61,7 +61,7 @@ const UserssDashboard = ({ usersStats, tableData }) => {
         setDOB('')
         setState('')
         setCity('')
-        
+
         setIsAddmodalOpened(false)
 
         // Fresh information from the server
